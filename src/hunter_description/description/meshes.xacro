@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+  <!-- Visual-only: .dae meshes have degenerate submeshes that DARTsim rejects
+       as collision geometry. Collision is provided by simple primitives below. -->
+  <xacro:macro name="mesh" params="name">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find hunter_description)/meshes/${name}.dae" />
+      </geometry>
+    </visual>
+  </xacro:macro>
+
+  <xacro:macro name="virtual">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.01" radius="0.01"/>
+      </geometry>
+      <material name="invisible">
+        <color rgba="0.0 0.0 0.0 0.0"/>
+      </material>
+    </visual>
+  </xacro:macro>
+
+  <!-- Gazebo Harmonic: Ogre2 ignores embedded .dae materials; set them explicitly -->
+  <xacro:macro name="gz_material" params="reference ambient diffuse specular">
+    <gazebo reference="${reference}">
+      <visual>
+        <material>
+          <ambient>${ambient}</ambient>
+          <diffuse>${diffuse}</diffuse>
+          <specular>${specular}</specular>
+        </material>
+      </visual>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- Gazebo Harmonic: friction must be nested inside surface/friction/ode -->
+  <xacro:macro name="gazebo_friction" params="reference">
+    <gazebo reference="${reference}">
+      <collision>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>0.5</mu2>
+              <fdir1>1 0 0</fdir1>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>10000000.0</kp>
+              <kd>1.0</kd>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+    </gazebo>
+  </xacro:macro>
+
+</robot>

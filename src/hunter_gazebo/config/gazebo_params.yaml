@@ -1,0 +1,11 @@
+# NOTE: This file was used by gazebo_ros (Gazebo Classic) to set the sensor
+# publish rate via the --params-file CLI argument.  It has no equivalent in
+# Gazebo Harmonic (gz-sim).  Simulation rates are now controlled inside the
+# world SDF via the <physics> element or gz sim CLI flags.
+#
+# Kept for reference only — it is NOT loaded by any launch file.
+#
+# Original content:
+#   gazebo:
+#     ros__parameters:
+#       publish_rate: 400.0

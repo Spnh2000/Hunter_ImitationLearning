@@ -1,0 +1,40 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 1000 # Hz — match Gazebo Harmonic default physics step (1 ms)
+    use_sim_time: true
+
+    ackermann_like_controller:
+      type: ackermann_steering_controller/AckermannSteeringController
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+
+joint_state_broadcaster:
+  ros__parameters: {}
+
+
+ackermann_like_controller:
+  ros__parameters:
+    # Joint names — steering_controllers_library convention: right first, then left
+    traction_joints_names: [rear_right_wheel_joint, rear_left_wheel_joint]
+    steering_joints_names: [front_right_steering_joint, front_left_steering_joint]
+
+    # Geometry (Hunter V2 specs)
+    wheelbase: 0.65          # m — front-to-rear axle distance
+    traction_track_width: 0.585  # m — rear wheel centre-to-centre
+    steering_track_width: 0.585  # m — front wheel centre-to-centre (same as rear)
+    traction_wheels_radius: 0.165  # m
+
+    # Odometry
+    odom_frame_id: odom
+    base_frame_id: base_link
+    open_loop: false
+    enable_odom_tf: false
+    velocity_rolling_window_size: 10
+
+    # Safety — stop if no command received for 500 ms
+    reference_timeout: 0.5
+
+    # Wait for steering to settle before driving (false = more responsive)
+    reduce_wheel_speed_until_steering_reached: false
