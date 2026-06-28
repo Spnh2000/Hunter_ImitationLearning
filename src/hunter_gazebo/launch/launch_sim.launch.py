@@ -22,7 +22,7 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             'gz_args',
-            default_value='-r -v 4 empty.sdf',
+            default_value='-r -s -v 4 empty.sdf',
             description='Arguments forwarded to gz sim (world SDF, verbosity, etc.)',
         ),
     ]
@@ -31,6 +31,16 @@ def generate_launch_description():
 
     # Force gz-transport onto loopback so server/GUI/create all find each other
     set_gz_ip = SetEnvironmentVariable('GZ_IP', '127.0.0.1')
+
+    # Add Conda env library directory to Gazebo search path for macOS compatibility
+    conda_prefix = os.environ.get('CONDA_PREFIX', '')
+    current_plugin_path = os.environ.get('GZ_SIM_SYSTEM_PLUGIN_PATH', '')
+    if conda_prefix:
+        lib_path = os.path.join(conda_prefix, 'lib')
+        gz_plugin_path = f"{current_plugin_path}:{lib_path}" if current_plugin_path else lib_path
+    else:
+        gz_plugin_path = current_plugin_path
+    set_gz_plugin_path = SetEnvironmentVariable('GZ_SIM_SYSTEM_PLUGIN_PATH', gz_plugin_path)
 
     # ── Gazebo Harmonic ──────────────────────────────────────────────────────
     gazebo = IncludeLaunchDescription(
@@ -111,6 +121,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         set_gz_ip,
+        set_gz_plugin_path,
         *declared_arguments,
         # Chain: spawn → joint_state_broadcaster → ackermann_controller
         RegisterEventHandler(
