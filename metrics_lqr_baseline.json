@@ -1,0 +1,18 @@
+{
+    "reference_path": "/Users/simaes/RPTU/lab_pj/hunter-v2/Hunter_RL/src/Monza/monza_track.csv",
+    "laps_completed": 0,
+    "lap_times": [],
+    "lateral_error": {
+        "mae": 0.6411375933644553,
+        "rmse": 0.8774582905422282,
+        "max": 2.8407066994643224
+    },
+    "heading_error": {
+        "mae": 0.06598422815862436,
+        "max": 1.503029739007241
+    },
+    "oscillation": {
+        "steering_chatter_radps": 10.722237229993377,
+        "steering_std_rad": 0.33721224115000853
+    }
+}

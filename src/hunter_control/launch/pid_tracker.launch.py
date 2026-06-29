@@ -12,10 +12,10 @@ def generate_launch_description():
         workspace_root = share_dir
         for _ in range(4):
             workspace_root = os.path.dirname(workspace_root)
-        default_csv_path = os.path.join(workspace_root, 'src', 'Monza', 'Monza_centerline.csv')
+        default_csv_path = os.path.join(workspace_root, 'src', 'Monza', 'monza_track.csv')
         default_metrics_path = os.path.join(workspace_root, 'metrics_baseline.json')
     except Exception:
-        default_csv_path = 'src/Monza/Monza_centerline.csv'
+        default_csv_path = 'src/Monza/monza_track.csv'
         default_metrics_path = 'metrics_baseline.json'
 
     # Declare arguments
@@ -32,17 +32,17 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             'kp_lateral',
-            default_value='0.8',
+            default_value='1.6',
             description='Proportional gain for lateral (cross-track) error'
         ),
         DeclareLaunchArgument(
             'ki_lateral',
-            default_value='0.02',
+            default_value='0.04',
             description='Integral gain for lateral error'
         ),
         DeclareLaunchArgument(
             'kd_lateral',
-            default_value='0.15',
+            default_value='0.18',
             description='Derivative gain for lateral error'
         ),
         DeclareLaunchArgument(

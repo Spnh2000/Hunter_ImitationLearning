@@ -28,6 +28,7 @@ setup(
     entry_points={
         'console_scripts': [
             'pid_tracker = hunter_control.pid_tracker:main',
+            'lqr_tracker = hunter_control.lqr_tracker:main',
         ],
     },
 )

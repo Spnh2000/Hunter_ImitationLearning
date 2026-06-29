@@ -176,11 +176,13 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard \
 
 ---
 
-### Path Tracking & Benchmarking (PID Baseline)
+### Path Tracking & Benchmarking
 
-The `hunter_control` package provides a PID-based reference path tracker that follows a given trajectory and records performance metrics (lateral error, heading error, lap completion, and steering oscillation).
+The `hunter_control` package provides reference path tracking nodes (PID and LQR) that follow a given trajectory and record performance metrics (lateral error, heading error, lap completion, and steering oscillation) for benchmarking.
 
-To run the tracker:
+#### 1. PID Baseline Tracker
+
+To run the PID tracker:
 
 1. Start the simulation (Terminal 1) and optionally the GUI client (Terminal 2) as described in the macOS instructions.
 2. In a new terminal, launch the PID tracker:
@@ -192,14 +194,38 @@ To run the tracker:
    ros2 launch hunter_control pid_tracker.launch.py target_speed:=2.5 lookahead_distance:=1.5 max_laps:=1
    ```
 
-#### Launch Parameters:
-- `csv_path`: Path to the reference track CSV file (defaults dynamically to `src/Monza/Monza_centerline.csv`).
-- `target_speed`: Target forward speed in m/s (default: `2.5`). A negative value instructs the tracker to follow the speed profile defined in the raceline CSV.
+##### PID Launch Parameters:
+- `csv_path`: Path to the reference track CSV (defaults to `src/Monza/Monza_centerline.csv`).
+- `target_speed`: Target forward speed in m/s (default: `2.5`).
 - `lookahead_distance`: Lookahead tracking distance in meters (default: `1.5`). Set to `0.0` to track the closest point directly.
-- `max_laps`: Number of laps to run before stopping the vehicle and exporting results (default: `1`).
-- `metrics_output_path`: JSON file location to export final benchmarking stats (defaults dynamically to `metrics_baseline.json` at your workspace root).
+- `max_laps`: Number of laps to run before stopping the vehicle (default: `1`).
+- `metrics_output_path`: JSON file location to export final benchmarking stats (defaults to `metrics_baseline.json` at your workspace root).
 
-Upon completion of `max_laps`, the vehicle will automatically stop, and the node will output the performance metrics to the console and save the summary to the JSON metrics file.
+---
+
+#### 2. LQR Tracker
+
+To run the LQR tracker:
+
+1. Start the simulation (Terminal 1) and optionally the GUI client (Terminal 2) as described in the macOS instructions.
+2. In a new terminal, launch the LQR tracker:
+   ```bash
+   conda activate ros_env
+   export ROS_LOCALHOST_ONLY=1
+   export GZ_IP=127.0.0.1
+   source install/setup.zsh
+   ros2 launch hunter_control lqr_tracker.launch.py target_speed:=2.5 max_laps:=1
+   ```
+
+##### LQR Launch Parameters:
+- `csv_path`: Path to the reference track CSV (defaults to `src/Monza/Monza_centerline.csv`).
+- `target_speed`: Target forward speed in m/s (default: `2.5`).
+- `q_lateral`, `q_lateral_dot`, `q_heading`, `q_heading_dot`: Penalty weights for the state error matrix $Q$ (defaults: `2.0`, `0.2`, `1.5`, `0.1`).
+- `r_steering`: Control input penalty weight $R$ (default: `1.0`).
+- `max_laps`: Number of laps to run before stopping the vehicle (default: `1`).
+- `metrics_output_path`: JSON file location to export final benchmarking stats (defaults to `metrics_lqr_baseline.json` at your workspace root).
+
+Upon completion of `max_laps`, both controllers will automatically stop the vehicle, print a performance metrics summary to the console, and save it to their respective JSON metrics file.
 
 ---
 
