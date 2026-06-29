@@ -1,0 +1,24 @@
+{
+    "reference_path": "/Users/simaes/RPTU/lab_pj/hunter-v2/Hunter_RL/src/Monza/Monza_centerline.csv",
+    "target_laps": 1,
+    "total_laps_completed": 1,
+    "lap_times": [
+        17.114000000000004
+    ],
+    "lateral_error": {
+        "mae": 4.293554711208798,
+        "rmse": 5.115002370927044,
+        "max": 8.541950636535732,
+        "std": 3.317237116862706
+    },
+    "heading_error": {
+        "mae": 1.5936081757544407,
+        "max": 3.140276974520324,
+        "std": 1.734735224928583
+    },
+    "oscillation": {
+        "steering_chatter_radps": 2.012007028793395,
+        "steering_std_rad": 0.39952985265431135,
+        "lateral_error_std_m": 3.317237116862706
+    }
+}
