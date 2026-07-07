@@ -1,0 +1,32 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.mac
+    image: hunter_robot:mac
+    container_name: hunter_robot_dev_mac
+    ports:
+      - "6080:6080"
+    environment:
+      - QT_X11_NO_MITSHM=1
+      - GZ_IP=127.0.0.1
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - LIBGL_ALWAYS_SOFTWARE=1
+      - QT_OPENGL=software
+    volumes:
+      - ./src:/ros_ws/src:rw
+      - ./build:/ros_ws/build:rw
+      - ./install:/ros_ws/install:rw
+      - ./log:/ros_ws/log:rw
+    stdin_open: true
+    tty: true
+    command: bash
+
+  sim:
+    extends:
+      service: dev
+    container_name: hunter_robot_sim_mac
+    stdin_open: false
+    tty: false
+    command: >
+      ros2 launch hunter_gazebo launch_gz_sim.launch.py
