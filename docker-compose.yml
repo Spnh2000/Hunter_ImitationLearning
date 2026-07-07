@@ -1,0 +1,73 @@
+services:
+
+  # ── Primary development shell ───────────────────────────────────────────────
+  # Usage:
+  #   docker compose run --rm dev                      # interactive bash
+  #   docker compose run --rm dev colcon build --symlink-install
+  #   docker compose run --rm dev ros2 launch hunter_gazebo launch_gz_sim.launch.py
+  # ───────────────────────────────────────────────────────────────────────────
+  dev:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: hunter_robot:jazzy
+    container_name: hunter_robot_dev
+
+    # ROS 2 DDS discovery (multicast) and Gazebo transport both require the
+    # host network stack. Bridged networking breaks ros2 topic list / gz topic.
+    network_mode: host
+
+    environment:
+      # X11 display forwarding (set by the host shell automatically)
+      - DISPLAY=${DISPLAY:-:0}
+      # Prevents Qt from blocking shared-memory X11 extensions in containers
+      - QT_X11_NO_MITSHM=1
+      # Force Gazebo transport onto loopback (mirrors launch_gz_sim.launch.py)
+      - GZ_IP=127.0.0.1
+      # ROS domain — match whatever the host uses (default 0)
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      # Use hardware Mesa rendering; set to 1 only if Gazebo crashes on startup
+      - LIBGL_ALWAYS_SOFTWARE=${LIBGL_ALWAYS_SOFTWARE:-0}
+
+    volumes:
+      # Source code: edit on host, build in container.
+      # :rw so `ros2 bag record` and waypoint_recorder can write back.
+      - ./src:/ros_ws/src:rw
+
+      # Persist colcon build artifacts across container restarts so incremental
+      # builds work (avoids full rebuild on every `docker compose run`).
+      - ./build:/ros_ws/build:rw
+      - ./install:/ros_ws/install:rw
+      - ./log:/ros_ws/log:rw
+
+      # X11 Unix socket — required for Gazebo GUI and RViz
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+
+    devices:
+      # Intel integrated GPU: exposes the DRI device for hardware-accelerated
+      # Mesa rendering (renderD128 = render node, card0 = display node).
+      # Remove this block if running headless / on a machine without /dev/dri.
+      - /dev/dri:/dev/dri
+
+    # Add the container user to the 'video' group so /dev/dri is readable
+    # without running the container as root.
+    group_add:
+      - video
+
+    stdin_open: true
+    tty: true
+    command: bash
+
+  # ── One-shot simulation launcher (non-interactive) ─────────────────────────
+  # Usage:
+  #   docker compose run --rm sim
+  #   docker compose run --rm sim controller_type:=stanley
+  # ───────────────────────────────────────────────────────────────────────────
+  sim:
+    extends:
+      service: dev
+    container_name: hunter_robot_sim
+    stdin_open: false
+    tty: false
+    command: >
+      ros2 launch hunter_gazebo launch_gz_sim.launch.py

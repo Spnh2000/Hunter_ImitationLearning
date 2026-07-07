@@ -1,0 +1,28 @@
+# Exclude colcon build artifacts — these are volume-mounted at runtime.
+build/
+install/
+log/
+
+# Git history is not needed inside the image.
+.git/
+src/f1tenth_planning/.git/
+src/f1tenth_planning/build/
+src/f1tenth_planning/install/
+src/f1tenth_planning/log/
+
+# Python cache
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# IDE / editor
+.vscode/
+*.swp
+*~
+.DS_Store
+
+# The src/ tree itself is NOT excluded — the Dockerfile does not COPY it
+# (it is volume-mounted at runtime), but keeping it out of the build context
+# speeds up `docker build` by avoiding large mesh/SDF transfers.
+src/

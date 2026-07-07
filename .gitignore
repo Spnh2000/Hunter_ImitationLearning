@@ -1,0 +1,31 @@
+# colcon build artifacts
+build/
+install/
+log/
+.vscode/ 
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Compiled objects / libraries
+*.o
+*.so
+*.a
+*.dll
+*.dylib
+*.exe
+
+# Editor / IDE
+.vscode/browse.vc.db*
+.vscode/*.db
+*.swp
+*~
+
+# macOS
+.DS_Store
+hunter_rviz
+hunter_navigation
+hunter_rviz
+hunter_navigation
