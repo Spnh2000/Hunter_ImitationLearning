@@ -25,7 +25,7 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             'world',
-            default_value='Monza.sdf',
+            default_value='IMS.sdf',
             description='World SDF filename inside hunter_gazebo/worlds/',
         ),
         DeclareLaunchArgument(
@@ -41,7 +41,7 @@ def generate_launch_description():
             description='Robot spawn Z (metres) — keep ≥0.3 to clear the ground',
         ),
         DeclareLaunchArgument(
-            'spawn_yaw', default_value='1.44',
+            'spawn_yaw', default_value='-1.57',
             description='Robot spawn yaw (radians) — aligned with the top straight direction',
         ),
     ]
@@ -115,7 +115,7 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}],
     )
 
-    spawn_after_gazebo = TimerAction(period=15.0, actions=[spawn_entity])
+    spawn_after_gazebo = TimerAction(period=5.0, actions=[spawn_entity])
 
     # ── Clock bridge (gz → ROS) ──────────────────────────────────────────────
     bridge = Node(

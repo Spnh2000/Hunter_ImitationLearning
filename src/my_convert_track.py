@@ -118,6 +118,12 @@ def create_sdf(walls, world_name="track_world"):
     sdf = ET.Element("sdf", version="1.6")
     world = ET.SubElement(sdf, "world", name=world_name)
 
+    # Physics configuration for Gazebo
+    physics = ET.SubElement(world, "physics", name="default_physics", default="true", type="ode")
+    ET.SubElement(physics, "max_step_size").text = "0.001"
+    ET.SubElement(physics, "real_time_factor").text = "1.0"
+    ET.SubElement(physics, "real_time_update_rate").text = "1000"
+
     scene = ET.SubElement(world, "scene")
     ET.SubElement(scene, "ambient").text = "0.4 0.4 0.4 1"
     ET.SubElement(scene, "background").text = "0.7 0.7 0.7 1"
@@ -148,24 +154,26 @@ def create_sdf(walls, world_name="track_world"):
     ET.SubElement(mat, "diffuse").text = "0.3 0.3 0.3 1"
 
     print(f"Generating XML for {len(walls)} wall segments...")
+    racetrack = ET.SubElement(world, "model", name="racetrack_walls")
+    ET.SubElement(racetrack, "static").text = "true"
+    track_link = ET.SubElement(racetrack, "link", name="walls_link")
+
     for wall in walls:
-        model = ET.SubElement(world, "model", name=wall['name'])
-        ET.SubElement(model, "static").text = "true"
-        ET.SubElement(model, "pose").text = (
-            f"{wall['x']} {wall['y']} {wall['z']} 0 0 {wall['yaw']}"
-        )
-
-        link = ET.SubElement(model, "link", name="link")
         size_str = f"{wall['length']} {wall['width']} {wall['height']}"
+        pose_str = f"{wall['x']} {wall['y']} {wall['z']} 0 0 {wall['yaw']}"
 
-        vis = ET.SubElement(link, "visual", name="visual")
+        # Visual
+        vis = ET.SubElement(track_link, "visual", name=f"{wall['name']}_visual")
+        ET.SubElement(vis, "pose").text = pose_str
         geom = ET.SubElement(vis, "geometry")
         ET.SubElement(ET.SubElement(geom, "box"), "size").text = size_str
         mat = ET.SubElement(vis, "material")
-        ET.SubElement(mat, "ambient").text = "1 0 0 1"
-        ET.SubElement(mat, "diffuse").text = "1 0 0 1"
+        ET.SubElement(mat, "ambient").text = "0.6 0.6 0.6 1"
+        ET.SubElement(mat, "diffuse").text = "0.6 0.6 0.6 1"
 
-        coll = ET.SubElement(link, "collision", name="collision")
+        # Collision
+        coll = ET.SubElement(track_link, "collision", name=f"{wall['name']}_collision")
+        ET.SubElement(coll, "pose").text = pose_str
         geom = ET.SubElement(coll, "geometry")
         ET.SubElement(ET.SubElement(geom, "box"), "size").text = size_str
 
