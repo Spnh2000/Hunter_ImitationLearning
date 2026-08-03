@@ -15,7 +15,8 @@ class PerformanceMetricsNode(Node):
         self.get_logger().info('Initializing Performance Metrics Node...')
         
         # Load Track
-        workspace_src_dir = os.path.expanduser('~/RPTU/lab_pj/hunter-v2/Hunter_RL/src')
+        # workspace_src_dir = os.path.expanduser('~/RPTU/lab_pj/hunter-v2/Hunter_RL/src')
+        workspace_src_dir = os.path.expanduser('~/Project_Lab/Hunter_RL/src')
         csv_file_path = os.path.join(workspace_src_dir, 'IMS', 'IMS_centerline.csv')
         
         self.WAYPOINTS = []

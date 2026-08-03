@@ -9,12 +9,12 @@ def generate_launch_description():
     declared_arguments = [
         DeclareLaunchArgument(
             'target_speed',
-            default_value='1.0',
+            default_value='0.5',
             description='Target forward velocity in m/s'
         ),
         DeclareLaunchArgument(
             'lookahead_distance',
-            default_value='1.8',
+            default_value='1.0',
             description='Lookahead distance in meters'
         ),
         DeclareLaunchArgument(

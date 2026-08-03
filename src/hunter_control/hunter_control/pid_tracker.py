@@ -24,7 +24,7 @@ class LateralPIDController(Node):
     KD = 0.2
     
     TARGET_SPEED = 1.0      # Target linear speed in m/s
-    LOOKAHEAD_DISTANCE = 1.2  # Lookahead distance in meters
+    LOOKAHEAD_DISTANCE = 1.8  # Lookahead distance in meters
     MAX_STEER = 0.785      # Max steering angle/angular velocity in rad (~26.4 deg)
     MAX_INTEGRAL = 0.5         # Anti-windup limit for the integral term
 
@@ -34,7 +34,8 @@ class LateralPIDController(Node):
 
         self.WAYPOINTS = []
 
-        workspace_src_dir = os.path.expanduser('~/RPTU/lab_pj/hunter-v2/Hunter_RL/src')
+        # workspace_src_dir = os.path.expanduser('~/RPTU/lab_pj/hunter-v2/Hunter_RL/src')
+        workspace_src_dir = os.path.expanduser('~/Project_Lab/Hunter_RL/src')
         csv_file_path = os.path.join(workspace_src_dir, 'IMS', 'IMS_centerline.csv')
         self.get_logger().info(f"Attempting to load track data from: {csv_file_path}")
 
