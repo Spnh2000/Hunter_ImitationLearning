@@ -28,6 +28,7 @@ setup(
     entry_points={
         'console_scripts': [
             'pid_tracker = hunter_control.pid_tracker:main',
+            'performance_metrics = hunter_control.performance_metrics:main',
         ],
     },
 )

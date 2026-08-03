@@ -68,4 +68,27 @@ def generate_launch_description():
         }]
     )
 
-    return LaunchDescription(declared_arguments + [tracker_node])
+    import launch
+
+    # Metrics node configuration
+    metrics_node = Node(
+        package='hunter_control',
+        executable='performance_metrics',
+        name='performance_metrics',
+        output='screen',
+        parameters=[{
+            'spawn_x': LaunchConfiguration('spawn_x'),
+            'spawn_y': LaunchConfiguration('spawn_y'),
+            'spawn_yaw': LaunchConfiguration('spawn_yaw'),
+            'use_sim_time': True
+        }]
+    )
+    
+    shutdown_on_exit = launch.actions.RegisterEventHandler(
+        event_handler=launch.event_handlers.OnProcessExit(
+            target_action=metrics_node,
+            on_exit=[launch.actions.EmitEvent(event=launch.events.Shutdown())]
+        )
+    )
+
+    return LaunchDescription(declared_arguments + [tracker_node, metrics_node, shutdown_on_exit])
