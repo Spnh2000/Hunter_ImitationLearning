@@ -2,11 +2,16 @@
 
 F1TENTH circuits are drawn for ~0.3 m-long 1/10-scale cars. The AgileX Hunter
 V2 is 0.98 m long with a 1.31 m minimum turning radius (0.65 m wheelbase,
-+/-0.461 rad steering), while raw Monza centerline corners are as tight as
-0.47 m radius -- roughly 3x tighter than the vehicle can physically turn.
-Scaling the whole track uniformly multiplies every corner radius and the
-corridor width by the same factor, which is the only change that buys
-tracking margin without distorting the circuit's shape.
++/-0.461 rad steering). Scaling the whole track uniformly multiplies every
+corner radius and the corridor width by the same factor, which buys tracking
+margin without distorting the circuit's shape.
+
+Two reasons a track may need it:
+  * kinematic -- raw corners tighter than 1.31 m radius are undrivable at any
+    speed (Monza's chicanes reach 0.47 m, ~3x tighter than the vehicle can turn)
+  * margin -- wheel odometry drifts with no bound, so the corridor must be wide
+    enough to absorb pose error the controller cannot see. IMS is kinematically
+    fine at 1x (7.8 m minimum radius) but is still scaled 2x for this reason.
 
 The map PNG is never modified: scaling is expressed purely as a larger
 `resolution` (metres per pixel) in the map YAML, with `origin` scaled to
@@ -21,8 +26,8 @@ Scaling rules, per quantity:
                                           by trajectory_server anyway)
 
 Usage:
-  python3 scale_track.py Monza 2.0
-  python3 scale_track.py Monza 2.0 --track-dir src/Monza --suffix _2x
+  python3 scale_track.py IMS 2.0
+  python3 scale_track.py IMS 2.0 --track-dir src/IMS --suffix _2x
 """
 import argparse
 import os
@@ -94,7 +99,7 @@ def scale_raceline(src, dst, factor):
 def main():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('track', help='Track basename, e.g. Monza')
+    parser.add_argument('track', help='Track basename, e.g. IMS')
     parser.add_argument('factor', type=float, help='Uniform scale factor, e.g. 2.0')
     parser.add_argument('--track-dir', default=None,
                         help='Directory holding <track>_map.yaml etc. (default: <script dir>/<track>)')

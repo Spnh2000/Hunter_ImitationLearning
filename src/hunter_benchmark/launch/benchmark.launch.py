@@ -4,12 +4,12 @@ metrics_logger (+ optional rosbag2 recording), as one `ros2 launch` command.
 Usage (run from the workspace root, matching this repo's documented
 convention of `cd ~/sp_codes/hunter_robot` before `ros2 launch`):
   ros2 launch hunter_benchmark benchmark.launch.py \\
-      track_file:=src/Monza/Monza_centerline_2x.csv
+      track_file:=src/IMS/IMS_centerline_2x.csv
 
   ros2 launch hunter_benchmark benchmark.launch.py \\
-      track_file:=src/Monza/Monza_centerline_2x.csv controller:=stanley
+      track_file:=src/IMS/IMS_centerline_2x.csv controller:=stanley
 
-Use the *_2x* track files. Monza.sdf is generated at 2x scale (see
+Use the *_2x* track files. IMS.sdf is generated at 2x scale (see
 src/scale_track.py): F1TENTH circuits are drawn for ~0.3 m-long 1/10-scale
 cars, and at 1x the Hunter had only 0.22 m of tracking margin at the tightest
 corner -- less than its own odometry drift, so wall contact was arithmetic
@@ -25,8 +25,8 @@ input, so nothing else changes.
   # Optional: spawn the robot from a different file than the one tracked
   # (e.g. spawn centered while evaluating a merge-on transient).
   ros2 launch hunter_benchmark benchmark.launch.py \\
-      track_file:=src/Monza/Monza_raceline.csv \\
-      spawn_reference_file:=src/Monza/Monza_centerline.csv
+      track_file:=src/IMS/IMS_raceline.csv \\
+      spawn_reference_file:=src/IMS/IMS_centerline.csv
 
 Phase 4+ trackers plug in via the `controller` argument alone -- this
 launch file selects the tracker executable via the fixed
@@ -180,10 +180,10 @@ def _configure_run(context, *args, **kwargs):
 def generate_launch_description():
     declared_arguments = [
         DeclareLaunchArgument(
-            'track_file', default_value='src/Monza/Monza_centerline_2x.csv',
+            'track_file', default_value='src/IMS/IMS_centerline_2x.csv',
             description='Path to a centerline/raceline CSV. MUST match the scale the world SDF '
                         'was generated at -- the launch aborts if it does not. The 1x originals '
-                        '(Monza_centerline.csv) are upstream F1TENTH reference data and do not '
+                        '(IMS_centerline.csv) are upstream F1TENTH reference data and do not '
                         'match the current 2x world.',
         ),
         DeclareLaunchArgument(
@@ -193,14 +193,14 @@ def generate_launch_description():
                         'by definition, unlike a raceline). Empty = spawn from track_file itself.',
         ),
         DeclareLaunchArgument(
-            'track_name', default_value='Monza',
+            'track_name', default_value='IMS',
             description='Label recorded in summary.csv (independent of track_file path)',
         ),
         DeclareLaunchArgument(
             'controller', default_value='pid',
             description="Tracker to run; selects the hunter_control '<controller>_tracker' executable",
         ),
-        DeclareLaunchArgument('world', default_value='Monza.sdf'),
+        DeclareLaunchArgument('world', default_value='IMS.sdf'),
         DeclareLaunchArgument('record_bag', default_value='true'),
         DeclareLaunchArgument(
             'results_dir', default_value='src/hunter_benchmark/results',
@@ -210,8 +210,8 @@ def generate_launch_description():
         ),
     ]
 
-    monza_defaults = PathJoinSubstitution(
-        [FindPackageShare('hunter_benchmark'), 'config', 'monza_defaults.yaml'])
+    ims_defaults = PathJoinSubstitution(
+        [FindPackageShare('hunter_benchmark'), 'config', 'ims_defaults.yaml'])
 
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -231,7 +231,7 @@ def generate_launch_description():
         executable='trajectory_server',
         name='trajectory_server',
         output='screen',
-        parameters=[monza_defaults, {
+        parameters=[ims_defaults, {
             'track_file': LaunchConfiguration('track_file'),
             # The wheel odometry (the trackers' only pose source) starts
             # integrating from (0,0,yaw=0) at controller activation -- it cannot
@@ -251,7 +251,7 @@ def generate_launch_description():
         executable=[LaunchConfiguration('controller'), '_tracker'],
         name=[LaunchConfiguration('controller'), '_tracker'],
         output='screen',
-        parameters=[monza_defaults, {'controller_name': LaunchConfiguration('controller')}],
+        parameters=[ims_defaults, {'controller_name': LaunchConfiguration('controller')}],
     )
 
     metrics_logger = Node(

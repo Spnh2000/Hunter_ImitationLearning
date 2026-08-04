@@ -25,16 +25,16 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             'world',
-            default_value='Monza.sdf',
+            default_value='IMS.sdf',
             description='World SDF filename inside hunter_gazebo/worlds/',
         ),
-        # Monza track start: first raceline point (x=-0.656, y=0.142, psi=1.503 rad ≈ north)
+        # IMS track start: first centerline point of IMS_centerline_2x.csv (0, 0, yaw=-1.5506 rad)
         DeclareLaunchArgument(
             'spawn_x', default_value='0.0',
             description='Robot spawn X [m]',
         ),
         DeclareLaunchArgument(
-            'spawn_y', default_value='0.142',
+            'spawn_y', default_value='0.0',
             description='Robot spawn Y [m]',
         ),
         DeclareLaunchArgument(
@@ -42,8 +42,8 @@ def generate_launch_description():
             description='Robot spawn Z [m] — keep ≥ 0.3 to clear the ground',
         ),
         DeclareLaunchArgument(
-            'spawn_yaw', default_value='1.503',
-            description='Robot spawn yaw [rad] — 1.503 ≈ north, aligned with Monza start',
+            'spawn_yaw', default_value='-1.5506',
+            description='Robot spawn yaw [rad] — -1.5506 ≈ south, aligned with IMS start',
         ),
     ]
 
@@ -87,7 +87,7 @@ def generate_launch_description():
     )
 
     # ── Spawn entity in Gazebo Harmonic ──────────────────────────────────────
-    # Delayed so Gazebo has time to finish loading the Monza world before the
+    # Delayed so Gazebo has time to finish loading the IMS world before the
     # entity-factory service is called. 5 s is usually enough; increase if
     # Gazebo is slow on first run.
     spawn_entity = Node(

@@ -6,7 +6,7 @@ unmodified for Phase 9's offline RL evaluation, whose bags may not have
 come from a live ROS graph at all.
 
 Usage:
-  summarize_run.py <bag_dir> --track-name Monza --controller-name pid --out summary.csv
+  summarize_run.py <bag_dir> --track-name IMS --controller-name pid --out summary.csv
 """
 import argparse
 import os

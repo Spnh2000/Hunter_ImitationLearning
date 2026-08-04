@@ -2,6 +2,13 @@
 build/
 install/
 log/
+
+# Benchmark run output: rosbag recordings are large binaries (100s of MB per
+# run; GitHub rejects any single file over 100 MB) and are regenerable by
+# re-running the benchmark. They are also created root-owned by the Docker
+# container, which blocks branch switches if left tracked. The per-run
+# summary.csv metrics ARE kept -- small, and the actual comparable result.
+src/hunter_benchmark/results/**/bag/
 .vscode/ 
 
 # Python

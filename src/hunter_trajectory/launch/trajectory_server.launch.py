@@ -3,7 +3,7 @@
 
 Usage:
   ros2 launch hunter_trajectory trajectory_server.launch.py \\
-      track_file:=/ros_ws/src/Monza/Monza_raceline.csv
+      track_file:=/ros_ws/src/IMS/IMS_centerline_2x.csv
 """
 
 from launch import LaunchDescription

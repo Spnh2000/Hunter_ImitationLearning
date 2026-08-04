@@ -25,7 +25,7 @@ def generate_launch_description():
             default_value='-r -v 4 empty.sdf',
             description='Arguments forwarded to gz sim (world SDF, verbosity, etc.)',
         ),
-        # Spawn position — set these when using a track world (e.g. Monza)
+        # Spawn position — set these when using a track world (e.g. IMS)
         DeclareLaunchArgument('spawn_x',   default_value='-0.656', description='Robot spawn X [m]'),
         DeclareLaunchArgument('spawn_y',   default_value='0.142',  description='Robot spawn Y [m]'),
         DeclareLaunchArgument('spawn_z',   default_value='0.15',   description='Robot spawn Z [m]'),
