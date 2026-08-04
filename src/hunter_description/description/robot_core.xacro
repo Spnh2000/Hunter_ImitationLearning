@@ -49,7 +49,10 @@
     <origin xyz="${x_base_to_rear} ${y_base_to_wheel} ${z_base_to_wheel}" rpy="${pi/2} 0 0" />
     <axis xyz="0 0 -1" />
     <dynamics damping="0.2" friction="0.0"/>
-    <limit effort="200.0" velocity="10.0"/>
+    <!-- 17 rad/s x 0.165 m wheel radius = 2.81 m/s ceiling, i.e. the full
+         10 km/h that AgileX rates the Hunter 2.0's upgraded drivetrain at
+         (the stock 6 km/h rating corresponds to the original 10 rad/s here). -->
+    <limit effort="200.0" velocity="17.0"/>
   </joint>
   <xacro:gazebo_friction reference="rear_left_wheel"/>
 
@@ -69,7 +72,10 @@
     <origin xyz="${x_base_to_rear} -${y_base_to_wheel} ${z_base_to_wheel}" rpy="${pi/2} 0 0" />
     <axis xyz="0 0 -1"/>
     <dynamics damping="0.2" friction="0.0"/>
-    <limit effort="200.0" velocity="10.0"/>
+    <!-- 17 rad/s x 0.165 m wheel radius = 2.81 m/s ceiling, i.e. the full
+         10 km/h that AgileX rates the Hunter 2.0's upgraded drivetrain at
+         (the stock 6 km/h rating corresponds to the original 10 rad/s here). -->
+    <limit effort="200.0" velocity="17.0"/>
   </joint>
   <xacro:gazebo_friction reference="rear_right_wheel"/>
 
@@ -82,7 +88,7 @@
     <child link="front_left_steering_link"/> 
     <origin xyz="${x_base_to_front} ${y_base_to_wheel} ${z_base_to_wheel}" rpy="${pi/2} 0 0" />
     <axis   xyz="0 1 0" />
-    <limit  lower="-${max_steer_angle_central}"  upper="${max_steer_angle_central}"  effort="50.0"  velocity="1" />
+    <limit  lower="-${max_steer_angle_central}"  upper="${max_steer_angle_central}"  effort="50.0"  velocity="10.0" />
     <dynamics damping="0.2"/>
   </joint>
 

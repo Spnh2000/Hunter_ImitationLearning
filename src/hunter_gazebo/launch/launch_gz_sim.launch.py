@@ -30,7 +30,7 @@ def generate_launch_description():
         ),
         # Monza track start: first raceline point (x=-0.656, y=0.142, psi=1.503 rad ≈ north)
         DeclareLaunchArgument(
-            'spawn_x', default_value='0',
+            'spawn_x', default_value='0.0',
             description='Robot spawn X [m]',
         ),
         DeclareLaunchArgument(

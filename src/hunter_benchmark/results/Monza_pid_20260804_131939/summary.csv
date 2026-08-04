@@ -1,0 +1,2 @@
+track_name,controller_name,run_timestamp,duration_s,distance_traveled_m,laps_completed,mean_lateral_error_m,rms_lateral_error_m,max_lateral_error_m,mean_heading_error_rad,rms_heading_error_rad,max_heading_error_rad,steering_cmd_variance,steering_reversal_rate_hz,mean_speed_error_mps,rms_speed_error_mps
+Monza,pid,20260804_132258,185.478,133.608,0,6.7251,14.4958,44.5572,0.4846,0.9302,2.7833,0.050559,0.0,-0.0002,0.063

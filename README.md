@@ -39,7 +39,7 @@ src/
 
 ## Quick start with Docker (recommended)
 
-Docker is the supported way to run the stack. The image bundles all system dependencies; `src/` is volume-mounted so you edit on the host and run in the container.
+Docker is the supported way to run the stack. The image bundles all system dependencies; `src/` is volume-mounted so you edit on the host and run in the container. Docker build artifacts live in named volumes so container builds do not conflict with native host builds.
 
 ### 1. Build the image
 
@@ -118,7 +118,7 @@ ros2 launch hunter_gazebo launch_gz_sim.launch.py
 ros2 launch hunter_controllers controller_launch.py
 ```
 
-> **Note:** After building inside Docker, `build/` and `install/` are owned by root. Delete them (`sudo rm -rf build/ install/`) before building on the host.
+> **Note:** Docker and host builds use separate artifact locations. If you still have old container-generated `build/`, `install/` or `log/` directories from an earlier Compose layout, remove them before building on the host.
 
 ---
 

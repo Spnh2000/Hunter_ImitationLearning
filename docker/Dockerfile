@@ -36,16 +36,32 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-jazzy-gz-ros2-control \
     \
     # ros2_control stack
+    ros-jazzy-navigation2 \
+    ros-jazzy-nav2-bringup \
+    ros-jazzy-slam-toolbox \
+    ros-jazzy-xacro \
+    ros-jazzy-tf2-tools \
+    ros-jazzy-tf-transformations \
     ros-jazzy-ros2-control \
     ros-jazzy-ros2-controllers \
     ros-jazzy-controller-manager \
+    ros-jazzy-rqt\
+    ros-jazzy-rqt-common-plugins \
     ros-jazzy-ackermann-steering-controller \
     ros-jazzy-steering-controllers-library \
     ros-jazzy-joint-state-broadcaster \
     ros-jazzy-joint-state-publisher \
     ros-jazzy-joint-state-publisher-gui \
+    # PID primitive for pid_tracker (control_toolbox::PidROS) -- see hunter_control
+    ros-jazzy-control-toolbox \
+    \
+    # rosbag2 recording (metrics_logger/summarize_run.py, benchmark.launch.py)
+    ros-jazzy-ros2bag \
+    ros-jazzy-rosbag2-storage-mcap \
+    ros-jazzy-rosbag2-py \
     \
     # Robot description / URDF pipeline
+    liburdfdom-tools \
     ros-jazzy-robot-state-publisher \
     ros-jazzy-xacro \
     \
@@ -73,6 +89,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     bash-completion \
     less \
     vim \
+    git \
     \
     && rm -rf /var/lib/apt/lists/*
 
@@ -84,6 +101,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # ---------------------------------------------------------------------------
 RUN pip3 install --no-cache-dir --break-system-packages \
     matplotlib
+
+
+# Install Python dependencies for control package
+RUN pip3 install --no-cache-dir --break-system-packages \
+    transforms3d
+    
+# Install the highly optimized, lightweight PyTorch CPU wheel
+RUN pip3 install --no-cache-dir --break-system-packages torch --index-url https://download.pytorch.org/whl/cpu
+
+# Setup bashrc for interactive shells
+RUN echo 'source /opt/ros/jazzy/setup.bash' >> /root/.bashrc && \
+    echo 'if [ -f /ros_ws/install/setup.bash ]; then source /ros_ws/install/setup.bash; fi' >> /root/.bashrc && \
+    echo 'export GZ_SIM_RESOURCE_PATH="/ros_ws/external/ackermann_sim:${GZ_SIM_RESOURCE_PATH}"' >> /root/.bashrc
 
 # ---------------------------------------------------------------------------
 # 4. Workspace skeleton
