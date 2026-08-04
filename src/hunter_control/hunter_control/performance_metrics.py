@@ -46,7 +46,7 @@ class PerformanceMetricsNode(Node):
         # Subscriptions
         self.odom_sub = self.create_subscription(
             Odometry, 
-            '/ackermann_like_controller/odometry', 
+            '/odom', 
             self.odom_callback, 
             10
         )

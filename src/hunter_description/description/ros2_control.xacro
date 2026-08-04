@@ -43,6 +43,8 @@
       <parameters>$(find hunter_description)/config/ackermann_like_controller.yaml</parameters>
       <ros>
         <remapping>~/robot_description:=robot_description</remapping>
+        <remapping>/ackermann_like_controller/tf_odometry:=/tf</remapping>
+        <remapping>/ackermann_like_controller/odometry:=/odom</remapping>
       </ros>
     </plugin>
   </gazebo>

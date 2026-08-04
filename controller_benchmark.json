@@ -1,8 +1,8 @@
 {
     "Lap Completion (%)": 100.0,
-    "Lateral Error RMSE (m)": 0.0161,
+    "Lateral Error RMSE (m)": 0.0162,
     "Max Lateral Error (m)": 0.035,
     "Heading Error RMSE (rad)": 0.007,
-    "Max Heading Error (rad)": 0.0279,
-    "Total Steering Oscillation (rad)": 734.1046
+    "Max Heading Error (rad)": 0.028,
+    "Total Steering Oscillation (rad)": 978.7555
 }

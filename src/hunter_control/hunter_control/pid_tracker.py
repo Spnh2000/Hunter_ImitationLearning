@@ -75,7 +75,7 @@ class LateralPIDController(Node):
         # Subscriber
         self.odom_sub = self.create_subscription(
             Odometry,
-            '/ackermann_like_controller/odometry',
+            '/odom',
             self.odom_callback,
             10
         )
@@ -85,7 +85,7 @@ class LateralPIDController(Node):
             '/ackermann_like_controller/reference',
             10
         )
-        self.get_logger().info(f"Subscribed to '/ackermann_like_controller/odometry'")
+        self.get_logger().info(f"Subscribed to '/odom'")
         self.get_logger().info(f"Publishing to '/ackermann_like_controller/reference'")
         self.get_logger().info(f"PID Parameters -> Kp: {self.kp}, Ki: {self.ki}, Kd: {self.kd}")
         self.get_logger().info(f"Lookahead distance: {self.lookahead_distance} meters")
