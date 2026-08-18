@@ -39,6 +39,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-jazzy-navigation2 \
     ros-jazzy-nav2-bringup \
     ros-jazzy-slam-toolbox \
+\
+    # Dual-EKF localization (hunter_localization/config/ekf_*.yaml)
+    ros-jazzy-robot-localization \
     ros-jazzy-xacro \
     ros-jazzy-tf2-tools \
     ros-jazzy-tf-transformations \

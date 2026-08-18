@@ -14,9 +14,24 @@ import os
 import time
 
 CSV_COLUMNS = [
-    'track_name', 'controller_name', 'run_timestamp', 'duration_s', 'distance_traveled_m',
-    'laps_completed', 'mean_lateral_error_m', 'rms_lateral_error_m', 'max_lateral_error_m',
+    'track_name', 'controller_name', 'pose_source', 'run_timestamp', 'duration_s',
+    'distance_traveled_m', 'laps_completed',
+    # Error as the CONTROLLER sees it -- computed against whatever pose estimate
+    # it was given. Useful for judging the control loop, useless for judging
+    # whether the robot was actually on the track: on the Phase 3 wheel-odometry
+    # runs this read 1 mm while ground truth had the robot 2.29 m off-line.
+    'mean_lateral_error_m', 'rms_lateral_error_m', 'max_lateral_error_m',
     'mean_heading_error_rad', 'rms_heading_error_rad', 'max_heading_error_rad',
+    # Error as REALITY sees it -- the same cross-track quantity recomputed from
+    # Gazebo ground-truth pose against the same reference path. This is the
+    # column that decides whether a pose source is acceptable.
+    'mean_gt_lateral_error_m', 'rms_gt_lateral_error_m', 'max_gt_lateral_error_m',
+    # How much the estimator is lying: || estimated pose - ground truth ||.
+    # Separates "the controller tracked badly" from "the controller tracked a
+    # phantom" -- the distinction the whole phase exists to make.
+    'mean_estimator_error_m', 'rms_estimator_error_m', 'max_estimator_error_m',
+    # Oscillation metrics. Unchanged from Phase 3 (0.02 rad deadband) so
+    # pre-localization numbers stay directly comparable.
     'steering_cmd_variance', 'steering_reversal_rate_hz', 'mean_speed_error_mps',
     'rms_speed_error_mps',
 ]
@@ -57,10 +72,12 @@ class RunSummary:
 
     def __init__(
         self, track_name: str, controller_name: str, total_length_m: float, is_closed_loop: bool,
-        reversal_deadband_rad: float = 0.02,
+        reversal_deadband_rad: float = 0.02, pose_source: str = 'unknown',
     ):
         self.track_name = track_name
         self.controller_name = controller_name
+        # Free-text label, never branched on -- same contract as controller_name.
+        self.pose_source = pose_source
         self.total_length_m = total_length_m
         self.is_closed_loop = is_closed_loop
         self.reversal_deadband_rad = reversal_deadband_rad
@@ -68,6 +85,11 @@ class RunSummary:
         self.lateral = RunningStat()
         self.heading = RunningStat()
         self.speed_error = RunningStat()
+        # Ground-truth-referenced channels. Populated by add_ground_truth_sample()
+        # and left empty (n == 0) when no ground truth is available, e.g. when
+        # reprocessing a bag recorded on hardware.
+        self.gt_lateral = RunningStat()
+        self.estimator_error = RunningStat()
 
         self.distance_traveled_m = 0.0
         self.laps_completed = 0
@@ -120,6 +142,21 @@ class RunSummary:
             self.distance_traveled_m += math.hypot(x - self._prev_xy[0], y - self._prev_xy[1])
         self._prev_xy = (x, y)
 
+    def add_ground_truth_sample(
+        self, gt_lateral_error_m: float, estimator_error_m: float = None
+    ) -> None:
+        """Record the two reality-referenced channels.
+
+        gt_lateral_error_m is the signed cross-track distance from the TRUE
+        pose to the same reference path the controller is tracking.
+        estimator_error_m is the Euclidean distance between the pose the
+        controller was given and the true pose -- omitted when the pose source
+        IS ground truth, where it is identically zero by construction.
+        """
+        self.gt_lateral.update(gt_lateral_error_m)
+        if estimator_error_m is not None:
+            self.estimator_error.update(estimator_error_m)
+
     def steering_variance(self) -> float:
         return self._steering_m2 / self._steering_n if self._steering_n > 1 else 0.0
 
@@ -136,6 +173,7 @@ class RunSummary:
         return {
             'track_name': self.track_name,
             'controller_name': self.controller_name,
+            'pose_source': self.pose_source,
             'run_timestamp': time.strftime('%Y%m%d_%H%M%S'),
             'duration_s': round(self.duration_s(), 3),
             'distance_traveled_m': round(self.distance_traveled_m, 3),
@@ -146,6 +184,12 @@ class RunSummary:
             'mean_heading_error_rad': round(self.heading.mean, 4),
             'rms_heading_error_rad': round(self.heading.rms, 4),
             'max_heading_error_rad': round(self.heading.max_abs, 4),
+            'mean_gt_lateral_error_m': round(self.gt_lateral.mean, 4),
+            'rms_gt_lateral_error_m': round(self.gt_lateral.rms, 4),
+            'max_gt_lateral_error_m': round(self.gt_lateral.max_abs, 4),
+            'mean_estimator_error_m': round(self.estimator_error.mean, 4),
+            'rms_estimator_error_m': round(self.estimator_error.rms, 4),
+            'max_estimator_error_m': round(self.estimator_error.max_abs, 4),
             'steering_cmd_variance': round(self.steering_variance(), 6),
             'steering_reversal_rate_hz': round(self.reversal_rate_hz(), 4),
             'mean_speed_error_mps': round(self.speed_error.mean, 4),

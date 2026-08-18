@@ -4,10 +4,11 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, IncludeLaunchDescription,
                              RegisterEventHandler, SetEnvironmentVariable, TimerAction)
+from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (Command, FindExecutable, LaunchConfiguration,
-                                  PathJoinSubstitution)
+                                  PathJoinSubstitution, PythonExpression)
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
@@ -22,6 +23,14 @@ def generate_launch_description():
             'use_sim_time',
             default_value='true',
             description='Use simulation time',
+        ),
+        DeclareLaunchArgument(
+            'headless', default_value='false',
+            description='Run Gazebo server-only (no GUI). Use for benchmark/CI runs.',
+        ),
+        DeclareLaunchArgument(
+            'use_rviz', default_value='true',
+            description='Start RViz. Set false for headless benchmark runs.',
         ),
         DeclareLaunchArgument(
             'world',
@@ -55,7 +64,13 @@ def generate_launch_description():
     # Pass the full absolute path so Gazebo doesn't need GZ_SIM_RESOURCE_PATH.
     # Concatenate worlds_dir (resolved at description-generation time) with the
     # world arg (resolved at launch time).
-    gz_args = [f'-r -v 4 {worlds_dir}/', LaunchConfiguration('world')]
+    # '-s' (server only) when headless: without it Gazebo starts its full GUI,
+    # which on a machine with no display wastes CPU at best and takes the
+    # launch down at worst. Benchmark runs should always pass headless:=true.
+    gz_args = [
+        PythonExpression(["'-s ' if '", LaunchConfiguration('headless'), "' == 'true' else ''"]),
+        f'-r -v 4 {worlds_dir}/', LaunchConfiguration('world'),
+    ]
 
     # ── Gazebo Harmonic ──────────────────────────────────────────────────────
     gazebo = IncludeLaunchDescription(
@@ -132,6 +147,8 @@ def generate_launch_description():
     )
 
     # ── RViz ─────────────────────────────────────────────────────────────────
+    # Skippable via use_rviz:=false. Headless benchmark runs have no display,
+    # and RViz failing to open a window can take the whole launch down with it.
     hunter_description_path = get_package_share_directory('hunter_description')
     rviz = Node(
         package='rviz2',
@@ -139,6 +156,7 @@ def generate_launch_description():
         arguments=['-d', os.path.join(hunter_description_path, 'rviz/robot_view.rviz')],
         output='screen',
         parameters=[{'use_sim_time': use_sim_time}],
+        condition=IfCondition(LaunchConfiguration('use_rviz')),
     )
 
     return LaunchDescription([

@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ── Sensor mounting geometry ───────────────────────────────────────────
+       base_link sits ~0.009 m above ground (wheel centre 0.17442 above
+       base_link, wheel radius 0.165). The chassis collision box spans
+       z = 0.12 .. 0.38 above base_link, so 0.43 clears the chassis top by
+       5 cm — a plausible roof-plate mount. Track walls are 1.0 m tall
+       (ground to 1.0), so the beam plane sits comfortably within them.
+
+       x = 0.25 places the unit forward of the chassis centre, which for a
+       270 deg unit keeps the 90 deg blind wedge pointing behind the vehicle
+       rather than clipping its own bodywork. -->
+  <xacro:property name="laser_x" value="0.25" />
+  <xacro:property name="laser_z" value="0.43" />
+
+  <link name="laser">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.035" length="0.05"/>
+      </geometry>
+      <material name="laser_material">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+    <!-- No collision: the sensor must not obstruct its own beams, and a
+         5 cm puck adds nothing meaningful to the chassis envelope. -->
+    <inertial>
+      <mass value="0.16"/>
+      <inertia ixx="1e-4" ixy="0" ixz="0" iyy="1e-4" iyz="0" izz="1e-4"/>
+    </inertial>
+  </link>
+
+  <joint name="laser_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser"/>
+    <origin xyz="${laser_x} 0 ${laser_z}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="imu_link">
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+    </inertial>
+  </link>
+
+  <!-- IMU at the chassis centre, close to the CoM so that measured angular
+       rate is not contaminated by lever-arm linear acceleration. -->
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0.046 0 0.25" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ── 2D LiDAR ───────────────────────────────────────────────────────────
+       Hokuyo UST-class: 270 deg FOV, 1080 samples (0.25 deg), 30 m range,
+       20 Hz. At 2.7 m/s the robot travels 13.5 cm between scans.
+
+       gz_frame_id must match the URDF link name or scan-to-TF association
+       fails silently and SLAM will appear to work while producing garbage.
+
+       Range noise stddev 0.01 m is deliberate: Phase 9 trains a policy on
+       these observations, and a noiseless scan is not reproducible on
+       hardware. -->
+  <gazebo reference="laser">
+    <sensor name="laser" type="gpu_lidar">
+      <pose>0 0 0 0 0 0</pose>
+      <topic>scan</topic>
+      <gz_frame_id>laser</gz_frame_id>
+      <update_rate>20</update_rate>
+      <always_on>true</always_on>
+      <visualize>false</visualize>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>1080</samples>
+            <resolution>1</resolution>
+            <min_angle>-2.35619449</min_angle>   <!-- -135 deg -->
+            <max_angle>2.35619449</max_angle>    <!-- +135 deg -->
+          </horizontal>
+          <vertical>
+            <samples>1</samples>
+            <resolution>1</resolution>
+            <min_angle>0</min_angle>
+            <max_angle>0</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.15</min>
+          <max>30.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </lidar>
+    </sensor>
+  </gazebo>
+
+  <!-- ── IMU ────────────────────────────────────────────────────────────────
+       100 Hz with MEMS-class noise and bias. Only the angular velocity is
+       fused by the EKFs (see hunter_localization/config/ekf_*.yaml): Gazebo
+       derives IMU *orientation* from ground truth, so fusing absolute yaw
+       would smuggle the very signal this phase exists to eliminate back
+       into the estimate. -->
+  <gazebo reference="imu_link">
+    <sensor name="imu" type="imu">
+      <topic>imu</topic>
+      <gz_frame_id>imu_link</gz_frame_id>
+      <update_rate>100</update_rate>
+      <always_on>true</always_on>
+      <imu>
+        <angular_velocity>
+          <x><noise type="gaussian"><mean>0.0</mean><stddev>0.0003</stddev>
+              <bias_mean>0.0000075</bias_mean><bias_stddev>0.0000008</bias_stddev></noise></x>
+          <y><noise type="gaussian"><mean>0.0</mean><stddev>0.0003</stddev>
+              <bias_mean>0.0000075</bias_mean><bias_stddev>0.0000008</bias_stddev></noise></y>
+          <z><noise type="gaussian"><mean>0.0</mean><stddev>0.0003</stddev>
+              <bias_mean>0.0000075</bias_mean><bias_stddev>0.0000008</bias_stddev></noise></z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x><noise type="gaussian"><mean>0.0</mean><stddev>0.003</stddev>
+              <bias_mean>0.1</bias_mean><bias_stddev>0.001</bias_stddev></noise></x>
+          <y><noise type="gaussian"><mean>0.0</mean><stddev>0.003</stddev>
+              <bias_mean>0.1</bias_mean><bias_stddev>0.001</bias_stddev></noise></y>
+          <z><noise type="gaussian"><mean>0.0</mean><stddev>0.003</stddev>
+              <bias_mean>0.1</bias_mean><bias_stddev>0.001</bias_stddev></noise></z>
+        </linear_acceleration>
+      </imu>
+    </sensor>
+  </gazebo>
+
+  <!-- ── Ground-truth odometry ──────────────────────────────────────────────
+       Gazebo's stock OdometryPublisher gives an exact pose with no custom
+       node. It is the A/B reference for benchmarking and the yardstick the
+       metrics logger measures true cross-track error against — never a
+       control input in the deployed configuration.
+
+       Published on the gz topic /model/hunter/odometry and bridged to
+       /ground_truth/odometry by hunter_localization/launch. odom_frame is
+       deliberately NOT "odom": the local EKF owns odom -> base_link, and a
+       second publisher of that transform is the classic dual-EKF failure. -->
+  <gazebo>
+    <plugin filename="gz-sim-odometry-publisher-system"
+            name="gz::sim::systems::OdometryPublisher">
+      <odom_frame>ground_truth</odom_frame>
+      <robot_base_frame>base_link</robot_base_frame>
+      <odom_publish_frequency>50</odom_publish_frequency>
+      <dimensions>2</dimensions>
+    </plugin>
+  </gazebo>
+
+</robot>

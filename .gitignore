@@ -36,3 +36,14 @@ hunter_rviz
 hunter_navigation
 hunter_rviz
 hunter_navigation
+
+# SLAM pose graphs: 100+ MB binaries, over GitHub's per-file limit, and
+# regenerable by re-running mapping mode:
+#   ros2 launch hunter_localization localization.launch.py slam_mode:=mapping
+# then call /slam_toolbox/serialize_map. Keep them out of history.
+src/hunter_localization/maps/*.posegraph
+src/hunter_localization/maps/*.data
+
+# Benchmark rosbag recordings: large, regenerable, and created root-owned by
+# the container (which blocks branch switches if tracked).
+src/hunter_benchmark/results/**/bag/

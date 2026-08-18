@@ -41,7 +41,7 @@ import time
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription,
                              OpaqueFunction, SetLaunchConfiguration, TimerAction)
-from launch.conditions import IfCondition
+from launch.conditions import IfCondition, LaunchConfigurationEquals, LaunchConfigurationNotEquals
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
@@ -147,6 +147,24 @@ def _assert_scales_match(track_file, world_path):
             f'  at 1x, use the original CSV.\n')
 
 
+# Which Odometry topic the tracker treats as its pose, and which frame the
+# reference path is published in. Switching pose source is a pure remap --
+# pid_tracker.cpp consumes nav_msgs/Odometry and never looks up TF (Phase 3
+# reuse callout #6), so nothing here requires a code change.
+POSE_SOURCES = {
+    # Global EKF output: map-frame pose at the EKF's 50 Hz, with SLAM's
+    # discrete corrections already absorbed. This is the deployable one.
+    'slam_ekf': ('/odometry/filtered_map', 'map'),
+    # Gazebo OdometryPublisher. Exact, has no hardware analogue; the A/B
+    # reference and the yardstick for true cross-track error.
+    'ground_truth': ('/ground_truth/odometry', 'odom'),
+    # Phase 3 behaviour: raw dead reckoning. Drifts without bound. Kept as the
+    # control condition -- it should FAIL the acceptance targets, which is how
+    # we know the benchmark can detect the problem at all.
+    'wheel_odom': ('/ackermann_like_controller/odometry', 'odom'),
+}
+
+
 def _configure_run(context, *args, **kwargs):
     """Resolves the spawn pose and the per-run results directory once,
     at launch time, from the other launch arguments' actual values."""
@@ -166,14 +184,43 @@ def _configure_run(context, *args, **kwargs):
     results_dir = LaunchConfiguration('results_dir').perform(context)
     track_name = LaunchConfiguration('track_name').perform(context)
     controller = LaunchConfiguration('controller').perform(context)
+    pose_source = LaunchConfiguration('pose_source').perform(context)
+    if pose_source not in POSE_SOURCES:
+        raise RuntimeError(
+            f"pose_source must be one of {sorted(POSE_SOURCES)}, got '{pose_source}'")
+    pose_topic, path_frame = POSE_SOURCES[pose_source]
+
+    # Tag the run directory with the pose source so an A/B comparison cannot
+    # silently overwrite itself or be mixed up after the fact.
     run_dir = os.path.join(
-        results_dir, f"{track_name}_{controller}_{time.strftime('%Y%m%d_%H%M%S')}")
+        results_dir,
+        f"{track_name}_{controller}_{pose_source}_{time.strftime('%Y%m%d_%H%M%S')}")
+
+    # Where the reference path's frame origin sits, which differs per source:
+    #   wheel_odom  -- the controller's odometry starts integrating at
+    #                  (0,0,yaw=0) on activation, so the path must be shifted
+    #                  by the spawn pose to meet it.
+    #   slam_ekf    -- slam_toolbox initialises `map` at the robot's start
+    #                  pose, the same convention, so the shift is identical.
+    #   ground_truth-- Gazebo reports WORLD pose, which is already the CSV's
+    #                  own frame, so no shift at all.
+    path_origin = (0.0, 0.0, 0.0) if pose_source == 'ground_truth' else (x, y, yaw)
 
     return [
         SetLaunchConfiguration('spawn_x', str(x)),
         SetLaunchConfiguration('spawn_y', str(y)),
         SetLaunchConfiguration('spawn_yaw', str(yaw)),
         SetLaunchConfiguration('run_dir', run_dir),
+        SetLaunchConfiguration('pose_topic', pose_topic),
+        SetLaunchConfiguration('path_frame', path_frame),
+        SetLaunchConfiguration('path_origin_x', str(path_origin[0])),
+        SetLaunchConfiguration('path_origin_y', str(path_origin[1])),
+        SetLaunchConfiguration('path_origin_yaw', str(path_origin[2])),
+        # Ground truth must be moved by the SAME shift applied to the path, so
+        # that the metrics logger compares them in one frame.
+        SetLaunchConfiguration('gt_origin_x', str(path_origin[0])),
+        SetLaunchConfiguration('gt_origin_y', str(path_origin[1])),
+        SetLaunchConfiguration('gt_origin_yaw', str(path_origin[2])),
     ]
 
 
@@ -201,6 +248,28 @@ def generate_launch_description():
             description="Tracker to run; selects the hunter_control '<controller>_tracker' executable",
         ),
         DeclareLaunchArgument('world', default_value='IMS.sdf'),
+        DeclareLaunchArgument(
+            'use_rviz', default_value='true',
+            description='Set false for headless benchmark runs (no display).',
+        ),
+        DeclareLaunchArgument(
+            'pose_source', default_value='slam_ekf',
+            description="Which pose estimate the tracker consumes: 'slam_ekf' (LiDAR SLAM "
+                        "+ dual EKF, the deployable stack), 'ground_truth' (exact Gazebo "
+                        "pose, the A/B reference), or 'wheel_odom' (Phase 3 dead reckoning, "
+                        "the control condition expected to fail). Pure remap -- no tracker "
+                        "code changes between them.",
+        ),
+        DeclareLaunchArgument(
+            'slam_mode', default_value='localization',
+            description="Only used when pose_source:=slam_ekf. 'mapping' builds a new map, "
+                        "'localization' runs against the saved pose graph.",
+        ),
+        DeclareLaunchArgument(
+            'map_file', default_value='',
+            description='Serialized pose graph for slam_mode:=localization, without the '
+                        '.posegraph extension. Empty = hunter_localization/maps/IMS',
+        ),
         DeclareLaunchArgument('record_bag', default_value='true'),
         DeclareLaunchArgument(
             'results_dir', default_value='src/hunter_benchmark/results',
@@ -223,6 +292,7 @@ def generate_launch_description():
             'spawn_y': LaunchConfiguration('spawn_y'),
             'spawn_z': '0.3',
             'spawn_yaw': LaunchConfiguration('spawn_yaw'),
+            'use_rviz': LaunchConfiguration('use_rviz'),
         }.items(),
     )
 
@@ -233,6 +303,10 @@ def generate_launch_description():
         output='screen',
         parameters=[ims_defaults, {
             'track_file': LaunchConfiguration('track_file'),
+            # Path frame follows the pose source: 'map' when localizing (the
+            # global EKF's output frame), 'odom' for ground truth and raw
+            # wheel odometry. Overrides ims_defaults.yaml's frame_id.
+            'frame_id': LaunchConfiguration('path_frame'),
             # The wheel odometry (the trackers' only pose source) starts
             # integrating from (0,0,yaw=0) at controller activation -- it cannot
             # know the world spawn pose. trajectory_server must therefore
@@ -240,9 +314,14 @@ def generate_launch_description():
             # same spawn pose this launch file just computed; without this the
             # tracker chases a path rotated by the spawn yaw and drives straight
             # into the wall.
-            'odom_origin_x_m': ParameterValue(LaunchConfiguration('spawn_x'), value_type=float),
-            'odom_origin_y_m': ParameterValue(LaunchConfiguration('spawn_y'), value_type=float),
-            'odom_origin_yaw_rad': ParameterValue(LaunchConfiguration('spawn_yaw'), value_type=float),
+            # Zero for ground_truth (Gazebo already reports world pose, the
+            # CSV's own frame); the spawn pose otherwise. See _configure_run.
+            'odom_origin_x_m': ParameterValue(
+                LaunchConfiguration('path_origin_x'), value_type=float),
+            'odom_origin_y_m': ParameterValue(
+                LaunchConfiguration('path_origin_y'), value_type=float),
+            'odom_origin_yaw_rad': ParameterValue(
+                LaunchConfiguration('path_origin_yaw'), value_type=float),
         }],
     )
 
@@ -252,6 +331,47 @@ def generate_launch_description():
         name=[LaunchConfiguration('controller'), '_tracker'],
         output='screen',
         parameters=[ims_defaults, {'controller_name': LaunchConfiguration('controller')}],
+        # The entire A/B switch. The tracker subscribes to
+        # /ackermann_like_controller/odometry by name in pid_tracker.cpp; this
+        # remap points that subscription at whichever estimator is under test.
+        remappings=[('/ackermann_like_controller/odometry',
+                     LaunchConfiguration('pose_topic'))],
+    )
+
+    # Gated on slam_mode, NOT pose_source, so a map can be built while driving
+    # on a pose source other than SLAM. That matters for map quality: building
+    # the map while tracking ground truth gives clean, wall-free motion,
+    # whereas mapping while driving on the drifting wheel odometry that SLAM
+    # is meant to replace risks a collision corrupting the very map every
+    # later run depends on.
+    localization = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([FindPackageShare('hunter_localization'),
+                                  'launch', 'localization.launch.py'])
+        ),
+        launch_arguments={
+            'slam_mode': LaunchConfiguration('slam_mode'),
+            'map_file': LaunchConfiguration('map_file'),
+            'use_sim_time': 'true',
+        }.items(),
+        condition=LaunchConfigurationNotEquals('slam_mode', 'disabled'),
+    )
+
+    # Ground-truth bridge for runs where the localization stack is not started
+    # (slam_mode:=disabled) -- otherwise localization.launch.py provides it.
+    # metrics_logger ALWAYS needs /ground_truth/odometry to measure true
+    # cross-track error; without it the benchmark can only report the
+    # estimator's opinion of itself, which is precisely the number that read
+    # 1 mm while the robot was 2.29 m off-line.
+    ground_truth_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='ground_truth_bridge',
+        output='screen',
+        parameters=[{'use_sim_time': True}],
+        arguments=['/model/hunter/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry'],
+        remappings=[('/model/hunter/odometry', '/ground_truth/odometry')],
+        condition=LaunchConfigurationEquals('slam_mode', 'disabled'),
     )
 
     metrics_logger = Node(
@@ -263,7 +383,20 @@ def generate_launch_description():
             'track_name': LaunchConfiguration('track_name'),
             'controller_name': LaunchConfiguration('controller'),
             'results_dir': LaunchConfiguration('run_dir'),
+            'pose_source': LaunchConfiguration('pose_source'),
+            # Gazebo's OdometryPublisher reports the model's WORLD pose, while
+            # trajectory_server shifts the path into a spawn-relative frame.
+            # Applying the same spawn pose here brings ground truth into the
+            # path's frame so the two are comparable.
+            'gt_origin_x_m': ParameterValue(LaunchConfiguration('gt_origin_x'), value_type=float),
+            'gt_origin_y_m': ParameterValue(LaunchConfiguration('gt_origin_y'), value_type=float),
+            'gt_origin_yaw_rad': ParameterValue(
+                LaunchConfiguration('gt_origin_yaw'), value_type=float),
         }],
+        # See the tracker remap: the logger must measure the same estimate the
+        # controller consumed, or estimator_error compares unlike things.
+        remappings=[('/ackermann_like_controller/odometry',
+                     LaunchConfiguration('pose_topic'))],
     )
 
     bag_record = ExecuteProcess(
@@ -285,9 +418,17 @@ def generate_launch_description():
     benchmark_stack = TimerAction(
         period=10.0, actions=[trajectory_server, tracker, metrics_logger, bag_record])
 
+    # Localization starts earlier than the tracker: the EKFs need odometry and
+    # IMU flowing, and slam_toolbox needs odom -> base_link to exist, before
+    # the tracker's first control tick asks for a pose. The 5 s / 10 s split
+    # gives the estimators a head start rather than racing them.
+    localization_stack = TimerAction(
+        period=5.0, actions=[localization, ground_truth_bridge])
+
     return LaunchDescription([
         *declared_arguments,
         OpaqueFunction(function=_configure_run),
         gazebo,
+        localization_stack,
         benchmark_stack,
     ])

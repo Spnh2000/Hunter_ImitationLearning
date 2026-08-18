@@ -57,7 +57,6 @@ Adding a controller in a later phase means adding one executable to `hunter_cont
 ## Quick start (Docker — recommended)
 
 ```bash
-cd ~/sp_codes/hunter_robot
 docker compose build          # ~5-10 min on first run
 xhost +local:docker           # once per host login, for the Gazebo/RViz GUI
 docker compose run --rm dev   # interactive shell in the container

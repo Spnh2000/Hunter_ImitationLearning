@@ -114,9 +114,29 @@ def generate_walls(contours, resolution, origin, map_height, wall_height, wall_t
     return walls
 
 
+# Gazebo loads its default world plugins (Physics, UserCommands,
+# SceneBroadcaster) ONLY when the SDF declares none of its own. Adding
+# Sensors/Imu therefore means the three defaults must be declared here too --
+# omit them and physics silently stops with no error message.
+WORLD_PLUGINS = [
+    ("gz-sim-physics-system", "gz::sim::systems::Physics", None),
+    ("gz-sim-user-commands-system", "gz::sim::systems::UserCommands", None),
+    ("gz-sim-scene-broadcaster-system", "gz::sim::systems::SceneBroadcaster", None),
+    # Required for the gpu_lidar in hunter_description/description/sensors.xacro
+    ("gz-sim-sensors-system", "gz::sim::systems::Sensors", {"render_engine": "ogre2"}),
+    # Required for the IMU in the same file
+    ("gz-sim-imu-system", "gz::sim::systems::Imu", None),
+]
+
+
 def create_sdf(walls, world_name="track_world"):
     sdf = ET.Element("sdf", version="1.6")
     world = ET.SubElement(sdf, "world", name=world_name)
+
+    for filename, name, children in WORLD_PLUGINS:
+        plugin = ET.SubElement(world, "plugin", filename=filename, name=name)
+        for tag, text in (children or {}).items():
+            ET.SubElement(plugin, tag).text = text
 
     scene = ET.SubElement(world, "scene")
     ET.SubElement(scene, "ambient").text = "0.4 0.4 0.4 1"
