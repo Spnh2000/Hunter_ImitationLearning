@@ -1,0 +1,107 @@
+# AMCL localization against the track's occupancy grid.
+#
+# Why AMCL and not slam_toolbox's localization mode: slam_toolbox
+# localization loads the pose graph, activates, and consumes scans, but never
+# publishes /slam_toolbox/pose or map->odom (verified repeatedly: publisher
+# count 0). The global EKF then has no absolute measurement and silently
+# degrades to dead reckoning -- a SLAM run in name only. AMCL publishes
+# /amcl_pose as a PoseWithCovarianceStamped, which is exactly the type the
+# global EKF's pose0 input already expects.
+#
+# The map is the SAME occupancy grid that generated the Gazebo world
+# (<Track>_map_2x.yaml -> my_convert_track.py -> <Track>.sdf), so:
+#   * no separate SLAM mapping run is needed at all
+#   * the map frame coincides with the Gazebo world frame by construction,
+#     which is what makes the ground-truth comparison in metrics_logger
+#     directly meaningful
+amcl:
+  ros__parameters:
+    use_sim_time: true
+
+    # --- frames -------------------------------------------------------------
+    # AMCL owns map->odom. The local EKF owns odom->base_link. The global EKF
+    # publishes NO tf (see ekf_global.yaml) -- exactly one publisher per edge.
+    global_frame_id: "map"
+    odom_frame_id: "odom"
+    base_frame_id: "base_link"
+    scan_topic: "scan"
+
+    # --- motion model -------------------------------------------------------
+    # DifferentialMotionModel is the right choice for Ackermann here: it models
+    # translation + rotation without assuming the robot can strafe, which is
+    # true of both. There is no dedicated Ackermann model in nav2_amcl.
+    robot_model_type: "nav2_amcl::DifferentialMotionModel"
+    # alpha1/2 rotation noise, alpha3/4 translation noise. Kept LOW because the
+    # input odometry is the EKF's fused wheel+IMU estimate, not raw encoders --
+    # it is far better than AMCL's defaults assume. Too-high values make the
+    # particle cloud diffuse and the pose jittery, which is exactly the
+    # correction-step behaviour the dual-EKF exists to avoid.
+    alpha1: 0.1     # rotation noise from rotation
+    alpha2: 0.1     # rotation noise from translation
+    alpha3: 0.1     # translation noise from translation
+    alpha4: 0.1     # translation noise from rotation
+    alpha5: 0.1     # strafe (unused by the differential model)
+
+    # --- sensor model -------------------------------------------------------
+    laser_model_type: "likelihood_field"
+    laser_min_range: 0.15     # matches sensors.xacro
+    laser_max_range: 30.0     # matches sensors.xacro
+    # 1080 beams is far more than AMCL needs and costs CPU per particle.
+    # 120 evenly-spaced beams localise a walled corridor comfortably.
+    max_beams: 120
+    sigma_hit: 0.2
+    z_hit: 0.5
+    z_rand: 0.5
+    z_max: 0.05
+    z_short: 0.05
+    lambda_short: 0.1
+    laser_likelihood_max_dist: 2.0
+
+    # --- particle filter ----------------------------------------------------
+    min_particles: 500
+    max_particles: 2000
+    pf_err: 0.05
+    pf_z: 0.99
+    recovery_alpha_slow: 0.001
+    recovery_alpha_fast: 0.1
+    resample_interval: 1
+
+    # --- update triggers ----------------------------------------------------
+    # Tighter than nav2's defaults (0.25 m / 0.2 rad). At 2.7 m/s the robot
+    # covers 0.25 m in under 0.1 s, so the default would correct in visible
+    # steps. Frequent small corrections are what the global EKF can smooth.
+    update_min_d: 0.10        # metres of travel before a filter update
+    update_min_a: 0.10        # radians of rotation before a filter update
+    transform_tolerance: 0.5
+    save_pose_rate: 0.5
+
+    # --- initial pose -------------------------------------------------------
+    # Overridden at launch with the track's actual spawn pose. AMCL is used
+    # here for POSE TRACKING, not global localization: a racetrack is a long
+    # corridor of repetitive geometry, and kidnapped-robot recovery on one is
+    # unreliable. Seeding the true start avoids that problem entirely.
+    set_initial_pose: true
+    always_reset_initial_pose: false
+    initial_pose:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      yaw: 0.0
+
+    # Racetrack walls are static; no point paying for beam skipping.
+    do_beamskip: false
+    tf_broadcast: true
+
+map_server:
+  ros__parameters:
+    use_sim_time: true
+    # Set at launch from the track's own map YAML -- the same file
+    # my_convert_track.py consumed to build the Gazebo world.
+    yaml_filename: ""
+
+lifecycle_manager_localization:
+  ros__parameters:
+    use_sim_time: true
+    autostart: true
+    node_names: ["map_server", "amcl"]
+    bond_timeout: 0.0

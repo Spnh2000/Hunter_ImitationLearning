@@ -173,6 +173,36 @@ def _configure_run(context, *args, **kwargs):
         FindPackageShare('hunter_gazebo').perform(context), 'worlds',
         LaunchConfiguration('world').perform(context))
     _assert_scales_match(track_file, world_path)
+
+    # slam_ekf without a SLAM stack silently degrades to dead reckoning, which
+    # looks like a working run. Refuse it rather than report a fake result.
+    pose_source = LaunchConfiguration('pose_source').perform(context)
+    slam_mode = LaunchConfiguration('slam_mode').perform(context)
+    if pose_source == 'slam_ekf' and slam_mode == 'disabled':
+        raise RuntimeError(
+            '\npose_source:=slam_ekf needs slam_mode:=localization (or mapping).\n'
+            'With slam_mode:=disabled the global EKF gets no absolute measurement and\n'
+            'propagates on wheel odometry alone -- a SLAM run in name only.\n')
+
+    # Default the pose graph to THIS track, not whichever one was hardcoded.
+    # Loading IMS's graph while driving Monza is silent: SLAM localizes against
+    # geometry that is not there, and RViz shows the wrong map over the right world.
+    # AMCL's map: the <Track>_map_2x.yaml sitting beside the track CSV. That is
+    # the exact file my_convert_track.py turned into the world SDF, so the
+    # occupancy grid and the Gazebo walls are the same geometry by construction.
+    map_yaml = LaunchConfiguration('map_yaml').perform(context)
+    if not map_yaml:
+        track_dir = os.path.dirname(track_file)
+        track_stem = os.path.basename(track_dir)
+        candidate = os.path.join(track_dir, f'{track_stem}_map_2x.yaml')
+        if os.path.exists(candidate):
+            map_yaml = candidate
+
+    map_file = LaunchConfiguration('map_file').perform(context)
+    if not map_file:
+        map_file = os.path.join(
+            FindPackageShare('hunter_localization').perform(context),
+            'maps', LaunchConfiguration('track_name').perform(context))
     spawn_reference_file = LaunchConfiguration('spawn_reference_file').perform(context)
     # A racing line is not centered between the walls by design (it cuts
     # toward apexes); spawning directly on it can start the robot close to
@@ -211,6 +241,8 @@ def _configure_run(context, *args, **kwargs):
         SetLaunchConfiguration('spawn_y', str(y)),
         SetLaunchConfiguration('spawn_yaw', str(yaw)),
         SetLaunchConfiguration('run_dir', run_dir),
+        SetLaunchConfiguration('map_file', map_file),
+        SetLaunchConfiguration('map_yaml', map_yaml),
         SetLaunchConfiguration('pose_topic', pose_topic),
         SetLaunchConfiguration('path_frame', path_frame),
         SetLaunchConfiguration('path_origin_x', str(path_origin[0])),
@@ -249,11 +281,20 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument('world', default_value='IMS.sdf'),
         DeclareLaunchArgument(
+            'params_file', default_value='ims_defaults.yaml',
+            description='Per-track params inside hunter_benchmark/config/ '
+                        '(ims_defaults.yaml | monza_defaults.yaml). Must match track_file/world.',
+        ),
+        DeclareLaunchArgument(
             'use_rviz', default_value='true',
             description='Set false for headless benchmark runs (no display).',
         ),
         DeclareLaunchArgument(
-            'pose_source', default_value='slam_ekf',
+            # ground_truth by default: it is the only source that works with no
+            # prerequisites (slam_ekf needs a pose graph built for THIS track first),
+            # and it is what the Phase 6 expert drives on. Pair with the
+            # slam_mode:=disabled default -- the two defaults must stay coherent.
+            'pose_source', default_value='ground_truth',
             description="Which pose estimate the tracker consumes: 'slam_ekf' (LiDAR SLAM "
                         "+ dual EKF, the deployable stack), 'ground_truth' (exact Gazebo "
                         "pose, the A/B reference), or 'wheel_odom' (Phase 3 dead reckoning, "
@@ -261,14 +302,27 @@ def generate_launch_description():
                         "code changes between them.",
         ),
         DeclareLaunchArgument(
-            'slam_mode', default_value='localization',
-            description="Only used when pose_source:=slam_ekf. 'mapping' builds a new map, "
-                        "'localization' runs against the saved pose graph.",
+            'slam_mode', default_value='disabled',
+            description="'disabled' (default) skips the whole localization stack -- most runs "
+                        "do not need it. 'mapping' builds a new map; 'localization' runs "
+                        "against a saved pose graph. Required non-disabled for "
+                        "pose_source:=slam_ekf.",
         ),
         DeclareLaunchArgument(
             'map_file', default_value='',
             description='Serialized pose graph for slam_mode:=localization, without the '
-                        '.posegraph extension. Empty = hunter_localization/maps/IMS',
+                        '.posegraph extension. Empty = hunter_localization/maps/<track_name>.',
+        ),
+        DeclareLaunchArgument(
+            'localization_backend', default_value='amcl',
+            description="Localizer for slam_mode:=localization. 'amcl' (default) needs no "
+                        "mapping run -- it localizes against the track occupancy grid that "
+                        "generated the world. 'slam_toolbox' is currently broken.",
+        ),
+        DeclareLaunchArgument(
+            'map_yaml', default_value='',
+            description='Occupancy grid for AMCL. Empty = derived from track_file, i.e. '
+                        'the <Track>_map_2x.yaml beside it.',
         ),
         DeclareLaunchArgument('record_bag', default_value='true'),
         DeclareLaunchArgument(
@@ -279,8 +333,13 @@ def generate_launch_description():
         ),
     ]
 
-    ims_defaults = PathJoinSubstitution(
-        [FindPackageShare('hunter_benchmark'), 'config', 'ims_defaults.yaml'])
+    # Per-track canonical params. Selectable so a multi-track collection run
+    # (Phase 6) can switch tracks without editing this file: IMS and Monza need
+    # different speed-profile settings because their curvature differs by an
+    # order of magnitude.
+    track_defaults = PathJoinSubstitution(
+        [FindPackageShare('hunter_benchmark'), 'config',
+         LaunchConfiguration('params_file')])
 
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -301,11 +360,11 @@ def generate_launch_description():
         executable='trajectory_server',
         name='trajectory_server',
         output='screen',
-        parameters=[ims_defaults, {
+        parameters=[track_defaults, {
             'track_file': LaunchConfiguration('track_file'),
             # Path frame follows the pose source: 'map' when localizing (the
             # global EKF's output frame), 'odom' for ground truth and raw
-            # wheel odometry. Overrides ims_defaults.yaml's frame_id.
+            # wheel odometry. Overrides the track params file's frame_id.
             'frame_id': LaunchConfiguration('path_frame'),
             # The wheel odometry (the trackers' only pose source) starts
             # integrating from (0,0,yaw=0) at controller activation -- it cannot
@@ -330,7 +389,7 @@ def generate_launch_description():
         executable=[LaunchConfiguration('controller'), '_tracker'],
         name=[LaunchConfiguration('controller'), '_tracker'],
         output='screen',
-        parameters=[ims_defaults, {'controller_name': LaunchConfiguration('controller')}],
+        parameters=[track_defaults, {'controller_name': LaunchConfiguration('controller')}],
         # The entire A/B switch. The tracker subscribes to
         # /ackermann_like_controller/odometry by name in pid_tracker.cpp; this
         # remap points that subscription at whichever estimator is under test.
@@ -352,6 +411,14 @@ def generate_launch_description():
         launch_arguments={
             'slam_mode': LaunchConfiguration('slam_mode'),
             'map_file': LaunchConfiguration('map_file'),
+            'localization_backend': LaunchConfiguration('localization_backend'),
+            'map_yaml': LaunchConfiguration('map_yaml'),
+            # AMCL is seeded with the SAME spawn pose Gazebo used, so it starts
+            # localized instead of trying global localization on a racetrack --
+            # a long corridor of repetitive geometry where that is unreliable.
+            'initial_pose_x': LaunchConfiguration('spawn_x'),
+            'initial_pose_y': LaunchConfiguration('spawn_y'),
+            'initial_pose_yaw': LaunchConfiguration('spawn_yaw'),
             'use_sim_time': 'true',
         }.items(),
         condition=LaunchConfigurationNotEquals('slam_mode', 'disabled'),

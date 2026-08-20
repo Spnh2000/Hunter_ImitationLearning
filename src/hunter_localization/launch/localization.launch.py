@@ -82,6 +82,11 @@ def _setup(context, *args, **kwargs):
     pkg = get_package_share_directory('hunter_localization')
     slam_mode = LaunchConfiguration('slam_mode').perform(context)
     map_file = LaunchConfiguration('map_file').perform(context)
+    backend = LaunchConfiguration('localization_backend').perform(context)
+    map_yaml = LaunchConfiguration('map_yaml').perform(context)
+    init_x = LaunchConfiguration('initial_pose_x').perform(context)
+    init_y = LaunchConfiguration('initial_pose_y').perform(context)
+    init_yaw = LaunchConfiguration('initial_pose_yaw').perform(context)
     use_sim_time = LaunchConfiguration('use_sim_time').perform(context).lower() == 'true'
 
     if slam_mode not in ('mapping', 'localization', 'disabled'):
@@ -103,12 +108,69 @@ def _setup(context, *args, **kwargs):
         remappings=[('odometry/filtered', 'odometry/filtered')],
     ))
 
+    # AMCL path: localize against the track's occupancy grid instead of a SLAM
+    # pose graph. That grid is the SAME file my_convert_track.py consumed to
+    # build the Gazebo world, so no mapping run is needed and the map frame
+    # coincides with the world frame by construction.
+    use_amcl = (slam_mode == 'localization' and backend == 'amcl')
+
+    if use_amcl:
+        if not map_yaml:
+            raise RuntimeError(
+                'localization_backend:=amcl requires map_yaml (the track occupancy '
+                'grid, e.g. src/Monza/Monza_map_2x.yaml)')
+        amcl_cfg = os.path.join(pkg, 'config', 'amcl.yaml')
+        actions.append(Node(
+            package='nav2_map_server', executable='map_server', name='map_server',
+            output='screen',
+            parameters=[amcl_cfg, {'use_sim_time': use_sim_time,
+                                   'yaml_filename': os.path.abspath(map_yaml)}],
+        ))
+        actions.append(Node(
+            package='nav2_amcl', executable='amcl', name='amcl', output='screen',
+            parameters=[amcl_cfg, {
+                'use_sim_time': use_sim_time,
+                # Seed the true start: AMCL is used for TRACKING here, not
+                # global localization. A racetrack is a long corridor of
+                # repetitive geometry where kidnapped-robot recovery is
+                # unreliable, so never make it guess.
+                'set_initial_pose': True,
+                'initial_pose.x': float(init_x),
+                'initial_pose.y': float(init_y),
+                'initial_pose.yaw': float(init_yaw),
+            }],
+        ))
+        # map_server and amcl are lifecycle nodes; nothing happens until they
+        # are configured and activated. Same trap slam_toolbox set.
+        actions.append(Node(
+            package='nav2_lifecycle_manager', executable='lifecycle_manager',
+            name='lifecycle_manager_localization', output='screen',
+            parameters=[{'use_sim_time': use_sim_time, 'autostart': True,
+                         'node_names': ['map_server', 'amcl'], 'bond_timeout': 0.0}],
+        ))
+        actions.append(Node(
+            package='robot_localization', executable='ekf_node',
+            name='ekf_filter_node_map', output='screen',
+            parameters=[os.path.join(pkg, 'config', 'ekf_global.yaml'),
+                        {'use_sim_time': use_sim_time,
+                         # AMCL's output replaces slam_toolbox's as the global
+                         # filter's only absolute measurement.
+                         'pose0': '/amcl_pose'}],
+            remappings=[('odometry/filtered', 'odometry/filtered_map')],
+        ))
+        return actions
+
     if slam_mode != 'disabled':
         cfg = 'slam_mapping.yaml' if slam_mode == 'mapping' else 'slam_localization.yaml'
         slam_params = [os.path.join(pkg, 'config', cfg), {'use_sim_time': use_sim_time}]
         if slam_mode == 'localization':
             # slam_toolbox wants the path WITHOUT the .posegraph suffix.
-            resolved = map_file or os.path.join(pkg, 'maps', 'IMS')
+            # No IMS fallback: benchmark.launch.py resolves this from track_name.
+            # A hardcoded default here silently loads the wrong track's map.
+            if not map_file:
+                raise RuntimeError(
+                    'slam_mode:=localization requires map_file (pose graph path, no extension)')
+            resolved = map_file
             slam_params.append({'map_file_name': resolved.replace('.posegraph', '')})
 
         # slam_toolbox is a LIFECYCLE node in Jazzy. Started as a plain Node it
@@ -185,6 +247,23 @@ def generate_launch_description():
             description='Serialized pose graph for localization mode, without the '
                         '.posegraph extension. Empty = <pkg>/maps/IMS',
         ),
+        DeclareLaunchArgument(
+            'localization_backend', default_value='amcl',
+            description="Which localizer runs when slam_mode:=localization. 'amcl' "
+                        "(default) localizes against the track occupancy grid and needs "
+                        "no mapping run. 'slam_toolbox' uses a serialized pose graph and "
+                        "is currently BROKEN -- it activates but never publishes "
+                        "/slam_toolbox/pose, leaving the global EKF on dead reckoning.",
+        ),
+        DeclareLaunchArgument(
+            'map_yaml', default_value='',
+            description='Occupancy grid YAML for localization_backend:=amcl, e.g. '
+                        'src/Monza/Monza_map_2x.yaml. Must be the same map the world '
+                        'SDF was generated from.',
+        ),
+        DeclareLaunchArgument('initial_pose_x', default_value='0.0'),
+        DeclareLaunchArgument('initial_pose_y', default_value='0.0'),
+        DeclareLaunchArgument('initial_pose_yaw', default_value='0.0'),
         DeclareLaunchArgument('use_sim_time', default_value='true'),
         OpaqueFunction(function=_setup),
     ])

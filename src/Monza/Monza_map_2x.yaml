@@ -1,0 +1,6 @@
+image: Monza_map.png
+resolution: 0.1917
+origin: [-99.67857848996134,-101.01809845380734, 0.000000]
+negate: 0
+occupied_thresh: 0.45
+free_thresh: 0.196
