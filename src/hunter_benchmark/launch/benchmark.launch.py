@@ -40,7 +40,10 @@ import time
 
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription,
-                             OpaqueFunction, SetLaunchConfiguration, TimerAction)
+                             OpaqueFunction, SetLaunchConfiguration, TimerAction,
+                             EmitEvent, RegisterEventHandler)
+from launch.event_handlers import OnProcessExit
+from launch.events import Shutdown
 from launch.conditions import IfCondition, LaunchConfigurationEquals, LaunchConfigurationNotEquals
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
@@ -326,6 +329,10 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument('record_bag', default_value='true'),
         DeclareLaunchArgument(
+            'record_il_dataset', default_value='false',
+            description='If true, also records /scan and /ground_truth/odometry to build Offline RL datasets.'
+        ),
+        DeclareLaunchArgument(
             'results_dir', default_value='src/hunter_benchmark/results',
             description='Relative to the directory ros2 launch is invoked from (workspace root, '
                         'per this repo convention) -- must resolve under src/ so results survive '
@@ -436,9 +443,25 @@ def generate_launch_description():
         name='ground_truth_bridge',
         output='screen',
         parameters=[{'use_sim_time': True}],
-        arguments=['/model/hunter/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry'],
-        remappings=[('/model/hunter/odometry', '/ground_truth/odometry')],
+        arguments=[
+            '/model/hunter/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
+            '/model/hunter/pose@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V'
+        ],
+        remappings=[
+            ('/model/hunter/odometry', '/ground_truth/odometry'),
+            ('/model/hunter/pose', '/tf')
+        ],
         condition=LaunchConfigurationEquals('slam_mode', 'disabled'),
+    )
+
+    sensor_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='sensor_bridge_for_il',
+        output='screen',
+        parameters=[{'use_sim_time': True}],
+        arguments=['/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan'],
+        condition=IfCondition(LaunchConfiguration('record_il_dataset')),
     )
 
     metrics_logger = Node(
@@ -466,16 +489,24 @@ def generate_launch_description():
                      LaunchConfiguration('pose_topic'))],
     )
 
-    bag_record = ExecuteProcess(
-        cmd=[
+    def _build_bag_record(context):
+        cmd = [
             'ros2', 'bag', 'record', '--storage', 'mcap',
-            '-o', PathJoinSubstitution([LaunchConfiguration('run_dir'), 'bag']),
+            '-o', PathJoinSubstitution([LaunchConfiguration('run_dir'), 'bag']).perform(context),
             '/trajectory/reference', '/tracking/diagnostics',
             '/ackermann_like_controller/odometry', '/ackermann_like_controller/reference',
-        ],
-        output='screen',
-        condition=IfCondition(LaunchConfiguration('record_bag')),
-    )
+        ]
+        
+        if LaunchConfiguration('record_il_dataset').perform(context).lower() == 'true':
+            cmd.extend(['/scan', '/ground_truth/odometry'])
+            
+        return [ExecuteProcess(
+            cmd=cmd,
+            output='screen',
+            condition=IfCondition(LaunchConfiguration('record_bag')),
+        )]
+
+    bag_record = OpaqueFunction(function=_build_bag_record)
 
     # Fixed delay rather than cross-launch-file event wiring into
     # launch_gz_sim.launch.py's internal OnProcessExit chain (spawn ->
@@ -490,7 +521,14 @@ def generate_launch_description():
     # the tracker's first control tick asks for a pose. The 5 s / 10 s split
     # gives the estimators a head start rather than racing them.
     localization_stack = TimerAction(
-        period=5.0, actions=[localization, ground_truth_bridge])
+        period=5.0, actions=[localization, ground_truth_bridge, sensor_bridge])
+
+    shutdown_on_logger_exit = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=metrics_logger,
+            on_exit=[EmitEvent(event=Shutdown())],
+        )
+    )
 
     return LaunchDescription([
         *declared_arguments,
@@ -498,4 +536,5 @@ def generate_launch_description():
         gazebo,
         localization_stack,
         benchmark_stack,
+        shutdown_on_logger_exit,
     ])

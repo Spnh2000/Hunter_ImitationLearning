@@ -171,6 +171,9 @@ class MetricsLogger(Node):
         if self._summary is None:
             return
         stats.write_summary_csv(self._summary_path, self._summary.to_row())
+        if getattr(self._summary, 'laps_completed', 0) >= 1 and getattr(self._summary, 'distance_traveled_m', 0) > getattr(self._summary, 'total_length_m', 100) * 0.8:
+            self.get_logger().info('Lap completed! Exiting metrics_logger...')
+            sys.exit(0)
 
 
 def main():
