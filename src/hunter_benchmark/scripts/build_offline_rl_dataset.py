@@ -25,13 +25,13 @@ def main():
     # Pre-fetch message types
     from sensor_msgs.msg import LaserScan
     from nav_msgs.msg import Odometry
-    from geometry_msgs.msg import Twist
+    from geometry_msgs.msg import TwistStamped
     from hunter_msgs.msg import TrackingDiagnostics
 
     topic_types = {
         '/scan': LaserScan,
         '/ground_truth/odometry': Odometry,
-        '/ackermann_like_controller/reference': Twist,
+        '/ackermann_like_controller/reference': TwistStamped,
         '/tracking/diagnostics': TrackingDiagnostics
     }
 
@@ -92,7 +92,7 @@ def main():
                         
                         # Process Action [steering, speed]
                         twist = latest_msgs['/ackermann_like_controller/reference']
-                        action = np.array([twist.angular.z, twist.linear.x], dtype=np.float32)
+                        action = np.array([twist.twist.angular.z, twist.twist.linear.x], dtype=np.float32)
                         
                         # Process Poses [x, y, yaw]
                         odom = latest_msgs['/ground_truth/odometry']
