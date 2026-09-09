@@ -43,6 +43,11 @@ install(TARGETS hunter_control_common pid_tracker_lib
 install(TARGETS pid_tracker
   DESTINATION lib/${PROJECT_NAME}
 )
+
+install(PROGRAMS scripts/imitation_tracker.py
+  DESTINATION lib/${PROJECT_NAME}
+  RENAME imitation_tracker
+)
 install(DIRECTORY include/ DESTINATION include)
 
 if(BUILD_TESTING)

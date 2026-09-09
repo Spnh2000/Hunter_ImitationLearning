@@ -4,12 +4,12 @@ metrics_logger (+ optional rosbag2 recording), as one `ros2 launch` command.
 Usage (run from the workspace root, matching this repo's documented
 convention of `cd ~/sp_codes/hunter_robot` before `ros2 launch`):
   ros2 launch hunter_benchmark benchmark.launch.py \\
-      track_file:=src/IMS/IMS_centerline_2x.csv
+      track_file:=src/Monza/Monza_centerline_2x.csv
 
   ros2 launch hunter_benchmark benchmark.launch.py \\
-      track_file:=src/IMS/IMS_centerline_2x.csv controller:=stanley
+      track_file:=src/Monza/Monza_centerline_2x.csv controller:=stanley
 
-Use the *_2x* track files. IMS.sdf is generated at 2x scale (see
+Use the *_2x* track files. Monza.sdf is generated at 2x scale (see
 src/scale_track.py): F1TENTH circuits are drawn for ~0.3 m-long 1/10-scale
 cars, and at 1x the Hunter had only 0.22 m of tracking margin at the tightest
 corner -- less than its own odometry drift, so wall contact was arithmetic
@@ -25,8 +25,8 @@ input, so nothing else changes.
   # Optional: spawn the robot from a different file than the one tracked
   # (e.g. spawn centered while evaluating a merge-on transient).
   ros2 launch hunter_benchmark benchmark.launch.py \\
-      track_file:=src/IMS/IMS_raceline.csv \\
-      spawn_reference_file:=src/IMS/IMS_centerline.csv
+      track_file:=src/Monza/Monza_raceline.csv \\
+      spawn_reference_file:=src/Monza/Monza_centerline.csv
 
 Phase 4+ trackers plug in via the `controller` argument alone -- this
 launch file selects the tracker executable via the fixed
@@ -46,7 +46,7 @@ from launch.event_handlers import OnProcessExit
 from launch.events import Shutdown
 from launch.conditions import IfCondition, LaunchConfigurationEquals, LaunchConfigurationNotEquals
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
@@ -188,7 +188,7 @@ def _configure_run(context, *args, **kwargs):
             'propagates on wheel odometry alone -- a SLAM run in name only.\n')
 
     # Default the pose graph to THIS track, not whichever one was hardcoded.
-    # Loading IMS's graph while driving Monza is silent: SLAM localizes against
+    # Loading Monza's graph while driving Monza is silent: SLAM localizes against
     # geometry that is not there, and RViz shows the wrong map over the right world.
     # AMCL's map: the <Track>_map_2x.yaml sitting beside the track CSV. That is
     # the exact file my_convert_track.py turned into the world SDF, so the
@@ -262,10 +262,10 @@ def _configure_run(context, *args, **kwargs):
 def generate_launch_description():
     declared_arguments = [
         DeclareLaunchArgument(
-            'track_file', default_value='src/IMS/IMS_centerline_2x.csv',
+            'track_file', default_value='src/Monza/Monza_centerline_2x.csv',
             description='Path to a centerline/raceline CSV. MUST match the scale the world SDF '
                         'was generated at -- the launch aborts if it does not. The 1x originals '
-                        '(IMS_centerline.csv) are upstream F1TENTH reference data and do not '
+                        '(Monza_centerline.csv) are upstream F1TENTH reference data and do not '
                         'match the current 2x world.',
         ),
         DeclareLaunchArgument(
@@ -275,18 +275,18 @@ def generate_launch_description():
                         'by definition, unlike a raceline). Empty = spawn from track_file itself.',
         ),
         DeclareLaunchArgument(
-            'track_name', default_value='IMS',
+            'track_name', default_value='Monza',
             description='Label recorded in summary.csv (independent of track_file path)',
         ),
         DeclareLaunchArgument(
             'controller', default_value='pid',
             description="Tracker to run; selects the hunter_control '<controller>_tracker' executable",
         ),
-        DeclareLaunchArgument('world', default_value='IMS.sdf'),
+        DeclareLaunchArgument('world', default_value='Monza.sdf'),
         DeclareLaunchArgument(
-            'params_file', default_value='ims_defaults.yaml',
+            'params_file', default_value='Monza_defaults.yaml',
             description='Per-track params inside hunter_benchmark/config/ '
-                        '(ims_defaults.yaml | monza_defaults.yaml). Must match track_file/world.',
+                        '(Monza_defaults.yaml | monza_defaults.yaml). Must match track_file/world.',
         ),
         DeclareLaunchArgument(
             'use_rviz', default_value='true',
@@ -341,7 +341,7 @@ def generate_launch_description():
     ]
 
     # Per-track canonical params. Selectable so a multi-track collection run
-    # (Phase 6) can switch tracks without editing this file: IMS and Monza need
+    # (Phase 6) can switch tracks without editing this file: Monza and Monza need
     # different speed-profile settings because their curvature differs by an
     # order of magnitude.
     track_defaults = PathJoinSubstitution(
@@ -461,7 +461,12 @@ def generate_launch_description():
         output='screen',
         parameters=[{'use_sim_time': True}],
         arguments=['/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan'],
-        condition=IfCondition(LaunchConfiguration('record_il_dataset')),
+        condition=IfCondition(
+            PythonExpression([
+                "'", LaunchConfiguration('record_il_dataset'), "' == 'true' or ",
+                "'", LaunchConfiguration('controller'), "' == 'imitation'"
+            ])
+        ),
     )
 
     metrics_logger = Node(
@@ -489,24 +494,24 @@ def generate_launch_description():
                      LaunchConfiguration('pose_topic'))],
     )
 
-    def _build_bag_record(context):
-        cmd = [
-            'ros2', 'bag', 'record', '--storage', 'mcap',
-            '-o', PathJoinSubstitution([LaunchConfiguration('run_dir'), 'bag']).perform(context),
-            '/trajectory/reference', '/tracking/diagnostics',
-            '/ackermann_like_controller/odometry', '/ackermann_like_controller/reference',
-        ]
-        
-        if LaunchConfiguration('record_il_dataset').perform(context).lower() == 'true':
-            cmd.extend(['/scan', '/ground_truth/odometry'])
-            
-        return [ExecuteProcess(
-            cmd=cmd,
-            output='screen',
-            condition=IfCondition(LaunchConfiguration('record_bag')),
-        )]
-
-    bag_record = OpaqueFunction(function=_build_bag_record)
+#     def _build_bag_record(context):
+#         cmd = [
+#             'ros2', 'bag', 'record', '--storage', 'mcap',
+#             '-o', PathJoinSubstitution([LaunchConfiguration('run_dir'), 'bag']).perform(context),
+#             '/trajectory/reference', '/tracking/diagnostics',
+#             '/ackermann_like_controller/odometry', '/ackermann_like_controller/reference',
+#         ]
+#         
+#         if LaunchConfiguration('record_il_dataset').perform(context).lower() == 'true':
+#             cmd.extend(['/scan', '/ground_truth/odometry'])
+#             
+#         return [ExecuteProcess(
+#             cmd=cmd,
+#             output='screen',
+#             condition=IfCondition(LaunchConfiguration('record_bag')),
+#         )]
+# 
+#     bag_record = OpaqueFunction(function=_build_bag_record)
 
     # Fixed delay rather than cross-launch-file event wiring into
     # launch_gz_sim.launch.py's internal OnProcessExit chain (spawn ->
@@ -514,7 +519,7 @@ def generate_launch_description():
     # this launch file is run manually per benchmark pass, so a few extra
     # seconds of margin matters less than not touching the included file.
     benchmark_stack = TimerAction(
-        period=10.0, actions=[trajectory_server, tracker, metrics_logger, bag_record])
+        period=10.0, actions=[trajectory_server, tracker, metrics_logger])
 
     # Localization starts earlier than the tracker: the EKFs need odometry and
     # IMU flowing, and slam_toolbox needs odom -> base_link to exist, before
