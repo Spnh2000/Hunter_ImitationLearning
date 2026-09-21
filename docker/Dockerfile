@@ -105,6 +105,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip3 install --no-cache-dir --break-system-packages \
     matplotlib
 
+RUN pip3 install --no-cache-dir --break-system-packages \
+    h5py 
 
 # Install Python dependencies for control package
 RUN pip3 install --no-cache-dir --break-system-packages \

@@ -8,6 +8,7 @@ find_package(std_msgs REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Waypoint.msg"
   "msg/Trajectory.msg"
+  "msg/EpisodeEvent.msg"
   "msg/TrackingDiagnostics.msg"
   DEPENDENCIES std_msgs
 )

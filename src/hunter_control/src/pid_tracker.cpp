@@ -98,8 +98,17 @@ PidTracker::PidTracker(const rclcpp::NodeOptions & options)
   diag_qos.reliable();
   diag_pub_ = create_publisher<hunter_msgs::msg::TrackingDiagnostics>("/tracking/diagnostics", diag_qos);
 
+  // create_timer, NOT create_wall_timer: the loop must tick on the node's
+  // clock so that under use_sim_time it runs at control_frequency_hz in
+  // SIMULATED seconds. A wall timer ticks 50x per wall second regardless of
+  // real-time factor; at RTF 0.3 that is ~170 ticks per simulated second with
+  // a fixed dt of 1/50, which silently scales the effective integral gain up
+  // and the derivative gain down by 1/RTF -- the expert's behaviour then
+  // depends on host load. Measured on the Phase 6 gate lap before this fix:
+  // 77,349 diagnostics in 455 s of sim time. Also what puts diag.header.stamp
+  // on the same clock as /scan, which the dataset join requires.
   const auto period = std::chrono::duration<double>(1.0 / control_frequency_hz_);
-  control_timer_ = create_wall_timer(
+  control_timer_ = create_timer(
     std::chrono::duration_cast<std::chrono::nanoseconds>(period),
     std::bind(&PidTracker::controlLoop, this));
 

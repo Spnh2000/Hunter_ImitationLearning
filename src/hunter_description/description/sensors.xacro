@@ -153,4 +153,34 @@
     </plugin>
   </gazebo>
 
+  <!-- Contact sensor: the PRIMARY crash signal for episode termination.
+       Without it `terminals` cannot be filled at all — nothing else in the
+       recorded topics tells you the robot hit a wall, and deriving it offline
+       from ground truth would make the world SDF a permanent dependency of
+       every dataset (change the derivation, silently relabel old data).
+
+       Two subtleties, both of which fail SILENTLY if wrong:
+
+       1. The collision name is post-lumping. URDF->SDF conversion folds the
+          chassis link into base_link, so the collision this sensor must watch
+          is 'base_link_fixed_joint_lump__chassis_collision', NOT
+          'chassis_collision'. Verify with `gz sdf -p robot.urdf` after any
+          change to the chassis link or its fixed joint.
+       2. The Contact SYSTEM must be declared in the world SDF, exactly like
+          Sensors and Imu. my_convert_track.py emits it; a world generated
+          before that change has a declared sensor that never publishes. -->
+  <gazebo reference="base_link">
+    <sensor name="bumper" type="contact">
+      <contact>
+        <collision>base_link_fixed_joint_lump__chassis_collision</collision>
+      </contact>
+      <always_on>true</always_on>
+      <!-- 50 Hz, not the 1 kHz physics rate: contact sensors publish
+           continuously while touching, and a robot resting against a wall
+           would otherwise flood the bag. -->
+      <update_rate>50</update_rate>
+      <topic>bumper_contacts</topic>
+    </sensor>
+  </gazebo>
+
 </robot>

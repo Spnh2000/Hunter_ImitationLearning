@@ -1,59 +1,63 @@
 # Hunter V2 — Autonomous Path Tracking on ROS 2 Jazzy + Gazebo Harmonic
 
-Path-tracking, perception and benchmarking stack for the [AgileX Hunter V2](https://www.agilex.ai/chassis/4) (Ackermann-steered 4-wheel rover), running on ROS 2 Jazzy and Gazebo Harmonic (gz-sim 8). The robot follows a reference line derived from [F1TENTH racetracks](https://github.com/f1tenth/f1tenth_racetracks) rebuilt as Gazebo worlds, while a metrics pipeline records per-run tracking accuracy against **ground truth** for comparing controllers.
+Path-tracking, perception, imitation-learning and benchmarking stack for the [AgileX Hunter V2](https://www.agilex.ai/chassis/4) (Ackermann-steered 4-wheel rover), running on ROS 2 Jazzy and Gazebo Harmonic (gz-sim 8). The robot follows a reference line derived from [F1TENTH racetracks](https://github.com/f1tenth/f1tenth_racetracks) rebuilt as Gazebo worlds, while a metrics pipeline records per-run tracking accuracy against **ground truth** for comparing controllers.
 
-**Project status:** Phase 5 of 9 complete.
+**Project status:** Phase 6 in progress (dataset tooling built and gated; full collection next).
 
 | Phase | Contents | State |
 |---|---|---|
-| 1–2 | Robot bring-up, track conversion pipeline | done |
+| 1–2 | Robot bring-up, track conversion pipeline — **eight** circuits at 2× | done |
 | 3 | Trajectory server + PID tracker + metrics logger | done |
-| 5 | 2D LiDAR + IMU, dual EKF, SLAM mapping, A/B pose-source switch | done |
-| 4, 7–8 | Pure Pursuit / Stanley / LQR / MPC, then offline RL | pending |
-| 6 | Imitation dataset collection (expert = PID on ground truth, student sees `/scan` only) | next |
+| 4 | Pure Pursuit / Stanley / LQR / MPC | **dropped** — PID is the permanent expert |
+| 5 | 2D LiDAR + IMU, dual EKF, AMCL localization, A/B pose-source switch | done |
+| 6 | Imitation dataset: schema, recorder, episode monitor, converter, inspector | tooling done, collection next |
+| 7–8 | **Pure imitation learning** — {BC, DAgger} × {MLP, frame-stacked MLP, discretised} = 6 policies, evaluated closed-loop against PID | pending |
 | 9 | Sim-to-sim policy transfer to the Hunter | pending |
 
-`slam_toolbox` *localization* mode is deferred — see [Known limitations](#known-limitations).
+Phases 7–8 were originally offline RL; that is gone. The methodology is **privileged expert distillation** (Chen et al., *Learning by Cheating*, CoRL 2019): the PID expert drives on ground-truth pose, the student sees only `/scan`. Dropping Phase 4 has one consequence worth naming — the PID is now the ceiling every learned policy is measured against, so its tracking quality is a property of the dataset, not just a benchmark row.
 
 ---
 
 ## Architecture
 
 ```
-        <Track>_centerline_2x.csv          /scan   /imu   wheel odom
-                    │                         │      │        │
-          ┌─────────▼──────────┐         ┌────▼──────▼────────▼────┐
-          │ trajectory_server  │         │   hunter_localization   │
-          │ (hunter_trajectory)│         │  slam_toolbox + 2x EKF  │
-          └─────────┬──────────┘         └────────────┬────────────┘
-                    │ /trajectory/reference            │ pose
-                    │              ┌───────────────────┘
-          ┌─────────▼──────────────▼─┐   pose_source: ground_truth
-          │       pid_tracker        │                | slam_ekf
-          │     (hunter_control)     │                | wheel_odom
-          └─────────┬────────────────┘
-                    ├──▶ /ackermann_like_controller/reference  (TwistStamped)
-                    └──▶ /tracking/diagnostics
-                              │
-                    ┌─────────▼──────────┐
-                    │   metrics_logger   │  → summary.csv + rosbag2 (mcap)
-                    │ (hunter_benchmark) │    estimator error AND true error
-                    └────────────────────┘
+        <Track>_centerline_2x.csv          /scan   /imu   wheel odom    /bumper_contacts
+                    │                         │      │        │               │
+          ┌─────────▼──────────┐         ┌────▼──────▼────────▼────┐   ┌──────▼─────────┐
+          │ trajectory_server  │         │   hunter_localization   │   │ episode_monitor│
+          │ (hunter_trajectory)│         │   AMCL + 2x EKF         │   │ (hunter_control)│
+          └─────────┬──────────┘         └────────────┬────────────┘   └──────┬─────────┘
+                    │ /trajectory/reference            │ pose                  │ /episode/event
+                    │              ┌───────────────────┘                       │
+          ┌─────────▼──────────────▼─┐   pose_source: ground_truth             │
+          │   <controller>_tracker   │                | slam_ekf               │
+          │     (hunter_control)     │                | wheel_odom             │
+          └─────────┬────────────────┘                                         │
+                    ├──▶ /ackermann_like_controller/reference  (TwistStamped)  │
+                    └──▶ /tracking/diagnostics                                 │
+                              │                                                │
+                    ┌─────────▼──────────┐          ┌───────────────────────────▼──┐
+                    │   metrics_logger   │          │  record_expert.launch.py     │
+                    │ (hunter_benchmark) │          │  (hunter_dataset) → mcap bag │
+                    └────────────────────┘          │  convert_dataset → HDF5      │
+                       summary.csv                  │  inspect_dataset → PASS/FAIL │
+                                                    └──────────────────────────────┘
 ```
 
-Adding a controller in a later phase means adding one executable to `hunter_control` named `<controller>_tracker`; `trajectory_server`, the message contracts and the benchmark pipeline stay untouched.
+Adding a controller means adding one executable to `hunter_control` named `<controller>_tracker`; `trajectory_server`, the message contracts and the benchmark pipeline stay untouched. The Phase 8 `policy_tracker` (PyTorch inference on `/scan`) slots in the same way.
 
 ### Packages
 
 | Package | Build type | Role |
 |---|---|---|
 | `hunter_description` | ament_cmake | URDF/xacro, ros2_control config, RViz layout |
-| `hunter_gazebo` | ament_cmake | IMS + Monza world SDFs, full simulation launch |
-| `hunter_msgs` | ament_cmake | `Waypoint`, `Trajectory`, `TrackingDiagnostics` messages |
+| `hunter_gazebo` | ament_cmake | Eight world SDFs, full simulation launch |
+| `hunter_msgs` | ament_cmake | `Waypoint`, `Trajectory`, `TrackingDiagnostics`, `EpisodeEvent` messages |
 | `hunter_trajectory` | ament_cmake (C++) | `trajectory_server` — CSV → reference trajectory |
-| `hunter_control` | ament_cmake (C++) | `pid_tracker` + shared `hunter_control_common` geometry |
-| `hunter_benchmark` | ament_cmake | `metrics_logger`, `summarize_run.py`, benchmark launch, per-track params |
-| `hunter_localization` | ament_cmake | Dual-EKF + slam_toolbox configs and launch (Phase 5) |
+| `hunter_control` | ament_cmake (C++) | `pid_tracker`, `episode_monitor`, shared `hunter_control_common` geometry |
+| `hunter_benchmark` | ament_cmake | `metrics_logger`, `summarize_run.py`, benchmark launch, per-track params (8 files) |
+| `hunter_localization` | ament_cmake | Dual-EKF + AMCL configs and launch (Phase 5); slam_toolbox mapping |
+| `hunter_dataset` | ament_python | Phase 6: `dataset_spec.py` (schema, **zero ROS imports**), `record_expert.launch.py`, `convert_dataset`, `inspect_dataset` |
 
 ---
 
@@ -65,7 +69,8 @@ Adding a controller in a later phase means adding one executable to `hunter_cont
 | ROS | ROS 2 Jazzy |
 | Simulator | Gazebo Harmonic (gz-sim 8) |
 | Python | 3.12 |
-| Extra ROS packages | `control_toolbox`, `ros2bag`, `rosbag2_storage_mcap`, `robot_localization`, `slam_toolbox` |
+| Extra ROS packages | `control_toolbox`, `ros2bag`, `rosbag2_storage_mcap`, `robot_localization`, `slam_toolbox`, `nav2_amcl`, `nav2_map_server`, `nav2_lifecycle_manager`, `topic_tools` |
+| Python packages | `numpy`, `h5py`, `pyyaml` (dataset tooling); `torch` (Phase 8, training host only) |
 
 ---
 
@@ -86,11 +91,11 @@ source install/setup.bash
 # Full benchmark run: Gazebo + trajectory server + PID tracker + metrics
 ros2 launch hunter_benchmark benchmark.launch.py
 
-# Monza instead of the default IMS -- all three must agree
+# Any of the eight tracks instead of the default IMS -- all four must agree
 ros2 launch hunter_benchmark benchmark.launch.py \
-    world:=Monza.sdf \
-    track_file:=src/Monza/Monza_centerline_2x.csv \
-    params_file:=monza_defaults.yaml track_name:=Monza
+    world:=Nuerburgring.sdf \
+    track_file:=src/Nuerburgring/Nuerburgring_centerline_2x.csv \
+    params_file:=nuerburgring_defaults.yaml track_name:=Nuerburgring
 
 # No display (CI, batch collection): Gazebo server-only, no RViz
 ros2 launch hunter_benchmark benchmark.launch.py headless:=true use_rviz:=false
@@ -169,7 +174,7 @@ ros2 launch hunter_benchmark benchmark.launch.py
 
 ## Tracks and the 2× scale
 
-Two circuits from [f1tenth_racetracks](https://github.com/f1tenth/f1tenth_racetracks), both used at **2× scale**. Adding another is two commands:
+Eight circuits from [f1tenth_racetracks](https://github.com/f1tenth/f1tenth_racetracks), all used at **2× scale**. Adding another is two commands:
 
 ```bash
 python3 src/scale_track.py <Track> 2.0
@@ -184,22 +189,28 @@ The map PNG is never modified — scaling is expressed as a larger `resolution` 
 - *Kinematic* — corners tighter than 1.31 m are undrivable at any speed.
 - *Margin* — wheel odometry drifts without bound, so the corridor must absorb pose error the controller cannot see.
 
-| | IMS 2× | Monza 2× |
-|---|---|---|
-| Track length | 586 m | 892 m |
-| Raw minimum radius | 7.8 m (fine at 1×) | **0.74 m at 1× — undrivable** |
-| Minimum radius after smoothing | 28.1 m | 2.21 m |
-| Wall clearance | 1.87 m | 1.75 m |
-| Margin after robot half-width | 1.50 m | 1.37 m |
-| Curvature speed limit binds | **never** | **10.8% of track**, down to 0.94 m/s |
+The 2× factor is also what makes the tracks *proportionally* like F1 for this car: a Hunter lap of Nuerburgring 2× is 910 car-lengths, an F1 lap of the real circuit is 1,029.
 
-IMS is an oval and is kinematically fine at 1×; it is scaled purely for margin. **Monza genuinely requires it** — its 0.74 m chicanes are about half the radius the Hunter can physically turn.
+| Track | Length | R_min (smoothed) | Wall clearance | Margin | Speed limit binds | Min speed |
+|---|---:|---:|---:|---:|---:|---:|
+| Shanghai | 995 m | **1.44 m** | 2.22 m | 1.84 m | **22.6 %** | 0.63 m/s |
+| Nuerburgring | 892 m | 2.74 m | 2.08 m | 1.71 m | 21.9 % | 1.00 m/s |
+| SaoPaulo | 689 m | 3.17 m | 2.11 m | 1.73 m | 21.3 % | 1.09 m/s |
+| Silverstone | 916 m | 2.61 m | 1.85 m | 1.48 m | 21.0 % | 0.96 m/s |
+| Montreal | 570 m | 2.20 m | 1.03 m | **0.66 m** | 18.6 % | 0.87 m/s |
+| Melbourne | 949 m | 2.51 m | 2.10 m | 1.73 m | 12.4 % | 0.94 m/s |
+| Monza | 892 m | 2.21 m | 1.75 m | 1.37 m | 10.8 % | 0.87 m/s |
+| IMS | 586 m | 28.07 m | 1.87 m | 1.50 m | **0 %** | 2.70 m/s |
 
-That last row matters for Phase 6. On IMS the curvature-limited profile never engages, so commanded speed is a flat 2.7 m/s for the whole lap — an imitation dataset collected there has *zero* speed variance and would train a policy that only ever outputs one number, while showing excellent loss. Monza's chicanes force real slowdowns.
+"Speed limit binds" is the fraction of the lap where the curvature-limited profile `v = sqrt(a_lat / κ)` drops below `max_speed_mps` — computed from the reference CSV alone, no simulator needed. All eight clear the 1.31 m kinematic gate. Two deserve care: **Montreal's** margin is under half the others (narrow corridor), so expect wall contact and a lower clean-lap rate; **Shanghai's** 1.44 m minimum radius is only 10 % above the physical limit.
+
+The binding column is the reason there are eight tracks and not two. On **IMS** the profile never engages: commanded speed is a flat 2.7 m/s for the whole lap, so a dataset collected there has *zero* speed variance and would train a policy that only ever outputs one number while showing excellent loss. IMS is kept in the collection but capped at one or two laps — it teaches "open geometry = full speed" and nothing else. The other seven force real slowdowns, and the Phase 6 gate lap was deliberately run on Nuerburgring for that reason.
+
+Split for Phase 8: five tracks train, **three are fully held out** (never seen in training), plus two held-out laps per training track. Held-out laps measure memorisation; held-out tracks measure generalisation.
 
 | File | Role |
 |---|---|
-| `src/<Track>/<Track>_centerline.csv`, `_raceline.csv` | Upstream F1TENTH data, unmodified |
+| `src/<Track>/<Track>_centerline.csv`, `_raceline.csv` | Upstream F1TENTH data, unmodified (Montreal and Shanghai ship no raceline) |
 | `src/<Track>/<Track>_centerline_2x.csv` | **The reference line actually driven** |
 | `src/<Track>/<Track>_map_2x.yaml` | Scaled map metadata used to build the world |
 
@@ -216,25 +227,25 @@ The **centerline** is the reference, not the raceline: the F1TENTH raceline hugs
 | 2D LiDAR | 270° FOV, **1080 beams**, 30 m, 20 Hz, 0.01 m noise | `/scan` |
 | IMU | 100 Hz, with bias | `/imu` |
 
-The LiDAR deliberately matches the **f1tenth_gym** sensor exactly (270°/1080/30 m) so a gym-trained policy's observation vector transfers without reshaping.
+The LiDAR geometry (270°/1080/30 m) was originally chosen to match **f1tenth_gym** so a gym-trained policy would transfer without reshaping. That reason is gone — nothing is trained in gym any more — but the 1080-beam sensor stays as-is, and the **dataset observation is 720 beams**: every third raw beam (`i % 3 == 1`) is dropped, no interpolation. The sensor keeps full resolution in the bag; the 720 is a documented, reversible choice in `dataset_spec.py`, and it stands.
 
 Frame ownership — the part that fails silently when wrong:
 
 ```
-map --(slam_toolbox)--> odom --(local EKF)--> base_link --(URDF)--> laser
+map --(AMCL)--> odom --(local EKF)--> base_link --(URDF)--> laser
 ```
 
-The **local EKF** fuses wheel odometry + IMU into a continuous `odom→base_link` at 50 Hz — no jumps, which is what a controller needs. The **global EKF** consumes SLAM's absolute pose and publishes the smoothed `/odometry/filtered_map`; it deliberately does **not** publish TF, because slam_toolbox cannot emit its pose without also emitting `map→odom`, and two publishers of one transform is the classic dual-EKF failure.
+The **local EKF** fuses wheel odometry + IMU into a continuous `odom→base_link` at 50 Hz — no jumps, which is what a controller needs. The **global EKF** consumes the localizer's absolute pose (`/amcl_pose`) and publishes the smoothed `/odometry/filtered_map`; it deliberately does **not** publish TF — exactly one publisher per transform edge.
 
-Build a map (drives the track with PID while mapping, then serialise):
+**AMCL localizes against the track's own occupancy grid** (`src/<Track>/<Track>_map_2x.yaml`) — the same file `my_convert_track.py` consumed to build the Gazebo world, so the `map` frame coincides with the world frame by construction and no mapping run is needed. Measured true tracking error with AMCL on Monza: ~3 mm.
 
 ```bash
-ros2 launch hunter_benchmark benchmark.launch.py slam_mode:=mapping pose_source:=ground_truth
-ros2 service call /slam_toolbox/serialize_map slam_toolbox/srv/SerializePoseGraph \
-    "{filename: 'src/hunter_localization/maps/IMS'}"
+ros2 launch hunter_benchmark benchmark.launch.py slam_mode:=localization pose_source:=slam_ekf \
+    world:=Monza.sdf track_file:=src/Monza/Monza_centerline_2x.csv \
+    params_file:=monza_defaults.yaml track_name:=Monza
 ```
 
-> Pose graphs are **not in git** — `IMS.posegraph` is over 100 MB, past GitHub's per-file limit, and is regenerable by the command above.
+`slam_toolbox` mapping still works (`slam_mode:=mapping`) and produces a pose graph; its *localization* mode does not — see [Known limitations](#known-limitations). Pose graphs are **not in git** (over 100 MB, regenerable).
 
 ### Pose source A/B switch
 
@@ -243,8 +254,44 @@ ros2 service call /slam_toolbox/serialize_map slam_toolbox/srv/SerializePoseGrap
 | `pose_source` | Topic | Use |
 |---|---|---|
 | `ground_truth` | `/ground_truth/odometry` | Expert driving, benchmark reference |
-| `slam_ekf` | `/odometry/filtered_map` | Deployable stack |
+| `slam_ekf` | `/odometry/filtered_map` | Deployable stack (AMCL → global EKF) |
 | `wheel_odom` | `/ackermann_like_controller/odometry` | Phase 3 behaviour, drifts |
+
+---
+
+## Imitation dataset (Phase 6)
+
+Expert = `pid_tracker` on `/ground_truth/odometry`. Student input = `/scan` only. The dataset is D4RL-shaped HDF5 (`observations / actions / rewards / terminals / timeouts / infos/*`) so any standard imitation loader reads it.
+
+Three schema decisions are fixed and expensive to reverse once data exists, so they live in one file with **zero ROS imports** — `hunter_dataset/dataset_spec.py` — and a test enforces that with an AST scan plus a bare-interpreter import:
+
+| Decision | Value | Why |
+|---|---|---|
+| Observation | 1080 → **720** beams by dropping `i % 3 == 1`; inf/NaN → 30.0, then clip to [0.15, 30.0]; float32 | Selection, not interpolation — every beam is a real measurement. Sanitise **before** clip: `np.clip` propagates NaN |
+| Rate | **20 Hz** (the scan rate), expert command paired nearest-in-time within **15 ms** | The student runs at scan rate; the 50 Hz controller is oversampled relative to it. Rows outside 15 ms are rejected and counted, never interpolated |
+| Units | physical, **never normalised** — steering rad, speed m/s, ranges m | Normalisation stats belong in the checkpoint, not the data |
+
+`actions` are `[steering_rad, speed_mps]`. `infos/` carries `timestamp_ns`, `gt_pose`, `progress_s_m`, `lap_index`, `episode_id`, `prev_action`, `dagger_beta`, `action_source` (0 = expert, 1 = expert relabel of a student state). `terminals` come from `episode_monitor`, which fires on chassis contact **or** any scan beam under `scan_contact_m = 0.4 m` (4.4× below the free-driving minimum of 1.77 m) and stamps the event with the scan's own `header.stamp` so the converter joins it by **exact** match — a miss raises.
+
+```bash
+# Record: wraps benchmark.launch.py with the sensor bridges, episode_monitor, the
+# contact throttle and a 12-topic bag. Writes run_manifest.yaml BEFORE driving.
+ros2 launch hunter_dataset record_expert.launch.py \
+    track_name:=Nuerburgring track_file:=src/Nuerburgring/Nuerburgring_centerline_2x.csv \
+    params_file:=nuerburgring_defaults.yaml world:=Nuerburgring.sdf \
+    max_speed_mps:=2.7 run_id:=001 output_dir:=datasets/raw
+
+# Convert: read → join (searchsorted, reports Δt median/p95/max and rejects) → write
+ros2 run hunter_dataset convert_dataset datasets/raw/Nuerburgring_2.7ms_001/bag out.hdf5 \
+    --manifest datasets/raw/Nuerburgring_2.7ms_001/run_manifest.yaml
+
+# Inspect: PASS/FAIL per check, nonzero exit on any FAIL. Needs no ROS.
+ros2 run hunter_dataset inspect_dataset out.hdf5
+```
+
+The inspector is deliberately loud: it prints per-action-dimension min/max/std/unique and puts a banner on any near-constant column, because a speed column that never varies trains fine and drives badly. Bags keep all 1080 beams and all twelve topics, so everything downstream of the bag is a converter re-run; only `max_speed_mps`, `scan_contact_m`, the contact-sensor placement and the track scale require re-driving.
+
+> **Clocks.** Every node in the collection graph runs on `/clock` (`use_sim_time`). The gate lap caught the tracker on wall time: 77,349 diagnostics in 455 s of sim = 170 Hz instead of 50, and not one scan within 15 ms of a command. Beyond breaking the join, a wall timer scales the PID's effective I and D gains by 1/RTF — the expert's behaviour depended on host load. `pid_tracker` now uses `create_timer` on the node clock.
 
 ---
 
@@ -308,7 +355,12 @@ Gains are live-tunable: `ros2 param set /pid_tracker steering_pid.p 1.5`.
 | `/odometry/filtered_map` | `nav_msgs/Odometry` | global EKF, map frame |
 | `/ground_truth/odometry` | `nav_msgs/Odometry` | Gazebo truth — sim only, never on hardware |
 | `/ackermann_like_controller/reference` | `geometry_msgs/TwistStamped` | tracker → robot |
-| `/tracking/diagnostics` | `hunter_msgs/TrackingDiagnostics` | tracker → metrics |
+| `/tracking/diagnostics` | `hunter_msgs/TrackingDiagnostics` | tracker → metrics, dataset |
+| `/bumper_contacts` | `ros_gz_interfaces/Contacts` | chassis contact sensor (physics rate while touching) |
+| `/bumper_contacts_bagged` | `ros_gz_interfaces/Contacts` | same, throttled 16:1 downstream of the bridge — the bagged copy |
+| `/episode/event` | `hunter_msgs/EpisodeEvent` | `episode_monitor` → dataset; one per scan, stamped with the scan's stamp |
+| `/episode/reset` | `std_srvs/Trigger` (service) | re-arm the latched terminal after a respawn |
+| `/amcl_pose` | `geometry_msgs/PoseWithCovarianceStamped` | AMCL → global EKF |
 
 Two non-obvious details:
 
@@ -337,9 +389,11 @@ ros2 run hunter_benchmark summarize_run.py src/hunter_benchmark/results/<run>/ba
 
 This is why `metrics_logger` reports true error separately, and why the expert in Phase 6 drives on ground truth.
 
-**`slam_toolbox` localization mode is deferred.** Mapping works and produces a full-coverage pose graph. Localization mode loads that graph, activates, and receives scans — but never publishes `/slam_toolbox/pose` or `map→odom`, so the global EKF gets no absolute measurement and silently degrades to IMU-aided dead reckoning. Untried next steps: seed `/initialpose` rather than `map_start_at_dock`, or try `map_and_localization_slam_toolbox_node`. **AMCL is the likelier fix** — it publishes `/amcl_pose` as `PoseWithCovarianceStamped`, exactly what the global EKF's `pose0` already expects, so it is a config swap rather than a rewrite.
+**`slam_toolbox` localization mode is broken and superseded by AMCL.** Mapping works. Localization mode loads the graph, activates, and receives scans — but never publishes `/slam_toolbox/pose` or `map→odom`, so the global EKF silently degrades to IMU-aided dead reckoning. AMCL against the track's occupancy grid replaced it (`localization_backend:=amcl` is the default). Not on the critical path either way: the expert drives on ground truth and the student observes `/scan` only, so no pose estimate is needed at deployment.
 
-Not on the critical path: Phase 6 uses privileged expert distillation, where the expert drives on ground truth and the student observes `/scan` only, so no pose estimate is needed at deployment.
+**The contact sensor is chassis-only and misses wheel-first crashes.** It watches `base_link`'s lumped collision; at full steering lock the wheels reach the wall first, and `contact_count` stayed 0 in every realistic crash tested while the robot was pinned. The scan-proximity trigger (`scan_contact_m = 0.4`) is the one that actually fires in practice. Per-wheel contact sensors are a follow-up; adding them later changes what `trigger` means across datasets, so it should happen before, not during, collection.
+
+**Gazebo contact sensors ignore `<update_rate>`** and publish at physics rate while touching (326 Hz measured). The bagged copy is throttled 16:1 downstream of the bridge; the live copy is not.
 
 **Everything silently-failing found so far shares one signature** — every node reports healthy while the answer is wrong. Validate against Gazebo ground truth or the GUI, never from diagnostics alone.
 
@@ -349,7 +403,7 @@ Not on the critical path: Phase 6 uses privileged expert distillation, where the
 
 | Symptom | Cause and fix |
 |---|---|
-| Robot drives into a wall and stops with wheels still turning | Usually a **duplicate tracker**. Check `ros2 node list \| grep pid_tracker`; if it appears more than once, a previous run survived and both are publishing commands at 50 Hz. `pkill -9 -f pid_tracker; pkill -9 -f trajectory_server` |
+| Robot drives into a wall and stops with wheels still turning | Usually a **duplicate tracker**. Check `ros2 node list \| grep pid_tracker`; if it appears more than once, a previous run survived and both are publishing commands at 50 Hz. `pkill -9 -x pid_tracker; pkill -9 -x trajectory_server` (`-x`, not `-f`: `-f` matches the shell that invoked it) |
 | Launch aborts with `TRACK / WORLD SCALE MISMATCH` | `track_file` and the world SDF were built at different scales — use the `_2x` CSV, or regenerate the world |
 | `ros_gz_sim create` hangs on "Requesting list of world names" | `GZ_IP=127.0.0.1` not set; gz-transport bound to a non-loopback interface |
 | Gazebo GUI doesn't appear | `xhost +local:docker` on the host |
@@ -359,7 +413,13 @@ Not on the critical path: Phase 6 uses privileged expert distillation, where the
 | `PermissionError` writing `summary.csv` | `results/` is root-owned from a container run: `sudo chown -R $USER:$USER src/hunter_benchmark/results` |
 | Branch switch blocked by untracked `summary.csv` | Same root-ownership problem. Rename them (`mv` inside `results/` needs no sudo) or chown as above |
 | `slam_toolbox` runs but publishes nothing | It is a **lifecycle** node — it must be CONFIGUREd then ACTIVATEd. A `/slam_toolbox/transition_event` topic with 0 publishers elsewhere is the tell |
-| Push rejected, `GH001: Large files detected` | A pose graph got committed. They are gitignored and regenerable — see [Sensing and localization](#sensing-and-localization-phase-5) |
+| Push rejected, `GH001: Large files detected` | A pose graph or a bag got committed. Both are gitignored and regenerable |
+| `convert_dataset`: "0 of N scans found an expert command within 15 ms" | The streams are on different clocks. Check `ros2 topic echo /tracking/diagnostics --field header.stamp.sec` against `/clock` — a 10-digit stamp is wall time; the node is missing `use_sim_time` |
+| Two robots in the world, `hunter` and `hunter_0` | A stale model survived in the gz daemon and `-allow_renaming true` hid the collision. `gz topic -l \| grep model/hunter` before spawning; test launches use `-allow_renaming false` so this aborts instead |
+| Spawner hangs on "Waiting messages on topic [robot_description]" | `robot_state_publisher` published nothing — usually a xacro parse failure with no error, e.g. `--` inside an XML comment |
+| Sensor accepted, appears in the model, never publishes | The world SDF lacks the plugin (`Sensors`, `Imu`, `Contact`). Gazebo loads defaults only when *no* plugin is declared; `my_convert_track.py` is the single place they are all listed |
+| `ros2 topic hz` reads 6 Hz on a 20 Hz sensor | It measures wall clock. Multiply by the real-time factor |
+| `ros2 node list` shows `/metrics_logger` two or three times | Python nodes have `comm` = `python3`, so a name-based `kill` loop never touches them and a `ros2 launch` left behind keeps them alive across runs. Terminate the **launch process by PID** with SIGINT so it brings its children down; check `ros2 node list` is empty before the next run |
 
 ---
 
@@ -367,17 +427,19 @@ Not on the critical path: Phase 6 uses privileged expert distillation, where the
 
 ```
 src/
-├── hunter_description/   # URDF/xacro, ros2_control, RViz
-├── hunter_gazebo/        # IMS.sdf + Monza.sdf (2x scale), simulation launch
-├── hunter_msgs/          # Trajectory / Waypoint / TrackingDiagnostics
+├── hunter_description/   # URDF/xacro (LiDAR, IMU, chassis contact sensor), ros2_control, RViz
+├── hunter_gazebo/        # eight world SDFs (2x scale), simulation launch
+├── hunter_msgs/          # Trajectory / Waypoint / TrackingDiagnostics / EpisodeEvent
 ├── hunter_trajectory/    # trajectory_server node
-├── hunter_control/       # pid_tracker + shared geometry library
-├── hunter_benchmark/     # metrics, summarise script, benchmark launch, per-track params
-├── hunter_localization/  # dual-EKF + slam_toolbox configs, launch, maps (gitignored)
-├── IMS/                  # oval circuit: CSVs, map, 2x derivatives
-├── Monza/                # twisty circuit: CSVs, map, 2x derivatives
+├── hunter_control/       # pid_tracker, episode_monitor, shared geometry library
+├── hunter_benchmark/     # metrics, summarise script, benchmark launch, 8 per-track params
+├── hunter_localization/  # dual-EKF + AMCL + slam_toolbox configs, launch, maps (gitignored)
+├── hunter_dataset/       # Phase 6: schema (ROS-free), recorder launch, converter, inspector
+├── IMS/ Monza/ Melbourne/ Montreal/ Nuerburgring/ SaoPaulo/ Shanghai/ Silverstone/
+│                         # per track: upstream CSVs + map, 2x derivatives
 ├── scale_track.py        # uniform track scaling tool
-└── my_convert_track.py   # occupancy map → Gazebo world SDF
-docs/validation/          # per-phase validation reports
+└── my_convert_track.py   # occupancy map → Gazebo world SDF (declares ALL world plugins)
+datasets/                 # raw/<track>_<speed>ms_<run>/{bag,run_manifest.yaml}, *.hdf5 (gitignored)
+docs/                     # phase_6_handoff.md, phase_8_design.md, validation/
 docker/                   # Dockerfile + entrypoint
 ```

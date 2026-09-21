@@ -361,6 +361,7 @@ def generate_launch_description():
         name='trajectory_server',
         output='screen',
         parameters=[track_defaults, {
+            'use_sim_time': True,
             'track_file': LaunchConfiguration('track_file'),
             # Path frame follows the pose source: 'map' when localizing (the
             # global EKF's output frame), 'odom' for ground truth and raw
@@ -389,7 +390,16 @@ def generate_launch_description():
         executable=[LaunchConfiguration('controller'), '_tracker'],
         name=[LaunchConfiguration('controller'), '_tracker'],
         output='screen',
-        parameters=[track_defaults, {'controller_name': LaunchConfiguration('controller')}],
+        # use_sim_time is not cosmetic here. Every tracker's control loop runs
+        # on the node clock (create_timer in pid_tracker.cpp), so without it the
+        # loop ticks 50x per WALL second: at RTF 0.3 that is ~170 ticks per
+        # simulated second with a fixed dt, scaling the effective I and D gains
+        # by 1/RTF and making the expert's behaviour depend on host load. It is
+        # also what stamps /tracking/diagnostics on the same clock as /scan --
+        # the Phase 6 converter joins the two by timestamp and found ZERO
+        # matches when this was missing.
+        parameters=[track_defaults, {'use_sim_time': True,
+                                     'controller_name': LaunchConfiguration('controller')}],
         # The entire A/B switch. The tracker subscribes to
         # /ackermann_like_controller/odometry by name in pid_tracker.cpp; this
         # remap points that subscription at whichever estimator is under test.
@@ -447,6 +457,7 @@ def generate_launch_description():
         name='metrics_logger',
         output='screen',
         parameters=[{
+            'use_sim_time': True,
             'track_name': LaunchConfiguration('track_name'),
             'controller_name': LaunchConfiguration('controller'),
             'results_dir': LaunchConfiguration('run_dir'),
