@@ -1,0 +1,76 @@
+# Canonical, version-controlled defaults for Silverstone benchmark runs.
+# Every phase's benchmark.launch.py invocation should include this file
+# unchanged (Phase 3 plan, reuse-risk callout #5) -- if different phases
+# tune these differently, "same track" comparisons stop being apples-to-apples.
+
+trajectory_server:
+  ros__parameters:
+    # auto = detect centerline/raceline from the track_file name. The reference
+    # is the 2x-scaled CENTERLINE (Silverstone_centerline_2x.csv, see src/scale_track.py):
+    # the F1TENTH raceline was optimized for a ~0.3 m-wide car and hugs the walls
+    # in corners, which the ~0.75 m-wide Hunter cannot follow. kappa/speed for
+    # centerline input are synthesized by trajectory_server.
+    path_format: "auto"
+    frame_id: "odom"
+    speed_source: "curvature_limited"
+    # Straight-line cap. Hard ceiling is 2.81 m/s (traction joints 17 rad/s x
+    # 0.165 m wheel radius). Kept below it so the speed PID keeps authority to
+    # trim a deficit rather than sitting clamped at the joint limit. The stock
+    # Hunter 2.0 is rated 6 km/h (1.67 m/s) and the upgraded drivetrain 10 km/h
+    # (2.78 m/s), so 2.7 assumes the upgraded drivetrain. Must match
+    # pid_tracker.max_speed_mps below, which clamps the final command --
+    # raising only one has no effect.
+    max_speed_mps: 2.7
+    min_speed_mps: 0.2
+    # Silverstone is twisty: unlike IMS (28 m minimum radius, where the profile never
+    # engaged and commanded speed was a constant 2.7 m/s), Silverstone's smoothed
+    # minimum radius is 2.21 m. At a_lat=0.4 the profile binds on ~10.8% of the
+    # track and pulls speed down to 0.94 m/s in the chicanes. That variation is
+    # what makes Silverstone usable for imitation data -- a constant-speed dataset
+    # teaches a policy nothing about speed control.
+    lateral_accel_limit_mps2: 0.4
+    close_loop_gap_threshold_m: 0.05
+    # Rounds centerline corners to stay inside the vehicle's steering limit
+    # (0.764 rad/m = 1.31 m min turn radius). Silverstone barely needs it -- the raw
+    # 2x centerline is already R >= 16 m and smoothing displaces the path by
+    # only 0.028 m -- but it also suppresses pixel-quantisation noise in the
+    # synthesized curvature, which the curvature feedforward reads directly.
+    centerline_smoothing_m: 2.8
+    visualize: true
+
+# wheelbase_m/max_steering_rad are vehicle constants, not track-specific,
+# but kept here too so there is exactly one canonical params file per run.
+pid_tracker:
+  ros__parameters:
+    wheelbase_m: 0.65
+    max_steering_rad: 0.461
+    # Keep in sync with trajectory_server.max_speed_mps above (see note there).
+    max_speed_mps: 2.7
+    control_frequency_hz: 50.0
+    # Unity heading feedforward (Stanley-style rad->rad pass-through).
+    heading_feedforward_gain: 1.0
+    # Feeds the geometrically-known part of the steering directly
+    # (atan(wheelbase*kappa)) so the PID only trims residual error, per the
+    # Phase 3 plan's feedforward principle. Without it the integral term has
+    # to "discover" cornering steering, which ramps and winds up.
+    enable_curvature_feedforward: true
+    # Two lookaheads, because steering and braking need opposite lead:
+    #
+    # curvature_preview_m -- steering feedforward. Must stay SHORT: it should
+    # describe the curve the front wheels are entering now, plus a little for
+    # actuator lag. Setting it long makes the robot steer for a corner it has
+    # not reached yet, which on long sweepers drifts it steadily off-path
+    # (measured on Silverstone: >1.5 m deviation and 16% steering saturation).
+    curvature_preview_m: 0.3
+    # speed_preview_m -- corner braking. Must be LONG: decelerating 2.7 ->
+    # 0.94 m/s at ~1.5 m/s^2 needs (2.7^2 - 0.94^2)/(2*1.5) = 2.1 m, so a
+    # corner has to become visible at least that far ahead. Nothing in the
+    # pipeline limits deceleration, so raise this if the robot arrives at
+    # corners too hot.
+    speed_preview_m: 2.5
+    steering_pid.p: 1.3
+    steering_pid.i: 0.04
+    steering_pid.d: 0.25
+    speed_pid.p: 0.5
+    speed_pid.i: 0.3
+    speed_pid.d: 0.0

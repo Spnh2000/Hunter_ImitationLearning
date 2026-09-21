@@ -47,3 +47,12 @@ src/hunter_localization/maps/*.data
 # Benchmark rosbag recordings: large, regenerable, and created root-owned by
 # the container (which blocks branch switches if tracked).
 src/hunter_benchmark/results/**/bag/
+
+# Phase 6 raw bags and converted datasets: hundreds of MB per lap, regenerable
+# from record_expert.launch.py + convert_dataset. run_manifest.yaml is kept.
+datasets/**/bag/
+datasets/**/*.hdf5
+
+# Scratch copy of upstream f1tenth_racetracks at the repo root; the per-track
+# directories under src/ hold the same files plus the 2x derivatives.
+/f1tenth_racetracks/

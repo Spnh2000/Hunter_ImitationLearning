@@ -115,9 +115,14 @@ def generate_walls(contours, resolution, origin, map_height, wall_height, wall_t
 
 
 # Gazebo loads its default world plugins (Physics, UserCommands,
-# SceneBroadcaster) ONLY when the SDF declares none of its own. Adding
-# Sensors/Imu therefore means the three defaults must be declared here too --
-# omit them and physics silently stops with no error message.
+# SceneBroadcaster) ONLY when the SDF declares none of its own. Adding any
+# system of our own therefore means the three defaults must be declared here
+# too -- omit them and physics silently stops with no error message.
+#
+# This list is the single point where world correctness is enforced. Every
+# sensor added to hunter_description/description/sensors.xacro needs its
+# corresponding system here, and the failure mode is always the same: the
+# sensor exists, the topic may even be listed, and nothing is ever published.
 WORLD_PLUGINS = [
     ("gz-sim-physics-system", "gz::sim::systems::Physics", None),
     ("gz-sim-user-commands-system", "gz::sim::systems::UserCommands", None),
@@ -126,6 +131,11 @@ WORLD_PLUGINS = [
     ("gz-sim-sensors-system", "gz::sim::systems::Sensors", {"render_engine": "ogre2"}),
     # Required for the IMU in the same file
     ("gz-sim-imu-system", "gz::sim::systems::Imu", None),
+    # Required for the chassis contact sensor -- the primary crash signal for
+    # Phase 6 episode termination. Without this system declared the sensor is
+    # accepted by the URDF, appears in the model, and never publishes: the
+    # third instance of this exact trap after Sensors and Imu.
+    ("gz-sim-contact-system", "gz::sim::systems::Contact", None),
 ]
 
 

@@ -1,0 +1,6 @@
+image: Silverstone_map.png
+resolution: 0.15424
+origin: [-87.64964279583144,-104.60776782049587, 0.000000]
+negate: 0
+occupied_thresh: 0.45
+free_thresh: 0.196

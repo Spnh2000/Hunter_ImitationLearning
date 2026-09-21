@@ -1,0 +1,6 @@
+image: Melbourne_map.png
+resolution: 0.18018
+origin: [-163.51351886236918,-99.96757236927085, 0.000000]
+negate: 0
+occupied_thresh: 0.45
+free_thresh: 0.196
