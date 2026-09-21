@@ -129,7 +129,8 @@ def train(cfg: dict, arch: str, data_dir: str, out: str, seed: int, log=print) -
              'n_train': len(tr), 'seed': seed, 'runs': [os.path.relpath(p) for p in paths]}
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     checkpoint.save(out, model, arch, bins, {'config': cfg, 'arch': arch, 'seed': seed,
-                                              'data_dir': data_dir}, final)
+                                              'data_dir': data_dir,
+                                              'dataset_tag': cfg.get('dataset_tag', 'all')}, final)
     with open(out + '.json', 'w') as f:
         json.dump(final, f, indent=1)
     log(f'saved {out}: val_laps {final["val_laps"]} val_tracks {final["val_tracks"]}')
@@ -144,11 +145,19 @@ def main():
     ap.add_argument('--out', required=True)
     ap.add_argument('--seed', type=int, default=0)
     ap.add_argument('--epochs', type=int, default=None)
+    ap.add_argument('--include', default='',
+                    help="comma-separated substrings; only runs whose path contains one are used "
+                         "(e.g. '_p1,_p2,_p3' = BC data only; empty = everything incl. DAgger)")
+    ap.add_argument('--tag', default='', help='dataset tag stored in the checkpoint (bc | dagger)')
     a = ap.parse_args()
     with open(a.config) as f:
         cfg = yaml.safe_load(f)
     if a.epochs is not None:
         cfg['epochs'] = a.epochs
+    if a.include:
+        cfg['include_runs'] = a.include.split(',')
+    if a.tag:
+        cfg['dataset_tag'] = a.tag
     train(cfg, a.arch, a.data_dir, a.out, a.seed)
 
 

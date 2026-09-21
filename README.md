@@ -10,8 +10,8 @@ Path-tracking, perception, imitation-learning and benchmarking stack for the [Ag
 | 3 | Trajectory server + PID tracker + metrics logger | done |
 | 4 | Pure Pursuit / Stanley / LQR / MPC | **dropped** — PID is the permanent expert |
 | 5 | 2D LiDAR + IMU, dual EKF, AMCL localization, A/B pose-source switch | done |
-| 6 | Imitation dataset: schema, recorder, episode monitor, converter, inspector | tooling done, collection next |
-| 7–8 | **Pure imitation learning** — {BC, DAgger} × {MLP, frame-stacked MLP, discretised} = 6 policies, evaluated closed-loop against PID | pending |
+| 6 | Imitation dataset: schema, recorder, episode monitor, converter, inspector, collection runner | gate passed; pass p1 collecting |
+| 7–8 | **Pure imitation learning** — {BC, DAgger} × {MLP, frame-stacked MLP, discretised} = 6 policies, evaluated closed-loop against PID | harness, student, shadow PID, DAgger loop and evaluator built and smoke-tested; training waits on data |
 | 9 | Sim-to-sim policy transfer to the Hunter | pending |
 
 Phases 7–8 were originally offline RL; that is gone. The methodology is **privileged expert distillation** (Chen et al., *Learning by Cheating*, CoRL 2019): the PID expert drives on ground-truth pose, the student sees only `/scan`. Dropping Phase 4 has one consequence worth naming — the PID is now the ceiling every learned policy is measured against, so its tracking quality is a property of the dataset, not just a benchmark row.
@@ -54,10 +54,11 @@ Adding a controller means adding one executable to `hunter_control` named `<cont
 | `hunter_gazebo` | ament_cmake | Eight world SDFs, full simulation launch |
 | `hunter_msgs` | ament_cmake | `Waypoint`, `Trajectory`, `TrackingDiagnostics`, `EpisodeEvent` messages |
 | `hunter_trajectory` | ament_cmake (C++) | `trajectory_server` — CSV → reference trajectory |
-| `hunter_control` | ament_cmake (C++) | `pid_tracker`, `episode_monitor`, shared `hunter_control_common` geometry |
+| `hunter_control` | ament_cmake (C++ + one Python script) | `pid_tracker`, `pid_shadow` (both over `PidCore`), `episode_monitor`, `policy_tracker` (Phase 8 student), shared geometry |
 | `hunter_benchmark` | ament_cmake | `metrics_logger`, `summarize_run.py`, benchmark launch, per-track params (8 files) |
 | `hunter_localization` | ament_cmake | Dual-EKF + AMCL configs and launch (Phase 5); slam_toolbox mapping |
-| `hunter_dataset` | ament_python | Phase 6: `dataset_spec.py` (schema, **zero ROS imports**), `record_expert.launch.py`, `convert_dataset`, `inspect_dataset` |
+| `hunter_dataset` | ament_python | Phase 6: `dataset_spec.py` (schema, **zero ROS imports**), `record_expert.launch.py`, `convert_dataset`, `inspect_dataset`, `collect_dataset`; Phase 8: `dagger_runner`, `evaluate_policies` |
+| `hunter_il` | ament_python | Phase 8 training harness (PyTorch, **no ROS**): `data`, `models`, `bins`, `train`, `train_all`, `eval_offline`, `diagnostics` |
 
 ---
 
@@ -289,9 +290,43 @@ ros2 run hunter_dataset convert_dataset datasets/raw/Nuerburgring_2.7ms_001/bag 
 ros2 run hunter_dataset inspect_dataset out.hdf5
 ```
 
-The inspector is deliberately loud: it prints per-action-dimension min/max/std/unique and puts a banner on any near-constant column, because a speed column that never varies trains fine and drives badly. Bags keep all 1080 beams and all twelve topics, so everything downstream of the bag is a converter re-run; only `max_speed_mps`, `scan_contact_m`, the contact-sensor placement and the track scale require re-driving.
+The inspector is deliberately loud: it prints per-action-dimension min/max/std/unique and puts a banner on any near-constant column, because a speed column that never varies trains fine and drives badly (`--expect-constant speed_mps` downgrades that to a warning for IMS). Bags keep all 1080 beams and all topics, so everything downstream of the bag is a converter re-run; only `max_speed_mps`, `scan_contact_m`, the contact-sensor placement and the track scale require re-driving.
+
+**Collection** is one command per pass, resumable, and owns its processes by PID:
+
+```bash
+ros2 run hunter_dataset collect_dataset --plan src/hunter_dataset/config/collection_plan.yaml --pass p1
+```
+
+`collection_plan.yaml` holds the split (5 train / 3 held out), the three speeds (1.5 / 2.1 / 2.7 m/s), and the passes — each starts at a different point of the lap, because a deterministic expert's repeated laps differ only in where the standing start lands. Every run gets `run_manifest.yaml`, `effective_params.yaml` (the file the launch actually loaded, with `max_speed_mps` applied), the bag (Zstd, ~46 MB/lap), `dataset.hdf5`, `inspect.txt` and `collection_report.json`. The runner refuses to start unless `ros2 node list` and the gz daemon are empty, and asserts the same after every run.
 
 > **Clocks.** Every node in the collection graph runs on `/clock` (`use_sim_time`). The gate lap caught the tracker on wall time: 77,349 diagnostics in 455 s of sim = 170 Hz instead of 50, and not one scan within 15 ms of a command. Beyond breaking the join, a wall timer scales the PID's effective I and D gains by 1/RTF — the expert's behaviour depended on host load. `pid_tracker` now uses `create_timer` on the node clock.
+
+---
+
+## Imitation learning (Phases 7–8)
+
+**Six policies:** {BC data, DAgger data} × {MLP, frame-stacked MLP (K=3), discretised}. Compared closed-loop in Gazebo on the three held-out tracks, PID as the reference row, N seeds each. Validation loss is reported next to that table; where the two rankings disagree is a finding, not a nuisance.
+
+| piece | where | what |
+|---|---|---|
+| `policy_tracker` | `hunter_control/scripts` | The student. Subscribes to `/scan` and **nothing else**; runs a `hunter_il` checkpoint at scan rate (median 1.5 ms, p99 7 ms on CPU); publishes the same command and diagnostics as `pid_tracker`, with every pose-derived field NaN. `controller:=policy policy_checkpoint:=<ckpt>` |
+| `pid_shadow` | `hunter_control` | The DAgger labeller: the same `PidCore` law and params as `pid_tracker`, on ground truth, publishing `/expert/relabel` only. It has **no command publisher member** — a shadow that steers the robot is not a state the type can express |
+| `dagger_runner` | `hunter_dataset` | Iteration *i*: train on everything so far, roll the student out on the training tracks with β = 0 while the shadow labels, respawn 10 m back after a crash (approach kept), convert. `action_source = 1`, `dagger_beta = 0` in the file |
+| `il_train_all` | `hunter_il` | The six policies × seeds in one command; `bc_*` checkpoints see only `_p*` runs, `dagger_*` see everything |
+| `il_diagnostics` | `hunter_il` | Before training: information asymmetry (PCA→32, k-NN 20, median local/global action std; < 0.2 healthy, > 0.4 problem, coloured onto the track), speed histogram per cap, lateral-offset coverage BC vs DAgger |
+| `evaluate_policies` | `hunter_dataset` | Part E: `pid` plus any checkpoints × held-out tracks, ground-truth referenced, crash / laps / RMS with mean ± std over seeds |
+
+Frame stacking never crosses an episode boundary: stacks are gathered through an explicit `[N, K]` index table clamped to each row's episode start (first scan repeated), and a test asserts it. Discretisation uses 21 quantile bins per action with the outer edges pinned to the physical bounds; the edges and bin centres live **in the checkpoint**.
+
+```bash
+ros2 run hunter_il il_diagnostics --data-dir datasets/raw --out diagnostics/
+ros2 run hunter_il il_train_all --data-dir datasets/raw --seeds 0,1,2 --out checkpoints/
+ros2 run hunter_dataset dagger_runner --plan src/hunter_dataset/config/collection_plan.yaml \
+    --train-config src/hunter_il/config/train_default.yaml --arch mlp --iterations 5 --laps 1.0
+ros2 run hunter_dataset evaluate_policies --plan src/hunter_dataset/config/collection_plan.yaml \
+    --out results/eval_v1 --laps 2 pid checkpoints/*.pt
+```
 
 ---
 
@@ -360,6 +395,8 @@ Gains are live-tunable: `ros2 param set /pid_tracker steering_pid.p 1.5`.
 | `/bumper_contacts_bagged` | `ros_gz_interfaces/Contacts` | same, throttled 16:1 downstream of the bridge — the bagged copy |
 | `/episode/event` | `hunter_msgs/EpisodeEvent` | `episode_monitor` → dataset; one per scan, stamped with the scan's stamp |
 | `/episode/reset` | `std_srvs/Trigger` (service) | re-arm the latched terminal after a respawn |
+| `/expert/relabel` | `hunter_msgs/TrackingDiagnostics` | `pid_shadow` → dataset: what the expert would have done in the student's state (DAgger) |
+| `/policy_tracker/reset_stack` | `std_srvs/Trigger` (service) | clear the student's K-frame history after a respawn |
 | `/amcl_pose` | `geometry_msgs/PoseWithCovarianceStamped` | AMCL → global EKF |
 
 Two non-obvious details:
@@ -431,15 +468,18 @@ src/
 ├── hunter_gazebo/        # eight world SDFs (2x scale), simulation launch
 ├── hunter_msgs/          # Trajectory / Waypoint / TrackingDiagnostics / EpisodeEvent
 ├── hunter_trajectory/    # trajectory_server node
-├── hunter_control/       # pid_tracker, episode_monitor, shared geometry library
+├── hunter_control/       # PidCore -> pid_tracker + pid_shadow; episode_monitor; policy_tracker (py)
 ├── hunter_benchmark/     # metrics, summarise script, benchmark launch, 8 per-track params
 ├── hunter_localization/  # dual-EKF + AMCL + slam_toolbox configs, launch, maps (gitignored)
-├── hunter_dataset/       # Phase 6: schema (ROS-free), recorder launch, converter, inspector
+├── hunter_dataset/       # Phase 6: schema (ROS-free), recorder, converter, inspector, collection runner
+│                         # Phase 8: dagger_runner, evaluate_policies
+├── hunter_il/            # Phase 8 training harness (PyTorch, no ROS)
 ├── IMS/ Monza/ Melbourne/ Montreal/ Nuerburgring/ SaoPaulo/ Shanghai/ Silverstone/
 │                         # per track: upstream CSVs + map, 2x derivatives
 ├── scale_track.py        # uniform track scaling tool
 └── my_convert_track.py   # occupancy map → Gazebo world SDF (declares ALL world plugins)
-datasets/                 # raw/<track>_<speed>ms_<run>/{bag,run_manifest.yaml}, *.hdf5 (gitignored)
+datasets/                 # raw/<track>_<speed>ms_<pass>/{bag,dataset.hdf5,manifests,reports}; bags+hdf5 gitignored
+checkpoints/              # hunter_il checkpoints (gitignored)
 docs/                     # phase_6_handoff.md, phase_8_design.md, validation/
 docker/                   # Dockerfile + entrypoint
 ```

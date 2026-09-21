@@ -23,6 +23,7 @@ setup(
             'il_train = hunter_il.train:main',
             'il_eval_offline = hunter_il.eval_offline:main',
             'il_diagnostics = hunter_il.diagnostics:main',
+            'il_train_all = hunter_il.train_all:main',
         ],
     },
 )

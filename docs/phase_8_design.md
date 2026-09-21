@@ -1,6 +1,7 @@
 # Phase 8 Design — policy_tracker, shadow PID, training harness
 
-Proposed before code, per the brief. Everything below follows the README's
+Proposed before code, per the brief; approved 2026-09-21 ("GO") and built the
+same day. Section 6 records what changed between proposal and implementation. Everything below follows the README's
 existing conventions: the `<controller>_tracker` slot in `hunter_control`, the
 frozen `TrackingDiagnostics` contract, one canonical params file per track,
 zero-timestamp commands, `results/` layout.
@@ -237,3 +238,38 @@ gap between the two rankings is a finding, not an inconvenience.
 The raw bags retain full 1080 beams, all twelve topics, and the manifest, so
 everything *downstream* of the bag is a converter re-run. Only the five above
 require re-driving.
+
+
+---
+
+## 6. As built (2026-09-21)
+
+Everything in sections 1–4 exists and has been run closed-loop at least once;
+deviations from the proposal:
+
+- **`metrics_logger` lap counting** from ground truth when `path_s_m` is NaN
+  (`stats.py`), as flagged in §1. Columns unchanged; PID rows identical.
+- **`/scan` bridge** moved into `benchmark.launch.py` (slam-disabled branch).
+  Before, a policy run had no input and sat at spawn with no error.
+- **`max_speed_mps` was a label**, not a setting, in the recorder; it now
+  writes a per-run `effective_params.yaml` that the launch loads.
+- **Pinned rows** between a terminal and the respawn pose jump (and the jump
+  row itself, whose label is one tick stale) are dropped by the converter so
+  an episode ends at its terminal row and the next starts on the line.
+- **DAgger data is collected with one architecture (MLP) and reused** to
+  train all three. Rolling each architecture out separately would triple the
+  simulator time (~30 h per architecture at 5 iterations x 1 lap); axis 2 is
+  therefore "the DAgger *dataset*" versus "the BC dataset", which is what the
+  six-policy comparison needs. Flagged so it can be revisited if the
+  closed-loop result suggests the stacked or discrete student would have
+  visited materially different states.
+- **Passes p1/p2/p3** replace "10-15 laps each": p1 (2 laps per track x
+  speed) lands a complete dataset in ~20 h; p2/p3 top up if training on p1
+  shows it is data-limited. The expert is deterministic, so repeated laps
+  differ only in where the standing start lands, which is why each pass
+  spawns elsewhere on the lap.
+
+Measured so far: student inference 1.5 ms median / 7 ms p99 (CPU, 1 thread,
+simulator on the same cores); a 1-lap 8-epoch MLP drives 128 m of
+Nuerburgring on `/scan` alone at 0.36 m gt RMS; DAgger relabel join
+median 1 ms; respawn lands 10.8 m back at 0.03 m lateral.
