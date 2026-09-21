@@ -62,3 +62,8 @@ checkpoints/
 # collection runner logs (per-run provenance files ARE tracked)
 datasets/**/collect_*.log
 datasets/**/launch.log
+
+# Phase 8 pipeline log and eval outputs (bags inside results are gitignored above)
+results/*.log
+results/eval_*/**/bag/
+results/eval_*/**/launch.log

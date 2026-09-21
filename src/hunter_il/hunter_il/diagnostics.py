@@ -107,6 +107,21 @@ def main():
                                          np.full(len(idx), summary['tracks'].index(t))]))
         print(f'  asymmetry {t:13s} steer {med[0]:.3f} ({asym[t]["verdict_steer"]})  '
               f'speed {med[1]:.3f} ({asym[t]["verdict_speed"]})  n={m.sum()}')
+        # Per cap: neighbours restricted to the same max_speed setting. If the
+        # pooled speed ratio is high and the per-cap ratio is ~0, the asymmetry
+        # is the cap itself (unobservable from the scan) and nothing else --
+        # which is why the policies take the cap as an input (models.py).
+        per_cap = {}
+        for c in summary['caps']:
+            mc = m & (cap == c)
+            if mc.sum() >= 500:
+                _, rc, _ = information_asymmetry(obs[mc], act[mc], a.k, a.pca, n_query=10000)
+                per_cap[str(c)] = {'median_ratio_steer': float(np.median(rc[:, 0])),
+                                   'median_ratio_speed': float(np.median(rc[:, 1])), 'n': int(mc.sum())}
+        asym[t]['per_cap'] = per_cap
+        if per_cap:
+            print('      per cap: ' + '  '.join(f'{c}: steer {v["median_ratio_steer"]:.3f} speed {v["median_ratio_speed"]:.3f}'
+                                               for c, v in per_cap.items()))
     summary['information_asymmetry'] = asym
     if rows_out:
         np.savetxt(os.path.join(a.out, 'asymmetry_by_row.csv'), np.concatenate(rows_out),

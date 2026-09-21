@@ -167,6 +167,7 @@ class StackedArrays:
         self.K = K
         self.obs = [r.obs for r in runs]
         self.act = [r.act for r in runs]
+        self.cap = np.array([r.max_speed_mps for r in runs], dtype=np.float32)
         self.run_of = []      # flat -> run index
         self.idx = []         # flat -> [K] row indices within that run
         for ri, rows in selection:
@@ -181,7 +182,7 @@ class StackedArrays:
         return self.n
 
     def batch(self, flat: np.ndarray):
-        """obs [B, K, 720], act [B, 2] for flat indices."""
+        """obs [B, K, 720], act [B, 2], cap [B] (m/s) for flat indices."""
         B = len(flat)
         out = np.empty((B, self.K, spec.OBS_DIM), dtype=np.float32)
         act = np.empty((B, spec.ACTION_DIM), dtype=np.float32)
@@ -191,7 +192,7 @@ class StackedArrays:
             m = runs == ri
             out[m] = self.obs[ri][rows[m]]           # fancy index [b, K] -> [b, K, 720]
             act[m] = self.act[ri][rows[m][:, -1]]    # action of the CURRENT row
-        return out, act
+        return out, act, self.cap[runs]
 
     def all_actions(self) -> np.ndarray:
         parts = [self.act[ri][self.idx[self.run_of == ri][:, -1]] for ri in np.unique(self.run_of)]

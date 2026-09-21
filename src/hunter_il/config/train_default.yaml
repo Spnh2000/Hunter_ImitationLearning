@@ -10,4 +10,10 @@ weight_decay: 0.0
 patience: 10                     # on held-out-LAP loss; held-out tracks never steer training
 n_steer_bins: 21                 # discrete arch only; edges stored in the checkpoint
 n_speed_bins: 21
-threads: 1                       # Gazebo shares these cores during collection
+threads: 3                       # no simulator runs while a model trains (pipeline order)
+# Part D (2026-09-21): the expert's speed is a function of the scan WITHIN a
+# max_speed setting (asymmetry 0.000) and not across them (0.94) -- the same
+# straight is driven at 1.5 / 2.1 / 2.7 and the scan cannot tell which. The
+# cap enters the policy as one scalar: the operator's setpoint, not state.
+# false = pure scan-only ablation.
+cap_input: true

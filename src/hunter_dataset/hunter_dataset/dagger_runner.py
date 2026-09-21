@@ -174,6 +174,11 @@ def rollout(node, track, tcfg, speed, it, ckpt, arch, laps, out_root, log, respa
            f'policy_checkpoint:={os.path.abspath(ckpt)}', f'policy_arch:={arch}',
            f'dagger_iteration:={it}', 'headless:=true', 'use_rviz:=false']
     launch_log = open(os.path.join(run_dir, 'launch.log'), 'w')
+    # Drain the subscription queues before resetting: the previous run's last
+    # messages (up to the QoS depth) can still be sitting in the reader, and
+    # delivered after reset() they set sim_t0 to the OLD run's clock -- seen
+    # as a negative sim_duration in p1's reports. The HDF5 is unaffected.
+    _spin_for(node, 1.0)
     node.reset()
     t_wall0 = time.time()
     proc = subprocess.Popen(cmd, cwd=REPO, env=_child_env(), stdout=launch_log,

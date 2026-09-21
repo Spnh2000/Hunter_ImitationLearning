@@ -20,6 +20,7 @@ def save(path: str, model, arch: str, bins: ActionBins | None, train_config: dic
         'format': 'hunter_il.checkpoint.v1',
         'arch': arch,
         'K': model.K,
+        'cap_input': bool(getattr(model, 'cap_input', False)),
         'schema_version': SCHEMA_VERSION,
         'state_dict': model.state_dict(),
         'bins': bins.to_dict() if bins is not None else None,
@@ -36,7 +37,7 @@ def load(path: str, map_location='cpu'):
     if ck['schema_version'].split('.')[0] != SCHEMA_VERSION.split('.')[0]:
         raise ValueError(f'{path}: trained on schema {ck["schema_version"]}, spec is {SCHEMA_VERSION}')
     bins = ActionBins.from_dict(ck['bins']) if ck.get('bins') else None
-    model = models.build(ck['arch'], bins)
+    model = models.build(ck['arch'], bins, ck.get('cap_input', False))
     model.load_state_dict(ck['state_dict'])
     model.eval()
     return model, ck

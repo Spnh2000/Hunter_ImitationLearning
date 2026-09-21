@@ -39,13 +39,13 @@ def _evaluate(model, arrays: StackedArrays, bins, batch=2048) -> dict:
     tot, se = 0.0, np.zeros(2)
     with torch.no_grad():
         for flat in _batches(len(arrays), batch, None):
-            obs, act = arrays.batch(flat)
-            obs_t, act_t = torch.from_numpy(obs), torch.from_numpy(act)
+            obs, act, cap = arrays.batch(flat)
+            obs_t, act_t, cap_t = torch.from_numpy(obs), torch.from_numpy(act), torch.from_numpy(cap)
             if bins is not None:
-                tot += model.loss(obs_t, torch.from_numpy(bins.encode(act))).item() * len(flat)
+                tot += model.loss(obs_t, torch.from_numpy(bins.encode(act)), cap_t).item() * len(flat)
             else:
-                tot += model.loss(obs_t, act_t).item() * len(flat)
-            pred = model(obs_t).numpy()
+                tot += model.loss(obs_t, act_t, cap_t).item() * len(flat)
+            pred = model(obs_t, cap_t).numpy()
             se += ((pred - act) ** 2).sum(0)
     n = len(arrays)
     return {'loss': tot / n, 'rmse_steer_rad': float(np.sqrt(se[0] / n)),
@@ -80,7 +80,8 @@ def train(cfg: dict, arch: str, data_dir: str, out: str, seed: int, log=print) -
         bins = ActionBins.fit(tr.all_actions(), cfg.get('n_steer_bins', 21), cfg.get('n_speed_bins', 21))
         log(f'bins: {bins.n_steer} steer (width at 0: {bins.resolution_near_zero():.4f} rad), '
             f'{bins.n_speed} speed')
-    model = models.build(arch, bins)
+    model = models.build(arch, bins, bool(cfg.get('cap_input', True)))
+    log(f'cap_input={model.cap_input} (speed cap as a policy input; see models.py)')
     opt = torch.optim.Adam(model.parameters(), lr=float(cfg.get('lr', 1e-3)),
                            weight_decay=float(cfg.get('weight_decay', 0.0)))
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=int(cfg['epochs']))
@@ -92,12 +93,12 @@ def train(cfg: dict, arch: str, data_dir: str, out: str, seed: int, log=print) -
         model.train()
         tot = 0.0
         for flat in _batches(len(tr), batch, rng):
-            obs, act = tr.batch(flat)
-            obs_t = torch.from_numpy(obs)
+            obs, act, cap = tr.batch(flat)
+            obs_t, cap_t = torch.from_numpy(obs), torch.from_numpy(cap)
             if bins is not None:
-                loss = model.loss(obs_t, torch.from_numpy(bins.encode(act)))
+                loss = model.loss(obs_t, torch.from_numpy(bins.encode(act)), cap_t)
             else:
-                loss = model.loss(obs_t, torch.from_numpy(act))
+                loss = model.loss(obs_t, torch.from_numpy(act), cap_t)
             opt.zero_grad()
             loss.backward()
             opt.step()

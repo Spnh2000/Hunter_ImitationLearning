@@ -63,6 +63,7 @@ class PolicyTracker(Node):
             raise RuntimeError(f"arch parameter '{arch}' but checkpoint is '{meta['arch']}' -- refusing "
                                f"to run the wrong head silently")
         self.K = int(meta['K'])
+        self.cap_t = torch.tensor([self.max_speed], dtype=torch.float32)
         self.stack = collections.deque(maxlen=self.K)
         self.cmd_pub = self.create_publisher(TwistStamped, '/ackermann_like_controller/reference', 10)
         diag_qos = rclpy.qos.QoSProfile(depth=10, reliability=rclpy.qos.ReliabilityPolicy.RELIABLE)
@@ -74,7 +75,8 @@ class PolicyTracker(Node):
         self.create_timer(10.0, self.report)
         self.get_logger().info(
             f"policy_tracker ready: {meta['arch']} K={self.K} from {ckpt} "
-            f"(trained {meta.get('saved_utc')}), clamp steer ±{self.max_steer} speed ≤{self.max_speed}")
+            f"(trained {meta.get('saved_utc')}), cap_input={self.model.cap_input}, "
+            f"clamp steer ±{self.max_steer} speed ≤{self.max_speed}")
 
     def on_reset(self, _req, res):
         self.stack.clear()
@@ -90,11 +92,14 @@ class PolicyTracker(Node):
         else:
             self.stack.append(obs)
         x = torch.from_numpy(np.stack(self.stack)[None])          # [1, K, 720]
+        # The speed cap is the run's max_speed_mps parameter -- the same number
+        # the expert was capped at when the data was collected.
+        cap = self.cap_t if self.model.cap_input else None
         with torch.no_grad():
             if hasattr(self.model, 'logits'):
-                a = self.model(x, mode=self.decode_mode)[0]
+                a = self.model(x, cap, mode=self.decode_mode)[0]
             else:
-                a = self.model(x)[0]
+                a = self.model(x, cap)[0]
         steer = min(max(float(a[0]), -self.max_steer), self.max_steer)
         speed = min(max(float(a[1]), 0.0), self.max_speed)
 
