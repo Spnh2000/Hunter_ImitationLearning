@@ -26,6 +26,7 @@ setup(
             'convert_dataset = hunter_dataset.convert_dataset:main',
             'inspect_dataset = hunter_dataset.inspect_dataset:main',
             'collect_dataset = hunter_dataset.collect_dataset:main',
+            'dagger_runner = hunter_dataset.dagger_runner:main',
         ],
     },
 )

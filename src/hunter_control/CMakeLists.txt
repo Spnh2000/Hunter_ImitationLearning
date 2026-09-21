@@ -26,24 +26,39 @@ target_include_directories(hunter_control_common PUBLIC
 )
 ament_target_dependencies(hunter_control_common hunter_msgs nav_msgs)
 
-add_library(pid_tracker_lib src/pid_tracker.cpp)
+# PidCore: the control law with no publishers. Two executables own it.
+add_library(pid_core_lib src/pid_core.cpp)
+target_include_directories(pid_core_lib PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+target_link_libraries(pid_core_lib hunter_control_common)
+ament_target_dependencies(pid_core_lib rclcpp hunter_msgs nav_msgs control_toolbox)
+
+add_library(pid_tracker_lib src/pid_tracker.cpp src/pid_shadow.cpp)
 target_include_directories(pid_tracker_lib PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
-target_link_libraries(pid_tracker_lib hunter_control_common)
+target_link_libraries(pid_tracker_lib hunter_control_common pid_core_lib)
 ament_target_dependencies(pid_tracker_lib rclcpp hunter_msgs nav_msgs geometry_msgs control_toolbox)
 
 add_executable(pid_tracker src/pid_tracker_node.cpp)
 target_link_libraries(pid_tracker pid_tracker_lib)
 ament_target_dependencies(pid_tracker rclcpp)
 
-install(TARGETS hunter_control_common pid_tracker_lib
+# The DAgger labeller: same law, same params, ground-truth pose, and by
+# construction nothing that could publish a command.
+add_executable(pid_shadow src/pid_shadow_node.cpp)
+target_link_libraries(pid_shadow pid_tracker_lib)
+ament_target_dependencies(pid_shadow rclcpp)
+
+install(TARGETS hunter_control_common pid_core_lib pid_tracker_lib
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
 )
-install(TARGETS pid_tracker
+install(TARGETS pid_tracker pid_shadow
   DESTINATION lib/${PROJECT_NAME}
 )
 install(DIRECTORY include/ DESTINATION include)

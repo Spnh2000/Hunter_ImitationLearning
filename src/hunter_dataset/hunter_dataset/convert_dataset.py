@@ -43,7 +43,14 @@ TOPICS = {
     'diag':  '/tracking/diagnostics',
     'gt':    '/ground_truth/odometry',
     'event': '/episode/event',
+    'relabel': '/expert/relabel',      # DAgger only: pid_shadow's action
 }
+
+# DAgger rows: the ACTION is the expert's relabel of the student's state; the
+# student's own executed command is kept as infos/executed_action so the
+# state coverage analysis can see what actually drove the robot there. Mode
+# is decided by the bag, not by a flag: a non-empty /expert/relabel stream
+# means the shadow ran, and it is the label source for every row.
 
 # prev_action at the first row of an episode: repeat the row's own action, the
 # same zero-order-hold-backward convention frame stacking uses for its padding.
@@ -72,12 +79,14 @@ def _lap_index(progress: np.ndarray, track_len_m: float) -> np.ndarray:
 
 
 def convert(bag_dir: str, out_path: str, manifest_path: str | None) -> dict:
-    data = br.read_bag(bag_dir, list(TOPICS.values()))
+    data = br.read_bag(bag_dir, list(TOPICS.values()), optional=(TOPICS['relabel'],))
     scans = data[TOPICS['scan']]
     diags = data[TOPICS['diag']]
     gts = data[TOPICS['gt']]
     events = data[TOPICS['event']]
-    report: dict = {'bag': bag_dir}
+    relabels = data.get(TOPICS['relabel'], [])
+    dagger = len(relabels) > 0
+    report: dict = {'bag': bag_dir, 'mode': 'dagger' if dagger else 'expert'}
 
     if not scans or not diags or not gts or not events:
         raise RuntimeError(f"empty stream(s): scans={len(scans)} diags={len(diags)} "
@@ -86,6 +95,7 @@ def convert(bag_dir: str, out_path: str, manifest_path: str | None) -> dict:
     scan_ns = np.array([s for s, _ in scans], dtype=np.int64)
     diag_ns = np.array([s for s, _ in diags], dtype=np.int64)
     gt_ns = np.array([s for s, _ in gts], dtype=np.int64)
+    relabel_ns = np.array([s for s, _ in relabels], dtype=np.int64) if dagger else None
     event_by_ns = {s: m for s, m in events}
 
     # --- valid window: when ALL streams were live -------------------------
@@ -93,6 +103,8 @@ def convert(bag_dir: str, out_path: str, manifest_path: str | None) -> dict:
     # are pre-run. Trim them, say how many, and apply the strict rules inside.
     t_lo = max(diag_ns[0], min(event_by_ns), gt_ns[0])
     t_hi = min(diag_ns[-1], max(event_by_ns), gt_ns[-1])
+    if dagger:
+        t_lo, t_hi = max(t_lo, relabel_ns[0]), min(t_hi, relabel_ns[-1])
     in_win = (scan_ns >= t_lo) & (scan_ns <= t_hi)
     report['scans_total'] = int(len(scan_ns))
     report['scans_pre_post_run_trimmed'] = int((~in_win).sum())
@@ -125,6 +137,25 @@ def convert(bag_dir: str, out_path: str, manifest_path: str | None) -> dict:
     # --- join: ground truth, nearest ------------------------------------------
     gi, _ = _nearest(scan_ns_k, gt_ns)
 
+    # --- join: expert relabel (DAgger), nearest within slop -------------------
+    # Same rule as the expert command: the shadow ticks at 50 Hz on the node
+    # clock, so a scan without a relabel within 15 ms is a data bug, and the
+    # row is dropped and counted, never filled from a stale label.
+    ri = None
+    if dagger:
+        ri, rdt = _nearest(scan_ns_k, relabel_ns)
+        rkeep = np.abs(rdt) <= spec.SYNC_SLOP_NS
+        report['relabel_dt_ms'] = {'median': float(np.median(np.abs(rdt))) / 1e6,
+                                   'p95': float(np.percentile(np.abs(rdt), 95)) / 1e6,
+                                   'max': float(np.abs(rdt).max()) / 1e6}
+        report['rows_rejected_relabel_slop'] = int((~rkeep).sum())
+        if rkeep.sum() == 0:
+            raise RuntimeError('DAgger bag: no scan has a relabel within slop -- pid_shadow was not '
+                               'publishing, or on another clock')
+        scan_ns_k, scans_k, di_k, gi, ri = (scan_ns_k[rkeep], [m for m, ok in zip(scans_k, rkeep) if ok],
+                                            di_k[rkeep], gi[rkeep], ri[rkeep])
+        report['rows_kept'] = int(len(scan_ns_k))
+
     # --- join: episode event, EXACT ------------------------------------------
     # episode_monitor copies the scan's header.stamp onto the event for exactly
     # this reason. A missing key means the monitor dropped a scan or was not
@@ -147,18 +178,55 @@ def convert(bag_dir: str, out_path: str, manifest_path: str | None) -> dict:
     gt = np.empty((N, 3), dtype=np.float32)
     term = np.zeros(N, dtype=np.bool_)
     trig = np.zeros(N, dtype=np.uint8)
+    executed = np.empty((N, spec.ACTION_DIM), dtype=np.float32)
     controller = None
     for k, (s_ns, m) in enumerate(zip(scan_ns_k, scans_k)):
         obs[k] = spec.scan_to_observation(np.asarray(br.scan_ranges(m), dtype=np.float64))
         d = br.diag_fields(diags[di_k[k]][1])
-        act[k] = (d['steering'], d['speed'])
-        prog[k] = d['progress']
-        laterr[k] = d['lateral_error']
+        executed[k] = (d['steering'], d['speed'])
         controller = controller or d['controller']
+        if dagger:
+            # label = expert's relabel; progress / lateral error come from the
+            # shadow too, since the student's diagnostics carry NaN there
+            r = br.diag_fields(relabels[ri[k]][1])
+            act[k] = (r['steering'], r['speed'])
+            prog[k] = r['progress']
+            laterr[k] = r['lateral_error']
+        else:
+            act[k] = executed[k]
+            prog[k] = d['progress']
+            laterr[k] = d['lateral_error']
         gt[k] = br.odom_pose(gts[gi[k]][1])
         ev = br.event_fields(event_by_ns[int(s_ns)])
         term[k] = ev['terminal']
         trig[k] = ev['trigger']
+
+    # --- pinned rows: between a terminal and the respawn -----------------------
+    # After the terminal edge the robot sits against the wall until the runner
+    # teleports it (DAgger) or the recording stops (expert). Those rows are a
+    # stationary scan with a label that cannot be acted on; and an episode
+    # must END at its terminal row. Drop them, count them, and let the next
+    # episode start at the first row after the pose jump.
+    jump = np.zeros(N, dtype=bool)
+    jump[1:] = np.hypot(gt[1:, 0] - gt[:-1, 0], gt[1:, 1] - gt[:-1, 1]) > 2.0   # 2 m in 50 ms is a teleport
+    pinned = np.zeros(N, dtype=bool)
+    for k in np.flatnonzero(term):
+        j = k + 1
+        while j < N and not jump[j]:
+            j += 1
+        # ...through the jump row itself: its scan is from the new pose but the
+        # shadow's label was computed one tick earlier, at the wall.
+        pinned[k + 1:min(j + 1, N)] = True
+    report['rows_dropped_pinned_after_terminal'] = int(pinned.sum())
+    report['respawn_jumps'] = int(jump.sum())
+    if pinned.any():
+        keep_rows = ~pinned
+        obs, act, prog, laterr, gt, term, trig, executed, scan_ns_k = (
+            obs[keep_rows], act[keep_rows], prog[keep_rows], laterr[keep_rows], gt[keep_rows],
+            term[keep_rows], trig[keep_rows], executed[keep_rows], scan_ns_k[keep_rows])
+        N = len(act)
+        report['episode_events_matched_exactly'] = N     # every kept row was matched
+        report['rows_kept'] = N
 
     # rewards: zeros until a later phase defines them
     rew = np.zeros(N, dtype=np.float32)
@@ -206,8 +274,10 @@ def convert(bag_dir: str, out_path: str, manifest_path: str | None) -> dict:
         g.create_dataset('lap_index', data=lap)
         g.create_dataset('episode_id', data=ep)
         g.create_dataset('prev_action', data=prev)
-        g.create_dataset('dagger_beta', data=np.full(N, 1.0, dtype=np.float32))
-        g.create_dataset('action_source', data=np.full(N, spec.ACTION_SOURCE_EXPERT, dtype=np.uint8))
+        g.create_dataset('dagger_beta', data=np.full(N, 0.0 if dagger else 1.0, dtype=np.float32))
+        g.create_dataset('action_source', data=np.full(
+            N, spec.ACTION_SOURCE_STUDENT_RELABELLED if dagger else spec.ACTION_SOURCE_EXPERT, dtype=np.uint8))
+        g.create_dataset('executed_action', data=executed)    # what actually drove (== actions for expert runs)
         g.create_dataset('lateral_error_m', data=laterr)        # diagnostic, not a feature
         g.create_dataset('terminal_trigger', data=trig)         # which signal fired
 
@@ -217,6 +287,8 @@ def convert(bag_dir: str, out_path: str, manifest_path: str | None) -> dict:
         a['track_sha256'] = str(manifest.get('track_sha256', ''))
         a['track_scale'] = 2.0
         a['controller_label'] = str(controller or manifest.get('controller_label', 'unknown'))
+        a['label_source'] = 'expert_relabel' if dagger else 'expert_drove'
+        a['dagger_iteration'] = int(manifest.get('dagger_iteration', 0) or 0)
         a['max_speed_mps'] = float(manifest.get('max_speed_mps', float('nan')))
         a['action_bounds'] = spec.ACTION_BOUNDS
         a['downsample_indices'] = spec.DOWNSAMPLE_IDX     # auditable FROM THE DATA

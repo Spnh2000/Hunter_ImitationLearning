@@ -23,7 +23,7 @@ def _yaw(q) -> float:
                       1.0 - 2.0 * (q.y * q.y + q.z * q.z))
 
 
-def read_bag(bag_dir: str, topics: list[str]) -> dict[str, list]:
+def read_bag(bag_dir: str, topics: list[str], optional: tuple[str, ...] = ()) -> dict[str, list]:
     """Return {topic: [(stamp_ns, msg), ...]} sorted by header stamp.
 
     Header stamps, NOT bag receive times. Receive time carries transport
@@ -36,12 +36,19 @@ def read_bag(bag_dir: str, topics: list[str]) -> dict[str, list]:
                 ConverterOptions('', ''))
     type_of = {t.name: t.type for t in reader.get_all_topics_and_types()}
     wanted = set(topics)
+    # Optional topics (e.g. /expert/relabel) exist in a bag only if someone
+    # published them during the run; rosbag2 never registers a topic with no
+    # publisher. Absent optional topic -> empty list, not an error.
+    absent_optional = {t for t in wanted if t in optional and t not in type_of}
+    wanted -= absent_optional
     missing = wanted - set(type_of)
     if missing:
         raise RuntimeError(f"bag {bag_dir} is missing topics {sorted(missing)}. "
                            f"Present: {sorted(type_of)}")
     cls = {t: get_message(type_of[t]) for t in wanted}
     out: dict[str, list] = {t: [] for t in wanted}
+    for t in absent_optional:
+        out[t] = []
 
     while reader.has_next():
         topic, raw, _recv_ns = reader.read_next()

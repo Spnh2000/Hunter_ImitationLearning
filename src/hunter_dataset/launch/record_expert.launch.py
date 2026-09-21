@@ -30,6 +30,7 @@ import time
 import yaml
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
+from launch.conditions import IfCondition
 from launch.actions import (DeclareLaunchArgument, ExecuteProcess,
                             IncludeLaunchDescription, OpaqueFunction,
                             SetLaunchConfiguration)
@@ -48,6 +49,8 @@ BAG_TOPICS = [
     '/ackermann_like_controller/odometry_bagged',  # raw wheel odom, 1 kHz -> 50 Hz
     '/odometry/filtered',                     # local EKF -- what a deployable
                                               #   estimator would have said
+    '/expert/relabel',                        # DAgger: pid_shadow's action for the
+                                              #   student's state (empty in expert runs)
     '/episode/event',                         # terminals, RECORDED not re-derived
     '/bumper_contacts_bagged',                # throttled contact detail
     '/imu',
@@ -73,6 +76,15 @@ def _git(args, cwd):
                               text=True, timeout=5).stdout.strip()
     except Exception:
         return ''
+
+
+def _write_shadow_params(run_dir, effective):
+    path = os.path.join(run_dir, 'shadow_params.yaml')
+    with open(path, 'w') as f:
+        yaml.safe_dump({'pid_shadow': {'ros__parameters':
+                        dict(effective.get('pid_tracker', {}).get('ros__parameters', {}),
+                             use_sim_time=True)}}, f, sort_keys=False)
+    return path
 
 
 def _setup(context, *args, **kwargs):
@@ -122,6 +134,11 @@ def _setup(context, *args, **kwargs):
         'max_speed_mps': float(max_speed),
         'spawn_s_frac': float(LaunchConfiguration('spawn_s_frac').perform(context)),
         'controller_label': LaunchConfiguration('controller').perform(context),
+        # DAgger provenance. action_source in the dataset is derived from the
+        # bag (relabel present or not); these are the human-readable record.
+        'shadow_expert': LaunchConfiguration('shadow_expert').perform(context).lower() == 'true',
+        'policy_checkpoint': LaunchConfiguration('policy_checkpoint').perform(context),
+        'dagger_iteration': int(LaunchConfiguration('dagger_iteration').perform(context) or 0),
         'pose_source': 'ground_truth',
         'world': LaunchConfiguration('world').perform(context),
         'params_file': params_file,
@@ -142,6 +159,10 @@ def _setup(context, *args, **kwargs):
         SetLaunchConfiguration('bag_path', os.path.join(run_dir, 'bag')),
         # Absolute path: benchmark's PathJoinSubstitution yields it unchanged.
         SetLaunchConfiguration('effective_params_file', effective_path),
+        # pid_shadow is not in the tracker slot, so it gets the pid_tracker
+        # section of the same effective file explicitly: same gains, same
+        # max_speed, same previews -- the label is the expert that would have driven.
+        SetLaunchConfiguration('shadow_params_file', _write_shadow_params(run_dir, effective)),
     ]
 
 
@@ -152,6 +173,14 @@ def generate_launch_description():
         DeclareLaunchArgument('params_file', default_value='monza_defaults.yaml'),
         DeclareLaunchArgument('world', default_value='Monza.sdf'),
         DeclareLaunchArgument('controller', default_value='pid'),
+        # --- DAgger (Phase 8) -------------------------------------------------
+        # controller:=policy puts the student in the tracker slot;
+        # shadow_expert:=true runs pid_shadow beside it on ground truth. The
+        # shadow publishes /expert/relabel only -- it has no command publisher.
+        DeclareLaunchArgument('shadow_expert', default_value='false'),
+        DeclareLaunchArgument('policy_checkpoint', default_value=''),
+        DeclareLaunchArgument('policy_arch', default_value=''),
+        DeclareLaunchArgument('dagger_iteration', default_value='0'),
         DeclareLaunchArgument('max_speed_mps', default_value='2.7'),
         DeclareLaunchArgument('spawn_s_frac', default_value='0.0'),
         DeclareLaunchArgument('run_id', default_value=''),
@@ -178,6 +207,8 @@ def generate_launch_description():
             'headless': LaunchConfiguration('headless'),
             'use_rviz': LaunchConfiguration('use_rviz'),
             'spawn_s_frac': LaunchConfiguration('spawn_s_frac'),
+            'policy_checkpoint': LaunchConfiguration('policy_checkpoint'),
+            'policy_arch': LaunchConfiguration('policy_arch'),
             # This launch owns the bag; benchmark's 4-topic version would
             # otherwise write a second, smaller one.
             'record_bag': 'false',
@@ -223,6 +254,17 @@ def generate_launch_description():
         parameters=[{'use_sim_time': True, 'scan_contact_m': 0.4, 'latch_until_reset': True}],
     )
 
+    # The DAgger labeller. Same PidCore as pid_tracker, same params file
+    # section, the same ground-truth remap the tracker slot gets -- and by
+    # construction no command publisher (see pid_shadow.hpp).
+    pid_shadow = Node(
+        package='hunter_control', executable='pid_shadow', name='pid_shadow',
+        output='screen',
+        parameters=[LaunchConfiguration('shadow_params_file')],
+        remappings=[('/ackermann_like_controller/odometry', '/ground_truth/odometry')],
+        condition=IfCondition(LaunchConfiguration('shadow_expert')),
+    )
+
     # Local EKF only -- no SLAM. Gives /odometry/filtered so a later analysis can
     # ask what a deployable estimator WOULD have reported during expert driving.
     local_ekf = Node(
@@ -254,6 +296,7 @@ def generate_launch_description():
         contact_throttle,
         wheel_odom_throttle,
         episode_monitor,
+        pid_shadow,
         local_ekf,
         bag,
     ])
