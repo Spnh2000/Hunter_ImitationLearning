@@ -56,3 +56,9 @@ datasets/**/*.hdf5
 # Scratch copy of upstream f1tenth_racetracks at the repo root; the per-track
 # directories under src/ hold the same files plus the 2x derivatives.
 /f1tenth_racetracks/
+
+# Phase 8 checkpoints: binaries, regenerable by il_train
+checkpoints/
+# collection runner logs (per-run provenance files ARE tracked)
+datasets/**/collect_*.log
+datasets/**/launch.log

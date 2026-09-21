@@ -83,6 +83,34 @@ def _read_first_waypoint(track_file: str):
     return x, y, yaw
 
 
+def _read_waypoint_at_frac(track_file: str, frac: float):
+    """Spawn pose (x, y, yaw) at a fraction of the lap's arc length, for
+    centerline CSVs (x, y, ...). Repeated laps by a deterministic expert are
+    near-identical; starting later passes elsewhere on the lap is the only
+    way the standstill-start states land in different geometry."""
+    pts = []
+    with open(track_file) as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            v = [t.strip() for t in line.split(',')]
+            pts.append((float(v[0]), float(v[1])))
+    seg = [math.hypot(pts[i + 1][0] - pts[i][0], pts[i + 1][1] - pts[i][1])
+           for i in range(len(pts) - 1)]
+    target = (frac % 1.0) * sum(seg)
+    acc = 0.0
+    for i, d in enumerate(seg):
+        if acc + d >= target and d > 0:
+            t = (target - acc) / d
+            x = pts[i][0] + t * (pts[i + 1][0] - pts[i][0])
+            y = pts[i][1] + t * (pts[i + 1][1] - pts[i][1])
+            yaw = math.atan2(pts[i + 1][1] - pts[i][1], pts[i + 1][0] - pts[i][0])
+            return x, y, yaw
+        acc += d
+    return pts[0][0], pts[0][1], math.atan2(pts[1][1] - pts[0][1], pts[1][0] - pts[0][0])
+
+
 def _extent(points):
     xs = [p[0] for p in points]
     ys = [p[1] for p in points]
@@ -209,7 +237,12 @@ def _configure_run(context, *args, **kwargs):
     # a wall. spawn_reference_file lets you spawn from a separate (typically
     # centerline) file while trajectory_server/the tracker still follow
     # track_file unchanged.
-    x, y, yaw = _read_first_waypoint(spawn_reference_file or track_file)
+    spawn_frac = float(LaunchConfiguration('spawn_s_frac').perform(context))
+    spawn_file = spawn_reference_file or track_file
+    if spawn_frac > 0.0 and 'raceline' not in os.path.basename(spawn_file).lower():
+        x, y, yaw = _read_waypoint_at_frac(spawn_file, spawn_frac)
+    else:
+        x, y, yaw = _read_first_waypoint(spawn_file)
 
     results_dir = LaunchConfiguration('results_dir').perform(context)
     track_name = LaunchConfiguration('track_name').perform(context)
@@ -265,6 +298,18 @@ def generate_launch_description():
                         '(IMS_centerline.csv) are upstream F1TENTH reference data and do not '
                         'match the current 2x world.',
         ),
+        DeclareLaunchArgument(
+            'policy_checkpoint', default_value='',
+            description='hunter_il checkpoint for controller:=policy (Phase 8 student)'),
+        DeclareLaunchArgument(
+            'policy_arch', default_value='',
+            description='Optional: mlp | stacked | discrete; must match the checkpoint or the node refuses'),
+        DeclareLaunchArgument(
+            'spawn_s_frac', default_value='0.0',
+            description='Spawn at this fraction [0,1) of the lap arc length instead '
+                        'of the first waypoint (centerline files only). Used by the '
+                        'Phase 6 collection passes so repeated laps of a deterministic '
+                        'expert do not all start from standstill at the same point.'),
         DeclareLaunchArgument(
             'spawn_reference_file', default_value='',
             description='Optional: compute the spawn pose from this file instead of track_file '
@@ -399,7 +444,11 @@ def generate_launch_description():
         # the Phase 6 converter joins the two by timestamp and found ZERO
         # matches when this was missing.
         parameters=[track_defaults, {'use_sim_time': True,
-                                     'controller_name': LaunchConfiguration('controller')}],
+                                     'controller_name': LaunchConfiguration('controller'),
+                                     # Phase 8: consumed by policy_tracker, ignored
+                                     # (undeclared override) by the C++ trackers.
+                                     'checkpoint_path': LaunchConfiguration('policy_checkpoint'),
+                                     'arch': LaunchConfiguration('policy_arch')}],
         # The entire A/B switch. The tracker subscribes to
         # /ackermann_like_controller/odometry by name in pid_tracker.cpp; this
         # remap points that subscription at whichever estimator is under test.
@@ -440,6 +489,23 @@ def generate_launch_description():
     # cross-track error; without it the benchmark can only report the
     # estimator's opinion of itself, which is precisely the number that read
     # 1 mm while the robot was 2.29 m off-line.
+    # /scan and /imu for runs without the localization stack. Every consumer
+    # that is not the PID needs the scan: episode_monitor, the Phase 6 bag,
+    # and the Phase 8 policy_tracker, whose ONLY input it is -- a policy run
+    # without this bridge sits at the spawn forever with no error.
+    # localization.launch.py bridges the same topics when slam_mode != disabled,
+    # so exactly one bridge exists either way; a second one doubles every scan.
+    sensor_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='sensor_bridge',
+        output='screen',
+        parameters=[{'use_sim_time': True}],
+        arguments=['/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
+                   '/imu@sensor_msgs/msg/Imu[gz.msgs.IMU'],
+        condition=LaunchConfigurationEquals('slam_mode', 'disabled'),
+    )
+
     ground_truth_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -501,7 +567,7 @@ def generate_launch_description():
     # the tracker's first control tick asks for a pose. The 5 s / 10 s split
     # gives the estimators a head start rather than racing them.
     localization_stack = TimerAction(
-        period=5.0, actions=[localization, ground_truth_bridge])
+        period=5.0, actions=[localization, sensor_bridge, ground_truth_bridge])
 
     return LaunchDescription([
         *declared_arguments,

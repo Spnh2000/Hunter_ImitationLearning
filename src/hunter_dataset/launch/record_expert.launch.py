@@ -45,7 +45,7 @@ BAG_TOPICS = [
     '/tracking/diagnostics',                  # expert action (post-clamp) + progress
     '/ground_truth/odometry',                 # teacher-side privilege
     '/ackermann_like_controller/reference',   # executed command, cross-check
-    '/ackermann_like_controller/odometry',    # raw wheel odom
+    '/ackermann_like_controller/odometry_bagged',  # raw wheel odom, 1 kHz -> 50 Hz
     '/odometry/filtered',                     # local EKF -- what a deployable
                                               #   estimator would have said
     '/episode/event',                         # terminals, RECORDED not re-derived
@@ -98,6 +98,19 @@ def _setup(context, *args, **kwargs):
         with open(cfg_path) as f:
             effective = yaml.safe_load(f) or {}
 
+    # --- max_speed_mps must be a SETTING, not a label ------------------------
+    # The track params file says 2.7 for every track. Overriding it here, in a
+    # file that benchmark.launch.py then loads, is the only way a run named
+    # "<track>_1.5ms_<id>" is guaranteed to have driven at 1.5. Before this,
+    # the argument reached the manifest and the directory name and nothing
+    # else -- every speed setting would have driven at 2.7 and been labelled
+    # otherwise, which no inspection of the dataset alone can detect.
+    for node in ('trajectory_server', 'pid_tracker'):
+        effective.setdefault(node, {}).setdefault('ros__parameters', {})['max_speed_mps'] = float(max_speed)
+    effective_path = os.path.join(run_dir, 'effective_params.yaml')
+    with open(effective_path, 'w') as f:
+        yaml.safe_dump(effective, f, sort_keys=False)
+
     dirty = _git(['status', '--porcelain'], repo)
     manifest = {
         'run_id': run_id,
@@ -107,6 +120,7 @@ def _setup(context, *args, **kwargs):
         # geometry actually driven.
         'track_sha256': _sha256(track_file) if os.path.exists(track_file) else None,
         'max_speed_mps': float(max_speed),
+        'spawn_s_frac': float(LaunchConfiguration('spawn_s_frac').perform(context)),
         'controller_label': LaunchConfiguration('controller').perform(context),
         'pose_source': 'ground_truth',
         'world': LaunchConfiguration('world').perform(context),
@@ -126,6 +140,8 @@ def _setup(context, *args, **kwargs):
     return [
         SetLaunchConfiguration('run_dir', run_dir),
         SetLaunchConfiguration('bag_path', os.path.join(run_dir, 'bag')),
+        # Absolute path: benchmark's PathJoinSubstitution yields it unchanged.
+        SetLaunchConfiguration('effective_params_file', effective_path),
     ]
 
 
@@ -137,6 +153,7 @@ def generate_launch_description():
         DeclareLaunchArgument('world', default_value='Monza.sdf'),
         DeclareLaunchArgument('controller', default_value='pid'),
         DeclareLaunchArgument('max_speed_mps', default_value='2.7'),
+        DeclareLaunchArgument('spawn_s_frac', default_value='0.0'),
         DeclareLaunchArgument('run_id', default_value=''),
         DeclareLaunchArgument('output_dir', default_value='datasets/raw'),
         DeclareLaunchArgument('headless', default_value='true'),
@@ -150,7 +167,8 @@ def generate_launch_description():
         launch_arguments={
             'world': LaunchConfiguration('world'),
             'track_file': LaunchConfiguration('track_file'),
-            'params_file': LaunchConfiguration('params_file'),
+            # The per-run copy with max_speed_mps applied, NOT the track file.
+            'params_file': LaunchConfiguration('effective_params_file'),
             'track_name': LaunchConfiguration('track_name'),
             'controller': LaunchConfiguration('controller'),
             # The expert cheats: ground truth is a teacher-side privilege and
@@ -159,6 +177,7 @@ def generate_launch_description():
             'slam_mode': 'disabled',
             'headless': LaunchConfiguration('headless'),
             'use_rviz': LaunchConfiguration('use_rviz'),
+            'spawn_s_frac': LaunchConfiguration('spawn_s_frac'),
             # This launch owns the bag; benchmark's 4-topic version would
             # otherwise write a second, smaller one.
             'record_bag': 'false',
@@ -174,18 +193,28 @@ def generate_launch_description():
                      '/bumper_contacts')],
     )
 
-    sensor_bridge = Node(
-        package='ros_gz_bridge', executable='parameter_bridge', name='sensor_bridge',
-        output='screen', parameters=[{'use_sim_time': True}],
-        arguments=['/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
-                   '/imu@sensor_msgs/msg/Imu[gz.msgs.IMU'],
-    )
+    # /scan and /imu are bridged by benchmark.launch.py (slam_mode:=disabled
+    # branch). A second bridge here would deliver every scan twice: N = 2 x
+    # 20 x duration, duplicate stamps, and an exact-match join that still
+    # passes. Exactly one bridge per topic, always.
 
     # 1 of every 16 at ~326 Hz lands near the 20 Hz dataset rate.
     contact_throttle = Node(
         package='topic_tools', executable='drop', name='contact_throttle',
         output='screen', parameters=[{'use_sim_time': True}],
         arguments=['/bumper_contacts', '15', '16', '/bumper_contacts_bagged'],
+    )
+
+    # Wheel odometry is published at the 1 kHz ros2_control update rate and
+    # was 75 % of every bag by message count (~280 of 400 MB per lap). The EKF
+    # consumes the raw stream live; the bagged copy is 50 Hz like the other
+    # odometry streams. Same pattern as the contact throttle: downstream of the
+    # producer, so live consumers are untouched.
+    wheel_odom_throttle = Node(
+        package='topic_tools', executable='drop', name='wheel_odom_throttle',
+        output='screen', parameters=[{'use_sim_time': True}],
+        arguments=['/ackermann_like_controller/odometry', '19', '20',
+                   '/ackermann_like_controller/odometry_bagged'],
     )
 
     episode_monitor = Node(
@@ -205,7 +234,14 @@ def generate_launch_description():
     )
 
     bag = ExecuteProcess(
+        # mcap chunk compression (Zstd) is native to the format: any mcap
+        # reader, rosbag2_py included, decompresses transparently, unlike
+        # rosbag2's file-level --compression-mode which needs its own plugin
+        # on read and renames the file. Measured 6x on an uncompressed lap.
         cmd=['ros2', 'bag', 'record', '--storage', 'mcap',
+             '--storage-config-file',
+             os.path.join(get_package_share_directory('hunter_dataset'),
+                          'config', 'mcap_zstd.yaml'),
              '-o', LaunchConfiguration('bag_path')] + BAG_TOPICS,
         output='screen',
     )
@@ -214,9 +250,9 @@ def generate_launch_description():
         *args,
         OpaqueFunction(function=_setup),
         benchmark,
-        sensor_bridge,
         contact_bridge,
         contact_throttle,
+        wheel_odom_throttle,
         episode_monitor,
         local_ekf,
         bag,

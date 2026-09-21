@@ -103,6 +103,8 @@ class RunSummary:
         self._steering_mean = 0.0
         self._steering_m2 = 0.0
         self._prev_xy = None
+        self._laps_from_tracker = False
+        self._prev_gt_s_m = None
 
     def add_sample(
         self, stamp_s: float, lateral_error_m: float, heading_error_rad: float,
@@ -131,11 +133,17 @@ class RunSummary:
                 self._reversal_count += 1
         self._prev_steering = commanded_steering_rad
 
-        if self.is_closed_loop and self.total_length_m > 0 and self._prev_s_m is not None:
-            # A large backward jump in arc-length means we wrapped past the finish line.
-            if path_s_m < self._prev_s_m - self.total_length_m * 0.5:
-                self.laps_completed += 1
-        self._prev_s_m = path_s_m
+        # Lap counting from the tracker's OWN progress only when it reports one.
+        # A scan-only policy (Phase 8) publishes path_s_m = NaN; its laps are
+        # counted from ground truth in add_ground_truth_sample instead. The two
+        # never both count: whichever source is live owns laps_completed.
+        if path_s_m == path_s_m:                       # not NaN
+            self._laps_from_tracker = True
+            if self.is_closed_loop and self.total_length_m > 0 and self._prev_s_m is not None:
+                # A large backward jump in arc-length means we wrapped past the finish line.
+                if path_s_m < self._prev_s_m - self.total_length_m * 0.5:
+                    self.laps_completed += 1
+            self._prev_s_m = path_s_m
 
     def add_odometry(self, x: float, y: float) -> None:
         if self._prev_xy is not None:
@@ -143,7 +151,8 @@ class RunSummary:
         self._prev_xy = (x, y)
 
     def add_ground_truth_sample(
-        self, gt_lateral_error_m: float, estimator_error_m: float = None
+        self, gt_lateral_error_m: float, estimator_error_m: float = None,
+        gt_path_s_m: float = None,
     ) -> None:
         """Record the two reality-referenced channels.
 
@@ -156,6 +165,11 @@ class RunSummary:
         self.gt_lateral.update(gt_lateral_error_m)
         if estimator_error_m is not None:
             self.estimator_error.update(estimator_error_m)
+        if gt_path_s_m is not None and not self._laps_from_tracker:
+            if self.is_closed_loop and self.total_length_m > 0 and self._prev_gt_s_m is not None:
+                if gt_path_s_m < self._prev_gt_s_m - self.total_length_m * 0.5:
+                    self.laps_completed += 1
+            self._prev_gt_s_m = gt_path_s_m
 
     def steering_variance(self) -> float:
         return self._steering_m2 / self._steering_n if self._steering_n > 1 else 0.0

@@ -64,6 +64,7 @@ class MetricsLogger(Node):
         # against the pose the CONTROLLER was given, which on the Phase 3
         # wheel-odometry runs read 1 mm while the robot was 2.29 m off-line.
         self._waypoints = []
+        self._waypoint_s = []
         self._gt_prev_index = 0
         self._last_est_xy = None
 
@@ -93,6 +94,7 @@ class MetricsLogger(Node):
             self._track_name, self._controller_name, msg.total_length_m, msg.is_closed_loop,
             reversal_deadband_rad=deadband, pose_source=self._pose_source)
         self._waypoints = [(w.x_m, w.y_m) for w in msg.waypoints]
+        self._waypoint_s = [float(w.s_m) for w in msg.waypoints]
         self.get_logger().info(
             f"Trajectory received: {len(msg.waypoints)} waypoints, "
             f"{'closed loop' if msg.is_closed_loop else 'open path'}, {msg.total_length_m:.2f} m")
@@ -131,11 +133,15 @@ class MetricsLogger(Node):
         lateral = self._signed_cross_track(gx, gy)
         if lateral is None:
             return
+        # Arc length of the matched waypoint, so laps can be counted from
+        # ground truth for trackers that do not report progress (Phase 8's
+        # scan-only policy publishes path_s_m = NaN).
+        gt_s = self._waypoint_s[self._gt_prev_index] if self._waypoint_s else None
 
         est_err = None
         if self._last_est_xy is not None and self._pose_source != 'ground_truth':
             est_err = math.hypot(self._last_est_xy[0] - gx, self._last_est_xy[1] - gy)
-        self._summary.add_ground_truth_sample(lateral, est_err)
+        self._summary.add_ground_truth_sample(lateral, est_err, gt_s)
 
     def _signed_cross_track(self, x: float, y: float):
         """Signed perpendicular distance to the reference path.

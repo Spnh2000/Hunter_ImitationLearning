@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>hunter_il</name>
+  <version>0.1.0</version>
+  <description>Phase 8 imitation-learning harness: models, episode-aware data loading,
+    discretisation, training, offline diagnostics. Depends on hunter_dataset's schema
+    and on PyTorch. Contains no ROS code; policy_tracker in hunter_control imports
+    its models.</description>
+  <maintainer email="sagharpanahi2@gmail.com">Saghar</maintainer>
+  <license>Apache-2.0</license>
+  <exec_depend>hunter_dataset</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-h5py</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>python3-scipy</exec_depend>
+  <exec_depend>python3-matplotlib</exec_depend>
+  <test_depend>python3-pytest</test_depend>
+  <export><build_type>ament_python</build_type></export>
+</package>

@@ -25,4 +25,7 @@
   <export>
     <build_type>ament_cmake</build_type>
   </export>
+  <exec_depend>hunter_dataset</exec_depend>
+  <exec_depend>hunter_il</exec_depend>
+  <exec_depend>rclpy</exec_depend>
 </package>

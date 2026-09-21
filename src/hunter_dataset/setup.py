@@ -11,6 +11,8 @@ setup(
         ('share/' + package_name, ['package.xml']),
         ('share/' + package_name + '/launch',
          ['launch/record_expert.launch.py']),
+        ('share/' + package_name + '/config',
+         ['config/mcap_zstd.yaml', 'config/collection_plan.yaml']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -23,6 +25,7 @@ setup(
         'console_scripts': [
             'convert_dataset = hunter_dataset.convert_dataset:main',
             'inspect_dataset = hunter_dataset.inspect_dataset:main',
+            'collect_dataset = hunter_dataset.collect_dataset:main',
         ],
     },
 )

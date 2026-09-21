@@ -37,7 +37,7 @@ def _warn(label, detail=''):
     WARNS.append(label)
 
 
-def inspect(path: str, expected_hz: float = spec.DATASET_HZ) -> int:
+def inspect(path: str, expected_hz: float = spec.DATASET_HZ, expect_constant=()) -> int:
     print(f"\n=== {path} ===")
     with h5py.File(path, 'r') as h:
         obs = h['observations'][:]
@@ -137,7 +137,10 @@ def inspect(path: str, expected_hz: float = spec.DATASET_HZ) -> int:
             print( "!!  On IMS this is expected (0% curvature binding). On any twisty track")
             print( "!!  it means the speed profile did not engage -- check the params file.")
             print("!" * 78 + "\n")
-            _ok(f"{name} carries signal", False, "constant column")
+            if name in expect_constant:
+                _warn(f"{name} is constant", "declared expected for this track (--expect-constant)")
+            else:
+                _ok(f"{name} carries signal", False, "constant column")
         else:
             _ok(f"{name} carries signal", True, f"std={sd:.4f}, {uniq} unique")
 
@@ -180,8 +183,11 @@ def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('h5')
     p.add_argument('--hz', type=float, default=spec.DATASET_HZ)
+    p.add_argument('--expect-constant', default='',
+                   help='comma-separated action columns allowed to be constant, e.g. speed_mps on '
+                        'IMS (0%% curvature binding). Downgrades that FAIL to a WARN; the banner still prints.')
     a = p.parse_args(argv)
-    return inspect(a.h5, a.hz)
+    return inspect(a.h5, a.hz, [c for c in a.expect_constant.split(',') if c])
 
 
 if __name__ == '__main__':

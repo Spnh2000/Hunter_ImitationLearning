@@ -1,0 +1,16 @@
+{
+  "bag": "/home/thesp/sp_codes/hunter_robot/datasets/raw/IMS_2.7ms_p1/bag",
+  "scans_total": 4383,
+  "scans_pre_post_run_trimmed": 10,
+  "join_dt_ms": {
+    "median": 3.0,
+    "p95": 10.0,
+    "max": 10.0,
+    "slop": 15.0
+  },
+  "rows_rejected_slop": 0,
+  "rows_kept": 4373,
+  "episode_events_matched_exactly": 4373,
+  "rows": 4373,
+  "out": "/home/thesp/sp_codes/hunter_robot/datasets/raw/IMS_2.7ms_p1/dataset.hdf5"
+}

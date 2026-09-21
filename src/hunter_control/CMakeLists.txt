@@ -58,4 +58,12 @@ ament_target_dependencies(episode_monitor
   rclcpp hunter_msgs sensor_msgs std_srvs ros_gz_interfaces)
 install(TARGETS episode_monitor DESTINATION lib/${PROJECT_NAME})
 
+# Phase 8 student. A Python program installed into the same lib dir under the
+# <controller>_tracker name, so benchmark.launch.py's
+#   executable=[controller, '_tracker']
+# resolves controller:=policy with no launch change. Precedent:
+# hunter_benchmark installs metrics_logger.py the same way.
+install(PROGRAMS scripts/policy_tracker.py
+  DESTINATION lib/${PROJECT_NAME} RENAME policy_tracker)
+
 ament_package()

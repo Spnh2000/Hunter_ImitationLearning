@@ -1,0 +1,13 @@
+# Phase 8 training defaults. One file for all six policies; arch and seed are
+# CLI arguments so the six runs differ only in what the brief says they differ in.
+heldout_tracks: [Silverstone, SaoPaulo, Montreal]   # decided 2026-09-21: 5 train / 3 held out
+heldout_lap_rule: p1_lap1        # second lap of every pass-p1 run on training tracks
+drop_terminal_episodes: true     # a crashed expert is not a teacher (expert rows only)
+epochs: 60
+batch: 256
+lr: 0.001
+weight_decay: 0.0
+patience: 10                     # on held-out-LAP loss; held-out tracks never steer training
+n_steer_bins: 21                 # discrete arch only; edges stored in the checkpoint
+n_speed_bins: 21
+threads: 1                       # Gazebo shares these cores during collection
