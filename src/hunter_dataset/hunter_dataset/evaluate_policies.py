@@ -116,7 +116,18 @@ def _policy_meta(name):
             'seed': tc.get('seed', 0), 'ckpt': os.path.abspath(name)}
 
 
-def run(node, meta, track, tcfg, speed, laps, out_root, log, max_wall_s):
+def run(node, meta, track, tcfg, speed, laps, out_root, log, max_wall_s, attempts=2):
+    # ros2_control startup race (see collect_dataset.RETRY_STATUSES): one retry.
+    for attempt in range(1, attempts + 1):
+        r = _run_once(node, meta, track, tcfg, speed, laps, out_root, log, max_wall_s)
+        if r.get('status') != 'no_start' or attempt == attempts:
+            return r
+        log(f'  retry {attempt}/{attempts - 1}: no_start -- fresh launch')
+        shutil.rmtree(os.path.join(out_root, f'{track}_{speed}ms_eval_{meta["policy"]}'), ignore_errors=True)
+    return r
+
+
+def _run_once(node, meta, track, tcfg, speed, laps, out_root, log, max_wall_s):
     files = _resolve(track, tcfg)
     run_id = f'eval_{meta["policy"]}'
     run_dir = os.path.join(out_root, f'{track}_{speed}ms_{run_id}')

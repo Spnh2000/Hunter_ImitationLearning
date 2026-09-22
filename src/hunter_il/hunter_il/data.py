@@ -93,14 +93,20 @@ class Split:
 
 
 def make_split(runs: list[Run], heldout_tracks: list[str], heldout_lap_rule: str = 'p1_lap1',
-               drop_terminal_episodes: bool = True) -> Split:
+               drop_terminal_episodes: bool = True, heldout_lap_caps=(2.1, 2.7)) -> Split:
     """Two-level split.
 
     heldout_tracks     : entire tracks never seen in training (generalisation)
-    heldout_lap_rule   : 'p1_lap1' = on training tracks, lap_index 1 of every
-                         pass-p1 run (the second lap from a standing start:
-                         steady-state, one per speed) is validation. That
-                         measures memorisation of seen geometry.
+    heldout_lap_rule   : 'p1_lap1' = on training tracks, lap_index 1 of the
+                         pass-p1 run at each cap in heldout_lap_caps (the
+                         second lap from a standing start: steady-state) is
+                         validation -- two laps per training track with the
+                         default caps, per the brief. Holding out lap 1 at
+                         EVERY cap was the first version and cost half the
+                         training data while p1 was the only pass; a
+                         deterministic expert's lap 1 ~= lap 0, so the
+                         memorisation number is stable with far fewer rows.
+                         That measures memorisation of seen geometry.
     drop_terminal_episodes : episodes that end in a crash are excluded from
                          TRAINING when the data is expert-only (a crashed
                          expert is not a teacher); they stay in validation.
@@ -111,13 +117,12 @@ def make_split(runs: list[Run], heldout_tracks: list[str], heldout_lap_rule: str
         if r.track_id in heldout_tracks:
             val_tracks.append((i, rows))
             continue
-        is_val = np.zeros(len(r), bool)
-        if heldout_lap_rule == 'p1_lap1' and r.run_id.endswith('_p1'):
-            is_val = r.lap_index == 1
-        elif heldout_lap_rule == 'none':
-            pass
-        else:
+        if heldout_lap_rule not in ('p1_lap1', 'none'):
             raise ValueError(heldout_lap_rule)
+        is_val = np.zeros(len(r), bool)
+        if heldout_lap_rule == 'p1_lap1' and r.run_id.endswith('_p1') and \
+                any(abs(r.max_speed_mps - c) < 1e-6 for c in heldout_lap_caps):
+            is_val = r.lap_index == 1
         keep = ~is_val
         if drop_terminal_episodes and r.terminals.any():
             bad_eps = np.unique(r.episode_id[r.terminals])

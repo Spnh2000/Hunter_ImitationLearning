@@ -67,7 +67,8 @@ def train(cfg: dict, arch: str, data_dir: str, out: str, seed: int, log=print) -
     log(f'{len(runs)} runs, {sum(len(r) for r in runs)} rows, tracks '
         f'{sorted({r.track_id for r in runs})}')
     split = make_split(runs, cfg['heldout_tracks'], cfg.get('heldout_lap_rule', 'p1_lap1'),
-                       cfg.get('drop_terminal_episodes', True))
+                       cfg.get('drop_terminal_episodes', True),
+                       tuple(cfg.get('heldout_lap_caps', (2.1, 2.7))))
     log(split.describe(runs))
 
     K = models.k_for(arch)

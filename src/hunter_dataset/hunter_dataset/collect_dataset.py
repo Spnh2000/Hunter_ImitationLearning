@@ -176,8 +176,28 @@ def _stop_process(pid, name, int_wait, term_wait, log):
     return 'alive'
 
 
+# Startup statuses worth one more try with a fresh launch. Seen in 2 of 24 p1
+# runs: the ackermann_like_controller spawner never reached
+# /controller_manager/list_controllers although the joint_state_broadcaster
+# spawner had just used it -- a ros2_control discovery race, not a data
+# problem. A retry is a new Gazebo, not a poke at the old one.
+RETRY_STATUSES = ('no_diagnostics_180s', 'launch_died_early')
+
+
 def run_one(node, track, tcfg, speed, pass_name, pcfg, laps_target, out_root, log,
-            delete_bag_on_pass=False):
+            delete_bag_on_pass=False, attempts=2):
+    for attempt in range(1, attempts + 1):
+        r = _run_once(node, track, tcfg, speed, pass_name, pcfg, laps_target, out_root, log,
+                      delete_bag_on_pass)
+        if r.get('status') not in RETRY_STATUSES or attempt == attempts:
+            return r
+        log(f'  retry {attempt}/{attempts - 1}: {r["status"]} -- fresh launch')
+        shutil.rmtree(os.path.join(out_root, f'{track}_{speed}ms_{pass_name}'), ignore_errors=True)
+    return r
+
+
+def _run_once(node, track, tcfg, speed, pass_name, pcfg, laps_target, out_root, log,
+              delete_bag_on_pass=False):
     files = _resolve(track, tcfg)
     run_dir = os.path.join(out_root, f'{track}_{speed}ms_{pass_name}')
     report_path = os.path.join(run_dir, 'collection_report.json')
@@ -230,11 +250,13 @@ def run_one(node, track, tcfg, speed, pass_name, pcfg, laps_target, out_root, lo
             report.update(status='launch_died_early', exit_code=proc.returncode)
             log('  ABORT: launch exited before driving started (see launch.log)')
             _teardown(proc, pgid, node, log, report)
+            _write(report_path, report)
             return report
         if time.time() - t0 > 180:
             report.update(status='no_diagnostics_180s')
             log('  ABORT: no /tracking/diagnostics within 180 s')
             _teardown(proc, pgid, node, log, report)
+            _write(report_path, report)
             return report
     log(f'    driving; track length {node.track_len:.1f} m, target {laps_target * node.track_len:.0f} m')
 

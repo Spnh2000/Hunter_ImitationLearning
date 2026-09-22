@@ -27,7 +27,8 @@ def main():
     with open(a.config) as f:
         cfg = yaml.safe_load(f)
     runs = [load_run(p) for p in find_runs(a.data_dir)]
-    split = make_split(runs, cfg['heldout_tracks'], cfg.get('heldout_lap_rule', 'p1_lap1'), False)
+    split = make_split(runs, cfg['heldout_tracks'], cfg.get('heldout_lap_rule', 'p1_lap1'), False,
+                       tuple(cfg.get('heldout_lap_caps', (2.1, 2.7))))
     rows = []
     print(f'{"checkpoint":40s} {"arch":9s} | {"laps loss":>9s} {"steer":>7s} {"speed":>6s} | '
           f'{"tracks loss":>11s} {"steer":>7s} {"speed":>6s}')

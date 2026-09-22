@@ -1,7 +1,8 @@
 # Phase 8 training defaults. One file for all six policies; arch and seed are
 # CLI arguments so the six runs differ only in what the brief says they differ in.
 heldout_tracks: [Silverstone, SaoPaulo, Montreal]   # decided 2026-09-21: 5 train / 3 held out
-heldout_lap_rule: p1_lap1        # second lap of every pass-p1 run on training tracks
+heldout_lap_rule: p1_lap1        # second lap of the pass-p1 run on training tracks...
+heldout_lap_caps: [2.1, 2.7]     # ...at these caps only: 2 held-out laps per training track
 drop_terminal_episodes: true     # a crashed expert is not a teacher (expert rows only)
 epochs: 60
 batch: 256

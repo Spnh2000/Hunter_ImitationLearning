@@ -145,7 +145,20 @@ class DaggerNode(Node):
 
 
 def rollout(node, track, tcfg, speed, it, ckpt, arch, laps, out_root, log, respawn_back_m,
-            max_crashes, settle_s):
+            max_crashes, settle_s, attempts=2):
+    # ros2_control startup race (see collect_dataset.RETRY_STATUSES): one retry.
+    for attempt in range(1, attempts + 1):
+        r = _rollout_once(node, track, tcfg, speed, it, ckpt, arch, laps, out_root, log,
+                          respawn_back_m, max_crashes, settle_s)
+        if r.get('status') != 'no_start' or attempt == attempts:
+            return r
+        log(f'  retry {attempt}/{attempts - 1}: no_start -- fresh launch')
+        shutil.rmtree(os.path.join(out_root, f'{track}_{speed}ms_dagger_it{it}'), ignore_errors=True)
+    return r
+
+
+def _rollout_once(node, track, tcfg, speed, it, ckpt, arch, laps, out_root, log, respawn_back_m,
+                  max_crashes, settle_s):
     files = _resolve(track, tcfg)
     run_id = f'dagger_it{it}'
     run_dir = os.path.join(out_root, f'{track}_{speed}ms_{run_id}')
