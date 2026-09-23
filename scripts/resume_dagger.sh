@@ -17,7 +17,15 @@ OK=$(grep -l '"status": "ok"' datasets/raw/*dagger_it*/collection_report.json 2>
 echo "resuming with $OK/75 rollouts already banked"
 LEFT=$(timeout 20 ros2 node list --no-daemon --spin-time 2 2>/dev/null | wc -l)
 [ "$LEFT" != "0" ] && { echo "ABORT: $LEFT ROS nodes still up -- clean those first"; exit 1; }
-setsid nohup scripts/phase8_pipeline.sh --skip-train >> results/phase8_pipeline2.log 2>&1 < /dev/null &
+# systemd-inhibit: a closed laptop lid suspended the machine mid-rollout on
+# 2026-09-23, and it did not survive the resume -- the box rebooted and the
+# whole pipeline died. Worse, the runner could not even detect the freeze: its
+# stuck-watchdog counts SIMULATED seconds, and a suspended simulator publishes
+# no clock, so sim time stops advancing and the watchdog can never fire. The
+# inhibitor is the fix; the watchdog gap is noted in scripts/phase8_pipeline.sh.
+INHIBIT=""
+command -v systemd-inhibit >/dev/null && INHIBIT="systemd-inhibit --what=sleep:idle:handle-lid-switch --who=hunter_phase8 --why=DAgger_collection --mode=block"
+setsid nohup $INHIBIT scripts/phase8_pipeline.sh --skip-train >> results/phase8_pipeline2.log 2>&1 < /dev/null &
 disown
 sleep 5
 echo "resumed. tail -f results/phase8_pipeline2.log"
