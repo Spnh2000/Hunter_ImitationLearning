@@ -152,9 +152,9 @@ def rollout(node, track, tcfg, speed, it, ckpt, arch, laps, out_root, log, respa
     for attempt in range(1, attempts + 1):
         r = _rollout_once(node, track, tcfg, speed, it, ckpt, arch, laps, out_root, log,
                           respawn_back_m, max_crashes, settle_s)
-        if r.get('status') != 'no_start' or attempt == attempts:
+        if r.get('status') not in ('no_start', 'no_recorder') or attempt == attempts:
             return r
-        log(f'  retry {attempt}/{attempts - 1}: no_start -- fresh launch')
+        log(f'  retry {attempt}/{attempts - 1}: {r.get("status")} -- fresh launch')
         shutil.rmtree(os.path.join(out_root, f'{track}_{speed}ms_dagger_it{it}'), ignore_errors=True)
     return r
 
@@ -170,6 +170,18 @@ def _rollout_once(node, track, tcfg, speed, it, ckpt, arch, laps, out_root, log,
         if prev.get('status') == 'ok':
             log(f'  skip {track} @ {speed} it{it}: already ok ({prev["rows"]} rows)')
             return prev
+        shutil.rmtree(run_dir, ignore_errors=True)
+    # Clear ANY leftover run directory that is not a completed run. The
+    # earlier version only cleaned up when a report file existed -- but a hard
+    # crash (host suspend, reboot, SIGKILL) leaves a directory with a bag and
+    # NO report, so the cleanup was skipped and the stale bag/ survived.
+    # `ros2 bag record -o <dir>` then refuses to start because the output
+    # directory exists, the recorder dies at launch, and the rollout drives a
+    # perfect lap that records nothing. Cost one 24-minute Nuerburgring
+    # rollout on 2026-09-23; it did not corrupt anything, because the run ends
+    # as "ok+bag_not_finalised" rather than "ok" and is redone -- but only
+    # after wasting the drive.
+    elif os.path.isdir(run_dir):
         shutil.rmtree(run_dir, ignore_errors=True)
     pts, cum = _centerline(files['track_file'])
     report = {'track': track, 'speed_mps': speed, 'pass': run_id, 'dagger_iteration': it,
@@ -210,6 +222,18 @@ def _rollout_once(node, track, tcfg, speed, it, ckpt, arch, laps, out_root, log,
             _teardown(proc, pgid, node, log, report)
             _write(report_path, report)
             return report
+    # Is anything actually RECORDING? `ros2 bag record -o <dir>` refuses to
+    # start when the output directory exists, and dies at launch -- after which
+    # the rollout drives a flawless lap that produces no data at all. Checked
+    # here, before driving, because a missing recorder is otherwise invisible
+    # until the convert step 24 minutes later.
+    if not _sh(f'pgrep -g {pgid} -f "ros2 bag record"').split():
+        report.update(status='no_recorder')
+        log('  ABORT: no bag recorder in the process group -- nothing would be recorded')
+        _teardown(proc, pgid, node, log, report)
+        _write(report_path, report)
+        return report
+
     target_m = laps * node.track_len
     # The student must be capped at THIS run's speed. If its commands exceed the
     # cap the parameter never reached the node, and the whole rollout would be

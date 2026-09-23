@@ -138,6 +138,18 @@ def _run_once(node, meta, track, tcfg, speed, laps, out_root, log, max_wall_s):
             log(f'  skip {meta["policy"]} on {track}: {prev["status"]}')
             return prev
         shutil.rmtree(run_dir, ignore_errors=True)
+    # Clear ANY leftover run directory that is not a completed run. The
+    # earlier version only cleaned up when a report file existed -- but a hard
+    # crash (host suspend, reboot, SIGKILL) leaves a directory with a bag and
+    # NO report, so the cleanup was skipped and the stale bag/ survived.
+    # `ros2 bag record -o <dir>` then refuses to start because the output
+    # directory exists, the recorder dies at launch, and the rollout drives a
+    # perfect lap that records nothing. Cost one 24-minute Nuerburgring
+    # rollout on 2026-09-23; it did not corrupt anything, because the run ends
+    # as "ok+bag_not_finalised" rather than "ok" and is redone -- but only
+    # after wasting the drive.
+    elif os.path.isdir(run_dir):
+        shutil.rmtree(run_dir, ignore_errors=True)
     row = {k: '' for k in FIELDS}
     row.update(policy=meta['policy'], arch=meta['arch'], dataset=meta['dataset'], seed=meta['seed'],
                track=track, max_speed_mps=speed, run_dir=run_dir, status='started')
