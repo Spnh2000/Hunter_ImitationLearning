@@ -1,8 +1,11 @@
 # Phases 6–8 explained
 
 **Hunter V2 · ROS 2 Jazzy · Gazebo Harmonic · branch `dev-saqar`**
-Status as of 2026-09-23. Written to be readable without the surrounding
-conversation: what these phases are, why each decision was made, what has
+Status as of 2026-09-23. This is the technical reference. For the same material
+in plain language, with no machine-learning background assumed, see
+[`phases_6_8_simple.md`](phases_6_8_simple.md).
+
+Written to be readable without the surrounding conversation: what these phases are, why each decision was made, what has
 actually been measured, and what is still running.
 
 ---

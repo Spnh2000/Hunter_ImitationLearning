@@ -306,7 +306,7 @@ ros2 run hunter_dataset collect_dataset --plan src/hunter_dataset/config/collect
 
 ## Imitation learning (Phases 7–8)
 
-> **New here?** [`docs/phases_6_8_explained.md`](docs/phases_6_8_explained.md) explains the whole imitation-learning phase end to end — the method, every design decision and why, the four silent bugs that were found, and the current results.
+> **New here?** [`docs/phases_6_8_simple.md`](docs/phases_6_8_simple.md) explains this phase in plain language, assuming no machine-learning background — written to learn from and to teach from. [`docs/phases_6_8_explained.md`](docs/phases_6_8_explained.md) is the same material as a technical reference, with exact numbers, the bug postmortems and the commands.
 
 
 **Six policies:** {BC data, DAgger data} × {MLP, frame-stacked MLP (K=3), discretised}. Compared closed-loop in Gazebo on the three held-out tracks, PID as the reference row, N seeds each. Validation loss is reported next to that table; where the two rankings disagree is a finding, not a nuisance.
