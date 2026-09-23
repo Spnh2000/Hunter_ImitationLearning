@@ -166,7 +166,7 @@ it below. Without multiple caps the speed output would be nearly constant.
 
 ---
 
-## 5. The four bugs that mattered
+## 5. The five defects that mattered
 
 Each of these was silent — every node reported healthy while the answer was
 wrong. That is the recurring signature in this project, and the reason for the
@@ -229,6 +229,51 @@ terminate recorder-first (SIGINT, wait, SIGTERM) so the mcap finalises, and
 assert `ros2 node list` is empty before and after every run.
 
 ---
+
+### 5.5 Quantile bin edges collapsed (design flaw, found 2026-09-23)
+
+Not a wiring error — the code did what it was told. `bins.py` places 21
+steering and 21 speed bin edges at **training-set quantiles**, so resolution
+concentrates where the data is. The reasoning is standard. The steering
+distribution is peaked enough that it degenerates:
+
+```
+bin  0: [-0.46100, -0.07244]  width 0.38856   <- 84 % of the left range
+bin  7: [-0.00080, -0.00038]  width 0.00042
+bin 10: [-0.00005, +0.00000]  width 0.00005   <- contains 0
+bin 20: [+0.04962, +0.46100]  width 0.41138   <- 89 % of the right range
+```
+
+Widest ÷ narrowest = **9,931**. Eight bins resolve |steering| < 0.0006 rad —
+below anything the actuator expresses — while the two outer bins absorb most of
+the usable range, so a 0.4 rad corner decodes to 0.106 rad. Speed: **14 of 21
+bins narrower than 1e-3 m/s**, because the expert sits at the cap 72–94 % of
+the time (see §4.5) and the quantiles pile up there.
+
+`make_edges` has an epsilon nudge that keeps edges strictly increasing, which
+is what turned a degenerate quantile into a 4e-5 rad bin instead of a crash.
+That nudge made the failure silent: `test_bins.py` asserts round-trip error is
+within one bin width and that edges are monotonic and pinned to
+`ACTION_BOUNDS`, and **a collapsed set of edges passes all of those.**
+
+**Consequence for the experiment.** `bc_discrete_*` scores 24.9 mrad on
+held-out laps against the MLP's 7.4. That is not a measurement of
+discretisation; it is a measurement of discretisation with unusable bins, and
+one third of axis 1 currently answers no question. It also explains the
+anomaly noted in §8: the discrete arm degrades only 24.9 → 25.8 mrad from seen
+to unseen tracks where the MLP degrades 2.6×. Quantisation error dominates, so
+track difficulty barely registers.
+
+**Fix (not applied).** Floor the bin width, or blend quantile with uniform
+spacing — e.g. `edges = α·quantile + (1−α)·uniform` — then retrain the three
+discrete BC checkpoints (~1 h CPU, no simulation). The DAgger discrete models
+are not trained yet and would pick the fix up automatically. Add an assertion
+that no bin is narrower than the actuator's resolution, and print the edges at
+fit time; the round-trip test alone is provably insufficient.
+
+**Why it survived.** The inspector prints a loud banner when a *data* column is
+near-constant (§4.3). Nothing equivalent existed for a *model* artefact. The
+check was built where the worry already was.
 
 ## 6. Phases 7–8 — the experiment
 
@@ -303,6 +348,49 @@ seeds per configuration.
 
 Validation loss is reported **beside** it. Where the two rankings disagree is a
 finding, not an inconvenience.
+
+---
+
+### 6.5 How a policy is trained, and what a checkpoint is
+
+**Split** (§3): 185,527 training rows from 5 tracks; 67,510 held-out-lap rows
+from those same tracks; 138,607 rows from the 3 held-out tracks.
+
+**Loop.** 60 epochs, batch 256, Adam at lr 1e-3 with cosine decay, seeded. Per
+batch: forward 721 inputs (720 ranges ÷ 30 m, plus cap ÷ 2.81) → 2 outputs;
+MSE against the expert action **after both dimensions are mapped to [−1, 1]**
+by `ACTION_BOUNDS`, so steering (±0.46 rad) and speed (0–2.8 m/s) carry equal
+weight; backward; step. The discrete arch instead takes cross-entropy over the
+two bin heads.
+
+**Validation** runs both held-out groups each epoch under `torch.no_grad()`,
+reporting the model's own objective plus physical-unit RMSE per dimension so
+the three architectures are comparable on one scale.
+
+**Selection.** The saved weights are from the best **held-out-lap** epoch, with
+patience 10. The held-out *tracks* never influence any training decision —
+using them for early stopping would turn the test set into part of training.
+
+**Checkpoint** (`hunter_il.checkpoint.v1`, ~919 KB):
+
+| key | content |
+|---|---|
+| `state_dict` | 11 tensors, 226,119 parameters (`trunk.0.weight` is `(256, 721)`) |
+| `arch`, `K`, `cap_input` | how to rebuild the model before loading the weights |
+| `schema_version` | the `dataset_spec` version it trained against |
+| `bins` | `ActionBins` dict for `discrete`, else `None` |
+| `train_config`, `metrics` | config, seed, final scores, full 60-epoch history |
+
+`checkpoint.load()` raises on a schema major-version mismatch, and
+`policy_tracker` raises if its `arch` parameter disagrees with the file. The
+artefact is self-describing precisely so that it cannot be rebuilt into the
+wrong shape silently.
+
+**Deployment path.** `policy_tracker` calls
+`dataset_spec.scan_to_observation` — *the same function* the converter used to
+build the training data, imported from the same module. There is no second
+implementation of the 1080→720 downsample that could drift out of step with
+the data the model was fitted on.
 
 ---
 
@@ -425,12 +513,15 @@ tracks (~20 h) → the offline table beside it.
 
 MLP and frame-stacking are indistinguishable — the stacking hypothesis is
 answered, and it agrees with the asymmetry measurement in §6.3: there is no
-hidden state for history to recover. Discretisation is ~3× worse offline;
-whether that survives closed-loop is an open question, because bin-centre error
-is a *bounded* error and regression error is not.
+hidden state for history to recover. Discretisation is ~3× worse offline — but that number is **not
+usable** until §5.5 is fixed: its bins are degenerate, so the discrete arm is
+currently measuring bad bins rather than discretisation.
 
 **Open items:**
 
+- **Fix the discrete bins (§5.5) and retrain that arm** before the closed-loop
+  evaluation, or one third of axis 1 is uninterpretable. ~1 h CPU, no
+  simulation. This is the one open item that changes a result.
 - Per-wheel contact sensors (the chassis sensor misses wheel-first crashes).
   Adding them later changes what `trigger` means across datasets, so it should
   happen between collections, not during one.

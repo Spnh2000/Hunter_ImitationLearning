@@ -234,10 +234,12 @@ the teacher itself as the benchmark to beat.
 - **Menu instead of numbers** (**discretisation**) — instead of outputting
   "steer 0.037 radians", it picks one of 21 pre-set steering options. The idea:
   choosing from a menu can be an easier problem than producing an exact number.
-  The menu is finer near straight-ahead, where almost all driving happens.
+  The menu is meant to be finer near straight-ahead, where almost all driving
+  happens. **It currently is not** — see defect 5 in Part 8, which has to be
+  fixed before this arm of the experiment means anything.
 
 We did not just guess at these. Before training anything, we **measured**
-whether the current scan is enough (Part 6 below), and the measurement
+whether the current scan is enough (Part 7 below), and the measurement
 predicted that stacking would add nothing. That is the difference between a
 bake-off and a hypothesis test — and it is a good thing to say when presenting
 this work.
@@ -270,7 +272,187 @@ it is a switch we can turn off to test the pure version.
 
 ---
 
-## Part 5 — How we judge it
+## Part 5 — How a policy is actually made, and how to run one
+
+Parts 1–4 described the idea. This part is the mechanics: what training does,
+what file comes out, and how that file makes the robot drive. If you are
+explaining this to an engineer, this is the part they will ask about.
+
+### Step 1 — what goes in
+
+The 24 recorded runs, sitting in `datasets/raw/` as HDF5 files. 391,644 rows.
+Each row is one moment: 720 laser distances, and the two numbers the expert
+produced.
+
+Those rows get split three ways, and the split matters:
+
+| group | rows | used for |
+|---|---:|---|
+| **training** | 185,527 | the only rows the network is allowed to learn from |
+| **held-out laps** | 67,510 | two laps of each *training* track — "did it memorise this track?" |
+| **held-out tracks** | 138,607 | three tracks it never sees — "did it learn to drive?" |
+
+### Step 2 — the loop
+
+One **epoch** is one pass over all 185,527 training rows. Training runs 60 of
+them. Inside an epoch:
+
+```
+shuffle the rows                   (so the order never teaches anything)
+take them 256 at a time — a "batch":
+
+   forward    feed 720 laser numbers + 1 speed-limit number into the network,
+              out come 2 numbers: steering and speed
+   loss       measure how far those are from what the expert actually did
+   backward   work out, for each of the 226,119 weights, which direction would
+              have made that gap smaller
+   step       nudge every weight a little in that direction
+```
+
+That last pair is all that "learning" means here: **measure the error, nudge
+the weights to shrink it, repeat a few hundred thousand times.** Nothing more
+mysterious is happening.
+
+A detail worth understanding: steering is in radians (roughly ±0.46) and speed
+in m/s (0 to 2.8). If you measured the error in raw units, speed would dominate
+simply because its numbers are bigger, and the network would optimise speed at
+steering's expense. So both are rescaled to the range −1…1 before the error is
+measured — that way a 10 % mistake in steering counts the same as a 10 %
+mistake in speed.
+
+### Step 3 — checking honestly, once per epoch
+
+After each epoch, the two held-out groups are run through the network **with
+learning switched off**. That is the score that means something: the network
+cannot have memorised those rows, because it has never been allowed to adjust
+itself on them.
+
+This is also how you see trouble. If the training error keeps falling while the
+held-out error starts *rising*, the network has begun memorising instead of
+generalising — **overfitting**. Ours did not: both were still improving at
+epoch 59.
+
+### Step 4 — keeping the best version, not the last
+
+The weights are saved from whichever epoch scored best on the **held-out laps**
+— not from the final epoch, which is not necessarily the best one.
+
+Note *which* group is used for that choice. The held-out **tracks** are the
+final exam, and they are never allowed to influence any decision during
+training — not the stopping point, not the architecture, nothing. The moment
+you use your test set to pick something, it stops being a test set and starts
+being part of the training. That is one of the easiest ways to fool yourself in
+machine learning, and it is easy to do by accident.
+
+About 20 minutes per model on the CPU. Nine models, three architectures × three
+random starting points.
+
+### What comes out: the checkpoint
+
+One file: `checkpoints/bc_mlp_s0.pt`, 919 KB. Read the name as
+*BC data, MLP architecture, seed 0*.
+
+It is a dictionary containing:
+
+| what | why it is in there |
+|---|---|
+| `state_dict` | **the weights** — 226,119 learned numbers. This is the model |
+| `arch` = `mlp` | which network shape to rebuild before loading the weights into it |
+| `K` = `1` | how many consecutive scans it expects (3 for the stacked version) |
+| `cap_input` = `True` | it takes the speed limit as an extra input |
+| `schema_version` | which data format it was trained against |
+| `bins` | the 21+21 menu, for the discrete policy only (`None` for the others) |
+| `metrics`, `train_config` | the scores, the full 60-epoch history, the seed, the config |
+
+The weights themselves are just four tables of numbers:
+
+```
+trunk.0.weight  (256, 721)  184,576   ← 721 inputs: 720 laser + 1 speed limit
+trunk.2.weight  (128, 256)   32,768
+trunk.4.weight  (64, 128)     8,192
+head.weight     (2, 64)         128   ← 2 outputs: steering, speed
+```
+
+**The design principle worth stating out loud: the file describes itself.** It
+carries its own architecture, input width, bins and data-format version. You
+cannot load it into the wrong network shape, because the file says which shape
+it needs. Loading refuses outright if the data format has changed
+incompatibly, and the driving node refuses to start if you tell it an
+architecture that disagrees with the file.
+
+This sounds like bureaucracy until you picture the alternative: a model saved
+as bare weights, loaded a month later into a network someone has since edited.
+It loads without complaint and drives subtly wrongly forever. **A model that
+cannot be decoded without a second file is a model that will eventually be
+decoded wrong.**
+
+There is also a `.pt.json` beside each checkpoint with the same scores in
+readable text, so you can compare models without loading PyTorch at all:
+
+```bash
+cat checkpoints/bc_mlp_s0.pt.json | python3 -m json.tool | head -20
+```
+
+### How the checkpoint makes the robot drive
+
+Three lines, in `policy_tracker.py`:
+
+```python
+self.model, meta = checkpoint.load(ckpt)   # rebuild the network, load the weights
+obs = scan_to_observation(msg.ranges)      # 1080 laser beams -> the 720 the model expects
+a   = self.model(obs, cap)                 # -> steering, speed -> publish to the robot
+```
+
+The middle line is the one to point at. `scan_to_observation` is **the same
+function that built the training data**, imported from the same file. Not a
+reimplementation, not a copy — the same code. If that conversion ever changes,
+it changes in one place and both training and driving follow it together.
+
+The classic version of this bug is a model trained on data processed one way
+and deployed with data processed slightly differently — beams in a different
+order, a different unit, a different treatment of "no return". The model still
+runs. It just quietly produces nonsense. Sharing the function makes that
+impossible rather than unlikely.
+
+### Running one yourself
+
+```bash
+# a policy on a track it has NEVER seen, with the GUI
+scripts/watch_policy.sh checkpoints/bc_mlp_s0.pt SaoPaulo 2.1
+
+# the expert on the same track, for comparison
+scripts/watch_policy.sh pid SaoPaulo 2.1
+```
+
+A good order to learn from:
+
+1. `... bc_mlp_s0.pt Nuerburgring 1.5` — a track it trained on, slowest speed.
+   Does it drive at all?
+2. `... bc_mlp_s0.pt SaoPaulo 2.1` — never seen. Does it generalise?
+3. `... bc_mlp_s0.pt Montreal 2.7` — never seen, narrowest corridor (0.66 m of
+   margin, half of every other track), fastest. This is where it should
+   struggle.
+
+Watch the gap between the robot and the reference line in RViz. Expect visible
+wobble where the expert has none — and if it leaves the track, **that is a
+result, not a malfunction**. It is Part 3's compounding-error problem happening
+in front of you, and it is exactly what the DAgger rounds exist to fix.
+
+To score them all instead of watching one:
+
+```bash
+ros2 run hunter_dataset evaluate_policies \
+    --plan src/hunter_dataset/config/collection_plan.yaml \
+    --out results/eval_bc --laps 1.5 pid checkpoints/bc_*_s?.pt
+```
+
+That drives every policy on all three unseen tracks and writes `eval.csv`:
+crashes, laps completed, and true distance from the line, averaged over the
+three seeds.
+
+---
+
+## Part 6 — How we judge it
 
 The obvious way to score a neural network is its **validation loss**: show it
 examples it has never seen, and measure how far its answers are from the
@@ -301,7 +483,7 @@ point of insisting on closed-loop evaluation.
 
 ---
 
-## Part 6 — Measuring the ceiling before training anything
+## Part 7 — Measuring the ceiling before training anything
 
 Here is a question worth asking before spending days on training: **is this
 even possible?**
@@ -341,9 +523,9 @@ is what told us to feed the speed limit in.
 
 ---
 
-## Part 7 — What went wrong (the most useful part)
+## Part 8 — What went wrong (the most useful part)
 
-Four bugs mattered. All four were **silent**: every program reported that it
+Five things went wrong. All five were **silent**: every program reported that it
 was healthy while producing wrong answers. If you take one professional lesson
 from this project, that is it.
 
@@ -410,6 +592,67 @@ Now every runner tracks the programs it starts **by process ID**, shuts them
 down in the right order, and refuses to start the next run until it has
 confirmed the system is empty.
 
+### 5. The menu of steering options collapsed (a design flaw, not a typo)
+
+This one is different from the other four: nothing was miswired. The code did
+exactly what I told it to. What I told it to do was wrong, and I never looked
+at the result.
+
+**Background.** One of the three architectures does not output a steering
+*number*. It picks from a menu of 21 preset steering options — see Part 4. The
+question is where to put those 21 options along the range of ±0.461 radians.
+
+**What I chose.** Not evenly. The expert steers near zero almost all the time,
+so spreading the options evenly would waste most of them on hard-lock angles
+the robot rarely uses. Instead I spaced them by **quantiles**: put the options
+where the data actually is, so they bunch up near zero and spread out toward
+the limits. That reasoning is standard and it is correct.
+
+**What actually came out.** I dumped the menu to explain the file format to
+someone, and it looked like this:
+
+```
+option  0:  covers  -0.461 .. -0.072   ← 84 % of the entire left steering range
+option  7:  covers  -0.0008 .. -0.0004 ← a range no vehicle could express
+option 10:  covers  -0.00005 .. 0.0    ← likewise
+option 20:  covers  +0.050 .. +0.461   ← 89 % of the entire right steering range
+```
+
+The widest option is **9,931 times** wider than the narrowest. Eight of the 21
+are spent distinguishing steering angles within ±0.0006 rad — differences far
+below anything the steering can physically produce — while the two options at
+the ends each swallow most of the usable range. Ask this policy for a hard
+corner needing 0.4 rad and the best it can say is 0.106 rad. Speed is worse:
+**14 of its 21 options are narrower than 0.001 m/s.**
+
+**Why.** The steering distribution is not merely peaked, it is *extremely*
+peaked — the expert holds almost exactly straight for most of every lap. Push
+quantiles through a distribution that concentrated and they pile up on top of
+each other. My idea was right; I just never put a floor under how narrow an
+option was allowed to get, and — the actual mistake — **I never printed the
+menu and looked at it.**
+
+**What it costs.** The discrete policy scored 25 mrad against the plain
+network's 19. I had been reading that as "discretisation is worse". It is not a
+fair reading. That arm of the experiment is currently measuring *"discretisation
+with a broken menu"*, which answers no question anyone asked.
+
+It also explains something that had puzzled me: the discrete policy barely gets
+worse on unseen tracks (24.9 → 25.8) where the plain network degrades by 2.6×.
+That is not robustness. It is the menu error being so large that it drowns out
+whether the track is hard or easy.
+
+**The fix** is small — put a floor under the option width, or mix even spacing
+with quantile spacing — and retraining the three discrete models is about an
+hour of CPU with no new simulation. It has not been done yet; it is waiting on
+a decision, because it changes one third of the experiment.
+
+**The lesson**, and it is the same one as the other four: *the code was
+correct, the output was never inspected.* I had a tool that prints a loud
+warning when a column of data never varies (Part 4), and I built nothing
+equivalent for the menu. Every check you write protects the thing you were
+already worried about. This one existed for the data and not for the model.
+
 ### The pattern
 
 Write this on the whiteboard when you present:
@@ -417,8 +660,8 @@ Write this on the whiteboard when you present:
 > **Every failure in this project looked healthy from the inside.** Nothing
 > crashed. No error message appeared. The only way any of them was caught was
 > by checking the *output* against something external — ground truth, a
-> deliberately loud inspection, or an assertion that says "if this is ever
-> true, stop".
+> deliberately loud inspection, an assertion that says "if this is ever true,
+> stop", or simply printing the thing and reading it.
 
 That is why the dataset inspector prints a giant `!!!!` banner when a column of
 numbers never changes, why the runner refuses to start on a dirty system, and
@@ -426,7 +669,7 @@ why we recorded one lap before recording forty-five.
 
 ---
 
-## Part 8 — Explaining it to someone else
+## Part 9 — Explaining it to someone else
 
 ### In 30 seconds
 
@@ -481,7 +724,7 @@ different question: memorising a track it *has* seen.
 
 **"What if the laser simply isn't enough?"** We measured that before training
 anything — similar-looking scans get similar teacher actions (score 0.003–0.040
-where under 0.2 is healthy), so the information is there. See Part 6.
+where under 0.2 is healthy), so the information is there. See Part 7.
 
 ---
 
