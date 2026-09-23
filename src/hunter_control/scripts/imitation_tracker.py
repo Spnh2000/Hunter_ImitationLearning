@@ -10,19 +10,52 @@ import numpy as np
 import os
 
 class ImitationPolicy(nn.Module):
-    def __init__(self):
+    def __init__(self, cnn_channels, fc_hidden_sizes, kernel_size=5, dropout_rate=0.0, use_batch_norm=False):
         super(ImitationPolicy, self).__init__()
-        self.network = nn.Sequential(
-            nn.Linear(1080, 512),
-            nn.ReLU(),
-            nn.Linear(512, 256),
-            nn.ReLU(),
-            nn.Linear(256, 128),
-            nn.ReLU(),
-            nn.Linear(128, 2)
-        )
+        
+        # 1. Build 1D CNN feature extractor
+        cnn_layers = []
+        in_channels = 1
+        
+        for out_channels in cnn_channels:
+            cnn_layers.append(nn.Conv1d(in_channels, out_channels, kernel_size=kernel_size, padding=kernel_size//2))
+            if use_batch_norm:
+                cnn_layers.append(nn.BatchNorm1d(out_channels))
+            cnn_layers.append(nn.ReLU())
+            cnn_layers.append(nn.MaxPool1d(kernel_size=2))
+            in_channels = out_channels
+            
+        self.cnn = nn.Sequential(*cnn_layers)
+        
+        # Calculate flattened size
+        length = 1080
+        for _ in cnn_channels:
+            length = length // 2
+            
+        flattened_size = cnn_channels[-1] * length if cnn_channels else 1080
+        
+        # 2. Build Fully Connected head
+        fc_layers = []
+        in_features = flattened_size
+        
+        for h in fc_hidden_sizes:
+            fc_layers.append(nn.Linear(in_features, h))
+            if use_batch_norm:
+                fc_layers.append(nn.BatchNorm1d(h))
+            fc_layers.append(nn.ReLU())
+            if dropout_rate > 0.0:
+                fc_layers.append(nn.Dropout(dropout_rate))
+            in_features = h
+            
+        fc_layers.append(nn.Linear(in_features, 2)) # Output: [steering, speed]
+        self.fc = nn.Sequential(*fc_layers)
+
     def forward(self, x):
-        return self.network(x)
+        # x shape: [batch, 1080] -> Reshape for CNN: [batch, 1 channel, 1080]
+        x = x.unsqueeze(1)
+        x = self.cnn(x)
+        x = x.view(x.size(0), -1) # Flatten
+        return self.fc(x)
 
 from rclpy.qos import qos_profile_sensor_data
 
@@ -35,13 +68,28 @@ class ImitationTracker(Node):
 
         self.get_logger().info(f"Loading Imitation Policy from: {model_path}")
         
-        self.model = ImitationPolicy()
         try:
-            # Depending on how the model was saved, it could be a state_dict or the full model
-            # Here we assume state_dict based on typical PyTorch workflows
-            self.model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
+            checkpoint = torch.load(model_path, map_location=torch.device('cpu'))
+            
+            # Initialize model dynamically from saved hyperparameters
+            hparams = checkpoint['hyperparameters']
+            self.model = ImitationPolicy(
+                cnn_channels=hparams['cnn_channels'],
+                fc_hidden_sizes=hparams['fc_hidden_sizes'],
+                kernel_size=hparams['kernel_size'],
+                dropout_rate=hparams['dropout_rate'],
+                use_batch_norm=hparams['use_batch_norm']
+            )
+            
+            # Load weights
+            self.model.load_state_dict(checkpoint['state_dict'])
             self.model.eval()
-            self.get_logger().info("Model successfully loaded.")
+            
+            # Load action normalization stats
+            self.action_mean = np.array(checkpoint['action_mean'])
+            self.action_std = np.array(checkpoint['action_std'])
+            
+            self.get_logger().info("Model and normalization stats successfully loaded.")
         except Exception as e:
             self.get_logger().error(f"Failed to load model from {model_path}: {e}")
 
@@ -76,9 +124,14 @@ class ImitationTracker(Node):
         with torch.no_grad():
             output = self.model(input_tensor)
             
-        # The model outputs a tensor of shape [1, 2]: [steering, speed]
-        steering = output[0, 0].item()
-        speed = output[0, 1].item()
+        # The model outputs a normalized tensor of shape [1, 2]: [steering, speed]
+        normalized_actions = output.numpy()[0]
+        
+        # Un-normalize actions using saved statistics
+        real_actions = normalized_actions * self.action_std + self.action_mean
+        
+        steering = float(real_actions[0])
+        speed = float(real_actions[1])
 
         # Action Publishing
         twist_msg = TwistStamped()
