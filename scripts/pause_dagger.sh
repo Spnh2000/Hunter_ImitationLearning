@@ -65,6 +65,6 @@ if [ "$LEFT" != "0" ]; then
   echo "resume will refuse to start until these are gone."
   exit 1
 fi
-echo "ROS graph empty.
+echo "ROS graph empty."
 OK=$(grep -l '"status": "ok"' datasets/raw/*dagger_it*/collection_report.json 2>/dev/null | wc -l)
 echo "PAUSED. $OK/75 rollouts banked. Resume with scripts/resume_dagger.sh"
