@@ -15,8 +15,11 @@ CFG=src/hunter_il/config/train_default.yaml
 say() { echo "[$(date '+%F %T')] $*"; }
 
 say "=== DAgger: 5 iterations, MLP student, 1 lap per training track x speed (IMS 0.5) ==="
+# "$@" carries --skip-train through from resume_dagger.sh, so a resumed
+# iteration keeps the student it started with rather than retraining on its own
+# half-finished rollouts.
 ros2 run hunter_dataset dagger_runner --plan $PLAN --train-config $CFG --arch mlp \
-    --iterations 5 --laps 1.0 --data-dir datasets/raw --ckpt-dir checkpoints
+    --iterations 5 --laps 1.0 --data-dir datasets/raw --ckpt-dir checkpoints "$@"
 
 say "=== Part D again, now with DAgger coverage ==="
 ros2 run hunter_il il_diagnostics --data-dir datasets/raw --out diagnostics/p1_dagger
