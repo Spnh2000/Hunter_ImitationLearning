@@ -1,0 +1,1048 @@
+[11:55:08] pass p1: 24 runs, 45 laps, spawn_s_frac=0.0
+[11:55:08]    Shanghai      1.5 m/s  x2
+[11:55:08]    Shanghai      2.1 m/s  x2
+[11:55:08]    Shanghai      2.7 m/s  x2
+[11:55:08]    Nuerburgring  1.5 m/s  x2
+[11:55:08]    Nuerburgring  2.1 m/s  x2
+[11:55:08]    Nuerburgring  2.7 m/s  x2
+[11:55:08]    Melbourne     1.5 m/s  x2
+[11:55:08]    Melbourne     2.1 m/s  x2
+[11:55:08]    Melbourne     2.7 m/s  x2
+[11:55:08]    Monza         1.5 m/s  x2
+[11:55:08]    Monza         2.1 m/s  x2
+[11:55:08]    Monza         2.7 m/s  x2
+[11:55:08]    IMS           1.5 m/s  x1
+[11:55:08]    IMS           2.1 m/s  x1
+[11:55:08]    IMS           2.7 m/s  x1
+[11:55:08]    Silverstone   1.5 m/s  x2
+[11:55:08]    Silverstone   2.1 m/s  x2
+[11:55:08]    Silverstone   2.7 m/s  x2
+[11:55:08]    SaoPaulo      1.5 m/s  x2
+[11:55:08]    SaoPaulo      2.1 m/s  x2
+[11:55:08]    SaoPaulo      2.7 m/s  x2
+[11:55:08]    Montreal      1.5 m/s  x2
+[11:55:08]    Montreal      2.1 m/s  x2
+[11:55:08]    Montreal      2.7 m/s  x2
+[11:55:08] [1/24] Shanghai @ 1.5 m/s x2
+[11:55:14]   launch pid 383061 pgid 383061: Shanghai @ 1.5 m/s, 2 laps, spawn 0.00
+[11:55:31]     driving; track length 991.1 m, target 1982 m
+[11:56:31]         22/1982 m  laps 0  sim 15s  wall 77s  RTF 0.20  eta 117 min
+[11:57:32]         48/1982 m  laps 0  sim 32s  wall 138s  RTF 0.24  eta 93 min
+[11:58:33]         73/1982 m  laps 0  sim 49s  wall 198s  RTF 0.25  eta 87 min
+[11:59:33]         97/1982 m  laps 0  sim 65s  wall 258s  RTF 0.25  eta 84 min
+[12:00:33]        122/1982 m  laps 0  sim 82s  wall 319s  RTF 0.26  eta 81 min
+[12:01:34]        148/1982 m  laps 0  sim 99s  wall 380s  RTF 0.26  eta 78 min
+[12:02:35]        174/1982 m  laps 0  sim 117s  wall 441s  RTF 0.27  eta 77 min
+[12:03:36]        202/1982 m  laps 0  sim 136s  wall 501s  RTF 0.27  eta 74 min
+[12:04:37]        222/1982 m  laps 0  sim 149s  wall 562s  RTF 0.27  eta 74 min
+[12:05:38]        246/1982 m  laps 0  sim 165s  wall 623s  RTF 0.26  eta 73 min
+[12:06:39]        270/1982 m  laps 0  sim 181s  wall 684s  RTF 0.26  eta 72 min
+[12:07:39]        291/1982 m  laps 0  sim 196s  wall 745s  RTF 0.26  eta 72 min
+[12:08:39]        313/1982 m  laps 0  sim 211s  wall 805s  RTF 0.26  eta 72 min
+[12:09:40]        331/1982 m  laps 0  sim 223s  wall 865s  RTF 0.26  eta 72 min
+[12:10:40]        350/1982 m  laps 0  sim 236s  wall 926s  RTF 0.25  eta 72 min
+[12:11:41]        369/1982 m  laps 0  sim 249s  wall 987s  RTF 0.25  eta 72 min
+[12:12:41]        384/1982 m  laps 0  sim 258s  wall 1047s  RTF 0.25  eta 73 min
+[12:13:42]        407/1982 m  laps 0  sim 274s  wall 1108s  RTF 0.25  eta 71 min
+[12:14:42]        429/1982 m  laps 0  sim 288s  wall 1168s  RTF 0.25  eta 71 min
+[12:15:43]        448/1982 m  laps 0  sim 302s  wall 1229s  RTF 0.25  eta 70 min
+[12:16:43]        468/1982 m  laps 0  sim 315s  wall 1289s  RTF 0.24  eta 70 min
+[12:17:44]        487/1982 m  laps 0  sim 328s  wall 1349s  RTF 0.24  eta 69 min
+[12:18:45]        504/1982 m  laps 0  sim 339s  wall 1410s  RTF 0.24  eta 69 min
+[12:19:45]        517/1982 m  laps 0  sim 348s  wall 1471s  RTF 0.24  eta 69 min
+[12:20:46]        530/1982 m  laps 0  sim 356s  wall 1531s  RTF 0.23  eta 70 min
+[12:21:46]        542/1982 m  laps 0  sim 364s  wall 1592s  RTF 0.23  eta 70 min
+[12:22:47]        555/1982 m  laps 0  sim 373s  wall 1653s  RTF 0.23  eta 71 min
+[12:23:47]        569/1982 m  laps 0  sim 382s  wall 1713s  RTF 0.22  eta 71 min
+[12:24:47]        577/1982 m  laps 0  sim 389s  wall 1773s  RTF 0.22  eta 72 min
+[12:25:48]        588/1982 m  laps 0  sim 397s  wall 1834s  RTF 0.22  eta 73 min
+[12:26:49]        607/1982 m  laps 0  sim 410s  wall 1894s  RTF 0.22  eta 71 min
+[12:27:49]        622/1982 m  laps 0  sim 419s  wall 1955s  RTF 0.21  eta 71 min
+[12:28:49]        633/1982 m  laps 0  sim 427s  wall 2015s  RTF 0.21  eta 72 min
+[12:29:50]        644/1982 m  laps 0  sim 434s  wall 2076s  RTF 0.21  eta 72 min
+[12:30:51]        656/1982 m  laps 0  sim 442s  wall 2137s  RTF 0.21  eta 72 min
+[12:31:51]        671/1982 m  laps 0  sim 452s  wall 2197s  RTF 0.21  eta 72 min
+[12:32:51]        686/1982 m  laps 0  sim 462s  wall 2257s  RTF 0.20  eta 71 min
+[12:33:51]        701/1982 m  laps 0  sim 472s  wall 2317s  RTF 0.20  eta 71 min
+[12:34:51]        715/1982 m  laps 0  sim 482s  wall 2377s  RTF 0.20  eta 70 min
+[12:35:51]        730/1982 m  laps 0  sim 491s  wall 2437s  RTF 0.20  eta 70 min
+[12:36:52]        745/1982 m  laps 0  sim 501s  wall 2498s  RTF 0.20  eta 69 min
+[12:37:53]        769/1982 m  laps 0  sim 517s  wall 2559s  RTF 0.20  eta 67 min
+[12:38:54]        794/1982 m  laps 0  sim 534s  wall 2620s  RTF 0.20  eta 65 min
+[12:39:54]        818/1982 m  laps 0  sim 550s  wall 2680s  RTF 0.21  eta 64 min
+[12:40:55]        843/1982 m  laps 0  sim 567s  wall 2740s  RTF 0.21  eta 62 min
+[12:41:55]        869/1982 m  laps 0  sim 584s  wall 2801s  RTF 0.21  eta 60 min
+[12:42:56]        888/1982 m  laps 0  sim 600s  wall 2862s  RTF 0.21  eta 59 min
+[12:43:57]        903/1982 m  laps 0  sim 610s  wall 2922s  RTF 0.21  eta 58 min
+[12:44:57]        919/1982 m  laps 0  sim 621s  wall 2983s  RTF 0.21  eta 58 min
+[12:45:58]        935/1982 m  laps 0  sim 632s  wall 3044s  RTF 0.21  eta 57 min
+[12:46:59]        952/1982 m  laps 0  sim 644s  wall 3104s  RTF 0.21  eta 56 min
+[12:48:00]        967/1982 m  laps 0  sim 654s  wall 3165s  RTF 0.21  eta 55 min
+[12:49:00]        982/1982 m  laps 0  sim 664s  wall 3226s  RTF 0.21  eta 55 min
+[12:50:00]        997/1982 m  laps 1  sim 674s  wall 3286s  RTF 0.21  eta 54 min
+[12:51:01]       1022/1982 m  laps 1  sim 691s  wall 3347s  RTF 0.21  eta 52 min
+[12:52:02]       1048/1982 m  laps 1  sim 708s  wall 3408s  RTF 0.21  eta 51 min
+[12:53:02]       1076/1982 m  laps 1  sim 727s  wall 3468s  RTF 0.21  eta 49 min
+[12:54:03]       1105/1982 m  laps 1  sim 746s  wall 3529s  RTF 0.21  eta 47 min
+[12:55:04]       1133/1982 m  laps 1  sim 765s  wall 3589s  RTF 0.21  eta 45 min
+[12:56:04]       1159/1982 m  laps 1  sim 783s  wall 3650s  RTF 0.21  eta 43 min
+[12:57:05]       1187/1982 m  laps 1  sim 802s  wall 3710s  RTF 0.22  eta 41 min
+[12:58:05]       1215/1982 m  laps 1  sim 821s  wall 3771s  RTF 0.22  eta 40 min
+[12:59:06]       1243/1982 m  laps 1  sim 839s  wall 3832s  RTF 0.22  eta 38 min
+[13:00:07]       1272/1982 m  laps 1  sim 858s  wall 3892s  RTF 0.22  eta 36 min
+[13:01:07]       1298/1982 m  laps 1  sim 877s  wall 3953s  RTF 0.22  eta 35 min
+[13:02:08]       1326/1982 m  laps 1  sim 896s  wall 4013s  RTF 0.22  eta 33 min
+[13:03:08]       1354/1982 m  laps 1  sim 915s  wall 4074s  RTF 0.22  eta 32 min
+[13:04:09]       1382/1982 m  laps 1  sim 933s  wall 4135s  RTF 0.23  eta 30 min
+[13:05:09]       1410/1982 m  laps 1  sim 952s  wall 4195s  RTF 0.23  eta 28 min
+[13:06:10]       1438/1982 m  laps 1  sim 971s  wall 4256s  RTF 0.23  eta 27 min
+[13:07:10]       1466/1982 m  laps 1  sim 990s  wall 4316s  RTF 0.23  eta 25 min
+[13:08:11]       1494/1982 m  laps 1  sim 1008s  wall 4377s  RTF 0.23  eta 24 min
+[13:09:11]       1522/1982 m  laps 1  sim 1027s  wall 4437s  RTF 0.23  eta 22 min
+[13:10:12]       1550/1982 m  laps 1  sim 1046s  wall 4498s  RTF 0.23  eta 21 min
+[13:11:13]       1576/1982 m  laps 1  sim 1065s  wall 4558s  RTF 0.23  eta 20 min
+[13:12:13]       1604/1982 m  laps 1  sim 1083s  wall 4619s  RTF 0.23  eta 18 min
+[13:13:14]       1632/1982 m  laps 1  sim 1102s  wall 4679s  RTF 0.24  eta 17 min
+[13:14:14]       1661/1982 m  laps 1  sim 1121s  wall 4740s  RTF 0.24  eta 15 min
+[13:15:15]       1689/1982 m  laps 1  sim 1140s  wall 4801s  RTF 0.24  eta 14 min
+[13:16:16]       1717/1982 m  laps 1  sim 1159s  wall 4861s  RTF 0.24  eta 13 min
+[13:17:16]       1745/1982 m  laps 1  sim 1177s  wall 4922s  RTF 0.24  eta 11 min
+[13:18:17]       1773/1982 m  laps 1  sim 1196s  wall 4982s  RTF 0.24  eta 10 min
+[13:19:17]       1801/1982 m  laps 1  sim 1215s  wall 5043s  RTF 0.24  eta 8 min
+[13:20:18]       1829/1982 m  laps 1  sim 1234s  wall 5103s  RTF 0.24  eta 7 min
+[13:21:18]       1858/1982 m  laps 1  sim 1252s  wall 5164s  RTF 0.24  eta 6 min
+[13:22:19]       1880/1982 m  laps 1  sim 1271s  wall 5225s  RTF 0.24  eta 5 min
+[13:23:20]       1902/1982 m  laps 1  sim 1286s  wall 5285s  RTF 0.24  eta 4 min
+[13:24:20]       1922/1982 m  laps 1  sim 1299s  wall 5345s  RTF 0.24  eta 3 min
+[13:25:21]       1943/1982 m  laps 1  sim 1314s  wall 5406s  RTF 0.24  eta 2 min
+[13:26:21]       1965/1982 m  laps 1  sim 1329s  wall 5467s  RTF 0.24  eta 1 min
+[13:27:52]   ok: 26815 rows, bag 154.2 MB, inspect exit 0
+[13:27:52] [2/24] Shanghai @ 2.1 m/s x2
+[13:27:59]   launch pid 393259 pgid 393259: Shanghai @ 2.1 m/s, 2 laps, spawn 0.00
+[13:28:14]     driving; track length 991.1 m, target 1982 m
+[13:29:14]         29/1982 m  laps 0  sim -1327s  wall 75s  RTF -17.59  eta 84 min
+[13:30:15]         55/1982 m  laps 0  sim -1314s  wall 136s  RTF -9.66  eta 79 min
+[13:31:15]         86/1982 m  laps 0  sim -1300s  wall 196s  RTF -6.63  eta 73 min
+[13:32:15]        117/1982 m  laps 0  sim -1285s  wall 257s  RTF -5.00  eta 68 min
+[13:33:16]        146/1982 m  laps 0  sim -1270s  wall 317s  RTF -4.01  eta 66 min
+[13:34:16]        168/1982 m  laps 0  sim -1255s  wall 377s  RTF -3.33  eta 68 min
+[13:35:17]        198/1982 m  laps 0  sim -1240s  wall 438s  RTF -2.83  eta 66 min
+[13:36:18]        228/1982 m  laps 0  sim -1226s  wall 499s  RTF -2.46  eta 64 min
+[13:37:18]        256/1982 m  laps 0  sim -1212s  wall 560s  RTF -2.17  eta 63 min
+[13:38:19]        287/1982 m  laps 0  sim -1196s  wall 620s  RTF -1.93  eta 61 min
+[13:39:20]        316/1982 m  laps 0  sim -1180s  wall 681s  RTF -1.73  eta 60 min
+[13:40:21]        350/1982 m  laps 0  sim -1164s  wall 742s  RTF -1.57  eta 58 min
+[13:41:21]        385/1982 m  laps 0  sim -1147s  wall 803s  RTF -1.43  eta 55 min
+[13:42:22]        419/1982 m  laps 0  sim -1131s  wall 863s  RTF -1.31  eta 54 min
+[13:43:23]        453/1982 m  laps 0  sim -1115s  wall 924s  RTF -1.21  eta 52 min
+[13:44:23]        481/1982 m  laps 0  sim -1098s  wall 985s  RTF -1.12  eta 51 min
+[13:45:24]        514/1982 m  laps 0  sim -1082s  wall 1046s  RTF -1.04  eta 50 min
+[13:46:25]        547/1982 m  laps 0  sim -1066s  wall 1106s  RTF -0.96  eta 48 min
+[13:47:26]        573/1982 m  laps 0  sim -1051s  wall 1167s  RTF -0.90  eta 48 min
+[13:48:26]        598/1982 m  laps 0  sim -1037s  wall 1227s  RTF -0.85  eta 47 min
+[13:49:26]        627/1982 m  laps 0  sim -1024s  wall 1287s  RTF -0.80  eta 46 min
+[13:50:27]        660/1982 m  laps 0  sim -1008s  wall 1348s  RTF -0.75  eta 45 min
+[13:51:27]        687/1982 m  laps 0  sim -995s  wall 1408s  RTF -0.71  eta 44 min
+[13:52:28]        718/1982 m  laps 0  sim -980s  wall 1469s  RTF -0.67  eta 43 min
+[13:53:28]        749/1982 m  laps 0  sim -966s  wall 1529s  RTF -0.63  eta 42 min
+[13:54:29]        781/1982 m  laps 0  sim -950s  wall 1590s  RTF -0.60  eta 41 min
+[13:55:29]        814/1982 m  laps 0  sim -935s  wall 1651s  RTF -0.57  eta 40 min
+[13:56:30]        846/1982 m  laps 0  sim -919s  wall 1711s  RTF -0.54  eta 38 min
+[13:57:31]        874/1982 m  laps 0  sim -902s  wall 1772s  RTF -0.51  eta 37 min
+[13:58:32]        904/1982 m  laps 0  sim -886s  wall 1833s  RTF -0.48  eta 36 min
+[13:59:32]        935/1982 m  laps 0  sim -872s  wall 1894s  RTF -0.46  eta 35 min
+[14:00:33]        964/1982 m  laps 0  sim -856s  wall 1955s  RTF -0.44  eta 34 min
+[14:01:34]        998/1982 m  laps 1  sim -840s  wall 2016s  RTF -0.42  eta 33 min
+[14:02:35]       1027/1982 m  laps 1  sim -825s  wall 2076s  RTF -0.40  eta 32 min
+[14:03:35]       1062/1982 m  laps 1  sim -809s  wall 2137s  RTF -0.38  eta 31 min
+[14:04:36]       1098/1982 m  laps 1  sim -792s  wall 2197s  RTF -0.36  eta 29 min
+[14:05:36]       1133/1982 m  laps 1  sim -774s  wall 2258s  RTF -0.34  eta 28 min
+[14:06:37]       1159/1982 m  laps 1  sim -757s  wall 2319s  RTF -0.33  eta 27 min
+[14:07:38]       1194/1982 m  laps 1  sim -739s  wall 2379s  RTF -0.31  eta 26 min
+[14:08:38]       1234/1982 m  laps 1  sim -720s  wall 2440s  RTF -0.30  eta 25 min
+[14:09:39]       1274/1982 m  laps 1  sim -701s  wall 2500s  RTF -0.28  eta 23 min
+[14:10:39]       1306/1982 m  laps 1  sim -682s  wall 2561s  RTF -0.27  eta 22 min
+[14:11:40]       1347/1982 m  laps 1  sim -663s  wall 2621s  RTF -0.25  eta 21 min
+[14:12:41]       1387/1982 m  laps 1  sim -643s  wall 2682s  RTF -0.24  eta 19 min
+[14:13:41]       1427/1982 m  laps 1  sim -624s  wall 2743s  RTF -0.23  eta 18 min
+[14:14:42]       1462/1982 m  laps 1  sim -605s  wall 2803s  RTF -0.22  eta 17 min
+[14:15:42]       1500/1982 m  laps 1  sim -586s  wall 2863s  RTF -0.20  eta 15 min
+[14:16:42]       1540/1982 m  laps 1  sim -567s  wall 2924s  RTF -0.19  eta 14 min
+[14:17:43]       1573/1982 m  laps 1  sim -548s  wall 2984s  RTF -0.18  eta 13 min
+[14:18:44]       1611/1982 m  laps 1  sim -528s  wall 3045s  RTF -0.17  eta 12 min
+[14:19:44]       1652/1982 m  laps 1  sim -509s  wall 3106s  RTF -0.16  eta 10 min
+[14:20:45]       1692/1982 m  laps 1  sim -489s  wall 3166s  RTF -0.15  eta 9 min
+[14:21:46]       1733/1982 m  laps 1  sim -470s  wall 3227s  RTF -0.15  eta 8 min
+[14:22:46]       1774/1982 m  laps 1  sim -451s  wall 3288s  RTF -0.14  eta 6 min
+[14:23:47]       1814/1982 m  laps 1  sim -431s  wall 3348s  RTF -0.13  eta 5 min
+[14:24:47]       1854/1982 m  laps 1  sim -412s  wall 3409s  RTF -0.12  eta 4 min
+[14:25:48]       1884/1982 m  laps 1  sim -393s  wall 3469s  RTF -0.11  eta 3 min
+[14:26:48]       1924/1982 m  laps 1  sim -374s  wall 3529s  RTF -0.11  eta 2 min
+[14:27:48]       1960/1982 m  laps 1  sim -355s  wall 3590s  RTF -0.10  eta 1 min
+[14:28:51]   ok: 19960 rows, bag 114.7 MB, inspect exit 0
+[14:28:51] [3/24] Shanghai @ 2.7 m/s x2
+[14:28:57]   launch pid 397556 pgid 397556: Shanghai @ 2.7 m/s, 2 laps, spawn 0.00
+[14:29:12]     driving; track length 991.1 m, target 1982 m
+[14:30:13]         51/1982 m  laps 0  sim 19s  wall 75s  RTF 0.26  eta 47 min
+[14:31:13]        101/1982 m  laps 0  sim 38s  wall 136s  RTF 0.28  eta 42 min
+[14:32:14]        143/1982 m  laps 0  sim 57s  wall 196s  RTF 0.29  eta 42 min
+[14:33:14]        170/1982 m  laps 0  sim 75s  wall 257s  RTF 0.29  eta 46 min
+[14:34:14]        216/1982 m  laps 0  sim 94s  wall 317s  RTF 0.30  eta 43 min
+[14:35:15]        268/1982 m  laps 0  sim 113s  wall 378s  RTF 0.30  eta 40 min
+[14:36:16]        305/1982 m  laps 0  sim 132s  wall 439s  RTF 0.30  eta 40 min
+[14:37:16]        356/1982 m  laps 0  sim 151s  wall 499s  RTF 0.30  eta 38 min
+[14:38:16]        407/1982 m  laps 0  sim 170s  wall 559s  RTF 0.30  eta 36 min
+[14:39:17]        455/1982 m  laps 0  sim 189s  wall 620s  RTF 0.31  eta 35 min
+[14:40:18]        490/1982 m  laps 0  sim 208s  wall 680s  RTF 0.31  eta 35 min
+[14:41:18]        541/1982 m  laps 0  sim 227s  wall 741s  RTF 0.31  eta 33 min
+[14:42:18]        579/1982 m  laps 0  sim 246s  wall 801s  RTF 0.31  eta 32 min
+[14:43:19]        620/1982 m  laps 0  sim 265s  wall 862s  RTF 0.31  eta 32 min
+[14:44:20]        671/1982 m  laps 0  sim 284s  wall 922s  RTF 0.31  eta 30 min
+[14:45:20]        722/1982 m  laps 0  sim 303s  wall 983s  RTF 0.31  eta 29 min
+[14:46:21]        774/1982 m  laps 0  sim 322s  wall 1043s  RTF 0.31  eta 27 min
+[14:47:22]        826/1982 m  laps 0  sim 342s  wall 1104s  RTF 0.31  eta 26 min
+[14:48:23]        872/1982 m  laps 0  sim 361s  wall 1165s  RTF 0.31  eta 25 min
+[14:49:23]        912/1982 m  laps 0  sim 380s  wall 1225s  RTF 0.31  eta 24 min
+[14:50:23]        955/1982 m  laps 0  sim 398s  wall 1285s  RTF 0.31  eta 23 min
+[14:51:23]       1006/1982 m  laps 1  sim 417s  wall 1346s  RTF 0.31  eta 22 min
+[14:52:24]       1058/1982 m  laps 1  sim 437s  wall 1407s  RTF 0.31  eta 20 min
+[14:53:25]       1108/1982 m  laps 1  sim 456s  wall 1468s  RTF 0.31  eta 19 min
+[14:54:25]       1144/1982 m  laps 1  sim 475s  wall 1528s  RTF 0.31  eta 19 min
+[14:55:26]       1178/1982 m  laps 1  sim 494s  wall 1589s  RTF 0.31  eta 18 min
+[14:56:27]       1228/1982 m  laps 1  sim 513s  wall 1650s  RTF 0.31  eta 17 min
+[14:57:27]       1277/1982 m  laps 1  sim 532s  wall 1710s  RTF 0.31  eta 16 min
+[14:58:28]       1316/1982 m  laps 1  sim 552s  wall 1771s  RTF 0.31  eta 15 min
+[14:59:29]       1368/1982 m  laps 1  sim 571s  wall 1832s  RTF 0.31  eta 14 min
+[15:00:29]       1418/1982 m  laps 1  sim 590s  wall 1892s  RTF 0.31  eta 13 min
+[15:01:30]       1459/1982 m  laps 1  sim 609s  wall 1953s  RTF 0.31  eta 12 min
+[15:02:30]       1501/1982 m  laps 1  sim 628s  wall 2013s  RTF 0.31  eta 11 min
+[15:03:31]       1553/1982 m  laps 1  sim 647s  wall 2074s  RTF 0.31  eta 10 min
+[15:04:32]       1584/1982 m  laps 1  sim 666s  wall 2135s  RTF 0.31  eta 9 min
+[15:05:33]       1633/1982 m  laps 1  sim 685s  wall 2196s  RTF 0.31  eta 8 min
+[15:06:34]       1685/1982 m  laps 1  sim 705s  wall 2257s  RTF 0.31  eta 7 min
+[15:07:35]       1737/1982 m  laps 1  sim 724s  wall 2317s  RTF 0.31  eta 5 min
+[15:08:36]       1789/1982 m  laps 1  sim 743s  wall 2378s  RTF 0.31  eta 4 min
+[15:09:37]       1840/1982 m  laps 1  sim 762s  wall 2439s  RTF 0.31  eta 3 min
+[15:10:38]       1876/1982 m  laps 1  sim 781s  wall 2500s  RTF 0.31  eta 2 min
+[15:11:38]       1927/1982 m  laps 1  sim 800s  wall 2560s  RTF 0.31  eta 1 min
+[15:12:39]       1970/1982 m  laps 1  sim 819s  wall 2621s  RTF 0.31  eta 0 min
+[15:13:20]   ok: 16487 rows, bag 94.6 MB, inspect exit 0
+[15:13:20] [4/24] Nuerburgring @ 1.5 m/s x2
+[15:13:26]   launch pid 400396 pgid 400396: Nuerburgring @ 1.5 m/s, 2 laps, spawn 0.00
+[15:13:41]     driving; track length 889.5 m, target 1779 m
+[15:14:42]         26/1779 m  laps 0  sim 21s  wall 76s  RTF 0.27  eta 87 min
+[15:15:43]         55/1779 m  laps 0  sim 40s  wall 137s  RTF 0.30  eta 71 min
+[15:16:44]         84/1779 m  laps 0  sim 60s  wall 198s  RTF 0.30  eta 67 min
+[15:17:45]        114/1779 m  laps 0  sim 80s  wall 259s  RTF 0.31  eta 63 min
+[15:18:46]        143/1779 m  laps 0  sim 100s  wall 320s  RTF 0.31  eta 61 min
+[15:19:47]        172/1779 m  laps 0  sim 120s  wall 381s  RTF 0.32  eta 59 min
+[15:20:47]        202/1779 m  laps 0  sim 140s  wall 441s  RTF 0.32  eta 57 min
+[15:21:48]        229/1779 m  laps 0  sim 157s  wall 502s  RTF 0.31  eta 57 min
+[15:22:49]        257/1779 m  laps 0  sim 176s  wall 563s  RTF 0.31  eta 56 min
+[15:23:49]        285/1779 m  laps 0  sim 195s  wall 623s  RTF 0.31  eta 55 min
+[15:24:50]        312/1779 m  laps 0  sim 213s  wall 684s  RTF 0.31  eta 54 min
+[15:25:50]        331/1779 m  laps 0  sim 225s  wall 744s  RTF 0.30  eta 54 min
+[15:26:50]        353/1779 m  laps 0  sim 241s  wall 804s  RTF 0.30  eta 54 min
+[15:27:51]        371/1779 m  laps 0  sim 252s  wall 865s  RTF 0.29  eta 55 min
+[15:28:52]        398/1779 m  laps 0  sim 270s  wall 926s  RTF 0.29  eta 54 min
+[15:29:53]        421/1779 m  laps 0  sim 286s  wall 987s  RTF 0.29  eta 53 min
+[15:30:53]        435/1779 m  laps 0  sim 295s  wall 1047s  RTF 0.28  eta 54 min
+[15:31:53]        460/1779 m  laps 0  sim 312s  wall 1107s  RTF 0.28  eta 53 min
+[15:32:53]        487/1779 m  laps 0  sim 329s  wall 1167s  RTF 0.28  eta 52 min
+[15:33:54]        515/1779 m  laps 0  sim 348s  wall 1228s  RTF 0.28  eta 50 min
+[15:34:54]        544/1779 m  laps 0  sim 367s  wall 1288s  RTF 0.29  eta 49 min
+[15:35:54]        572/1779 m  laps 0  sim 386s  wall 1348s  RTF 0.29  eta 47 min
+[15:36:54]        601/1779 m  laps 0  sim 405s  wall 1408s  RTF 0.29  eta 46 min
+[15:37:54]        629/1779 m  laps 0  sim 424s  wall 1468s  RTF 0.29  eta 45 min
+[15:38:54]        657/1779 m  laps 0  sim 443s  wall 1528s  RTF 0.29  eta 43 min
+[15:39:55]        687/1779 m  laps 0  sim 463s  wall 1589s  RTF 0.29  eta 42 min
+[15:40:56]        710/1779 m  laps 0  sim 478s  wall 1650s  RTF 0.29  eta 41 min
+[15:41:57]        736/1779 m  laps 0  sim 496s  wall 1711s  RTF 0.29  eta 40 min
+[15:42:57]        765/1779 m  laps 0  sim 515s  wall 1771s  RTF 0.29  eta 39 min
+[15:43:57]        793/1779 m  laps 0  sim 534s  wall 1831s  RTF 0.29  eta 38 min
+[15:44:57]        822/1779 m  laps 0  sim 553s  wall 1891s  RTF 0.29  eta 37 min
+[15:45:58]        851/1779 m  laps 0  sim 572s  wall 1952s  RTF 0.29  eta 35 min
+[15:46:59]        880/1779 m  laps 0  sim 592s  wall 2013s  RTF 0.29  eta 34 min
+[15:47:59]        909/1779 m  laps 1  sim 610s  wall 2073s  RTF 0.29  eta 33 min
+[15:49:00]        937/1779 m  laps 1  sim 630s  wall 2134s  RTF 0.30  eta 32 min
+[15:50:00]        963/1779 m  laps 1  sim 649s  wall 2194s  RTF 0.30  eta 31 min
+[15:51:00]        992/1779 m  laps 1  sim 668s  wall 2254s  RTF 0.30  eta 30 min
+[15:52:01]       1021/1779 m  laps 1  sim 687s  wall 2315s  RTF 0.30  eta 29 min
+[15:53:01]       1049/1779 m  laps 1  sim 706s  wall 2375s  RTF 0.30  eta 28 min
+[15:54:01]       1077/1779 m  laps 1  sim 725s  wall 2435s  RTF 0.30  eta 26 min
+[15:55:02]       1106/1779 m  laps 1  sim 744s  wall 2496s  RTF 0.30  eta 25 min
+[15:56:03]       1135/1779 m  laps 1  sim 764s  wall 2557s  RTF 0.30  eta 24 min
+[15:57:03]       1163/1779 m  laps 1  sim 783s  wall 2617s  RTF 0.30  eta 23 min
+[15:58:04]       1192/1779 m  laps 1  sim 802s  wall 2678s  RTF 0.30  eta 22 min
+[15:59:05]       1222/1779 m  laps 1  sim 822s  wall 2739s  RTF 0.30  eta 21 min
+[16:00:06]       1251/1779 m  laps 1  sim 842s  wall 2800s  RTF 0.30  eta 20 min
+[16:01:06]       1281/1779 m  laps 1  sim 861s  wall 2860s  RTF 0.30  eta 19 min
+[16:02:07]       1310/1779 m  laps 1  sim 881s  wall 2921s  RTF 0.30  eta 17 min
+[16:03:08]       1340/1779 m  laps 1  sim 901s  wall 2982s  RTF 0.30  eta 16 min
+[16:04:09]       1369/1779 m  laps 1  sim 920s  wall 3043s  RTF 0.30  eta 15 min
+[16:05:10]       1399/1779 m  laps 1  sim 940s  wall 3104s  RTF 0.30  eta 14 min
+[16:06:11]       1429/1779 m  laps 1  sim 960s  wall 3165s  RTF 0.30  eta 13 min
+[16:07:12]       1458/1779 m  laps 1  sim 980s  wall 3226s  RTF 0.30  eta 12 min
+[16:08:13]       1488/1779 m  laps 1  sim 999s  wall 3287s  RTF 0.30  eta 11 min
+[16:09:13]       1517/1779 m  laps 1  sim 1019s  wall 3347s  RTF 0.30  eta 10 min
+[16:10:14]       1547/1779 m  laps 1  sim 1039s  wall 3408s  RTF 0.30  eta 9 min
+[16:11:15]       1576/1779 m  laps 1  sim 1058s  wall 3469s  RTF 0.31  eta 7 min
+[16:12:15]       1605/1779 m  laps 1  sim 1078s  wall 3529s  RTF 0.31  eta 6 min
+[16:13:16]       1635/1779 m  laps 1  sim 1097s  wall 3590s  RTF 0.31  eta 5 min
+[16:14:17]       1664/1779 m  laps 1  sim 1117s  wall 3651s  RTF 0.31  eta 4 min
+[16:15:17]       1694/1779 m  laps 1  sim 1137s  wall 3711s  RTF 0.31  eta 3 min
+[16:16:18]       1723/1779 m  laps 1  sim 1156s  wall 3772s  RTF 0.31  eta 2 min
+[16:17:19]       1753/1779 m  laps 1  sim 1176s  wall 3833s  RTF 0.31  eta 1 min
+[16:18:45]   ok: 23883 rows, bag 136.4 MB, inspect exit 0
+[16:18:45] [5/24] Nuerburgring @ 2.1 m/s x2
+[16:18:51]   launch pid 403871 pgid 403871: Nuerburgring @ 2.1 m/s, 2 laps, spawn 0.00
+[16:19:05]     driving; track length 889.5 m, target 1779 m
+[16:20:06]         41/1779 m  laps 0  sim -1174s  wall 75s  RTF -15.61  eta 54 min
+[16:21:07]         76/1779 m  laps 0  sim -1155s  wall 136s  RTF -8.49  eta 51 min
+[16:22:08]        117/1779 m  laps 0  sim -1135s  wall 197s  RTF -5.77  eta 47 min
+[16:23:08]        153/1779 m  laps 0  sim -1115s  wall 258s  RTF -4.33  eta 46 min
+[16:24:09]        189/1779 m  laps 0  sim -1095s  wall 319s  RTF -3.44  eta 45 min
+[16:25:10]        230/1779 m  laps 0  sim -1076s  wall 380s  RTF -2.83  eta 43 min
+[16:26:11]        272/1779 m  laps 0  sim -1056s  wall 440s  RTF -2.40  eta 41 min
+[16:27:12]        310/1779 m  laps 0  sim -1036s  wall 501s  RTF -2.07  eta 40 min
+[16:28:13]        351/1779 m  laps 0  sim -1016s  wall 562s  RTF -1.81  eta 38 min
+[16:29:14]        388/1779 m  laps 0  sim -996s  wall 623s  RTF -1.60  eta 37 min
+[16:30:15]        427/1779 m  laps 0  sim -977s  wall 684s  RTF -1.43  eta 36 min
+[16:31:16]        469/1779 m  laps 0  sim -957s  wall 745s  RTF -1.28  eta 35 min
+[16:32:17]        510/1779 m  laps 0  sim -937s  wall 806s  RTF -1.16  eta 33 min
+[16:33:18]        550/1779 m  laps 0  sim -917s  wall 867s  RTF -1.06  eta 32 min
+[16:34:19]        590/1779 m  laps 0  sim -898s  wall 928s  RTF -0.97  eta 31 min
+[16:35:20]        631/1779 m  laps 0  sim -878s  wall 989s  RTF -0.89  eta 30 min
+[16:36:20]        673/1779 m  laps 0  sim -858s  wall 1050s  RTF -0.82  eta 29 min
+[16:37:21]        714/1779 m  laps 0  sim -838s  wall 1111s  RTF -0.75  eta 28 min
+[16:38:21]        753/1779 m  laps 0  sim -819s  wall 1171s  RTF -0.70  eta 27 min
+[16:39:22]        792/1779 m  laps 0  sim -799s  wall 1232s  RTF -0.65  eta 26 min
+[16:40:22]        830/1779 m  laps 0  sim -780s  wall 1292s  RTF -0.60  eta 25 min
+[16:41:23]        871/1779 m  laps 0  sim -760s  wall 1352s  RTF -0.56  eta 23 min
+[16:42:23]        912/1779 m  laps 1  sim -740s  wall 1413s  RTF -0.52  eta 22 min
+[16:43:23]        953/1779 m  laps 1  sim -721s  wall 1473s  RTF -0.49  eta 21 min
+[16:44:24]        986/1779 m  laps 1  sim -701s  wall 1533s  RTF -0.46  eta 21 min
+[16:45:25]       1027/1779 m  laps 1  sim -681s  wall 1594s  RTF -0.43  eta 19 min
+[16:46:25]       1057/1779 m  laps 1  sim -662s  wall 1654s  RTF -0.40  eta 19 min
+[16:47:25]       1097/1779 m  laps 1  sim -642s  wall 1714s  RTF -0.37  eta 18 min
+[16:48:26]       1139/1779 m  laps 1  sim -623s  wall 1775s  RTF -0.35  eta 17 min
+[16:49:26]       1176/1779 m  laps 1  sim -603s  wall 1836s  RTF -0.33  eta 16 min
+[16:50:27]       1218/1779 m  laps 1  sim -583s  wall 1897s  RTF -0.31  eta 15 min
+[16:51:28]       1259/1779 m  laps 1  sim -563s  wall 1957s  RTF -0.29  eta 13 min
+[16:52:29]       1294/1779 m  laps 1  sim -544s  wall 2018s  RTF -0.27  eta 13 min
+[16:53:30]       1335/1779 m  laps 1  sim -524s  wall 2079s  RTF -0.25  eta 12 min
+[16:54:30]       1376/1779 m  laps 1  sim -504s  wall 2139s  RTF -0.24  eta 10 min
+[16:55:31]       1418/1779 m  laps 1  sim -485s  wall 2200s  RTF -0.22  eta 9 min
+[16:56:32]       1456/1779 m  laps 1  sim -465s  wall 2261s  RTF -0.21  eta 8 min
+[16:57:33]       1497/1779 m  laps 1  sim -445s  wall 2322s  RTF -0.19  eta 7 min
+[16:58:34]       1538/1779 m  laps 1  sim -425s  wall 2383s  RTF -0.18  eta 6 min
+[16:59:35]       1580/1779 m  laps 1  sim -406s  wall 2444s  RTF -0.17  eta 5 min
+[17:00:35]       1621/1779 m  laps 1  sim -386s  wall 2505s  RTF -0.15  eta 4 min
+[17:01:36]       1660/1779 m  laps 1  sim -366s  wall 2566s  RTF -0.14  eta 3 min
+[17:02:37]       1697/1779 m  laps 1  sim -346s  wall 2627s  RTF -0.13  eta 2 min
+[17:03:38]       1738/1779 m  laps 1  sim -327s  wall 2688s  RTF -0.12  eta 1 min
+[17:05:06]   ok: 17767 rows, bag 101.8 MB, inspect exit 0
+[17:05:06] [6/24] Nuerburgring @ 2.7 m/s x2
+[17:05:12]   launch pid 405577 pgid 405577: Nuerburgring @ 2.7 m/s, 2 laps, spawn 0.00
+[17:05:29]     driving; track length 889.5 m, target 1779 m
+[17:06:29]         52/1779 m  laps 0  sim -868s  wall 77s  RTF -11.32  eta 43 min
+[17:07:29]         90/1779 m  laps 0  sim -850s  wall 137s  RTF -6.20  eta 43 min
+[17:08:30]        133/1779 m  laps 0  sim -831s  wall 197s  RTF -4.21  eta 41 min
+[17:09:30]        164/1779 m  laps 0  sim -812s  wall 258s  RTF -3.15  eta 42 min
+[17:10:31]        211/1779 m  laps 0  sim -793s  wall 318s  RTF -2.49  eta 39 min
+[17:11:31]        258/1779 m  laps 0  sim -774s  wall 379s  RTF -2.04  eta 37 min
+[17:12:32]        299/1779 m  laps 0  sim -755s  wall 439s  RTF -1.72  eta 36 min
+[17:13:32]        348/1779 m  laps 0  sim -737s  wall 499s  RTF -1.48  eta 34 min
+[17:14:33]        388/1779 m  laps 0  sim -718s  wall 560s  RTF -1.28  eta 33 min
+[17:15:33]        433/1779 m  laps 0  sim -700s  wall 621s  RTF -1.13  eta 32 min
+[17:16:34]        483/1779 m  laps 0  sim -681s  wall 681s  RTF -1.00  eta 30 min
+[17:17:34]        534/1779 m  laps 0  sim -662s  wall 742s  RTF -0.89  eta 29 min
+[17:18:35]        577/1779 m  laps 0  sim -643s  wall 803s  RTF -0.80  eta 28 min
+[17:19:35]        621/1779 m  laps 0  sim -624s  wall 863s  RTF -0.72  eta 27 min
+[17:20:36]        672/1779 m  laps 0  sim -605s  wall 923s  RTF -0.66  eta 25 min
+[17:21:36]        723/1779 m  laps 0  sim -587s  wall 984s  RTF -0.60  eta 24 min
+[17:22:36]        764/1779 m  laps 0  sim -568s  wall 1044s  RTF -0.54  eta 23 min
+[17:23:37]        805/1779 m  laps 0  sim -549s  wall 1104s  RTF -0.50  eta 22 min
+[17:24:37]        854/1779 m  laps 0  sim -530s  wall 1165s  RTF -0.46  eta 21 min
+[17:25:38]        905/1779 m  laps 1  sim -511s  wall 1226s  RTF -0.42  eta 20 min
+[17:26:38]        954/1779 m  laps 1  sim -493s  wall 1286s  RTF -0.38  eta 19 min
+[17:27:39]        989/1779 m  laps 1  sim -474s  wall 1346s  RTF -0.35  eta 18 min
+[17:28:39]       1032/1779 m  laps 1  sim -455s  wall 1407s  RTF -0.32  eta 17 min
+[17:29:39]       1063/1779 m  laps 1  sim -436s  wall 1467s  RTF -0.30  eta 16 min
+[17:30:40]       1114/1779 m  laps 1  sim -417s  wall 1528s  RTF -0.27  eta 15 min
+[17:31:40]       1161/1779 m  laps 1  sim -398s  wall 1588s  RTF -0.25  eta 14 min
+[17:32:41]       1202/1779 m  laps 1  sim -379s  wall 1648s  RTF -0.23  eta 13 min
+[17:33:41]       1253/1779 m  laps 1  sim -361s  wall 1709s  RTF -0.21  eta 12 min
+[17:34:42]       1287/1779 m  laps 1  sim -342s  wall 1769s  RTF -0.19  eta 11 min
+[17:35:42]       1337/1779 m  laps 1  sim -323s  wall 1830s  RTF -0.18  eta 10 min
+[17:36:42]       1387/1779 m  laps 1  sim -304s  wall 1890s  RTF -0.16  eta 9 min
+[17:37:43]       1437/1779 m  laps 1  sim -285s  wall 1950s  RTF -0.15  eta 8 min
+[17:38:43]       1478/1779 m  laps 1  sim -266s  wall 2011s  RTF -0.13  eta 7 min
+[17:39:44]       1526/1779 m  laps 1  sim -248s  wall 2071s  RTF -0.12  eta 6 min
+[17:40:44]       1577/1779 m  laps 1  sim -229s  wall 2132s  RTF -0.11  eta 5 min
+[17:41:45]       1628/1779 m  laps 1  sim -210s  wall 2192s  RTF -0.10  eta 3 min
+[17:42:45]       1669/1779 m  laps 1  sim -191s  wall 2253s  RTF -0.08  eta 2 min
+[17:43:45]       1708/1779 m  laps 1  sim -172s  wall 2313s  RTF -0.07  eta 2 min
+[17:44:46]       1759/1779 m  laps 1  sim -153s  wall 2373s  RTF -0.06  eta 0 min
+[17:45:36]   ok: 14857 rows, bag 85.5 MB, inspect exit 0
+[17:45:36] [7/24] Melbourne @ 1.5 m/s x2
+[17:45:42]   launch pid 407129 pgid 407129: Melbourne @ 1.5 m/s, 2 laps, spawn 0.00
+[17:45:57]     driving; track length 945.7 m, target 1891 m
+[17:46:57]         30/1891 m  laps 0  sim -722s  wall 75s  RTF -9.59  eta 78 min
+[17:47:58]         61/1891 m  laps 0  sim -702s  wall 136s  RTF -5.18  eta 68 min
+[17:48:58]         91/1891 m  laps 0  sim -682s  wall 196s  RTF -3.48  eta 64 min
+[17:49:58]        122/1891 m  laps 0  sim -661s  wall 256s  RTF -2.58  eta 62 min
+[17:50:58]        153/1891 m  laps 0  sim -641s  wall 316s  RTF -2.02  eta 60 min
+[17:51:59]        183/1891 m  laps 0  sim -620s  wall 377s  RTF -1.64  eta 59 min
+[17:52:59]        213/1891 m  laps 0  sim -600s  wall 437s  RTF -1.37  eta 57 min
+[17:53:59]        244/1891 m  laps 0  sim -579s  wall 498s  RTF -1.16  eta 56 min
+[17:55:00]        274/1891 m  laps 0  sim -559s  wall 558s  RTF -1.00  eta 55 min
+[17:56:00]        305/1891 m  laps 0  sim -538s  wall 618s  RTF -0.87  eta 54 min
+[17:57:00]        335/1891 m  laps 0  sim -518s  wall 678s  RTF -0.76  eta 52 min
+[17:58:00]        364/1891 m  laps 0  sim -498s  wall 738s  RTF -0.67  eta 52 min
+[17:59:01]        395/1891 m  laps 0  sim -477s  wall 799s  RTF -0.60  eta 50 min
+[18:00:01]        426/1891 m  laps 0  sim -456s  wall 859s  RTF -0.53  eta 49 min
+[18:01:02]        456/1891 m  laps 0  sim -436s  wall 920s  RTF -0.47  eta 48 min
+[18:02:02]        486/1891 m  laps 0  sim -415s  wall 980s  RTF -0.42  eta 47 min
+[18:03:03]        517/1891 m  laps 0  sim -395s  wall 1041s  RTF -0.38  eta 46 min
+[18:04:03]        548/1891 m  laps 0  sim -374s  wall 1101s  RTF -0.34  eta 45 min
+[18:05:04]        579/1891 m  laps 0  sim -354s  wall 1162s  RTF -0.30  eta 44 min
+[18:06:05]        600/1891 m  laps 0  sim -339s  wall 1223s  RTF -0.28  eta 44 min
+[18:07:05]        625/1891 m  laps 0  sim -323s  wall 1284s  RTF -0.25  eta 43 min
+[18:08:06]        649/1891 m  laps 0  sim -307s  wall 1344s  RTF -0.23  eta 43 min
+[18:09:06]        676/1891 m  laps 0  sim -289s  wall 1404s  RTF -0.21  eta 42 min
+[18:10:06]        702/1891 m  laps 0  sim -271s  wall 1464s  RTF -0.19  eta 41 min
+[18:11:07]        729/1891 m  laps 0  sim -253s  wall 1525s  RTF -0.17  eta 41 min
+[18:12:08]        751/1891 m  laps 0  sim -237s  wall 1586s  RTF -0.15  eta 40 min
+[18:13:09]        775/1891 m  laps 0  sim -221s  wall 1647s  RTF -0.13  eta 40 min
+[18:14:09]        801/1891 m  laps 0  sim -204s  wall 1707s  RTF -0.12  eta 39 min
+[18:15:09]        827/1891 m  laps 0  sim -186s  wall 1767s  RTF -0.11  eta 38 min
+[18:16:09]        851/1891 m  laps 0  sim -169s  wall 1827s  RTF -0.09  eta 37 min
+[18:17:10]        878/1891 m  laps 0  sim -151s  wall 1888s  RTF -0.08  eta 36 min
+[18:18:10]        904/1891 m  laps 0  sim -133s  wall 1948s  RTF -0.07  eta 35 min
+[18:19:10]        931/1891 m  laps 0  sim -116s  wall 2008s  RTF -0.06  eta 35 min
+[18:20:10]        957/1891 m  laps 1  sim -98s  wall 2069s  RTF -0.05  eta 34 min
+[18:21:11]        984/1891 m  laps 1  sim -80s  wall 2129s  RTF -0.04  eta 33 min
+[18:22:11]       1010/1891 m  laps 1  sim -63s  wall 2189s  RTF -0.03  eta 32 min
+[18:23:12]       1034/1891 m  laps 1  sim -46s  wall 2250s  RTF -0.02  eta 31 min
+[18:24:12]       1060/1891 m  laps 1  sim -29s  wall 2310s  RTF -0.01  eta 30 min
+[18:25:12]       1086/1891 m  laps 1  sim -11s  wall 2370s  RTF -0.00  eta 29 min
+[18:26:12]       1113/1891 m  laps 1  sim 6s  wall 2431s  RTF 0.00  eta 28 min
+[18:27:13]       1139/1891 m  laps 1  sim 24s  wall 2491s  RTF 0.01  eta 27 min
+[18:28:13]       1164/1891 m  laps 1  sim 42s  wall 2551s  RTF 0.02  eta 27 min
+[18:29:13]       1191/1891 m  laps 1  sim 59s  wall 2611s  RTF 0.02  eta 26 min
+[18:30:14]       1217/1891 m  laps 1  sim 77s  wall 2672s  RTF 0.03  eta 25 min
+[18:31:14]       1244/1891 m  laps 1  sim 95s  wall 2732s  RTF 0.03  eta 24 min
+[18:32:14]       1270/1891 m  laps 1  sim 113s  wall 2792s  RTF 0.04  eta 23 min
+[18:33:14]       1295/1891 m  laps 1  sim 130s  wall 2852s  RTF 0.05  eta 22 min
+[18:34:15]       1322/1891 m  laps 1  sim 148s  wall 2913s  RTF 0.05  eta 21 min
+[18:35:15]       1348/1891 m  laps 1  sim 166s  wall 2973s  RTF 0.06  eta 20 min
+[18:36:15]       1375/1891 m  laps 1  sim 183s  wall 3033s  RTF 0.06  eta 19 min
+[18:37:15]       1401/1891 m  laps 1  sim 201s  wall 3093s  RTF 0.07  eta 18 min
+[18:38:15]       1426/1891 m  laps 1  sim 219s  wall 3153s  RTF 0.07  eta 17 min
+[18:39:16]       1453/1891 m  laps 1  sim 236s  wall 3214s  RTF 0.07  eta 16 min
+[18:40:17]       1473/1891 m  laps 1  sim 250s  wall 3275s  RTF 0.08  eta 16 min
+[18:41:17]       1491/1891 m  laps 1  sim 262s  wall 3335s  RTF 0.08  eta 15 min
+[18:42:17]       1512/1891 m  laps 1  sim 276s  wall 3395s  RTF 0.08  eta 14 min
+[18:43:18]       1540/1891 m  laps 1  sim 295s  wall 3456s  RTF 0.09  eta 13 min
+[18:44:18]       1566/1891 m  laps 1  sim 312s  wall 3516s  RTF 0.09  eta 12 min
+[18:45:19]       1592/1891 m  laps 1  sim 330s  wall 3577s  RTF 0.09  eta 11 min
+[18:46:19]       1619/1891 m  laps 1  sim 347s  wall 3637s  RTF 0.10  eta 10 min
+[18:47:19]       1645/1891 m  laps 1  sim 365s  wall 3698s  RTF 0.10  eta 9 min
+[18:48:20]       1672/1891 m  laps 1  sim 383s  wall 3758s  RTF 0.10  eta 8 min
+[18:49:20]       1696/1891 m  laps 1  sim 400s  wall 3818s  RTF 0.10  eta 7 min
+[18:50:20]       1722/1891 m  laps 1  sim 418s  wall 3878s  RTF 0.11  eta 6 min
+[18:51:21]       1749/1891 m  laps 1  sim 436s  wall 3939s  RTF 0.11  eta 5 min
+[18:52:21]       1775/1891 m  laps 1  sim 453s  wall 3999s  RTF 0.11  eta 4 min
+[18:53:21]       1800/1891 m  laps 1  sim 471s  wall 4059s  RTF 0.12  eta 3 min
+[18:54:21]       1826/1891 m  laps 1  sim 489s  wall 4119s  RTF 0.12  eta 2 min
+[18:55:22]       1853/1891 m  laps 1  sim 506s  wall 4180s  RTF 0.12  eta 1 min
+[18:56:22]       1879/1891 m  laps 1  sim 524s  wall 4240s  RTF 0.12  eta 0 min
+[18:57:26]   ok: 25524 rows, bag 146.1 MB, inspect exit 0
+[18:57:26] [8/24] Melbourne @ 2.1 m/s x2
+[18:57:32]   launch pid 411524 pgid 411524: Melbourne @ 2.1 m/s, 2 laps, spawn 0.00
+[18:57:48]     driving; track length 945.7 m, target 1891 m
+[18:58:48]         38/1891 m  laps 0  sim 18s  wall 76s  RTF 0.24  eta 63 min
+[18:59:48]         71/1891 m  laps 0  sim 36s  wall 137s  RTF 0.26  eta 58 min
+[19:00:49]        109/1891 m  laps 0  sim 54s  wall 197s  RTF 0.27  eta 54 min
+[19:01:50]        145/1891 m  laps 0  sim 71s  wall 258s  RTF 0.28  eta 52 min
+[19:02:50]        188/1891 m  laps 0  sim 91s  wall 318s  RTF 0.29  eta 48 min
+[19:03:51]        223/1891 m  laps 0  sim 112s  wall 379s  RTF 0.29  eta 47 min
+[19:04:51]        262/1891 m  laps 0  sim 132s  wall 439s  RTF 0.30  eta 46 min
+[19:05:52]        304/1891 m  laps 0  sim 152s  wall 500s  RTF 0.30  eta 43 min
+[19:06:52]        341/1891 m  laps 0  sim 172s  wall 560s  RTF 0.31  eta 42 min
+[19:07:53]        384/1891 m  laps 0  sim 193s  wall 621s  RTF 0.31  eta 41 min
+[19:08:53]        426/1891 m  laps 0  sim 213s  wall 681s  RTF 0.31  eta 39 min
+[19:09:53]        463/1891 m  laps 0  sim 233s  wall 741s  RTF 0.31  eta 38 min
+[19:10:54]        505/1891 m  laps 0  sim 253s  wall 802s  RTF 0.32  eta 37 min
+[19:11:54]        547/1891 m  laps 0  sim 273s  wall 862s  RTF 0.32  eta 35 min
+[19:12:55]        590/1891 m  laps 0  sim 294s  wall 923s  RTF 0.32  eta 34 min
+[19:13:55]        628/1891 m  laps 0  sim 314s  wall 983s  RTF 0.32  eta 33 min
+[19:14:55]        671/1891 m  laps 0  sim 334s  wall 1043s  RTF 0.32  eta 32 min
+[19:15:55]        713/1891 m  laps 0  sim 354s  wall 1103s  RTF 0.32  eta 30 min
+[19:16:56]        749/1891 m  laps 0  sim 374s  wall 1164s  RTF 0.32  eta 30 min
+[19:17:56]        792/1891 m  laps 0  sim 395s  wall 1224s  RTF 0.32  eta 28 min
+[19:18:56]        833/1891 m  laps 0  sim 415s  wall 1285s  RTF 0.32  eta 27 min
+[19:19:57]        872/1891 m  laps 0  sim 436s  wall 1345s  RTF 0.32  eta 26 min
+[19:20:57]        915/1891 m  laps 0  sim 457s  wall 1405s  RTF 0.32  eta 25 min
+[19:21:58]        958/1891 m  laps 1  sim 477s  wall 1466s  RTF 0.33  eta 24 min
+[19:22:58]       1002/1891 m  laps 1  sim 498s  wall 1526s  RTF 0.33  eta 23 min
+[19:23:58]       1041/1891 m  laps 1  sim 519s  wall 1587s  RTF 0.33  eta 22 min
+[19:24:59]       1084/1891 m  laps 1  sim 539s  wall 1647s  RTF 0.33  eta 20 min
+[19:25:59]       1128/1891 m  laps 1  sim 560s  wall 1707s  RTF 0.33  eta 19 min
+[19:26:59]       1165/1891 m  laps 1  sim 580s  wall 1768s  RTF 0.33  eta 18 min
+[19:28:00]       1205/1891 m  laps 1  sim 601s  wall 1828s  RTF 0.33  eta 17 min
+[19:29:00]       1246/1891 m  laps 1  sim 622s  wall 1888s  RTF 0.33  eta 16 min
+[19:30:00]       1285/1891 m  laps 1  sim 642s  wall 1948s  RTF 0.33  eta 15 min
+[19:31:00]       1327/1891 m  laps 1  sim 663s  wall 2009s  RTF 0.33  eta 14 min
+[19:32:01]       1371/1891 m  laps 1  sim 684s  wall 2069s  RTF 0.33  eta 13 min
+[19:33:01]       1409/1891 m  laps 1  sim 704s  wall 2129s  RTF 0.33  eta 12 min
+[19:34:01]       1451/1891 m  laps 1  sim 725s  wall 2189s  RTF 0.33  eta 11 min
+[19:35:01]       1494/1891 m  laps 1  sim 746s  wall 2250s  RTF 0.33  eta 10 min
+[19:36:01]       1538/1891 m  laps 1  sim 766s  wall 2310s  RTF 0.33  eta 9 min
+[19:37:02]       1577/1891 m  laps 1  sim 787s  wall 2370s  RTF 0.33  eta 8 min
+[19:38:02]       1620/1891 m  laps 1  sim 807s  wall 2430s  RTF 0.33  eta 7 min
+[19:39:02]       1664/1891 m  laps 1  sim 828s  wall 2490s  RTF 0.33  eta 6 min
+[19:40:02]       1701/1891 m  laps 1  sim 849s  wall 2551s  RTF 0.33  eta 5 min
+[19:41:03]       1744/1891 m  laps 1  sim 869s  wall 2611s  RTF 0.33  eta 4 min
+[19:42:03]       1782/1891 m  laps 1  sim 890s  wall 2672s  RTF 0.33  eta 3 min
+[19:43:04]       1824/1891 m  laps 1  sim 911s  wall 2732s  RTF 0.33  eta 2 min
+[19:44:04]       1867/1891 m  laps 1  sim 931s  wall 2792s  RTF 0.33  eta 1 min
+[19:45:06]   ok: 18870 rows, bag 107.7 MB, inspect exit 0
+[19:45:06] [9/24] Melbourne @ 2.7 m/s x2
+[19:45:12]   launch pid 414090 pgid 414090: Melbourne @ 2.7 m/s, 2 laps, spawn 0.00
+[19:45:28]     driving; track length 945.7 m, target 1891 m
+[19:46:28]         56/1891 m  laps 0  sim 21s  wall 76s  RTF 0.28  eta 41 min
+[19:47:29]        105/1891 m  laps 0  sim 42s  wall 136s  RTF 0.31  eta 39 min
+[19:48:29]        161/1891 m  laps 0  sim 62s  wall 196s  RTF 0.32  eta 35 min
+[19:49:29]        206/1891 m  laps 0  sim 83s  wall 257s  RTF 0.32  eta 35 min
+[19:50:29]        255/1891 m  laps 0  sim 104s  wall 317s  RTF 0.33  eta 34 min
+[19:51:30]        305/1891 m  laps 0  sim 124s  wall 377s  RTF 0.33  eta 33 min
+[19:52:30]        351/1891 m  laps 0  sim 145s  wall 438s  RTF 0.33  eta 32 min
+[19:53:30]        406/1891 m  laps 0  sim 166s  wall 498s  RTF 0.33  eta 30 min
+[19:54:31]        456/1891 m  laps 0  sim 186s  wall 558s  RTF 0.33  eta 29 min
+[19:55:31]        505/1891 m  laps 0  sim 207s  wall 619s  RTF 0.33  eta 28 min
+[19:56:32]        561/1891 m  laps 0  sim 228s  wall 679s  RTF 0.34  eta 27 min
+[19:57:32]        612/1891 m  laps 0  sim 248s  wall 739s  RTF 0.34  eta 26 min
+[19:58:32]        662/1891 m  laps 0  sim 268s  wall 800s  RTF 0.34  eta 25 min
+[19:59:32]        718/1891 m  laps 0  sim 289s  wall 860s  RTF 0.34  eta 23 min
+[20:00:33]        764/1891 m  laps 0  sim 310s  wall 920s  RTF 0.34  eta 23 min
+[20:01:33]        815/1891 m  laps 0  sim 330s  wall 980s  RTF 0.34  eta 22 min
+[20:02:33]        857/1891 m  laps 0  sim 351s  wall 1041s  RTF 0.34  eta 21 min
+[20:03:33]        910/1891 m  laps 0  sim 372s  wall 1101s  RTF 0.34  eta 20 min
+[20:04:34]        965/1891 m  laps 1  sim 392s  wall 1161s  RTF 0.34  eta 19 min
+[20:05:34]       1014/1891 m  laps 1  sim 413s  wall 1222s  RTF 0.34  eta 18 min
+[20:06:34]       1069/1891 m  laps 1  sim 433s  wall 1282s  RTF 0.34  eta 16 min
+[20:07:35]       1125/1891 m  laps 1  sim 454s  wall 1342s  RTF 0.34  eta 15 min
+[20:08:35]       1167/1891 m  laps 1  sim 475s  wall 1403s  RTF 0.34  eta 15 min
+[20:09:35]       1212/1891 m  laps 1  sim 495s  wall 1463s  RTF 0.34  eta 14 min
+[20:10:35]       1268/1891 m  laps 1  sim 516s  wall 1523s  RTF 0.34  eta 12 min
+[20:11:36]       1313/1891 m  laps 1  sim 536s  wall 1583s  RTF 0.34  eta 12 min
+[20:12:36]       1369/1891 m  laps 1  sim 557s  wall 1643s  RTF 0.34  eta 10 min
+[20:13:36]       1414/1891 m  laps 1  sim 578s  wall 1704s  RTF 0.34  eta 10 min
+[20:14:36]       1467/1891 m  laps 1  sim 598s  wall 1764s  RTF 0.34  eta 8 min
+[20:15:37]       1523/1891 m  laps 1  sim 619s  wall 1824s  RTF 0.34  eta 7 min
+[20:16:37]       1569/1891 m  laps 1  sim 639s  wall 1884s  RTF 0.34  eta 6 min
+[20:17:37]       1625/1891 m  laps 1  sim 660s  wall 1945s  RTF 0.34  eta 5 min
+[20:18:37]       1680/1891 m  laps 1  sim 681s  wall 2005s  RTF 0.34  eta 4 min
+[20:19:37]       1726/1891 m  laps 1  sim 701s  wall 2065s  RTF 0.34  eta 3 min
+[20:20:38]       1777/1891 m  laps 1  sim 722s  wall 2125s  RTF 0.34  eta 2 min
+[20:21:38]       1817/1891 m  laps 1  sim 743s  wall 2186s  RTF 0.34  eta 1 min
+[20:22:38]       1873/1891 m  laps 1  sim 763s  wall 2246s  RTF 0.34  eta 0 min
+[20:23:25]   ok: 15418 rows, bag 88.4 MB, inspect exit 0
+[20:23:25] [10/24] Monza @ 1.5 m/s x2
+[20:23:31]   launch pid 416158 pgid 416158: Monza @ 1.5 m/s, 2 laps, spawn 0.00
+[20:23:45]     driving; track length 890.1 m, target 1780 m
+[20:24:46]         36/1780 m  laps 0  sim 25s  wall 75s  RTF 0.33  eta 61 min
+[20:25:47]         72/1780 m  laps 0  sim 49s  wall 136s  RTF 0.36  eta 54 min
+[20:26:48]        109/1780 m  laps 0  sim 73s  wall 197s  RTF 0.37  eta 51 min
+[20:27:49]        144/1780 m  laps 0  sim 98s  wall 258s  RTF 0.38  eta 49 min
+[20:28:49]        177/1780 m  laps 0  sim 122s  wall 318s  RTF 0.38  eta 48 min
+[20:29:50]        214/1780 m  laps 0  sim 146s  wall 379s  RTF 0.38  eta 46 min
+[20:30:51]        250/1780 m  laps 0  sim 170s  wall 440s  RTF 0.39  eta 45 min
+[20:31:52]        286/1780 m  laps 0  sim 194s  wall 501s  RTF 0.39  eta 44 min
+[20:32:52]        322/1780 m  laps 0  sim 218s  wall 561s  RTF 0.39  eta 42 min
+[20:33:52]        356/1780 m  laps 0  sim 242s  wall 621s  RTF 0.39  eta 41 min
+[20:34:53]        392/1780 m  laps 0  sim 266s  wall 682s  RTF 0.39  eta 40 min
+[20:35:54]        428/1780 m  laps 0  sim 290s  wall 743s  RTF 0.39  eta 39 min
+[20:36:55]        465/1780 m  laps 0  sim 314s  wall 804s  RTF 0.39  eta 38 min
+[20:37:56]        501/1780 m  laps 0  sim 339s  wall 865s  RTF 0.39  eta 37 min
+[20:38:57]        537/1780 m  laps 0  sim 363s  wall 926s  RTF 0.39  eta 36 min
+[20:39:58]        573/1780 m  laps 0  sim 387s  wall 987s  RTF 0.39  eta 35 min
+[20:40:58]        608/1780 m  laps 0  sim 410s  wall 1047s  RTF 0.39  eta 34 min
+[20:41:58]        644/1780 m  laps 0  sim 434s  wall 1107s  RTF 0.39  eta 33 min
+[20:42:59]        680/1780 m  laps 0  sim 458s  wall 1168s  RTF 0.39  eta 32 min
+[20:43:59]        716/1780 m  laps 0  sim 482s  wall 1229s  RTF 0.39  eta 30 min
+[20:45:00]        752/1780 m  laps 0  sim 506s  wall 1289s  RTF 0.39  eta 29 min
+[20:46:01]        784/1780 m  laps 0  sim 527s  wall 1350s  RTF 0.39  eta 29 min
+[20:47:02]        810/1780 m  laps 0  sim 545s  wall 1411s  RTF 0.39  eta 28 min
+[20:48:02]        835/1780 m  laps 0  sim 561s  wall 1471s  RTF 0.38  eta 28 min
+[20:49:03]        862/1780 m  laps 0  sim 580s  wall 1532s  RTF 0.38  eta 27 min
+[20:50:03]        890/1780 m  laps 0  sim 598s  wall 1593s  RTF 0.38  eta 27 min
+[20:51:04]        917/1780 m  laps 1  sim 616s  wall 1653s  RTF 0.37  eta 26 min
+[20:52:05]        944/1780 m  laps 1  sim 634s  wall 1714s  RTF 0.37  eta 25 min
+[20:53:06]        971/1780 m  laps 1  sim 652s  wall 1775s  RTF 0.37  eta 25 min
+[20:54:07]        999/1780 m  laps 1  sim 671s  wall 1836s  RTF 0.37  eta 24 min
+[20:55:07]       1026/1780 m  laps 1  sim 689s  wall 1896s  RTF 0.36  eta 23 min
+[20:56:08]       1049/1780 m  laps 1  sim 707s  wall 1957s  RTF 0.36  eta 23 min
+[20:57:09]       1076/1780 m  laps 1  sim 726s  wall 2018s  RTF 0.36  eta 22 min
+[20:58:09]       1104/1780 m  laps 1  sim 744s  wall 2079s  RTF 0.36  eta 21 min
+[20:59:10]       1132/1780 m  laps 1  sim 763s  wall 2139s  RTF 0.36  eta 20 min
+[21:00:11]       1159/1780 m  laps 1  sim 781s  wall 2200s  RTF 0.36  eta 20 min
+[21:01:11]       1187/1780 m  laps 1  sim 799s  wall 2261s  RTF 0.35  eta 19 min
+[21:02:12]       1214/1780 m  laps 1  sim 818s  wall 2321s  RTF 0.35  eta 18 min
+[21:03:13]       1239/1780 m  laps 1  sim 836s  wall 2382s  RTF 0.35  eta 17 min
+[21:04:14]       1266/1780 m  laps 1  sim 854s  wall 2443s  RTF 0.35  eta 17 min
+[21:05:14]       1293/1780 m  laps 1  sim 872s  wall 2504s  RTF 0.35  eta 16 min
+[21:06:15]       1321/1780 m  laps 1  sim 890s  wall 2565s  RTF 0.35  eta 15 min
+[21:07:16]       1348/1780 m  laps 1  sim 908s  wall 2625s  RTF 0.35  eta 14 min
+[21:08:17]       1375/1780 m  laps 1  sim 927s  wall 2686s  RTF 0.35  eta 13 min
+[21:09:18]       1403/1780 m  laps 1  sim 945s  wall 2747s  RTF 0.34  eta 12 min
+[21:10:19]       1430/1780 m  laps 1  sim 963s  wall 2808s  RTF 0.34  eta 11 min
+[21:11:19]       1457/1780 m  laps 1  sim 981s  wall 2868s  RTF 0.34  eta 11 min
+[21:12:20]       1485/1780 m  laps 1  sim 1000s  wall 2929s  RTF 0.34  eta 10 min
+[21:13:21]       1512/1780 m  laps 1  sim 1018s  wall 2990s  RTF 0.34  eta 9 min
+[21:14:22]       1540/1780 m  laps 1  sim 1036s  wall 3051s  RTF 0.34  eta 8 min
+[21:15:23]       1567/1780 m  laps 1  sim 1055s  wall 3112s  RTF 0.34  eta 7 min
+[21:16:24]       1595/1780 m  laps 1  sim 1073s  wall 3173s  RTF 0.34  eta 6 min
+[21:17:25]       1622/1780 m  laps 1  sim 1091s  wall 3234s  RTF 0.34  eta 5 min
+[21:18:25]       1649/1780 m  laps 1  sim 1110s  wall 3295s  RTF 0.34  eta 4 min
+[21:19:26]       1677/1780 m  laps 1  sim 1128s  wall 3355s  RTF 0.34  eta 3 min
+[21:20:27]       1704/1780 m  laps 1  sim 1146s  wall 3416s  RTF 0.34  eta 3 min
+[21:21:28]       1731/1780 m  laps 1  sim 1164s  wall 3477s  RTF 0.33  eta 2 min
+[21:22:29]       1759/1780 m  laps 1  sim 1182s  wall 3538s  RTF 0.33  eta 1 min
+[21:23:55]   ok: 23950 rows, bag 137.0 MB, inspect exit 0
+[21:23:55] [11/24] Monza @ 2.1 m/s x2
+[21:24:01]   launch pid 418549 pgid 418549: Monza @ 2.1 m/s, 2 laps, spawn 0.00
+[21:24:17]     driving; track length 890.1 m, target 1780 m
+[21:25:18]         38/1780 m  laps 0  sim -1181s  wall 77s  RTF -15.33  eta 60 min
+[21:26:19]         75/1780 m  laps 0  sim -1163s  wall 138s  RTF -8.45  eta 52 min
+[21:27:19]        113/1780 m  laps 0  sim -1145s  wall 198s  RTF -5.77  eta 49 min
+[21:28:20]        146/1780 m  laps 0  sim -1127s  wall 259s  RTF -4.35  eta 48 min
+[21:29:21]        178/1780 m  laps 0  sim -1108s  wall 320s  RTF -3.47  eta 48 min
+[21:30:21]        216/1780 m  laps 0  sim -1090s  wall 381s  RTF -2.87  eta 46 min
+[21:31:22]        254/1780 m  laps 0  sim -1073s  wall 441s  RTF -2.43  eta 44 min
+[21:32:23]        292/1780 m  laps 0  sim -1054s  wall 502s  RTF -2.10  eta 43 min
+[21:33:24]        328/1780 m  laps 0  sim -1036s  wall 563s  RTF -1.84  eta 41 min
+[21:34:24]        361/1780 m  laps 0  sim -1018s  wall 623s  RTF -1.63  eta 41 min
+[21:35:25]        399/1780 m  laps 0  sim -999s  wall 684s  RTF -1.46  eta 39 min
+[21:36:26]        438/1780 m  laps 0  sim -980s  wall 745s  RTF -1.32  eta 38 min
+[21:37:26]        485/1780 m  laps 0  sim -957s  wall 805s  RTF -1.19  eta 36 min
+[21:38:27]        536/1780 m  laps 0  sim -933s  wall 866s  RTF -1.08  eta 34 min
+[21:39:27]        585/1780 m  laps 0  sim -909s  wall 926s  RTF -0.98  eta 32 min
+[21:40:27]        633/1780 m  laps 0  sim -885s  wall 987s  RTF -0.90  eta 30 min
+[21:41:28]        681/1780 m  laps 0  sim -861s  wall 1048s  RTF -0.82  eta 28 min
+[21:42:29]        731/1780 m  laps 0  sim -837s  wall 1108s  RTF -0.76  eta 26 min
+[21:43:30]        782/1780 m  laps 0  sim -813s  wall 1169s  RTF -0.70  eta 25 min
+[21:44:31]        832/1780 m  laps 0  sim -789s  wall 1230s  RTF -0.64  eta 23 min
+[21:45:32]        882/1780 m  laps 0  sim -765s  wall 1291s  RTF -0.59  eta 22 min
+[21:46:33]        933/1780 m  laps 1  sim -741s  wall 1352s  RTF -0.55  eta 20 min
+[21:47:33]        983/1780 m  laps 1  sim -717s  wall 1412s  RTF -0.51  eta 19 min
+[21:48:34]       1031/1780 m  laps 1  sim -693s  wall 1473s  RTF -0.47  eta 18 min
+[21:49:35]       1072/1780 m  laps 1  sim -669s  wall 1534s  RTF -0.44  eta 17 min
+[21:50:36]       1122/1780 m  laps 1  sim -645s  wall 1595s  RTF -0.40  eta 16 min
+[21:51:37]       1171/1780 m  laps 1  sim -622s  wall 1656s  RTF -0.38  eta 14 min
+[21:52:38]       1219/1780 m  laps 1  sim -597s  wall 1717s  RTF -0.35  eta 13 min
+[21:53:39]       1265/1780 m  laps 1  sim -573s  wall 1778s  RTF -0.32  eta 12 min
+[21:54:39]       1315/1780 m  laps 1  sim -549s  wall 1838s  RTF -0.30  eta 11 min
+[21:55:39]       1360/1780 m  laps 1  sim -526s  wall 1898s  RTF -0.28  eta 10 min
+[21:56:40]       1406/1780 m  laps 1  sim -504s  wall 1959s  RTF -0.26  eta 9 min
+[21:57:40]       1455/1780 m  laps 1  sim -481s  wall 2019s  RTF -0.24  eta 8 min
+[21:58:41]       1502/1780 m  laps 1  sim -458s  wall 2080s  RTF -0.22  eta 6 min
+[21:59:41]       1549/1780 m  laps 1  sim -434s  wall 2140s  RTF -0.20  eta 5 min
+[22:00:42]       1598/1780 m  laps 1  sim -411s  wall 2201s  RTF -0.19  eta 4 min
+[22:01:42]       1647/1780 m  laps 1  sim -387s  wall 2261s  RTF -0.17  eta 3 min
+[22:02:43]       1696/1780 m  laps 1  sim -364s  wall 2322s  RTF -0.16  eta 2 min
+[22:03:43]       1746/1780 m  laps 1  sim -340s  wall 2382s  RTF -0.14  eta 1 min
+[22:04:54]   ok: 17521 rows, bag 100.3 MB, inspect exit 0
+[22:04:54] [12/24] Monza @ 2.7 m/s x2
+[22:05:00]   launch pid 420306 pgid 420306: Monza @ 2.7 m/s, 2 laps, spawn 0.00
+[22:05:15]     driving; track length 890.1 m, target 1780 m
+[22:06:15]         62/1780 m  laps 0  sim -851s  wall 76s  RTF -11.25  eta 35 min
+[22:07:16]        125/1780 m  laps 0  sim -828s  wall 136s  RTF -6.08  eta 30 min
+[22:08:16]        172/1780 m  laps 0  sim -804s  wall 197s  RTF -4.09  eta 31 min
+[22:09:17]        235/1780 m  laps 0  sim -781s  wall 257s  RTF -3.04  eta 28 min
+[22:10:17]        298/1780 m  laps 0  sim -757s  wall 317s  RTF -2.39  eta 26 min
+[22:11:17]        345/1780 m  laps 0  sim -735s  wall 378s  RTF -1.94  eta 26 min
+[22:12:18]        404/1780 m  laps 0  sim -711s  wall 439s  RTF -1.62  eta 25 min
+[22:13:19]        462/1780 m  laps 0  sim -687s  wall 500s  RTF -1.37  eta 24 min
+[22:14:20]        527/1780 m  laps 0  sim -663s  wall 560s  RTF -1.18  eta 22 min
+[22:15:20]        591/1780 m  laps 0  sim -639s  wall 620s  RTF -1.03  eta 21 min
+[22:16:21]        644/1780 m  laps 0  sim -615s  wall 681s  RTF -0.90  eta 20 min
+[22:17:22]        708/1780 m  laps 0  sim -591s  wall 742s  RTF -0.80  eta 19 min
+[22:18:23]        773/1780 m  laps 0  sim -567s  wall 803s  RTF -0.71  eta 17 min
+[22:19:24]        833/1780 m  laps 0  sim -543s  wall 864s  RTF -0.63  eta 16 min
+[22:20:24]        897/1780 m  laps 1  sim -519s  wall 925s  RTF -0.56  eta 15 min
+[22:21:25]        962/1780 m  laps 1  sim -496s  wall 986s  RTF -0.50  eta 14 min
+[22:22:26]       1026/1780 m  laps 1  sim -472s  wall 1047s  RTF -0.45  eta 13 min
+[22:23:27]       1071/1780 m  laps 1  sim -448s  wall 1107s  RTF -0.40  eta 12 min
+[22:24:28]       1136/1780 m  laps 1  sim -424s  wall 1168s  RTF -0.36  eta 11 min
+[22:25:29]       1200/1780 m  laps 1  sim -400s  wall 1229s  RTF -0.33  eta 10 min
+[22:26:30]       1250/1780 m  laps 1  sim -376s  wall 1290s  RTF -0.29  eta 9 min
+[22:27:30]       1309/1780 m  laps 1  sim -352s  wall 1351s  RTF -0.26  eta 8 min
+[22:28:31]       1367/1780 m  laps 1  sim -328s  wall 1411s  RTF -0.23  eta 7 min
+[22:29:32]       1431/1780 m  laps 1  sim -304s  wall 1472s  RTF -0.21  eta 6 min
+[22:30:33]       1495/1780 m  laps 1  sim -280s  wall 1533s  RTF -0.18  eta 5 min
+[22:31:34]       1549/1780 m  laps 1  sim -256s  wall 1594s  RTF -0.16  eta 4 min
+[22:32:35]       1614/1780 m  laps 1  sim -232s  wall 1655s  RTF -0.14  eta 3 min
+[22:33:36]       1678/1780 m  laps 1  sim -208s  wall 1716s  RTF -0.12  eta 2 min
+[22:34:36]       1738/1780 m  laps 1  sim -184s  wall 1777s  RTF -0.10  eta 1 min
+[22:35:42]   ok: 14156 rows, bag 81.4 MB, inspect exit 0
+[22:35:42] [13/24] IMS @ 1.5 m/s x1
+[22:35:48]   launch pid 422171 pgid 422171: IMS @ 1.5 m/s, 1 laps, spawn 0.00
+[22:36:02]     driving; track length 586.1 m, target 586 m
+[22:37:03]         40/586 m  laps 0  sim -681s  wall 75s  RTF -9.07  eta 17 min
+[22:38:04]         80/586 m  laps 0  sim -654s  wall 136s  RTF -4.82  eta 14 min
+[22:39:05]        119/586 m  laps 0  sim -628s  wall 197s  RTF -3.19  eta 13 min
+[22:40:05]        159/586 m  laps 0  sim -602s  wall 257s  RTF -2.34  eta 12 min
+[22:41:06]        198/586 m  laps 0  sim -575s  wall 318s  RTF -1.81  eta 10 min
+[22:42:07]        238/586 m  laps 0  sim -549s  wall 379s  RTF -1.45  eta 9 min
+[22:43:08]        277/586 m  laps 0  sim -523s  wall 440s  RTF -1.19  eta 8 min
+[22:44:09]        317/586 m  laps 0  sim -496s  wall 501s  RTF -0.99  eta 7 min
+[22:45:10]        356/586 m  laps 0  sim -470s  wall 562s  RTF -0.84  eta 6 min
+[22:46:10]        396/586 m  laps 0  sim -444s  wall 622s  RTF -0.71  eta 5 min
+[22:47:11]        435/586 m  laps 0  sim -417s  wall 683s  RTF -0.61  eta 4 min
+[22:48:12]        475/586 m  laps 0  sim -391s  wall 744s  RTF -0.52  eta 3 min
+[22:49:13]        515/586 m  laps 0  sim -364s  wall 805s  RTF -0.45  eta 2 min
+[22:50:14]        554/586 m  laps 0  sim -338s  wall 866s  RTF -0.39  eta 1 min
+[22:51:24]   ok: 7843 rows, bag 45.2 MB, inspect exit 0
+[22:51:24] [14/24] IMS @ 2.1 m/s x1
+[22:51:30]   launch pid 423333 pgid 423333: IMS @ 2.1 m/s, 1 laps, spawn 0.00
+[22:51:44]     driving; track length 586.1 m, target 586 m
+[22:52:45]         55/586 m  laps 0  sim -365s  wall 75s  RTF -4.85  eta 12 min
+[22:53:46]        110/586 m  laps 0  sim -339s  wall 136s  RTF -2.49  eta 10 min
+[22:54:47]        166/586 m  laps 0  sim -312s  wall 197s  RTF -1.58  eta 8 min
+[22:55:48]        221/586 m  laps 0  sim -286s  wall 258s  RTF -1.11  eta 7 min
+[22:56:49]        276/586 m  laps 0  sim -260s  wall 319s  RTF -0.82  eta 6 min
+[22:57:50]        331/586 m  laps 0  sim -234s  wall 380s  RTF -0.62  eta 5 min
+[22:58:50]        386/586 m  laps 0  sim -207s  wall 441s  RTF -0.47  eta 4 min
+[22:59:51]        441/586 m  laps 0  sim -181s  wall 502s  RTF -0.36  eta 3 min
+[23:00:52]        496/586 m  laps 0  sim -155s  wall 562s  RTF -0.28  eta 2 min
+[23:01:53]        551/586 m  laps 0  sim -129s  wall 623s  RTF -0.21  eta 1 min
+[23:02:51]   ok: 5613 rows, bag 32.4 MB, inspect exit 0
+[23:02:51] [15/24] IMS @ 2.7 m/s x1
+[23:02:51]   skip IMS @ 2.7 m/s p1: already ok (4373 rows)
+[23:02:51] [16/24] Silverstone @ 1.5 m/s x2
+[23:02:57]   launch pid 424313 pgid 424313: Silverstone @ 1.5 m/s, 2 laps, spawn 0.00
+[23:05:57]   ABORT: no /tracking/diagnostics within 180 s
+[23:06:04] [17/24] Silverstone @ 2.1 m/s x2
+[23:06:10]   launch pid 424846 pgid 424846: Silverstone @ 2.1 m/s, 2 laps, spawn 0.00
+[23:06:27]     driving; track length 913.3 m, target 1827 m
+[23:07:27]         39/1827 m  laps 0  sim 19s  wall 76s  RTF 0.25  eta 58 min
+[23:08:27]         78/1827 m  laps 0  sim 38s  wall 137s  RTF 0.28  eta 51 min
+[23:09:27]        118/1827 m  laps 0  sim 57s  wall 197s  RTF 0.29  eta 48 min
+[23:10:27]        152/1827 m  laps 0  sim 76s  wall 257s  RTF 0.30  eta 47 min
+[23:11:27]        185/1827 m  laps 0  sim 95s  wall 317s  RTF 0.30  eta 47 min
+[23:12:27]        223/1827 m  laps 0  sim 113s  wall 377s  RTF 0.30  eta 45 min
+[23:13:28]        262/1827 m  laps 0  sim 132s  wall 437s  RTF 0.30  eta 43 min
+[23:14:28]        302/1827 m  laps 0  sim 151s  wall 497s  RTF 0.30  eta 42 min
+[23:15:29]        337/1827 m  laps 0  sim 170s  wall 558s  RTF 0.30  eta 41 min
+[23:16:30]        375/1827 m  laps 0  sim 189s  wall 619s  RTF 0.31  eta 40 min
+[23:17:30]        414/1827 m  laps 0  sim 208s  wall 679s  RTF 0.31  eta 39 min
+[23:18:31]        455/1827 m  laps 0  sim 227s  wall 740s  RTF 0.31  eta 37 min
+[23:19:32]        495/1827 m  laps 0  sim 247s  wall 801s  RTF 0.31  eta 36 min
+[23:20:32]        534/1827 m  laps 0  sim 265s  wall 862s  RTF 0.31  eta 35 min
+[23:21:32]        574/1827 m  laps 0  sim 284s  wall 922s  RTF 0.31  eta 34 min
+[23:22:32]        613/1827 m  laps 0  sim 303s  wall 982s  RTF 0.31  eta 32 min
+[23:23:33]        653/1827 m  laps 0  sim 322s  wall 1043s  RTF 0.31  eta 31 min
+[23:24:33]        692/1827 m  laps 0  sim 341s  wall 1103s  RTF 0.31  eta 30 min
+[23:25:33]        732/1827 m  laps 0  sim 360s  wall 1163s  RTF 0.31  eta 29 min
+[23:26:33]        771/1827 m  laps 0  sim 379s  wall 1223s  RTF 0.31  eta 28 min
+[23:27:34]        811/1827 m  laps 0  sim 398s  wall 1284s  RTF 0.31  eta 27 min
+[23:28:34]        851/1827 m  laps 0  sim 417s  wall 1344s  RTF 0.31  eta 26 min
+[23:29:34]        882/1827 m  laps 0  sim 435s  wall 1404s  RTF 0.31  eta 25 min
+[23:30:34]        919/1827 m  laps 1  sim 454s  wall 1464s  RTF 0.31  eta 24 min
+[23:31:34]        959/1827 m  laps 1  sim 473s  wall 1524s  RTF 0.31  eta 23 min
+[23:32:35]        998/1827 m  laps 1  sim 492s  wall 1585s  RTF 0.31  eta 22 min
+[23:33:35]       1037/1827 m  laps 1  sim 511s  wall 1645s  RTF 0.31  eta 21 min
+[23:34:36]       1071/1827 m  laps 1  sim 530s  wall 1706s  RTF 0.31  eta 20 min
+[23:35:37]       1104/1827 m  laps 1  sim 549s  wall 1767s  RTF 0.31  eta 19 min
+[23:36:37]       1142/1827 m  laps 1  sim 568s  wall 1827s  RTF 0.31  eta 18 min
+[23:37:38]       1182/1827 m  laps 1  sim 587s  wall 1887s  RTF 0.31  eta 17 min
+[23:38:38]       1220/1827 m  laps 1  sim 606s  wall 1947s  RTF 0.31  eta 16 min
+[23:39:39]       1256/1827 m  laps 1  sim 625s  wall 2008s  RTF 0.31  eta 15 min
+[23:40:39]       1294/1827 m  laps 1  sim 644s  wall 2069s  RTF 0.31  eta 14 min
+[23:41:39]       1333/1827 m  laps 1  sim 663s  wall 2129s  RTF 0.31  eta 13 min
+[23:42:39]       1373/1827 m  laps 1  sim 681s  wall 2189s  RTF 0.31  eta 12 min
+[23:43:39]       1412/1827 m  laps 1  sim 700s  wall 2249s  RTF 0.31  eta 11 min
+[23:44:39]       1452/1827 m  laps 1  sim 719s  wall 2309s  RTF 0.31  eta 10 min
+[23:45:40]       1491/1827 m  laps 1  sim 738s  wall 2370s  RTF 0.31  eta 9 min
+[23:46:41]       1531/1827 m  laps 1  sim 757s  wall 2430s  RTF 0.31  eta 8 min
+[23:47:41]       1570/1827 m  laps 1  sim 776s  wall 2491s  RTF 0.31  eta 7 min
+[23:48:41]       1609/1827 m  laps 1  sim 794s  wall 2551s  RTF 0.31  eta 6 min
+[23:49:41]       1648/1827 m  laps 1  sim 813s  wall 2611s  RTF 0.31  eta 5 min
+[23:50:41]       1688/1827 m  laps 1  sim 832s  wall 2671s  RTF 0.31  eta 4 min
+[23:51:42]       1728/1827 m  laps 1  sim 851s  wall 2732s  RTF 0.31  eta 3 min
+[23:52:42]       1767/1827 m  laps 1  sim 870s  wall 2792s  RTF 0.31  eta 2 min
+[23:53:43]       1799/1827 m  laps 1  sim 889s  wall 2853s  RTF 0.31  eta 1 min
+[23:54:56]   ok: 18075 rows, bag 104.2 MB, inspect exit 0
+[23:54:56] [18/24] Silverstone @ 2.7 m/s x2
+[23:55:02]   launch pid 427509 pgid 427509: Silverstone @ 2.7 m/s, 2 laps, spawn 0.00
+[23:55:17]     driving; track length 913.3 m, target 1827 m
+[23:56:17]         53/1827 m  laps 0  sim -884s  wall 75s  RTF -11.76  eta 42 min
+[23:57:18]        104/1827 m  laps 0  sim -864s  wall 136s  RTF -6.35  eta 38 min
+[23:58:19]        146/1827 m  laps 0  sim -844s  wall 197s  RTF -4.29  eta 38 min
+[23:59:20]        186/1827 m  laps 0  sim -825s  wall 257s  RTF -3.20  eta 38 min
+[00:00:20]        235/1827 m  laps 0  sim -805s  wall 318s  RTF -2.53  eta 36 min
+[00:01:21]        287/1827 m  laps 0  sim -786s  wall 379s  RTF -2.07  eta 34 min
+[00:02:22]        329/1827 m  laps 0  sim -766s  wall 440s  RTF -1.74  eta 33 min
+[00:03:23]        369/1827 m  laps 0  sim -746s  wall 501s  RTF -1.49  eta 33 min
+[00:04:24]        422/1827 m  laps 0  sim -727s  wall 562s  RTF -1.29  eta 31 min
+[00:05:25]        474/1827 m  laps 0  sim -707s  wall 622s  RTF -1.14  eta 30 min
+[00:06:26]        525/1827 m  laps 0  sim -687s  wall 683s  RTF -1.01  eta 28 min
+[00:07:26]        576/1827 m  laps 0  sim -668s  wall 744s  RTF -0.90  eta 27 min
+[00:08:27]        623/1827 m  laps 0  sim -648s  wall 805s  RTF -0.81  eta 26 min
+[00:09:28]        674/1827 m  laps 0  sim -629s  wall 866s  RTF -0.73  eta 25 min
+[00:10:29]        726/1827 m  laps 0  sim -609s  wall 926s  RTF -0.66  eta 23 min
+[00:11:29]        778/1827 m  laps 0  sim -589s  wall 987s  RTF -0.60  eta 22 min
+[00:12:30]        827/1827 m  laps 0  sim -570s  wall 1048s  RTF -0.54  eta 21 min
+[00:13:31]        866/1827 m  laps 0  sim -550s  wall 1109s  RTF -0.50  eta 20 min
+[00:14:32]        911/1827 m  laps 0  sim -531s  wall 1170s  RTF -0.45  eta 20 min
+[00:15:33]        963/1827 m  laps 1  sim -511s  wall 1231s  RTF -0.42  eta 18 min
+[00:16:34]       1013/1827 m  laps 1  sim -491s  wall 1291s  RTF -0.38  eta 17 min
+[00:17:35]       1055/1827 m  laps 1  sim -472s  wall 1352s  RTF -0.35  eta 16 min
+[00:18:35]       1094/1827 m  laps 1  sim -452s  wall 1413s  RTF -0.32  eta 16 min
+[00:19:36]       1143/1827 m  laps 1  sim -432s  wall 1474s  RTF -0.29  eta 15 min
+[00:20:37]       1196/1827 m  laps 1  sim -413s  wall 1535s  RTF -0.27  eta 13 min
+[00:21:38]       1239/1827 m  laps 1  sim -393s  wall 1596s  RTF -0.25  eta 13 min
+[00:22:39]       1278/1827 m  laps 1  sim -373s  wall 1656s  RTF -0.23  eta 12 min
+[00:23:39]       1330/1827 m  laps 1  sim -354s  wall 1716s  RTF -0.21  eta 11 min
+[00:24:40]       1382/1827 m  laps 1  sim -334s  wall 1777s  RTF -0.19  eta 10 min
+[00:25:40]       1433/1827 m  laps 1  sim -315s  wall 1838s  RTF -0.17  eta 8 min
+[00:26:41]       1486/1827 m  laps 1  sim -295s  wall 1899s  RTF -0.16  eta 7 min
+[00:27:42]       1532/1827 m  laps 1  sim -276s  wall 1959s  RTF -0.14  eta 6 min
+[00:28:43]       1581/1827 m  laps 1  sim -256s  wall 2020s  RTF -0.13  eta 5 min
+[00:29:43]       1634/1827 m  laps 1  sim -237s  wall 2081s  RTF -0.11  eta 4 min
+[00:30:44]       1686/1827 m  laps 1  sim -217s  wall 2141s  RTF -0.10  eta 3 min
+[00:31:44]       1735/1827 m  laps 1  sim -197s  wall 2202s  RTF -0.09  eta 2 min
+[00:32:45]       1777/1827 m  laps 1  sim -178s  wall 2263s  RTF -0.08  eta 1 min
+[00:33:45]       1817/1827 m  laps 1  sim -158s  wall 2323s  RTF -0.07  eta 0 min
+[00:34:22]   ok: 14995 rows, bag 86.5 MB, inspect exit 0
+[00:34:22] [19/24] SaoPaulo @ 1.5 m/s x2
+[00:34:28]   launch pid 429728 pgid 429728: SaoPaulo @ 1.5 m/s, 2 laps, spawn 0.00
+[00:34:44]     driving; track length 687.0 m, target 1374 m
+[00:35:45]         28/1374 m  laps 0  sim 19s  wall 77s  RTF 0.25  eta 61 min
+[00:36:45]         56/1374 m  laps 0  sim 38s  wall 137s  RTF 0.28  eta 53 min
+[00:37:46]         85/1374 m  laps 0  sim 57s  wall 198s  RTF 0.29  eta 50 min
+[00:38:46]        113/1374 m  laps 0  sim 76s  wall 258s  RTF 0.29  eta 48 min
+[00:39:47]        141/1374 m  laps 0  sim 95s  wall 319s  RTF 0.30  eta 46 min
+[00:40:48]        169/1374 m  laps 0  sim 113s  wall 379s  RTF 0.30  eta 45 min
+[00:41:48]        197/1374 m  laps 0  sim 132s  wall 440s  RTF 0.30  eta 44 min
+[00:42:49]        225/1374 m  laps 0  sim 151s  wall 500s  RTF 0.30  eta 43 min
+[00:43:49]        254/1374 m  laps 0  sim 170s  wall 561s  RTF 0.30  eta 41 min
+[00:44:49]        282/1374 m  laps 0  sim 188s  wall 621s  RTF 0.30  eta 40 min
+[00:45:50]        310/1374 m  laps 0  sim 207s  wall 682s  RTF 0.30  eta 39 min
+[00:46:51]        338/1374 m  laps 0  sim 226s  wall 742s  RTF 0.30  eta 38 min
+[00:47:51]        366/1374 m  laps 0  sim 245s  wall 803s  RTF 0.30  eta 37 min
+[00:48:52]        394/1374 m  laps 0  sim 264s  wall 863s  RTF 0.31  eta 36 min
+[00:49:52]        422/1374 m  laps 0  sim 282s  wall 924s  RTF 0.31  eta 35 min
+[00:50:53]        448/1374 m  laps 0  sim 301s  wall 984s  RTF 0.31  eta 34 min
+[00:51:53]        476/1374 m  laps 0  sim 320s  wall 1045s  RTF 0.31  eta 33 min
+[00:52:54]        504/1374 m  laps 0  sim 339s  wall 1105s  RTF 0.31  eta 32 min
+[00:53:54]        532/1374 m  laps 0  sim 358s  wall 1166s  RTF 0.31  eta 31 min
+[00:54:55]        560/1374 m  laps 0  sim 376s  wall 1227s  RTF 0.31  eta 30 min
+[00:55:55]        588/1374 m  laps 0  sim 395s  wall 1287s  RTF 0.31  eta 29 min
+[00:56:56]        616/1374 m  laps 0  sim 414s  wall 1348s  RTF 0.31  eta 28 min
+[00:57:56]        645/1374 m  laps 0  sim 433s  wall 1408s  RTF 0.31  eta 27 min
+[00:58:57]        673/1374 m  laps 0  sim 452s  wall 1469s  RTF 0.31  eta 26 min
+[00:59:57]        701/1374 m  laps 1  sim 470s  wall 1529s  RTF 0.31  eta 24 min
+[01:00:58]        729/1374 m  laps 1  sim 489s  wall 1590s  RTF 0.31  eta 23 min
+[01:01:59]        757/1374 m  laps 1  sim 508s  wall 1650s  RTF 0.31  eta 22 min
+[01:02:59]        785/1374 m  laps 1  sim 527s  wall 1711s  RTF 0.31  eta 21 min
+[01:03:59]        813/1374 m  laps 1  sim 546s  wall 1771s  RTF 0.31  eta 20 min
+[01:05:00]        841/1374 m  laps 1  sim 564s  wall 1832s  RTF 0.31  eta 19 min
+[01:06:01]        869/1374 m  laps 1  sim 583s  wall 1892s  RTF 0.31  eta 18 min
+[01:07:01]        898/1374 m  laps 1  sim 602s  wall 1953s  RTF 0.31  eta 17 min
+[01:08:02]        926/1374 m  laps 1  sim 621s  wall 2014s  RTF 0.31  eta 16 min
+[01:09:02]        954/1374 m  laps 1  sim 639s  wall 2074s  RTF 0.31  eta 15 min
+[01:10:03]        982/1374 m  laps 1  sim 658s  wall 2135s  RTF 0.31  eta 14 min
+[01:11:03]       1010/1374 m  laps 1  sim 677s  wall 2195s  RTF 0.31  eta 13 min
+[01:12:04]       1039/1374 m  laps 1  sim 696s  wall 2256s  RTF 0.31  eta 12 min
+[01:13:04]       1066/1374 m  laps 1  sim 715s  wall 2316s  RTF 0.31  eta 11 min
+[01:14:05]       1094/1374 m  laps 1  sim 733s  wall 2377s  RTF 0.31  eta 10 min
+[01:15:05]       1122/1374 m  laps 1  sim 752s  wall 2437s  RTF 0.31  eta 9 min
+[01:16:06]       1148/1374 m  laps 1  sim 771s  wall 2498s  RTF 0.31  eta 8 min
+[01:17:06]       1176/1374 m  laps 1  sim 790s  wall 2558s  RTF 0.31  eta 7 min
+[01:18:07]       1204/1374 m  laps 1  sim 809s  wall 2619s  RTF 0.31  eta 6 min
+[01:19:07]       1232/1374 m  laps 1  sim 827s  wall 2679s  RTF 0.31  eta 5 min
+[01:20:08]       1260/1374 m  laps 1  sim 846s  wall 2740s  RTF 0.31  eta 4 min
+[01:21:08]       1288/1374 m  laps 1  sim 865s  wall 2800s  RTF 0.31  eta 3 min
+[01:22:09]       1316/1374 m  laps 1  sim 884s  wall 2860s  RTF 0.31  eta 2 min
+[01:23:09]       1345/1374 m  laps 1  sim 903s  wall 2921s  RTF 0.31  eta 1 min
+[01:24:09]       1373/1374 m  laps 1  sim 921s  wall 2981s  RTF 0.31  eta 0 min
+[01:24:41]   ok: 18457 rows, bag 106.5 MB, inspect exit 0
+[01:24:41] [20/24] SaoPaulo @ 2.1 m/s x2
+[01:24:47]   launch pid 432288 pgid 432288: SaoPaulo @ 2.1 m/s, 2 laps, spawn 0.00
+[01:25:03]     driving; track length 687.0 m, target 1374 m
+[01:26:04]         41/1374 m  laps 0  sim 20s  wall 77s  RTF 0.26  eta 42 min
+[01:27:05]         75/1374 m  laps 0  sim 39s  wall 138s  RTF 0.28  eta 40 min
+[01:28:05]        114/1374 m  laps 0  sim 58s  wall 198s  RTF 0.29  eta 36 min
+[01:29:06]        155/1374 m  laps 0  sim 78s  wall 259s  RTF 0.30  eta 34 min
+[01:30:06]        195/1374 m  laps 0  sim 97s  wall 319s  RTF 0.30  eta 32 min
+[01:31:06]        232/1374 m  laps 0  sim 116s  wall 379s  RTF 0.31  eta 31 min
+[01:32:06]        272/1374 m  laps 0  sim 135s  wall 440s  RTF 0.31  eta 30 min
+[01:33:07]        313/1374 m  laps 0  sim 154s  wall 500s  RTF 0.31  eta 28 min
+[01:34:07]        352/1374 m  laps 0  sim 173s  wall 561s  RTF 0.31  eta 27 min
+[01:35:08]        386/1374 m  laps 0  sim 192s  wall 621s  RTF 0.31  eta 27 min
+[01:36:08]        421/1374 m  laps 0  sim 211s  wall 681s  RTF 0.31  eta 26 min
+[01:37:09]        449/1374 m  laps 0  sim 229s  wall 742s  RTF 0.31  eta 25 min
+[01:38:09]        489/1374 m  laps 0  sim 248s  wall 802s  RTF 0.31  eta 24 min
+[01:39:09]        525/1374 m  laps 0  sim 267s  wall 862s  RTF 0.31  eta 23 min
+[01:40:09]        565/1374 m  laps 0  sim 287s  wall 923s  RTF 0.31  eta 22 min
+[01:41:10]        605/1374 m  laps 0  sim 306s  wall 983s  RTF 0.31  eta 21 min
+[01:42:11]        646/1374 m  laps 0  sim 325s  wall 1044s  RTF 0.31  eta 20 min
+[01:43:11]        686/1374 m  laps 0  sim 344s  wall 1104s  RTF 0.31  eta 18 min
+[01:44:11]        726/1374 m  laps 1  sim 363s  wall 1164s  RTF 0.31  eta 17 min
+[01:45:11]        759/1374 m  laps 1  sim 382s  wall 1224s  RTF 0.31  eta 17 min
+[01:46:11]        798/1374 m  laps 1  sim 401s  wall 1284s  RTF 0.31  eta 15 min
+[01:47:12]        838/1374 m  laps 1  sim 420s  wall 1345s  RTF 0.31  eta 14 min
+[01:48:12]        878/1374 m  laps 1  sim 439s  wall 1405s  RTF 0.31  eta 13 min
+[01:49:12]        916/1374 m  laps 1  sim 458s  wall 1465s  RTF 0.31  eta 12 min
+[01:50:12]        956/1374 m  laps 1  sim 478s  wall 1525s  RTF 0.31  eta 11 min
+[01:51:12]        996/1374 m  laps 1  sim 497s  wall 1585s  RTF 0.31  eta 10 min
+[01:52:13]       1035/1374 m  laps 1  sim 516s  wall 1646s  RTF 0.31  eta 9 min
+[01:53:13]       1069/1374 m  laps 1  sim 535s  wall 1706s  RTF 0.31  eta 8 min
+[01:54:13]       1104/1374 m  laps 1  sim 554s  wall 1766s  RTF 0.31  eta 7 min
+[01:55:14]       1135/1374 m  laps 1  sim 573s  wall 1827s  RTF 0.31  eta 6 min
+[01:56:14]       1176/1374 m  laps 1  sim 593s  wall 1887s  RTF 0.31  eta 5 min
+[01:57:14]       1211/1374 m  laps 1  sim 612s  wall 1948s  RTF 0.31  eta 4 min
+[01:58:14]       1251/1374 m  laps 1  sim 631s  wall 2008s  RTF 0.31  eta 3 min
+[01:59:15]       1292/1374 m  laps 1  sim 650s  wall 2068s  RTF 0.31  eta 2 min
+[02:00:15]       1332/1374 m  laps 1  sim 669s  wall 2128s  RTF 0.31  eta 1 min
+[02:01:15]       1372/1374 m  laps 1  sim 688s  wall 2188s  RTF 0.31  eta 0 min
+[02:01:44]   ok: 13800 rows, bag 79.8 MB, inspect exit 0
+[02:01:44] [21/24] SaoPaulo @ 2.7 m/s x2
+[02:01:50]   launch pid 435213 pgid 435213: SaoPaulo @ 2.7 m/s, 2 laps, spawn 0.00
+[02:02:06]     driving; track length 687.0 m, target 1374 m
+[02:03:07]         51/1374 m  laps 0  sim 20s  wall 77s  RTF 0.26  eta 33 min
+[02:04:07]         88/1374 m  laps 0  sim 39s  wall 137s  RTF 0.28  eta 33 min
+[02:05:08]        140/1374 m  laps 0  sim 58s  wall 198s  RTF 0.29  eta 29 min
+[02:06:08]        191/1374 m  laps 0  sim 77s  wall 258s  RTF 0.30  eta 27 min
+[02:07:08]        235/1374 m  laps 0  sim 96s  wall 318s  RTF 0.30  eta 26 min
+[02:08:09]        285/1374 m  laps 0  sim 115s  wall 379s  RTF 0.30  eta 24 min
+[02:09:09]        333/1374 m  laps 0  sim 134s  wall 439s  RTF 0.31  eta 23 min
+[02:10:09]        374/1374 m  laps 0  sim 153s  wall 499s  RTF 0.31  eta 22 min
+[02:11:09]        407/1374 m  laps 0  sim 172s  wall 559s  RTF 0.31  eta 22 min
+[02:12:09]        444/1374 m  laps 0  sim 191s  wall 619s  RTF 0.31  eta 22 min
+[02:13:09]        490/1374 m  laps 0  sim 210s  wall 679s  RTF 0.31  eta 20 min
+[02:14:09]        532/1374 m  laps 0  sim 229s  wall 739s  RTF 0.31  eta 20 min
+[02:15:10]        582/1374 m  laps 0  sim 248s  wall 800s  RTF 0.31  eta 18 min
+[02:16:10]        634/1374 m  laps 0  sim 267s  wall 860s  RTF 0.31  eta 17 min
+[02:17:10]        685/1374 m  laps 0  sim 286s  wall 920s  RTF 0.31  eta 15 min
+[02:18:11]        736/1374 m  laps 1  sim 305s  wall 980s  RTF 0.31  eta 14 min
+[02:19:12]        770/1374 m  laps 1  sim 324s  wall 1041s  RTF 0.31  eta 14 min
+[02:20:12]        822/1374 m  laps 1  sim 344s  wall 1102s  RTF 0.31  eta 12 min
+[02:21:13]        874/1374 m  laps 1  sim 363s  wall 1163s  RTF 0.31  eta 11 min
+[02:22:13]        918/1374 m  laps 1  sim 382s  wall 1223s  RTF 0.31  eta 10 min
+[02:23:13]        967/1374 m  laps 1  sim 400s  wall 1283s  RTF 0.31  eta 9 min
+[02:24:13]       1014/1374 m  laps 1  sim 419s  wall 1343s  RTF 0.31  eta 8 min
+[02:25:14]       1058/1374 m  laps 1  sim 438s  wall 1403s  RTF 0.31  eta 7 min
+[02:26:14]       1090/1374 m  laps 1  sim 457s  wall 1464s  RTF 0.31  eta 6 min
+[02:27:14]       1128/1374 m  laps 1  sim 476s  wall 1524s  RTF 0.31  eta 6 min
+[02:28:14]       1171/1374 m  laps 1  sim 495s  wall 1584s  RTF 0.31  eta 5 min
+[02:29:14]       1213/1374 m  laps 1  sim 514s  wall 1644s  RTF 0.31  eta 4 min
+[02:30:14]       1263/1374 m  laps 1  sim 533s  wall 1704s  RTF 0.31  eta 2 min
+[02:31:15]       1315/1374 m  laps 1  sim 552s  wall 1765s  RTF 0.31  eta 1 min
+[02:32:16]       1367/1374 m  laps 1  sim 571s  wall 1826s  RTF 0.31  eta 0 min
+[02:32:48]   ok: 11498 rows, bag 66.4 MB, inspect exit 0
+[02:32:48] [22/24] Montreal @ 1.5 m/s x2
+[02:32:54]   launch pid 436983 pgid 436983: Montreal @ 1.5 m/s, 2 laps, spawn 0.00
+[02:33:10]     driving; track length 566.6 m, target 1133 m
+[02:34:11]         33/1133 m  laps 0  sim 22s  wall 77s  RTF 0.29  eta 43 min
+[02:35:12]         63/1133 m  laps 0  sim 44s  wall 138s  RTF 0.32  eta 39 min
+[02:36:13]         95/1133 m  laps 0  sim 65s  wall 199s  RTF 0.33  eta 36 min
+[02:37:14]        127/1133 m  laps 0  sim 87s  wall 260s  RTF 0.33  eta 34 min
+[02:38:15]        159/1133 m  laps 0  sim 109s  wall 321s  RTF 0.34  eta 33 min
+[02:39:16]        190/1133 m  laps 0  sim 130s  wall 382s  RTF 0.34  eta 32 min
+[02:40:17]        222/1133 m  laps 0  sim 152s  wall 443s  RTF 0.34  eta 30 min
+[02:41:18]        255/1133 m  laps 0  sim 173s  wall 504s  RTF 0.34  eta 29 min
+[02:42:19]        285/1133 m  laps 0  sim 195s  wall 565s  RTF 0.35  eta 28 min
+[02:43:19]        317/1133 m  laps 0  sim 216s  wall 625s  RTF 0.35  eta 27 min
+[02:44:20]        348/1133 m  laps 0  sim 238s  wall 686s  RTF 0.35  eta 26 min
+[02:45:21]        377/1133 m  laps 0  sim 259s  wall 747s  RTF 0.35  eta 25 min
+[02:46:21]        409/1133 m  laps 0  sim 281s  wall 807s  RTF 0.35  eta 24 min
+[02:47:22]        442/1133 m  laps 0  sim 302s  wall 868s  RTF 0.35  eta 23 min
+[02:48:23]        474/1133 m  laps 0  sim 324s  wall 928s  RTF 0.35  eta 22 min
+[02:49:23]        505/1133 m  laps 0  sim 345s  wall 989s  RTF 0.35  eta 20 min
+[02:50:24]        535/1133 m  laps 0  sim 367s  wall 1050s  RTF 0.35  eta 20 min
+[02:51:25]        568/1133 m  laps 1  sim 388s  wall 1110s  RTF 0.35  eta 18 min
+[02:52:25]        599/1133 m  laps 1  sim 409s  wall 1171s  RTF 0.35  eta 17 min
+[02:53:26]        629/1133 m  laps 1  sim 431s  wall 1232s  RTF 0.35  eta 16 min
+[02:54:26]        660/1133 m  laps 1  sim 452s  wall 1292s  RTF 0.35  eta 15 min
+[02:55:27]        692/1133 m  laps 1  sim 474s  wall 1353s  RTF 0.35  eta 14 min
+[02:56:28]        724/1133 m  laps 1  sim 495s  wall 1414s  RTF 0.35  eta 13 min
+[02:57:28]        755/1133 m  laps 1  sim 517s  wall 1474s  RTF 0.35  eta 12 min
+[02:58:29]        787/1133 m  laps 1  sim 538s  wall 1535s  RTF 0.35  eta 11 min
+[02:59:29]        819/1133 m  laps 1  sim 560s  wall 1595s  RTF 0.35  eta 10 min
+[03:00:30]        849/1133 m  laps 1  sim 581s  wall 1656s  RTF 0.35  eta 9 min
+[03:01:31]        882/1133 m  laps 1  sim 603s  wall 1717s  RTF 0.35  eta 8 min
+[03:02:32]        913/1133 m  laps 1  sim 624s  wall 1777s  RTF 0.35  eta 7 min
+[03:03:32]        942/1133 m  laps 1  sim 646s  wall 1838s  RTF 0.35  eta 6 min
+[03:04:33]        973/1133 m  laps 1  sim 667s  wall 1898s  RTF 0.35  eta 5 min
+[03:05:33]       1006/1133 m  laps 1  sim 689s  wall 1959s  RTF 0.35  eta 4 min
+[03:06:34]       1038/1133 m  laps 1  sim 710s  wall 2020s  RTF 0.35  eta 3 min
+[03:07:35]       1070/1133 m  laps 1  sim 732s  wall 2081s  RTF 0.35  eta 2 min
+[03:08:35]       1099/1133 m  laps 1  sim 753s  wall 2141s  RTF 0.35  eta 1 min
+[03:09:36]       1132/1133 m  laps 1  sim 774s  wall 2202s  RTF 0.35  eta 0 min
+[03:10:05]   ok: 15539 rows, bag 90.8 MB, inspect exit 0
+[03:10:05] [23/24] Montreal @ 2.1 m/s x2
+[03:10:11]   launch pid 439240 pgid 439240: Montreal @ 2.1 m/s, 2 laps, spawn 0.00
+[03:10:26]     driving; track length 566.6 m, target 1133 m
+[03:11:26]         39/1133 m  laps 0  sim 21s  wall 75s  RTF 0.28  eta 35 min
+[03:12:27]         77/1133 m  laps 0  sim 42s  wall 136s  RTF 0.31  eta 31 min
+[03:13:27]        113/1133 m  laps 0  sim 63s  wall 196s  RTF 0.32  eta 30 min
+[03:14:27]        156/1133 m  laps 0  sim 83s  wall 256s  RTF 0.33  eta 27 min
+[03:15:28]        192/1133 m  laps 0  sim 104s  wall 317s  RTF 0.33  eta 26 min
+[03:16:29]        236/1133 m  laps 0  sim 125s  wall 378s  RTF 0.33  eta 24 min
+[03:17:29]        272/1133 m  laps 0  sim 146s  wall 438s  RTF 0.33  eta 23 min
+[03:18:30]        316/1133 m  laps 0  sim 167s  wall 499s  RTF 0.33  eta 22 min
+[03:19:30]        352/1133 m  laps 0  sim 187s  wall 559s  RTF 0.34  eta 21 min
+[03:20:30]        392/1133 m  laps 0  sim 208s  wall 619s  RTF 0.34  eta 20 min
+[03:21:30]        435/1133 m  laps 0  sim 229s  wall 679s  RTF 0.34  eta 18 min
+[03:22:30]        478/1133 m  laps 0  sim 249s  wall 739s  RTF 0.34  eta 17 min
+[03:23:31]        514/1133 m  laps 0  sim 270s  wall 800s  RTF 0.34  eta 16 min
+[03:24:31]        557/1133 m  laps 0  sim 291s  wall 860s  RTF 0.34  eta 15 min
+[03:25:31]        599/1133 m  laps 1  sim 311s  wall 920s  RTF 0.34  eta 14 min
+[03:26:32]        632/1133 m  laps 1  sim 332s  wall 981s  RTF 0.34  eta 13 min
+[03:27:33]        670/1133 m  laps 1  sim 353s  wall 1042s  RTF 0.34  eta 12 min
+[03:28:33]        712/1133 m  laps 1  sim 374s  wall 1102s  RTF 0.34  eta 11 min
+[03:29:33]        747/1133 m  laps 1  sim 395s  wall 1162s  RTF 0.34  eta 10 min
+[03:30:33]        791/1133 m  laps 1  sim 415s  wall 1222s  RTF 0.34  eta 9 min
+[03:31:34]        830/1133 m  laps 1  sim 436s  wall 1283s  RTF 0.34  eta 8 min
+[03:32:34]        870/1133 m  laps 1  sim 457s  wall 1343s  RTF 0.34  eta 7 min
+[03:33:34]        913/1133 m  laps 1  sim 477s  wall 1403s  RTF 0.34  eta 6 min
+[03:34:34]        947/1133 m  laps 1  sim 498s  wall 1464s  RTF 0.34  eta 5 min
+[03:35:35]        991/1133 m  laps 1  sim 519s  wall 1525s  RTF 0.34  eta 4 min
+[03:36:36]       1034/1133 m  laps 1  sim 540s  wall 1585s  RTF 0.34  eta 3 min
+[03:37:36]       1074/1133 m  laps 1  sim 560s  wall 1645s  RTF 0.34  eta 2 min
+[03:38:36]       1113/1133 m  laps 1  sim 581s  wall 1705s  RTF 0.34  eta 1 min
+[03:39:29]   ok: 11835 rows, bag 69.2 MB, inspect exit 0
+[03:39:29] [24/24] Montreal @ 2.7 m/s x2
+[03:39:35]   launch pid 440949 pgid 440949: Montreal @ 2.7 m/s, 2 laps, spawn 0.00
+[03:42:35]   ABORT: no /tracking/diagnostics within 180 s
+[03:42:42] === summary ===
+[03:42:42]   Shanghai      1.5 m/s  ok                       rows=26815 wall=5532.2s bag=154.2MB
+[03:42:42]   Shanghai      2.1 m/s  ok                       rows=19960 wall=3637.2s bag=114.7MB
+[03:42:42]   Shanghai      2.7 m/s  ok                       rows=16487 wall=2649.2s bag=94.6MB
+[03:42:42]   Nuerburgring  1.5 m/s  ok                       rows=23883 wall=3900.1s bag=136.4MB
+[03:42:42]   Nuerburgring  2.1 m/s  ok                       rows=17767 wall=2761.7s bag=101.8MB
+[03:42:42]   Nuerburgring  2.7 m/s  ok                       rows=14857 wall=2411.5s bag=85.5MB
+[03:42:42]   Melbourne     1.5 m/s  ok                       rows=25524 wall=4282.3s bag=146.1MB
+[03:42:42]   Melbourne     2.1 m/s  ok                       rows=18870 wall=2839.8s bag=107.7MB
+[03:42:42]   Melbourne     2.7 m/s  ok                       rows=15418 wall=2280.1s bag=88.4MB
+[03:42:42]   Monza         1.5 m/s  ok                       rows=23950 wall=3600.9s bag=137.0MB
+[03:42:42]   Monza         2.1 m/s  ok                       rows=17521 wall=2438.7s bag=100.3MB
+[03:42:42]   Monza         2.7 m/s  ok                       rows=14156 wall=1830.9s bag=81.4MB
+[03:42:42]   IMS           1.5 m/s  ok                       rows=7843 wall=928.8s bag=45.2MB
+[03:42:42]   IMS           2.1 m/s  ok                       rows=5613 wall=675.4s bag=32.4MB
+[03:42:42]   IMS           2.7 m/s  ok                       rows=4373 wall=746.6s bag=25.4MB
+[03:42:42]   Silverstone   1.5 m/s  no_diagnostics_180s      rows=None wall=Nones bag=NoneMB
+[03:42:42]   Silverstone   2.1 m/s  ok                       rows=18075 wall=2911.7s bag=104.2MB
+[03:42:42]   Silverstone   2.7 m/s  ok                       rows=14995 wall=2347.6s bag=86.5MB
+[03:42:42]   SaoPaulo      1.5 m/s  ok                       rows=18457 wall=2998.1s bag=106.5MB
+[03:42:42]   SaoPaulo      2.1 m/s  ok                       rows=13800 wall=2206.1s bag=79.8MB
+[03:42:42]   SaoPaulo      2.7 m/s  ok                       rows=11498 wall=1848.5s bag=66.4MB
+[03:42:42]   Montreal      1.5 m/s  ok                       rows=15539 wall=2218.7s bag=90.8MB
+[03:42:42]   Montreal      2.1 m/s  ok                       rows=11835 wall=1748.2s bag=69.2MB
+[03:42:42]   Montreal      2.7 m/s  no_diagnostics_180s      rows=None wall=Nones bag=NoneMB
+[ros2run]: Process exited with failure 1

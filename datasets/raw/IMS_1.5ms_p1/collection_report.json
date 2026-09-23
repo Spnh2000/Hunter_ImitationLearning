@@ -1,0 +1,32 @@
+{
+  "track": "IMS",
+  "speed_mps": 1.5,
+  "pass": "p1",
+  "spawn_s_frac": 0.0,
+  "laps_target": 1,
+  "status": "ok",
+  "wall_started": "2026-09-21T22:35:42",
+  "laps_wrapped": 1,
+  "distance_m": 587.9,
+  "sim_duration_s": -315.5,
+  "track_length_m": 586.1,
+  "terminal": null,
+  "teardown": {
+    "recorder_422190": "sigint",
+    "launch": "sigint",
+    "group_sigkill": true,
+    "graph_empty": true
+  },
+  "wall_duration_s": 928.8,
+  "bag_mb": 45.2,
+  "rows": 7843,
+  "join_dt_ms": {
+    "median": 2.0,
+    "p95": 10.0,
+    "max": 10.0,
+    "slop": 15.0
+  },
+  "rows_rejected_slop": 0,
+  "inspect_exit": 0,
+  "inspect_fails": []
+}

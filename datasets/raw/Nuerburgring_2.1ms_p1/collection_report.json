@@ -1,0 +1,32 @@
+{
+  "track": "Nuerburgring",
+  "speed_mps": 2.1,
+  "pass": "p1",
+  "spawn_s_frac": 0.0,
+  "laps_target": 2,
+  "status": "ok",
+  "wall_started": "2026-09-21T16:18:45",
+  "laps_wrapped": 2,
+  "distance_m": 1780.7,
+  "sim_duration_s": -306.3,
+  "track_length_m": 889.5,
+  "terminal": null,
+  "teardown": {
+    "recorder_403888": "sigint",
+    "launch": "sigint",
+    "group_sigkill": true,
+    "graph_empty": true
+  },
+  "wall_duration_s": 2761.7,
+  "bag_mb": 101.8,
+  "rows": 17767,
+  "join_dt_ms": {
+    "median": 9.0,
+    "p95": 9.0,
+    "max": 10.0,
+    "slop": 15.0
+  },
+  "rows_rejected_slop": 0,
+  "inspect_exit": 0,
+  "inspect_fails": []
+}

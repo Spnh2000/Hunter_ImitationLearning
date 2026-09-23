@@ -1,0 +1,19 @@
+{
+  "bag": "/home/thesp/sp_codes/hunter_robot/datasets/raw/Melbourne_1.5ms_p1/bag",
+  "mode": "expert",
+  "scans_total": 25527,
+  "scans_pre_post_run_trimmed": 1,
+  "join_dt_ms": {
+    "median": 6.5,
+    "p95": 10.0,
+    "max": 44.0,
+    "slop": 15.0
+  },
+  "rows_rejected_slop": 2,
+  "rows_kept": 25524,
+  "episode_events_matched_exactly": 25524,
+  "rows_dropped_pinned_after_terminal": 0,
+  "respawn_jumps": 0,
+  "rows": 25524,
+  "out": "/home/thesp/sp_codes/hunter_robot/datasets/raw/Melbourne_1.5ms_p1/dataset.hdf5"
+}

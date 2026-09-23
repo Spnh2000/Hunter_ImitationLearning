@@ -1,0 +1,62 @@
+
+=== /home/thesp/sp_codes/hunter_robot/datasets/raw/Shanghai_1.5ms_p1/dataset.hdf5 ===
+
+SCHEMA
+  [PASS] schema_version major matches  -- file=1.0.0 spec=1.0.0
+  [PASS] observations shape [N,720] float32  -- (26815, 720) float32
+  [PASS] actions shape [N,2] float32  -- (26815, 2) float32
+  [PASS] rewards/terminals/timeouts length N
+  [PASS] terminals is bool  -- bool
+  [PASS] timeouts is bool  -- bool
+  [PASS] terminals and timeouts never both true on one row  -- 0 rows conflict
+  [PASS] terminals and timeouts are not the same array  -- identical arrays would mean they were conflated
+
+OBSERVATIONS
+  [PASS] zero inf  -- 0 inf values
+  [PASS] zero NaN  -- 0 NaN values
+  [PASS] all within [0.15, 30.0]  -- min=2.164 max=30.000
+         beams at range_max (no-return / clipped): 2.2%
+
+DOWNSAMPLE INDEX
+  [PASS] stored index array present and length 720  -- (720,)
+  [PASS] stored == dataset_spec.DOWNSAMPLE_IDX
+  [PASS] stored == independent re-derivation (i % 3 != 1)  -- the file must prove its own mapping, not just cite the code
+
+RATE
+  [PASS] N ~= 20 x duration  -- N=26815  duration=1340.7s  expected~26814  ratio=1.000
+         inter-row gap ms: median=50.0  p95=50.0  max=50.0
+  [PASS] timestamps strictly increasing
+
+JOIN (from converter report)
+         |dt| ms: median=3.00  p95=10.00  max=10.00  slop=15
+         rows kept=26815  rejected(slop)=0  pre/post-run trimmed=3
+  [PASS] survival: >90% of in-window scans paired  -- 26815 of 26815
+  [PASS] episode events matched EXACTLY for every row  -- 26815 == N=26815
+
+ACTIONS  (physical units)
+  steering_rad  min= -0.4610  max=  0.3024  std=  0.0556  unique=  2848
+  [PASS] steering_rad within action_bounds  -- bounds=[-0.460999995470047, 0.460999995470047]
+  [PASS] steering_rad carries signal  -- std=0.0556, 2848 unique
+  speed_mps     min=  0.6299  max=  1.5000  std=  0.0989  unique=  1491
+  [PASS] speed_mps within action_bounds  -- bounds=[0.0, 2.809999942779541]
+  [PASS] speed_mps carries signal  -- std=0.0989, 1491 unique
+
+EPISODES
+         episodes=1  terminals=0  timeouts=1
+  [PASS] every episode ends in exactly one of terminal/timeout  -- 0+1 vs 1 episodes
+  [PASS] prev_action == previous row's action within episodes
+  [PASS] prev_action at episode start == own action (documented padding)
+
+ATTRS
+  track_id         Shanghai
+  track_sha256     6319355ea84e6134d06039d47b08c5a72cd72442182f61b908dc72753017
+  max_speed_mps    1.5
+  controller_label pid
+  git_rev          4317265ce5b9add7f2ca02da8e5ac729e5705e2f
+  git_dirty        True
+  [PASS] track_sha256 present
+  [WARN] git_dirty=True  -- git_rev does not fully describe the code that produced this data
+
+==============================================================================
+GATE: PASS  (1 warning(s))
+==============================================================================

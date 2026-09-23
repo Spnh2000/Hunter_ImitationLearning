@@ -1,0 +1,1802 @@
+[05:19:58] DAgger mlp: iterations 1..5, tracks ['Shanghai', 'Nuerburgring', 'Melbourne', 'Monza', 'IMS'], speeds [1.5, 2.1, 2.7]
+[05:19:58] === iteration 1: train on everything so far, then roll out ===
+[05:19:58]   train: il_train --config src/hunter_il/config/train_default.yaml --arch mlp --data-dir datasets/raw --out checkpoints/dagger_mlp_it1.pt --seed 0
+[05:27:37]   saved checkpoints/dagger_mlp_it1.pt: val_laps {'loss': 0.0003068728834992049, 'rmse_steer_rad': 0.007222758528265208, 'rmse_speed_mps': 0.026955591143028076, 'n': 117575} val_tracks {'loss': 0.0025377
+[05:27:44]   launch pid 444619: Shanghai @ 1.5 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[05:28:02]     driving; shadow and student both live; target 991 m
+[05:29:03]         51/991 m  crashes 0  |lat| median 0.110 m  wall 79s
+[05:30:03]        101/991 m  crashes 0  |lat| median 0.104 m  wall 139s
+[05:31:03]        142/991 m  crashes 0  |lat| median 0.083 m  wall 199s
+[05:32:04]        170/991 m  crashes 0  |lat| median 0.087 m  wall 259s
+[05:33:04]        214/991 m  crashes 0  |lat| median 0.105 m  wall 320s
+[05:34:04]        264/991 m  crashes 0  |lat| median 0.104 m  wall 380s
+[05:35:04]        299/991 m  crashes 0  |lat| median 0.101 m  wall 440s
+[05:36:05]        350/991 m  crashes 0  |lat| median 0.092 m  wall 501s
+[05:37:05]        400/991 m  crashes 0  |lat| median 0.091 m  wall 561s
+[05:38:05]        447/991 m  crashes 0  |lat| median 0.095 m  wall 621s
+[05:39:06]        485/991 m  crashes 0  |lat| median 0.100 m  wall 681s
+[05:40:06]        533/991 m  crashes 0  |lat| median 0.105 m  wall 742s
+[05:41:06]        574/991 m  crashes 0  |lat| median 0.113 m  wall 802s
+[05:42:06]        611/991 m  crashes 0  |lat| median 0.111 m  wall 862s
+[05:43:06]        660/991 m  crashes 0  |lat| median 0.101 m  wall 922s
+[05:44:07]        711/991 m  crashes 0  |lat| median 0.104 m  wall 982s
+[05:45:07]        761/991 m  crashes 0  |lat| median 0.114 m  wall 1043s
+[05:46:07]        812/991 m  crashes 0  |lat| median 0.123 m  wall 1103s
+[05:47:08]        862/991 m  crashes 0  |lat| median 0.136 m  wall 1163s
+[05:48:08]        896/991 m  crashes 0  |lat| median 0.142 m  wall 1224s
+[05:49:08]        941/991 m  crashes 0  |lat| median 0.146 m  wall 1284s
+[05:50:08]        988/991 m  crashes 0  |lat| median 0.143 m  wall 1344s
+[05:50:34]   ok: 8263 rows (dagger), 0 crashes, |lat| median 0.1428 p95 0.3826
+[05:50:41]   launch pid 446123: Shanghai @ 2.1 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[05:50:57]     driving; shadow and student both live; target 991 m
+[05:51:58]         50/991 m  crashes 0  |lat| median 0.121 m  wall 77s
+[05:52:58]        100/991 m  crashes 0  |lat| median 0.110 m  wall 137s
+[05:53:58]        142/991 m  crashes 0  |lat| median 0.084 m  wall 198s
+[05:54:58]        170/991 m  crashes 0  |lat| median 0.088 m  wall 258s
+[05:55:59]        212/991 m  crashes 0  |lat| median 0.107 m  wall 318s
+[05:56:59]        263/991 m  crashes 0  |lat| median 0.108 m  wall 378s
+[05:57:59]        297/991 m  crashes 0  |lat| median 0.103 m  wall 439s
+[05:58:59]        347/991 m  crashes 0  |lat| median 0.093 m  wall 499s
+[06:00:00]        397/991 m  crashes 0  |lat| median 0.092 m  wall 559s
+[06:01:00]        444/991 m  crashes 0  |lat| median 0.098 m  wall 619s
+[06:02:00]        483/991 m  crashes 0  |lat| median 0.101 m  wall 679s
+[06:03:00]        529/991 m  crashes 0  |lat| median 0.106 m  wall 740s
+[06:04:01]        572/991 m  crashes 0  |lat| median 0.116 m  wall 800s
+[06:05:01]        608/991 m  crashes 0  |lat| median 0.113 m  wall 860s
+[06:06:02]        657/991 m  crashes 0  |lat| median 0.102 m  wall 921s
+[06:07:02]        707/991 m  crashes 0  |lat| median 0.104 m  wall 981s
+[06:08:02]        757/991 m  crashes 0  |lat| median 0.115 m  wall 1041s
+[06:09:02]        807/991 m  crashes 0  |lat| median 0.125 m  wall 1101s
+[06:10:02]        857/991 m  crashes 0  |lat| median 0.138 m  wall 1161s
+[06:11:03]        890/991 m  crashes 0  |lat| median 0.142 m  wall 1222s
+[06:12:03]        938/991 m  crashes 0  |lat| median 0.149 m  wall 1282s
+[06:13:03]        981/991 m  crashes 0  |lat| median 0.145 m  wall 1342s
+[06:13:36]   ok: 8276 rows (dagger), 0 crashes, |lat| median 0.144 p95 0.3821
+[06:13:43]   launch pid 447649: Shanghai @ 2.7 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[06:14:03]     driving; shadow and student both live; target 991 m
+[06:15:03]         51/991 m  crashes 0  |lat| median 0.119 m  wall 80s
+[06:16:03]        100/991 m  crashes 0  |lat| median 0.110 m  wall 140s
+[06:17:04]        140/991 m  crashes 0  |lat| median 0.084 m  wall 201s
+[06:18:04]        167/991 m  crashes 0  |lat| median 0.087 m  wall 261s
+[06:19:04]        208/991 m  crashes 0  |lat| median 0.103 m  wall 321s
+[06:20:05]        256/991 m  crashes 0  |lat| median 0.110 m  wall 381s
+[06:21:05]        293/991 m  crashes 0  |lat| median 0.105 m  wall 442s
+[06:22:05]        337/991 m  crashes 0  |lat| median 0.093 m  wall 502s
+[06:23:05]        380/991 m  crashes 0  |lat| median 0.093 m  wall 562s
+[06:24:06]        424/991 m  crashes 0  |lat| median 0.098 m  wall 622s
+[06:25:06]        460/991 m  crashes 0  |lat| median 0.098 m  wall 683s
+[06:26:06]        477/991 m  crashes 0  |lat| median 0.099 m  wall 743s
+[06:27:07]        495/991 m  crashes 0  |lat| median 0.098 m  wall 803s
+[06:28:07]        520/991 m  crashes 0  |lat| median 0.102 m  wall 864s
+[06:29:07]        547/991 m  crashes 0  |lat| median 0.111 m  wall 924s
+[06:30:07]        571/991 m  crashes 0  |lat| median 0.115 m  wall 984s
+[06:31:08]        587/991 m  crashes 0  |lat| median 0.113 m  wall 1044s
+[06:32:08]        612/991 m  crashes 0  |lat| median 0.111 m  wall 1104s
+[06:33:08]        639/991 m  crashes 0  |lat| median 0.104 m  wall 1165s
+[06:34:08]        668/991 m  crashes 0  |lat| median 0.102 m  wall 1225s
+[06:35:09]        697/991 m  crashes 0  |lat| median 0.102 m  wall 1286s
+[06:36:09]        726/991 m  crashes 0  |lat| median 0.107 m  wall 1346s
+[06:37:10]        755/991 m  crashes 0  |lat| median 0.113 m  wall 1406s
+[06:38:10]        783/991 m  crashes 0  |lat| median 0.119 m  wall 1467s
+[06:39:10]        812/991 m  crashes 0  |lat| median 0.125 m  wall 1527s
+[06:40:10]        840/991 m  crashes 0  |lat| median 0.131 m  wall 1587s
+[06:41:10]        869/991 m  crashes 0  |lat| median 0.140 m  wall 1647s
+[06:42:11]        881/991 m  crashes 0  |lat| median 0.142 m  wall 1707s
+[06:43:11]        910/991 m  crashes 0  |lat| median 0.144 m  wall 1768s
+[06:44:11]        939/991 m  crashes 0  |lat| median 0.148 m  wall 1828s
+[06:45:12]        960/991 m  crashes 0  |lat| median 0.147 m  wall 1888s
+[06:46:12]        989/991 m  crashes 0  |lat| median 0.144 m  wall 1948s
+[06:46:43]   ok: 8270 rows (dagger), 0 crashes, |lat| median 0.1439 p95 0.3835
+[06:46:51]   launch pid 450625: Nuerburgring @ 1.5 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[06:47:14]     driving; shadow and student both live; target 889 m
+[06:48:14]         31/889 m  crashes 0  |lat| median 0.035 m  wall 83s
+[06:49:14]         61/889 m  crashes 0  |lat| median 0.071 m  wall 143s
+[06:50:15]         78/889 m  crashes 0  |lat| median 0.106 m  wall 204s
+[06:51:15]        103/889 m  crashes 0  |lat| median 0.128 m  wall 264s
+[06:52:15]        123/889 m  crashes 0  |lat| median 0.157 m  wall 324s
+[06:53:16]        144/889 m  crashes 0  |lat| median 0.199 m  wall 384s
+[06:54:16]        163/889 m  crashes 0  |lat| median 0.143 m  wall 445s
+[06:55:16]        187/889 m  crashes 0  |lat| median 0.125 m  wall 505s
+[06:56:16]        217/889 m  crashes 0  |lat| median 0.123 m  wall 565s
+[06:57:17]        246/889 m  crashes 0  |lat| median 0.139 m  wall 626s
+[06:58:17]        274/889 m  crashes 0  |lat| median 0.138 m  wall 686s
+[06:59:18]        296/889 m  crashes 0  |lat| median 0.160 m  wall 746s
+[07:00:18]        326/889 m  crashes 0  |lat| median 0.135 m  wall 807s
+[07:01:18]        356/889 m  crashes 0  |lat| median 0.122 m  wall 867s
+[07:02:18]        381/889 m  crashes 0  |lat| median 0.113 m  wall 927s
+[07:03:04]     CRASH #1 at s=396.8 m (trigger 2, min_scan 0.39 m) after 397 m
+[07:03:19]        402/889 m  crashes 1  |lat| median 0.114 m  wall 988s
+[07:04:19]        427/889 m  crashes 1  |lat| median 0.122 m  wall 1048s
+[07:05:19]        457/889 m  crashes 1  |lat| median 0.135 m  wall 1108s
+[07:06:20]        486/889 m  crashes 1  |lat| median 0.141 m  wall 1168s
+[07:07:20]        516/889 m  crashes 1  |lat| median 0.140 m  wall 1229s
+[07:08:20]        546/889 m  crashes 1  |lat| median 0.127 m  wall 1289s
+[07:09:20]        569/889 m  crashes 1  |lat| median 0.121 m  wall 1349s
+[07:10:21]        597/889 m  crashes 1  |lat| median 0.113 m  wall 1410s
+[07:11:21]        623/889 m  crashes 1  |lat| median 0.110 m  wall 1470s
+[07:12:21]        653/889 m  crashes 1  |lat| median 0.119 m  wall 1530s
+[07:13:21]        683/889 m  crashes 1  |lat| median 0.120 m  wall 1590s
+[07:14:22]        713/889 m  crashes 1  |lat| median 0.122 m  wall 1651s
+[07:15:22]        744/889 m  crashes 1  |lat| median 0.117 m  wall 1711s
+[07:16:22]        771/889 m  crashes 1  |lat| median 0.117 m  wall 1771s
+[07:17:23]        800/889 m  crashes 1  |lat| median 0.120 m  wall 1832s
+[07:18:23]        819/889 m  crashes 1  |lat| median 0.123 m  wall 1892s
+[07:19:23]        849/889 m  crashes 1  |lat| median 0.118 m  wall 1952s
+[07:20:23]        879/889 m  crashes 1  |lat| median 0.122 m  wall 2012s
+[07:21:11]   ok: 7480 rows (dagger), 1 crashes, |lat| median 0.1231 p95 0.6419
+[07:21:19]   launch pid 452766: Nuerburgring @ 2.1 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[07:21:42]     driving; shadow and student both live; target 889 m
+[07:22:43]         31/889 m  crashes 0  |lat| median 0.035 m  wall 84s
+[07:23:43]         61/889 m  crashes 0  |lat| median 0.071 m  wall 144s
+[07:24:43]         79/889 m  crashes 0  |lat| median 0.108 m  wall 205s
+[07:25:43]        103/889 m  crashes 0  |lat| median 0.131 m  wall 265s
+[07:26:44]        123/889 m  crashes 0  |lat| median 0.158 m  wall 325s
+[07:27:44]        144/889 m  crashes 0  |lat| median 0.199 m  wall 385s
+[07:28:44]        163/889 m  crashes 0  |lat| median 0.143 m  wall 445s
+[07:29:44]        188/889 m  crashes 0  |lat| median 0.133 m  wall 505s
+[07:30:44]        218/889 m  crashes 0  |lat| median 0.130 m  wall 566s
+[07:31:45]        247/889 m  crashes 0  |lat| median 0.140 m  wall 626s
+[07:32:45]        274/889 m  crashes 0  |lat| median 0.139 m  wall 686s
+[07:33:45]        297/889 m  crashes 0  |lat| median 0.158 m  wall 747s
+[07:34:46]        328/889 m  crashes 0  |lat| median 0.138 m  wall 807s
+[07:35:46]        358/889 m  crashes 0  |lat| median 0.125 m  wall 867s
+[07:36:46]        382/889 m  crashes 0  |lat| median 0.111 m  wall 927s
+[07:37:26]     CRASH #1 at s=396.8 m (trigger 2, min_scan 0.39 m) after 397 m
+[07:37:46]        404/889 m  crashes 1  |lat| median 0.116 m  wall 988s
+[07:38:47]        429/889 m  crashes 1  |lat| median 0.130 m  wall 1048s
+[07:39:47]        460/889 m  crashes 1  |lat| median 0.139 m  wall 1108s
+[07:40:47]        489/889 m  crashes 1  |lat| median 0.142 m  wall 1168s
+[07:41:48]        519/889 m  crashes 1  |lat| median 0.140 m  wall 1229s
+[07:42:48]        549/889 m  crashes 1  |lat| median 0.133 m  wall 1289s
+[07:43:48]        573/889 m  crashes 1  |lat| median 0.123 m  wall 1350s
+[07:44:49]        600/889 m  crashes 1  |lat| median 0.112 m  wall 1410s
+[07:45:49]        627/889 m  crashes 1  |lat| median 0.111 m  wall 1470s
+[07:46:49]        658/889 m  crashes 1  |lat| median 0.122 m  wall 1531s
+[07:47:50]        688/889 m  crashes 1  |lat| median 0.121 m  wall 1591s
+[07:48:50]        719/889 m  crashes 1  |lat| median 0.124 m  wall 1651s
+[07:49:50]        749/889 m  crashes 1  |lat| median 0.116 m  wall 1712s
+[07:50:51]        776/889 m  crashes 1  |lat| median 0.119 m  wall 1772s
+[07:51:51]        803/889 m  crashes 1  |lat| median 0.123 m  wall 1832s
+[07:52:51]        824/889 m  crashes 1  |lat| median 0.124 m  wall 1892s
+[07:53:51]        854/889 m  crashes 1  |lat| median 0.119 m  wall 1953s
+[07:54:52]        885/889 m  crashes 1  |lat| median 0.125 m  wall 2013s
+[07:55:29]   ok: 7477 rows (dagger), 1 crashes, |lat| median 0.1259 p95 0.6483
+[07:55:36]   launch pid 454926: Nuerburgring @ 2.7 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[07:56:01]     driving; shadow and student both live; target 889 m
+[07:57:01]         31/889 m  crashes 0  |lat| median 0.035 m  wall 85s
+[07:58:01]         62/889 m  crashes 0  |lat| median 0.071 m  wall 145s
+[07:59:02]         79/889 m  crashes 0  |lat| median 0.109 m  wall 205s
+[08:00:02]        103/889 m  crashes 0  |lat| median 0.131 m  wall 266s
+[08:01:02]        123/889 m  crashes 0  |lat| median 0.158 m  wall 326s
+[08:02:02]        144/889 m  crashes 0  |lat| median 0.199 m  wall 386s
+[08:03:02]        163/889 m  crashes 0  |lat| median 0.143 m  wall 446s
+[08:04:03]        187/889 m  crashes 0  |lat| median 0.134 m  wall 506s
+[08:05:03]        217/889 m  crashes 0  |lat| median 0.130 m  wall 567s
+[08:06:04]        247/889 m  crashes 0  |lat| median 0.141 m  wall 627s
+[08:07:04]        274/889 m  crashes 0  |lat| median 0.140 m  wall 688s
+[08:08:04]        296/889 m  crashes 0  |lat| median 0.160 m  wall 748s
+[08:09:04]        326/889 m  crashes 0  |lat| median 0.139 m  wall 808s
+[08:10:05]        356/889 m  crashes 0  |lat| median 0.126 m  wall 868s
+[08:11:05]        381/889 m  crashes 0  |lat| median 0.112 m  wall 929s
+[08:11:50]     CRASH #1 at s=396.6 m (trigger 2, min_scan 0.40 m) after 397 m
+[08:12:06]        402/889 m  crashes 1  |lat| median 0.120 m  wall 989s
+[08:13:06]        427/889 m  crashes 1  |lat| median 0.134 m  wall 1050s
+[08:14:06]        457/889 m  crashes 1  |lat| median 0.141 m  wall 1110s
+[08:15:07]        490/889 m  crashes 1  |lat| median 0.152 m  wall 1170s
+[08:16:07]        526/889 m  crashes 1  |lat| median 0.141 m  wall 1230s
+[08:17:07]        556/889 m  crashes 1  |lat| median 0.135 m  wall 1291s
+[08:18:08]        579/889 m  crashes 1  |lat| median 0.125 m  wall 1351s
+[08:19:08]        603/889 m  crashes 1  |lat| median 0.114 m  wall 1411s
+[08:20:08]        631/889 m  crashes 1  |lat| median 0.117 m  wall 1471s
+[08:21:08]        661/889 m  crashes 1  |lat| median 0.126 m  wall 1532s
+[08:22:09]        691/889 m  crashes 1  |lat| median 0.125 m  wall 1592s
+[08:23:09]        720/889 m  crashes 1  |lat| median 0.127 m  wall 1652s
+[08:24:09]        750/889 m  crashes 1  |lat| median 0.119 m  wall 1713s
+[08:25:10]        776/889 m  crashes 1  |lat| median 0.122 m  wall 1773s
+[08:26:10]        803/889 m  crashes 1  |lat| median 0.126 m  wall 1834s
+[08:27:10]        823/889 m  crashes 1  |lat| median 0.127 m  wall 1894s
+[08:28:11]        853/889 m  crashes 1  |lat| median 0.121 m  wall 1954s
+[08:29:11]        883/889 m  crashes 1  |lat| median 0.127 m  wall 2014s
+[08:29:52]   ok: 7477 rows (dagger), 1 crashes, |lat| median 0.1286 p95 0.6449
+[08:29:59]   launch pid 457515: Melbourne @ 1.5 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[08:30:22]     driving; shadow and student both live; target 946 m
+[08:31:22]         30/946 m  crashes 0  |lat| median 0.005 m  wall 83s
+[08:32:23]         61/946 m  crashes 0  |lat| median 0.009 m  wall 143s
+[08:33:23]         84/946 m  crashes 0  |lat| median 0.017 m  wall 203s
+[08:34:23]        115/946 m  crashes 0  |lat| median 0.034 m  wall 264s
+[08:35:24]        147/946 m  crashes 0  |lat| median 0.045 m  wall 324s
+[08:36:24]        178/946 m  crashes 0  |lat| median 0.037 m  wall 384s
+[08:37:24]        199/946 m  crashes 0  |lat| median 0.042 m  wall 445s
+[08:38:25]        224/946 m  crashes 0  |lat| median 0.045 m  wall 505s
+[08:39:25]        253/946 m  crashes 0  |lat| median 0.048 m  wall 565s
+[08:40:25]        278/946 m  crashes 0  |lat| median 0.050 m  wall 626s
+[08:41:25]        309/946 m  crashes 0  |lat| median 0.050 m  wall 686s
+[08:42:26]        336/946 m  crashes 0  |lat| median 0.058 m  wall 746s
+[08:43:26]        359/946 m  crashes 0  |lat| median 0.066 m  wall 807s
+[08:44:26]        388/946 m  crashes 0  |lat| median 0.079 m  wall 867s
+[08:45:26]        419/946 m  crashes 0  |lat| median 0.086 m  wall 927s
+[08:46:27]        450/946 m  crashes 0  |lat| median 0.085 m  wall 987s
+[08:47:27]        470/946 m  crashes 0  |lat| median 0.082 m  wall 1048s
+[08:48:28]        491/946 m  crashes 0  |lat| median 0.089 m  wall 1108s
+[08:49:28]        515/946 m  crashes 0  |lat| median 0.096 m  wall 1168s
+[08:50:28]        534/946 m  crashes 0  |lat| median 0.101 m  wall 1228s
+[08:51:28]        554/946 m  crashes 0  |lat| median 0.099 m  wall 1289s
+[08:52:28]        577/946 m  crashes 0  |lat| median 0.099 m  wall 1349s
+[08:53:29]        598/946 m  crashes 0  |lat| median 0.095 m  wall 1409s
+[08:54:29]        619/946 m  crashes 0  |lat| median 0.099 m  wall 1470s
+[08:55:29]        636/946 m  crashes 0  |lat| median 0.096 m  wall 1530s
+[08:56:29]        659/946 m  crashes 0  |lat| median 0.095 m  wall 1590s
+[08:57:30]        681/946 m  crashes 0  |lat| median 0.091 m  wall 1650s
+[08:58:30]        704/946 m  crashes 0  |lat| median 0.087 m  wall 1711s
+[08:59:30]        727/946 m  crashes 0  |lat| median 0.088 m  wall 1771s
+[09:00:30]        745/946 m  crashes 0  |lat| median 0.089 m  wall 1831s
+[09:01:31]        780/946 m  crashes 0  |lat| median 0.091 m  wall 1891s
+[09:02:31]        804/946 m  crashes 0  |lat| median 0.089 m  wall 1951s
+[09:03:31]        831/946 m  crashes 0  |lat| median 0.089 m  wall 2012s
+[09:04:32]        848/946 m  crashes 0  |lat| median 0.087 m  wall 2072s
+[09:05:32]        872/946 m  crashes 0  |lat| median 0.086 m  wall 2132s
+[09:06:32]        900/946 m  crashes 0  |lat| median 0.088 m  wall 2193s
+[09:07:32]        927/946 m  crashes 0  |lat| median 0.091 m  wall 2253s
+[09:08:42]   ok: 7747 rows (dagger), 0 crashes, |lat| median 0.092 p95 0.58
+[09:08:50]   launch pid 460196: Melbourne @ 2.1 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[09:09:14]     driving; shadow and student both live; target 946 m
+[09:10:14]         28/946 m  crashes 0  |lat| median 0.005 m  wall 84s
+[09:11:14]         57/946 m  crashes 0  |lat| median 0.009 m  wall 144s
+[09:12:14]         77/946 m  crashes 0  |lat| median 0.014 m  wall 204s
+[09:13:15]        105/946 m  crashes 0  |lat| median 0.028 m  wall 265s
+[09:14:15]        134/946 m  crashes 0  |lat| median 0.038 m  wall 325s
+[09:15:15]        161/946 m  crashes 0  |lat| median 0.041 m  wall 385s
+[09:16:16]        188/946 m  crashes 0  |lat| median 0.037 m  wall 446s
+[09:17:16]        206/946 m  crashes 0  |lat| median 0.045 m  wall 506s
+[09:18:16]        227/946 m  crashes 0  |lat| median 0.047 m  wall 566s
+[09:19:17]        255/946 m  crashes 0  |lat| median 0.050 m  wall 627s
+[09:20:17]        278/946 m  crashes 0  |lat| median 0.051 m  wall 687s
+[09:21:17]        310/946 m  crashes 0  |lat| median 0.051 m  wall 747s
+[09:22:18]        336/946 m  crashes 0  |lat| median 0.057 m  wall 808s
+[09:23:18]        356/946 m  crashes 0  |lat| median 0.063 m  wall 868s
+[09:24:18]        382/946 m  crashes 0  |lat| median 0.074 m  wall 928s
+[09:25:18]        410/946 m  crashes 0  |lat| median 0.086 m  wall 988s
+[09:26:18]        439/946 m  crashes 0  |lat| median 0.083 m  wall 1048s
+[09:27:19]        459/946 m  crashes 0  |lat| median 0.079 m  wall 1109s
+[09:28:19]        483/946 m  crashes 0  |lat| median 0.086 m  wall 1169s
+[09:29:20]        512/946 m  crashes 0  |lat| median 0.093 m  wall 1230s
+[09:30:20]        540/946 m  crashes 0  |lat| median 0.101 m  wall 1290s
+[09:31:20]        569/946 m  crashes 0  |lat| median 0.098 m  wall 1351s
+[09:32:21]        597/946 m  crashes 0  |lat| median 0.093 m  wall 1411s
+[09:33:21]        621/946 m  crashes 0  |lat| median 0.097 m  wall 1471s
+[09:34:22]        646/946 m  crashes 0  |lat| median 0.093 m  wall 1532s
+[09:35:22]        675/946 m  crashes 0  |lat| median 0.091 m  wall 1592s
+[09:36:22]        704/946 m  crashes 0  |lat| median 0.087 m  wall 1652s
+[09:37:22]        733/946 m  crashes 0  |lat| median 0.088 m  wall 1712s
+[09:38:23]        752/946 m  crashes 0  |lat| median 0.089 m  wall 1773s
+[09:39:23]        780/946 m  crashes 0  |lat| median 0.091 m  wall 1833s
+[09:40:23]        804/946 m  crashes 0  |lat| median 0.088 m  wall 1893s
+[09:41:24]        833/946 m  crashes 0  |lat| median 0.088 m  wall 1954s
+[09:42:24]        853/946 m  crashes 0  |lat| median 0.087 m  wall 2014s
+[09:43:24]        877/946 m  crashes 0  |lat| median 0.085 m  wall 2074s
+[09:44:25]        905/946 m  crashes 0  |lat| median 0.088 m  wall 2135s
+[09:45:25]        934/946 m  crashes 0  |lat| median 0.091 m  wall 2195s
+[09:46:18]   ok: 7746 rows (dagger), 0 crashes, |lat| median 0.0914 p95 0.5818
+[09:46:26]   launch pid 462223: Melbourne @ 2.7 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[09:46:47]     driving; shadow and student both live; target 946 m
+[09:47:48]         28/946 m  crashes 0  |lat| median 0.005 m  wall 82s
+[09:48:48]         55/946 m  crashes 0  |lat| median 0.009 m  wall 142s
+[09:49:48]         76/946 m  crashes 0  |lat| median 0.014 m  wall 202s
+[09:50:48]        104/946 m  crashes 0  |lat| median 0.027 m  wall 262s
+[09:51:48]        133/946 m  crashes 0  |lat| median 0.039 m  wall 322s
+[09:52:49]        162/946 m  crashes 0  |lat| median 0.041 m  wall 383s
+[09:53:49]        191/946 m  crashes 0  |lat| median 0.038 m  wall 443s
+[09:54:50]        208/946 m  crashes 0  |lat| median 0.045 m  wall 503s
+[09:55:50]        230/946 m  crashes 0  |lat| median 0.047 m  wall 564s
+[09:56:51]        258/946 m  crashes 0  |lat| median 0.052 m  wall 625s
+[09:57:51]        282/946 m  crashes 0  |lat| median 0.052 m  wall 685s
+[09:58:51]        310/946 m  crashes 0  |lat| median 0.053 m  wall 745s
+[09:59:52]        336/946 m  crashes 0  |lat| median 0.059 m  wall 806s
+[10:00:52]        357/946 m  crashes 0  |lat| median 0.066 m  wall 866s
+[10:01:53]        384/946 m  crashes 0  |lat| median 0.077 m  wall 927s
+[10:02:53]        411/946 m  crashes 0  |lat| median 0.089 m  wall 987s
+[10:03:53]        439/946 m  crashes 0  |lat| median 0.085 m  wall 1047s
+[10:04:53]        458/946 m  crashes 0  |lat| median 0.081 m  wall 1107s
+[10:05:54]        480/946 m  crashes 0  |lat| median 0.087 m  wall 1168s
+[10:06:54]        507/946 m  crashes 0  |lat| median 0.094 m  wall 1228s
+[10:07:54]        534/946 m  crashes 0  |lat| median 0.101 m  wall 1288s
+[10:08:54]        561/946 m  crashes 0  |lat| median 0.097 m  wall 1348s
+[10:09:55]        588/946 m  crashes 0  |lat| median 0.097 m  wall 1409s
+[10:10:55]        613/946 m  crashes 0  |lat| median 0.097 m  wall 1469s
+[10:11:55]        634/946 m  crashes 0  |lat| median 0.096 m  wall 1529s
+[10:12:56]        661/946 m  crashes 0  |lat| median 0.094 m  wall 1590s
+[10:13:56]        689/946 m  crashes 0  |lat| median 0.090 m  wall 1650s
+[10:14:57]        716/946 m  crashes 0  |lat| median 0.087 m  wall 1710s
+[10:15:57]        742/946 m  crashes 0  |lat| median 0.089 m  wall 1771s
+[10:16:57]        762/946 m  crashes 0  |lat| median 0.091 m  wall 1831s
+[10:17:57]        788/946 m  crashes 0  |lat| median 0.091 m  wall 1891s
+[10:18:58]        813/946 m  crashes 0  |lat| median 0.089 m  wall 1952s
+[10:19:58]        835/946 m  crashes 0  |lat| median 0.089 m  wall 2012s
+[10:20:58]        855/946 m  crashes 0  |lat| median 0.088 m  wall 2072s
+[10:21:58]        878/946 m  crashes 0  |lat| median 0.086 m  wall 2132s
+[10:22:58]        905/946 m  crashes 0  |lat| median 0.089 m  wall 2192s
+[10:23:59]        933/946 m  crashes 0  |lat| median 0.092 m  wall 2253s
+[10:24:57]   ok: 7749 rows (dagger), 0 crashes, |lat| median 0.0921 p95 0.5892
+[10:25:05]   launch pid 465434: Monza @ 1.5 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[10:25:28]     driving; shadow and student both live; target 890 m
+[10:26:28]         31/890 m  crashes 0  |lat| median 0.023 m  wall 83s
+[10:27:28]         61/890 m  crashes 0  |lat| median 0.059 m  wall 143s
+[10:28:29]         92/890 m  crashes 0  |lat| median 0.088 m  wall 203s
+[10:29:29]        123/890 m  crashes 0  |lat| median 0.109 m  wall 264s
+[10:30:29]        145/890 m  crashes 0  |lat| median 0.127 m  wall 324s
+[10:31:14]     CRASH #1 at s=149.4 m (trigger 2, min_scan 0.39 m) after 149 m
+[10:31:30]        152/890 m  crashes 1  |lat| median 0.133 m  wall 384s
+[10:32:30]        170/890 m  crashes 1  |lat| median 0.117 m  wall 445s
+[10:33:30]        200/890 m  crashes 1  |lat| median 0.113 m  wall 505s
+[10:34:31]        231/890 m  crashes 1  |lat| median 0.103 m  wall 565s
+[10:35:31]        262/890 m  crashes 1  |lat| median 0.095 m  wall 625s
+[10:36:31]        294/890 m  crashes 1  |lat| median 0.092 m  wall 685s
+[10:37:31]        324/890 m  crashes 1  |lat| median 0.098 m  wall 746s
+[10:38:31]        347/890 m  crashes 1  |lat| median 0.105 m  wall 806s
+[10:39:31]        377/890 m  crashes 1  |lat| median 0.112 m  wall 866s
+[10:40:32]        405/890 m  crashes 1  |lat| median 0.115 m  wall 927s
+[10:41:32]        435/890 m  crashes 1  |lat| median 0.109 m  wall 987s
+[10:42:33]        461/890 m  crashes 1  |lat| median 0.107 m  wall 1047s
+[10:43:33]        492/890 m  crashes 1  |lat| median 0.108 m  wall 1107s
+[10:44:33]        524/890 m  crashes 1  |lat| median 0.108 m  wall 1168s
+[10:45:33]        556/890 m  crashes 1  |lat| median 0.113 m  wall 1228s
+[10:46:34]        588/890 m  crashes 1  |lat| median 0.115 m  wall 1288s
+[10:47:34]        617/890 m  crashes 1  |lat| median 0.112 m  wall 1349s
+[10:48:34]        645/890 m  crashes 1  |lat| median 0.113 m  wall 1409s
+[10:49:35]        676/890 m  crashes 1  |lat| median 0.113 m  wall 1469s
+[10:50:35]        707/890 m  crashes 1  |lat| median 0.109 m  wall 1529s
+[10:51:35]        739/890 m  crashes 1  |lat| median 0.104 m  wall 1589s
+[10:52:35]        770/890 m  crashes 1  |lat| median 0.099 m  wall 1650s
+[10:53:35]        801/890 m  crashes 1  |lat| median 0.095 m  wall 1710s
+[10:54:35]        829/890 m  crashes 1  |lat| median 0.094 m  wall 1770s
+[10:55:36]        861/890 m  crashes 1  |lat| median 0.093 m  wall 1830s
+[10:57:00]   ok: 7237 rows (dagger), 1 crashes, |lat| median 0.0956 p95 0.2912
+[10:57:08]   launch pid 467124: Monza @ 2.1 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[10:57:31]     driving; shadow and student both live; target 890 m
+[10:58:31]         30/890 m  crashes 0  |lat| median 0.020 m  wall 83s
+[10:59:31]         60/890 m  crashes 0  |lat| median 0.055 m  wall 143s
+[11:00:32]         91/890 m  crashes 0  |lat| median 0.086 m  wall 203s
+[11:01:32]        122/890 m  crashes 0  |lat| median 0.107 m  wall 263s
+[11:02:32]        145/890 m  crashes 0  |lat| median 0.126 m  wall 323s
+[11:03:19]     CRASH #1 at s=149.4 m (trigger 2, min_scan 0.40 m) after 149 m
+[11:03:32]        152/890 m  crashes 1  |lat| median 0.133 m  wall 384s
+[11:04:33]        169/890 m  crashes 1  |lat| median 0.126 m  wall 444s
+[11:05:33]        200/890 m  crashes 1  |lat| median 0.116 m  wall 505s
+[11:06:34]        231/890 m  crashes 1  |lat| median 0.105 m  wall 565s
+[11:07:34]        261/890 m  crashes 1  |lat| median 0.097 m  wall 625s
+[11:08:34]        292/890 m  crashes 1  |lat| median 0.094 m  wall 686s
+[11:09:35]        323/890 m  crashes 1  |lat| median 0.100 m  wall 746s
+[11:10:35]        344/890 m  crashes 1  |lat| median 0.105 m  wall 807s
+[11:11:35]        370/890 m  crashes 1  |lat| median 0.113 m  wall 867s
+[11:12:36]        399/890 m  crashes 1  |lat| median 0.123 m  wall 927s
+[11:13:36]        426/890 m  crashes 1  |lat| median 0.114 m  wall 987s
+[11:14:36]        453/890 m  crashes 1  |lat| median 0.110 m  wall 1048s
+[11:15:37]        482/890 m  crashes 1  |lat| median 0.111 m  wall 1108s
+[11:16:37]        516/890 m  crashes 1  |lat| median 0.107 m  wall 1168s
+[11:17:37]        547/890 m  crashes 1  |lat| median 0.113 m  wall 1229s
+[11:18:37]        576/890 m  crashes 1  |lat| median 0.116 m  wall 1289s
+[11:19:38]        607/890 m  crashes 1  |lat| median 0.114 m  wall 1349s
+[11:20:38]        629/890 m  crashes 1  |lat| median 0.113 m  wall 1410s
+[11:21:38]        657/890 m  crashes 1  |lat| median 0.115 m  wall 1470s
+[11:22:38]        687/890 m  crashes 1  |lat| median 0.112 m  wall 1530s
+[11:23:38]        716/890 m  crashes 1  |lat| median 0.108 m  wall 1590s
+[11:24:39]        747/890 m  crashes 1  |lat| median 0.104 m  wall 1650s
+[11:25:39]        776/890 m  crashes 1  |lat| median 0.099 m  wall 1711s
+[11:26:39]        804/890 m  crashes 1  |lat| median 0.095 m  wall 1771s
+[11:27:40]        831/890 m  crashes 1  |lat| median 0.095 m  wall 1831s
+[11:28:40]        861/890 m  crashes 1  |lat| median 0.094 m  wall 1892s
+[11:30:08]   ok: 7243 rows (dagger), 1 crashes, |lat| median 0.0966 p95 0.2938
+[11:30:16]   launch pid 468841: Monza @ 2.7 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[11:30:38]     driving; shadow and student both live; target 890 m
+[11:31:39]         29/890 m  crashes 0  |lat| median 0.021 m  wall 83s
+[11:32:39]         59/890 m  crashes 0  |lat| median 0.055 m  wall 143s
+[11:33:39]         89/890 m  crashes 0  |lat| median 0.085 m  wall 203s
+[11:34:40]        119/890 m  crashes 0  |lat| median 0.105 m  wall 264s
+[11:35:40]        143/890 m  crashes 0  |lat| median 0.123 m  wall 324s
+[11:36:37]     CRASH #1 at s=149.4 m (trigger 2, min_scan 0.40 m) after 149 m
+[11:36:40]        149/890 m  crashes 1  |lat| median 0.134 m  wall 385s
+[11:37:41]        163/890 m  crashes 1  |lat| median 0.121 m  wall 445s
+[11:38:41]        193/890 m  crashes 1  |lat| median 0.112 m  wall 506s
+[11:39:41]        223/890 m  crashes 1  |lat| median 0.100 m  wall 566s
+[11:40:42]        252/890 m  crashes 1  |lat| median 0.096 m  wall 626s
+[11:41:42]        282/890 m  crashes 1  |lat| median 0.089 m  wall 686s
+[11:42:42]        312/890 m  crashes 1  |lat| median 0.095 m  wall 746s
+[11:43:42]        338/890 m  crashes 1  |lat| median 0.101 m  wall 807s
+[11:44:42]        358/890 m  crashes 1  |lat| median 0.104 m  wall 867s
+[11:45:43]        387/890 m  crashes 1  |lat| median 0.115 m  wall 927s
+[11:46:43]        411/890 m  crashes 1  |lat| median 0.112 m  wall 987s
+[11:47:44]        441/890 m  crashes 1  |lat| median 0.105 m  wall 1048s
+[11:48:44]        465/890 m  crashes 1  |lat| median 0.105 m  wall 1108s
+[11:49:44]        495/890 m  crashes 1  |lat| median 0.105 m  wall 1168s
+[11:50:44]        526/890 m  crashes 1  |lat| median 0.106 m  wall 1228s
+[11:51:45]        556/890 m  crashes 1  |lat| median 0.112 m  wall 1289s
+[11:52:45]        586/890 m  crashes 1  |lat| median 0.114 m  wall 1349s
+[11:53:45]        614/890 m  crashes 1  |lat| median 0.112 m  wall 1410s
+[11:54:46]        638/890 m  crashes 1  |lat| median 0.112 m  wall 1470s
+[11:55:46]        671/890 m  crashes 1  |lat| median 0.112 m  wall 1530s
+[11:56:46]        702/890 m  crashes 1  |lat| median 0.108 m  wall 1590s
+[11:57:46]        733/890 m  crashes 1  |lat| median 0.104 m  wall 1650s
+[11:58:46]        764/890 m  crashes 1  |lat| median 0.099 m  wall 1710s
+[11:59:47]        795/890 m  crashes 1  |lat| median 0.095 m  wall 1771s
+[12:00:47]        821/890 m  crashes 1  |lat| median 0.093 m  wall 1831s
+[12:01:47]        851/890 m  crashes 1  |lat| median 0.093 m  wall 1891s
+[12:02:47]        883/890 m  crashes 1  |lat| median 0.094 m  wall 1951s
+[12:03:30]   ok: 7242 rows (dagger), 1 crashes, |lat| median 0.0951 p95 0.2924
+[12:03:38]   launch pid 471110: IMS @ 1.5 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[12:04:01]     driving; shadow and student both live; target 586 m
+[12:05:01]         36/586 m  crashes 0  |lat| median 0.021 m  wall 82s
+[12:06:01]         72/586 m  crashes 0  |lat| median 0.023 m  wall 143s
+[12:07:01]        109/586 m  crashes 0  |lat| median 0.026 m  wall 203s
+[12:08:01]        145/586 m  crashes 0  |lat| median 0.031 m  wall 263s
+[12:09:01]        181/586 m  crashes 0  |lat| median 0.038 m  wall 323s
+[12:10:02]        217/586 m  crashes 0  |lat| median 0.040 m  wall 384s
+[12:11:02]        253/586 m  crashes 0  |lat| median 0.036 m  wall 444s
+[12:12:03]        289/586 m  crashes 0  |lat| median 0.039 m  wall 505s
+[12:13:03]        325/586 m  crashes 0  |lat| median 0.043 m  wall 565s
+[12:14:03]        362/586 m  crashes 0  |lat| median 0.047 m  wall 625s
+[12:15:03]        399/586 m  crashes 0  |lat| median 0.046 m  wall 685s
+[12:16:03]        434/586 m  crashes 0  |lat| median 0.049 m  wall 745s
+[12:17:04]        470/586 m  crashes 0  |lat| median 0.053 m  wall 806s
+[12:18:04]        506/586 m  crashes 0  |lat| median 0.055 m  wall 866s
+[12:19:04]        541/586 m  crashes 0  |lat| median 0.054 m  wall 926s
+[12:20:04]        577/586 m  crashes 0  |lat| median 0.055 m  wall 986s
+[12:20:39]   ok: 4361 rows (dagger), 0 crashes, |lat| median 0.056 p95 0.1816
+[12:20:47]   launch pid 472213: IMS @ 2.1 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[12:21:10]     driving; shadow and student both live; target 586 m
+[12:22:10]         38/586 m  crashes 0  |lat| median 0.020 m  wall 84s
+[12:23:11]         75/586 m  crashes 0  |lat| median 0.024 m  wall 144s
+[12:24:11]        112/586 m  crashes 0  |lat| median 0.026 m  wall 204s
+[12:25:11]        149/586 m  crashes 0  |lat| median 0.031 m  wall 265s
+[12:26:12]        186/586 m  crashes 0  |lat| median 0.040 m  wall 325s
+[12:27:12]        222/586 m  crashes 0  |lat| median 0.039 m  wall 386s
+[12:28:12]        259/586 m  crashes 0  |lat| median 0.036 m  wall 446s
+[12:29:13]        296/586 m  crashes 0  |lat| median 0.039 m  wall 506s
+[12:30:13]        333/586 m  crashes 0  |lat| median 0.044 m  wall 567s
+[12:31:14]        369/586 m  crashes 0  |lat| median 0.047 m  wall 627s
+[12:32:14]        406/586 m  crashes 0  |lat| median 0.047 m  wall 688s
+[12:33:15]        442/586 m  crashes 0  |lat| median 0.049 m  wall 748s
+[12:34:15]        479/586 m  crashes 0  |lat| median 0.053 m  wall 808s
+[12:35:15]        516/586 m  crashes 0  |lat| median 0.056 m  wall 869s
+[12:36:16]        553/586 m  crashes 0  |lat| median 0.053 m  wall 929s
+[12:37:33]   ok: 4355 rows (dagger), 0 crashes, |lat| median 0.0557 p95 0.1818
+[12:37:41]   launch pid 473311: IMS @ 2.7 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[12:38:05]     driving; shadow and student both live; target 586 m
+[12:39:05]         35/586 m  crashes 0  |lat| median 0.020 m  wall 84s
+[12:40:05]         71/586 m  crashes 0  |lat| median 0.022 m  wall 144s
+[12:41:05]        107/586 m  crashes 0  |lat| median 0.026 m  wall 204s
+[12:42:06]        143/586 m  crashes 0  |lat| median 0.030 m  wall 265s
+[12:43:06]        179/586 m  crashes 0  |lat| median 0.038 m  wall 325s
+[12:44:06]        215/586 m  crashes 0  |lat| median 0.040 m  wall 385s
+[12:45:06]        251/586 m  crashes 0  |lat| median 0.037 m  wall 445s
+[12:46:07]        290/586 m  crashes 0  |lat| median 0.039 m  wall 505s
+[12:47:07]        326/586 m  crashes 0  |lat| median 0.042 m  wall 565s
+[12:48:07]        362/586 m  crashes 0  |lat| median 0.047 m  wall 626s
+[12:49:07]        397/586 m  crashes 0  |lat| median 0.046 m  wall 686s
+[12:50:08]        432/586 m  crashes 0  |lat| median 0.048 m  wall 747s
+[12:51:08]        467/586 m  crashes 0  |lat| median 0.051 m  wall 807s
+[12:52:09]        502/586 m  crashes 0  |lat| median 0.054 m  wall 867s
+[12:53:09]        538/586 m  crashes 0  |lat| median 0.054 m  wall 928s
+[12:54:09]        573/586 m  crashes 0  |lat| median 0.054 m  wall 988s
+[12:54:56]   ok: 4363 rows (dagger), 0 crashes, |lat| median 0.0552 p95 0.1813
+[12:54:56] === iteration 2: train on everything so far, then roll out ===
+[12:54:56]   train: il_train --config src/hunter_il/config/train_default.yaml --arch mlp --data-dir datasets/raw --out checkpoints/dagger_mlp_it2.pt --seed 0
+[13:04:49]   saved checkpoints/dagger_mlp_it2.pt: val_laps {'loss': 0.019240609587365662, 'rmse_steer_rad': 0.06960639464527536, 'rmse_speed_mps': 0.17556466957141784, 'n': 67510} val_tracks {'loss': 0.06912631390
+[13:04:56]   launch pid 474742: Shanghai @ 1.5 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[13:05:20]     driving; shadow and student both live; target 991 m
+[13:06:20]         28/991 m  crashes 0  |lat| median 0.016 m  wall 84s
+[13:07:21]         56/991 m  crashes 0  |lat| median 0.094 m  wall 145s
+[13:08:21]         83/991 m  crashes 0  |lat| median 0.066 m  wall 205s
+[13:09:21]        110/991 m  crashes 0  |lat| median 0.067 m  wall 265s
+[13:10:22]        134/991 m  crashes 0  |lat| median 0.076 m  wall 326s
+[13:11:22]        153/991 m  crashes 0  |lat| median 0.077 m  wall 386s
+[13:12:23]        181/991 m  crashes 0  |lat| median 0.072 m  wall 446s
+[13:13:23]        228/991 m  crashes 0  |lat| median 0.080 m  wall 507s
+[13:14:23]        276/991 m  crashes 0  |lat| median 0.091 m  wall 567s
+[13:15:24]        314/991 m  crashes 0  |lat| median 0.098 m  wall 627s
+[13:16:24]        362/991 m  crashes 0  |lat| median 0.084 m  wall 687s
+[13:17:24]        410/991 m  crashes 0  |lat| median 0.075 m  wall 747s
+[13:18:24]        456/991 m  crashes 0  |lat| median 0.080 m  wall 808s
+[13:19:24]        491/991 m  crashes 0  |lat| median 0.082 m  wall 868s
+[13:20:25]        540/991 m  crashes 0  |lat| median 0.076 m  wall 928s
+[13:21:23]     CRASH #1 at s=576.5 m (trigger 2, min_scan 0.36 m) after 576 m
+[13:21:26]        577/991 m  crashes 1  |lat| median 0.075 m  wall 990s
+[13:21:54]     CRASH #2 at s=576.3 m (trigger 2, min_scan 0.37 m) after 588 m
+[13:22:25]     CRASH #3 at s=576.5 m (trigger 2, min_scan 0.36 m) after 601 m
+[13:22:28]        601/991 m  crashes 3  |lat| median 0.079 m  wall 1052s
+[13:22:56]     CRASH #4 at s=576.5 m (trigger 2, min_scan 0.37 m) after 613 m
+[13:23:27]     CRASH #5 at s=576.7 m (trigger 2, min_scan 0.39 m) after 625 m
+[13:23:30]        625/991 m  crashes 5  |lat| median 0.085 m  wall 1114s
+[13:23:58]     CRASH #6 at s=576.5 m (trigger 2, min_scan 0.38 m) after 637 m
+[13:24:29]     CRASH #7 at s=576.5 m (trigger 2, min_scan 0.38 m) after 649 m
+[13:24:32]        649/991 m  crashes 7  |lat| median 0.091 m  wall 1175s
+[13:25:00]     CRASH #8 at s=576.5 m (trigger 2, min_scan 0.37 m) after 661 m
+[13:25:31]     CRASH #9 at s=576.7 m (trigger 2, min_scan 0.40 m) after 674 m
+[13:25:51]   too_many_crashes: 6199 rows (dagger), 9 crashes, |lat| median 0.0968 p95 0.9779
+[13:25:58]   launch pid 476258: Shanghai @ 2.1 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[13:26:16]     driving; shadow and student both live; target 991 m
+[13:27:16]         49/991 m  crashes 0  |lat| median 0.066 m  wall 78s
+[13:28:16]         99/991 m  crashes 0  |lat| median 0.063 m  wall 138s
+[13:29:16]        142/991 m  crashes 0  |lat| median 0.077 m  wall 199s
+[13:30:17]        173/991 m  crashes 0  |lat| median 0.079 m  wall 259s
+[13:31:17]        220/991 m  crashes 0  |lat| median 0.078 m  wall 319s
+[13:32:17]        269/991 m  crashes 0  |lat| median 0.094 m  wall 379s
+[13:33:17]        309/991 m  crashes 0  |lat| median 0.096 m  wall 439s
+[13:34:18]        359/991 m  crashes 0  |lat| median 0.085 m  wall 500s
+[13:35:18]        408/991 m  crashes 0  |lat| median 0.077 m  wall 560s
+[13:36:18]        455/991 m  crashes 0  |lat| median 0.081 m  wall 620s
+[13:37:19]        492/991 m  crashes 0  |lat| median 0.083 m  wall 681s
+[13:38:19]        542/991 m  crashes 0  |lat| median 0.076 m  wall 741s
+[13:39:14]     CRASH #1 at s=576.5 m (trigger 2, min_scan 0.40 m) after 576 m
+[13:39:19]        579/991 m  crashes 1  |lat| median 0.075 m  wall 801s
+[13:39:44]     CRASH #2 at s=576.5 m (trigger 2, min_scan 0.38 m) after 589 m
+[13:40:14]     CRASH #3 at s=576.3 m (trigger 2, min_scan 0.39 m) after 601 m
+[13:40:19]        603/991 m  crashes 3  |lat| median 0.080 m  wall 861s
+[13:40:45]     CRASH #4 at s=576.5 m (trigger 2, min_scan 0.35 m) after 613 m
+[13:41:15]     CRASH #5 at s=576.3 m (trigger 2, min_scan 0.34 m) after 625 m
+[13:41:20]        627/991 m  crashes 5  |lat| median 0.085 m  wall 922s
+[13:41:45]     CRASH #6 at s=576.3 m (trigger 2, min_scan 0.36 m) after 637 m
+[13:42:16]     CRASH #7 at s=576.5 m (trigger 2, min_scan 0.37 m) after 650 m
+[13:42:20]        651/991 m  crashes 7  |lat| median 0.091 m  wall 982s
+[13:42:46]     CRASH #8 at s=576.5 m (trigger 2, min_scan 0.35 m) after 662 m
+[13:43:16]     CRASH #9 at s=576.5 m (trigger 2, min_scan 0.38 m) after 674 m
+[13:43:36]   too_many_crashes: 6209 rows (dagger), 9 crashes, |lat| median 0.097 p95 0.9864
+[13:43:43]   launch pid 477598: Shanghai @ 2.7 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[13:43:59]     driving; shadow and student both live; target 991 m
+[13:44:59]         49/991 m  crashes 0  |lat| median 0.075 m  wall 76s
+[13:45:59]         98/991 m  crashes 0  |lat| median 0.067 m  wall 136s
+[13:47:00]        141/991 m  crashes 0  |lat| median 0.080 m  wall 197s
+[13:48:00]        172/991 m  crashes 0  |lat| median 0.081 m  wall 257s
+[13:49:00]        219/991 m  crashes 0  |lat| median 0.079 m  wall 317s
+[13:50:00]        269/991 m  crashes 0  |lat| median 0.096 m  wall 377s
+[13:51:01]        308/991 m  crashes 0  |lat| median 0.097 m  wall 438s
+[13:52:01]        358/991 m  crashes 0  |lat| median 0.086 m  wall 498s
+[13:53:01]        406/991 m  crashes 0  |lat| median 0.079 m  wall 558s
+[13:54:01]        452/991 m  crashes 0  |lat| median 0.081 m  wall 618s
+[13:55:02]        490/991 m  crashes 0  |lat| median 0.084 m  wall 679s
+[13:56:02]        539/991 m  crashes 0  |lat| median 0.077 m  wall 739s
+[13:57:00]     CRASH #1 at s=576.5 m (trigger 2, min_scan 0.40 m) after 576 m
+[13:57:03]        577/991 m  crashes 1  |lat| median 0.076 m  wall 800s
+[13:57:30]     CRASH #2 at s=576.5 m (trigger 2, min_scan 0.39 m) after 589 m
+[13:58:00]     CRASH #3 at s=576.5 m (trigger 2, min_scan 0.36 m) after 601 m
+[13:58:03]        601/991 m  crashes 3  |lat| median 0.081 m  wall 860s
+[13:58:30]     CRASH #4 at s=576.5 m (trigger 2, min_scan 0.36 m) after 613 m
+[13:59:00]     CRASH #5 at s=576.5 m (trigger 2, min_scan 0.38 m) after 625 m
+[13:59:04]        626/991 m  crashes 5  |lat| median 0.086 m  wall 921s
+[13:59:30]     CRASH #6 at s=576.5 m (trigger 2, min_scan 0.38 m) after 637 m
+[14:00:01]     CRASH #7 at s=576.5 m (trigger 2, min_scan 0.38 m) after 649 m
+[14:00:04]        650/991 m  crashes 7  |lat| median 0.092 m  wall 981s
+[14:00:31]     CRASH #8 at s=576.5 m (trigger 2, min_scan 0.37 m) after 662 m
+[14:01:02]     CRASH #9 at s=576.5 m (trigger 2, min_scan 0.38 m) after 674 m
+[14:01:22]   too_many_crashes: 6203 rows (dagger), 9 crashes, |lat| median 0.0981 p95 0.9817
+[14:01:29]   launch pid 479250: Nuerburgring @ 1.5 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[14:01:46]     driving; shadow and student both live; target 889 m
+[14:02:46]         47/889 m  crashes 0  |lat| median 0.180 m  wall 77s
+[14:03:46]         89/889 m  crashes 0  |lat| median 0.149 m  wall 137s
+[14:04:46]        132/889 m  crashes 0  |lat| median 0.135 m  wall 198s
+[14:05:47]        165/889 m  crashes 0  |lat| median 0.124 m  wall 258s
+[14:06:47]        212/889 m  crashes 0  |lat| median 0.148 m  wall 318s
+[14:07:47]        258/889 m  crashes 0  |lat| median 0.161 m  wall 378s
+[14:08:47]        299/889 m  crashes 0  |lat| median 0.152 m  wall 438s
+[14:09:47]        348/889 m  crashes 0  |lat| median 0.150 m  wall 499s
+[14:10:48]        388/889 m  crashes 0  |lat| median 0.156 m  wall 559s
+[14:11:48]        433/889 m  crashes 0  |lat| median 0.143 m  wall 619s
+[14:12:48]        481/889 m  crashes 0  |lat| median 0.130 m  wall 679s
+[14:13:49]        530/889 m  crashes 0  |lat| median 0.118 m  wall 740s
+[14:14:49]        574/889 m  crashes 0  |lat| median 0.111 m  wall 800s
+[14:15:49]        619/889 m  crashes 0  |lat| median 0.104 m  wall 860s
+[14:16:49]        668/889 m  crashes 0  |lat| median 0.105 m  wall 920s
+[14:17:49]        717/889 m  crashes 0  |lat| median 0.098 m  wall 980s
+[14:18:49]        760/889 m  crashes 0  |lat| median 0.094 m  wall 1040s
+[14:19:49]        802/889 m  crashes 0  |lat| median 0.091 m  wall 1101s
+[14:20:50]        850/889 m  crashes 0  |lat| median 0.095 m  wall 1161s
+[14:21:58]   ok: 7231 rows (dagger), 0 crashes, |lat| median 0.0981 p95 0.2816
+[14:22:05]   launch pid 480706: Nuerburgring @ 2.1 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[14:22:23]     driving; shadow and student both live; target 889 m
+[14:23:24]         51/889 m  crashes 0  |lat| median 0.188 m  wall 79s
+[14:24:24]         93/889 m  crashes 0  |lat| median 0.147 m  wall 139s
+[14:25:24]        138/889 m  crashes 0  |lat| median 0.142 m  wall 199s
+[14:26:25]        170/889 m  crashes 0  |lat| median 0.127 m  wall 260s
+[14:27:25]        220/889 m  crashes 0  |lat| median 0.156 m  wall 320s
+[14:28:26]        267/889 m  crashes 0  |lat| median 0.157 m  wall 381s
+[14:29:26]        310/889 m  crashes 0  |lat| median 0.148 m  wall 441s
+[14:30:27]        360/889 m  crashes 0  |lat| median 0.155 m  wall 502s
+[14:31:27]        397/889 m  crashes 0  |lat| median 0.153 m  wall 562s
+[14:32:27]        447/889 m  crashes 0  |lat| median 0.138 m  wall 622s
+[14:33:27]        496/889 m  crashes 0  |lat| median 0.128 m  wall 682s
+[14:34:28]        546/889 m  crashes 0  |lat| median 0.115 m  wall 743s
+[14:35:28]        588/889 m  crashes 0  |lat| median 0.108 m  wall 803s
+[14:36:28]        636/889 m  crashes 0  |lat| median 0.108 m  wall 863s
+[14:37:28]        686/889 m  crashes 0  |lat| median 0.102 m  wall 923s
+[14:38:28]        735/889 m  crashes 0  |lat| median 0.097 m  wall 983s
+[14:39:28]        780/889 m  crashes 0  |lat| median 0.093 m  wall 1043s
+[14:40:28]        821/889 m  crashes 0  |lat| median 0.093 m  wall 1103s
+[14:41:29]        870/889 m  crashes 0  |lat| median 0.097 m  wall 1164s
+[14:42:12]   ok: 7243 rows (dagger), 0 crashes, |lat| median 0.0984 p95 0.2851
+[14:42:19]   launch pid 482080: Nuerburgring @ 2.7 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[14:42:38]     driving; shadow and student both live; target 889 m
+[14:43:38]         47/889 m  crashes 0  |lat| median 0.179 m  wall 79s
+[14:44:38]         87/889 m  crashes 0  |lat| median 0.152 m  wall 139s
+[14:45:39]        129/889 m  crashes 0  |lat| median 0.137 m  wall 199s
+[14:46:39]        163/889 m  crashes 0  |lat| median 0.124 m  wall 260s
+[14:47:39]        206/889 m  crashes 0  |lat| median 0.144 m  wall 320s
+[14:48:39]        251/889 m  crashes 0  |lat| median 0.166 m  wall 380s
+[14:49:39]        290/889 m  crashes 0  |lat| median 0.152 m  wall 440s
+[14:50:39]        338/889 m  crashes 0  |lat| median 0.149 m  wall 500s
+[14:51:40]        381/889 m  crashes 0  |lat| median 0.156 m  wall 560s
+[14:52:40]        420/889 m  crashes 0  |lat| median 0.147 m  wall 620s
+[14:53:40]        466/889 m  crashes 0  |lat| median 0.132 m  wall 680s
+[14:54:40]        513/889 m  crashes 0  |lat| median 0.124 m  wall 741s
+[14:55:41]        556/889 m  crashes 0  |lat| median 0.115 m  wall 801s
+[14:56:41]        599/889 m  crashes 0  |lat| median 0.106 m  wall 861s
+[14:57:41]        647/889 m  crashes 0  |lat| median 0.107 m  wall 921s
+[14:58:41]        694/889 m  crashes 0  |lat| median 0.100 m  wall 982s
+[14:59:41]        742/889 m  crashes 0  |lat| median 0.096 m  wall 1042s
+[15:00:41]        784/889 m  crashes 0  |lat| median 0.092 m  wall 1102s
+[15:01:42]        824/889 m  crashes 0  |lat| median 0.093 m  wall 1162s
+[15:02:42]        872/889 m  crashes 0  |lat| median 0.097 m  wall 1223s
+[15:03:26]   ok: 7242 rows (dagger), 0 crashes, |lat| median 0.0981 p95 0.2815
+[15:03:33]   launch pid 483531: Melbourne @ 1.5 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[15:03:49]     driving; shadow and student both live; target 946 m
+[15:04:50]         51/946 m  crashes 0  |lat| median 0.146 m  wall 77s
+[15:05:50]         97/946 m  crashes 0  |lat| median 0.121 m  wall 137s
+[15:06:50]        149/946 m  crashes 0  |lat| median 0.077 m  wall 197s
+[15:07:50]        197/946 m  crashes 0  |lat| median 0.061 m  wall 257s
+[15:08:51]        240/946 m  crashes 0  |lat| median 0.065 m  wall 318s
+[15:09:51]        289/946 m  crashes 0  |lat| median 0.066 m  wall 378s
+[15:10:51]        337/946 m  crashes 0  |lat| median 0.072 m  wall 438s
+[15:11:51]        386/946 m  crashes 0  |lat| median 0.071 m  wall 498s
+[15:12:52]        437/946 m  crashes 0  |lat| median 0.075 m  wall 559s
+[15:13:52]        481/946 m  crashes 0  |lat| median 0.076 m  wall 619s
+[15:14:52]        533/946 m  crashes 0  |lat| median 0.084 m  wall 679s
+[15:15:52]        585/946 m  crashes 0  |lat| median 0.078 m  wall 739s
+[15:16:53]        632/946 m  crashes 0  |lat| median 0.078 m  wall 800s
+[15:17:53]        684/946 m  crashes 0  |lat| median 0.079 m  wall 860s
+[15:18:53]        735/946 m  crashes 0  |lat| median 0.084 m  wall 920s
+[15:19:53]        782/946 m  crashes 0  |lat| median 0.087 m  wall 981s
+[15:20:54]        831/946 m  crashes 0  |lat| median 0.079 m  wall 1041s
+[15:21:54]        872/946 m  crashes 0  |lat| median 0.080 m  wall 1101s
+[15:22:55]        924/946 m  crashes 0  |lat| median 0.085 m  wall 1162s
+[15:23:41]   ok: 7513 rows (dagger), 0 crashes, |lat| median 0.0891 p95 0.2415
+[15:23:48]   launch pid 484905: Melbourne @ 2.1 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[15:24:08]     driving; shadow and student both live; target 946 m
+[15:25:08]         53/946 m  crashes 0  |lat| median 0.144 m  wall 80s
+[15:26:08]         99/946 m  crashes 0  |lat| median 0.112 m  wall 140s
+[15:27:09]        151/946 m  crashes 0  |lat| median 0.073 m  wall 201s
+[15:28:09]        198/946 m  crashes 0  |lat| median 0.061 m  wall 261s
+[15:29:09]        242/946 m  crashes 0  |lat| median 0.064 m  wall 321s
+[15:30:09]        291/946 m  crashes 0  |lat| median 0.066 m  wall 381s
+[15:31:10]        339/946 m  crashes 0  |lat| median 0.072 m  wall 442s
+[15:32:10]        388/946 m  crashes 0  |lat| median 0.071 m  wall 502s
+[15:33:10]        439/946 m  crashes 0  |lat| median 0.074 m  wall 562s
+[15:34:11]        483/946 m  crashes 0  |lat| median 0.076 m  wall 623s
+[15:35:11]        535/946 m  crashes 0  |lat| median 0.084 m  wall 683s
+[15:36:11]        587/946 m  crashes 0  |lat| median 0.078 m  wall 743s
+[15:37:11]        634/946 m  crashes 0  |lat| median 0.078 m  wall 803s
+[15:38:11]        685/946 m  crashes 0  |lat| median 0.079 m  wall 863s
+[15:39:12]        737/946 m  crashes 0  |lat| median 0.084 m  wall 923s
+[15:40:12]        783/946 m  crashes 0  |lat| median 0.086 m  wall 984s
+[15:41:12]        831/946 m  crashes 0  |lat| median 0.079 m  wall 1044s
+[15:42:12]        873/946 m  crashes 0  |lat| median 0.080 m  wall 1104s
+[15:43:13]        925/946 m  crashes 0  |lat| median 0.085 m  wall 1165s
+[15:43:58]   ok: 7509 rows (dagger), 0 crashes, |lat| median 0.0885 p95 0.2408
+[15:44:05]   launch pid 486291: Melbourne @ 2.7 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[15:44:23]     driving; shadow and student both live; target 946 m
+[15:45:24]         52/946 m  crashes 0  |lat| median 0.145 m  wall 79s
+[15:46:24]         99/946 m  crashes 0  |lat| median 0.114 m  wall 139s
+[15:47:24]        151/946 m  crashes 0  |lat| median 0.074 m  wall 199s
+[15:48:25]        198/946 m  crashes 0  |lat| median 0.061 m  wall 259s
+[15:49:25]        242/946 m  crashes 0  |lat| median 0.064 m  wall 320s
+[15:50:25]        291/946 m  crashes 0  |lat| median 0.066 m  wall 380s
+[15:51:25]        339/946 m  crashes 0  |lat| median 0.072 m  wall 440s
+[15:52:26]        389/946 m  crashes 0  |lat| median 0.072 m  wall 501s
+[15:53:26]        440/946 m  crashes 0  |lat| median 0.073 m  wall 561s
+[15:54:26]        484/946 m  crashes 0  |lat| median 0.076 m  wall 621s
+[15:55:26]        536/946 m  crashes 0  |lat| median 0.084 m  wall 681s
+[15:56:27]        588/946 m  crashes 0  |lat| median 0.078 m  wall 742s
+[15:57:27]        635/946 m  crashes 0  |lat| median 0.078 m  wall 802s
+[15:58:28]        687/946 m  crashes 0  |lat| median 0.079 m  wall 863s
+[15:59:28]        739/946 m  crashes 0  |lat| median 0.084 m  wall 923s
+[16:00:28]        785/946 m  crashes 0  |lat| median 0.086 m  wall 983s
+[16:01:29]        833/946 m  crashes 0  |lat| median 0.080 m  wall 1044s
+[16:02:29]        875/946 m  crashes 0  |lat| median 0.081 m  wall 1104s
+[16:03:29]        927/946 m  crashes 0  |lat| median 0.086 m  wall 1164s
+[16:04:12]   ok: 7508 rows (dagger), 0 crashes, |lat| median 0.0888 p95 0.2409
+[16:04:19]   launch pid 487619: Monza @ 1.5 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[16:04:38]     driving; shadow and student both live; target 890 m
+[16:05:39]         61/890 m  crashes 0  |lat| median 0.008 m  wall 80s
+[16:06:39]        120/890 m  crashes 0  |lat| median 0.043 m  wall 140s
+[16:07:21]     CRASH #1 at s=148.9 m (trigger 2, min_scan 0.39 m) after 149 m
+[16:07:39]        157/890 m  crashes 1  |lat| median 0.052 m  wall 200s
+[16:07:47]     CRASH #2 at s=148.9 m (trigger 2, min_scan 0.38 m) after 159 m
+[16:08:13]     CRASH #3 at s=149.2 m (trigger 2, min_scan 0.39 m) after 170 m
+[16:08:38]     CRASH #4 at s=148.9 m (trigger 2, min_scan 0.39 m) after 180 m
+[16:08:41]        181/890 m  crashes 4  |lat| median 0.063 m  wall 263s
+[16:09:03]     CRASH #5 at s=149.1 m (trigger 2, min_scan 0.40 m) after 190 m
+[16:09:29]     CRASH #6 at s=148.9 m (trigger 2, min_scan 0.39 m) after 201 m
+[16:09:42]        207/890 m  crashes 6  |lat| median 0.070 m  wall 323s
+[16:09:55]     CRASH #7 at s=149.2 m (trigger 2, min_scan 0.39 m) after 211 m
+[16:10:20]     CRASH #8 at s=148.9 m (trigger 2, min_scan 0.39 m) after 221 m
+[16:10:42]        230/890 m  crashes 8  |lat| median 0.085 m  wall 384s
+[16:10:46]     CRASH #9 at s=148.9 m (trigger 2, min_scan 0.39 m) after 231 m
+[16:11:04]   too_many_crashes: 2585 rows (dagger), 9 crashes, |lat| median 0.0885 p95 1.5655
+[16:11:11]   launch pid 488566: Monza @ 2.1 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[16:11:29]     driving; shadow and student both live; target 890 m
+[16:12:29]         60/890 m  crashes 0  |lat| median 0.008 m  wall 79s
+[16:13:29]        119/890 m  crashes 0  |lat| median 0.043 m  wall 139s
+[16:14:13]     CRASH #1 at s=148.9 m (trigger 2, min_scan 0.40 m) after 149 m
+[16:14:29]        157/890 m  crashes 1  |lat| median 0.051 m  wall 199s
+[16:14:38]     CRASH #2 at s=149.2 m (trigger 2, min_scan 0.40 m) after 160 m
+[16:15:04]     CRASH #3 at s=148.9 m (trigger 2, min_scan 0.40 m) after 170 m
+[16:15:30]     CRASH #4 at s=149.1 m (trigger 2, min_scan 0.39 m) after 180 m
+[16:15:33]        181/890 m  crashes 4  |lat| median 0.066 m  wall 262s
+[16:15:55]     CRASH #5 at s=148.9 m (trigger 2, min_scan 0.40 m) after 190 m
+[16:16:21]     CRASH #6 at s=148.9 m (trigger 2, min_scan 0.39 m) after 201 m
+[16:16:33]        207/890 m  crashes 6  |lat| median 0.076 m  wall 322s
+[16:16:46]     CRASH #7 at s=148.9 m (trigger 2, min_scan 0.39 m) after 211 m
+[16:17:12]     CRASH #8 at s=148.9 m (trigger 2, min_scan 0.39 m) after 221 m
+[16:17:33]        230/890 m  crashes 8  |lat| median 0.085 m  wall 383s
+[16:17:38]     CRASH #9 at s=148.9 m (trigger 2, min_scan 0.39 m) after 232 m
+[16:17:55]   too_many_crashes: 2594 rows (dagger), 9 crashes, |lat| median 0.0895 p95 1.548
+[16:18:02]   launch pid 489458: Monza @ 2.7 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[16:18:20]     driving; shadow and student both live; target 890 m
+[16:19:20]         60/890 m  crashes 0  |lat| median 0.008 m  wall 78s
+[16:20:21]        119/890 m  crashes 0  |lat| median 0.042 m  wall 139s
+[16:21:05]     CRASH #1 at s=148.9 m (trigger 2, min_scan 0.40 m) after 149 m
+[16:21:21]        157/890 m  crashes 1  |lat| median 0.051 m  wall 199s
+[16:21:31]     CRASH #2 at s=149.2 m (trigger 2, min_scan 0.40 m) after 160 m
+[16:21:56]     CRASH #3 at s=148.9 m (trigger 2, min_scan 0.39 m) after 169 m
+[16:22:21]        179/890 m  crashes 3  |lat| median 0.064 m  wall 259s
+[16:22:22]     CRASH #4 at s=148.9 m (trigger 2, min_scan 0.39 m) after 180 m
+[16:22:48]     CRASH #5 at s=148.9 m (trigger 2, min_scan 0.38 m) after 190 m
+[16:23:14]     CRASH #6 at s=149.2 m (trigger 2, min_scan 0.40 m) after 201 m
+[16:23:21]        204/890 m  crashes 6  |lat| median 0.075 m  wall 319s
+[16:23:39]     CRASH #7 at s=148.9 m (trigger 2, min_scan 0.40 m) after 210 m
+[16:24:05]     CRASH #8 at s=148.9 m (trigger 2, min_scan 0.40 m) after 221 m
+[16:24:22]        228/890 m  crashes 8  |lat| median 0.088 m  wall 380s
+[16:24:31]     CRASH #9 at s=148.9 m (trigger 2, min_scan 0.39 m) after 231 m
+[16:24:48]   too_many_crashes: 2600 rows (dagger), 9 crashes, |lat| median 0.0922 p95 1.5501
+[16:24:55]   launch pid 490369: IMS @ 1.5 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[16:25:14]     driving; shadow and student both live; target 586 m
+[16:26:15]         66/586 m  crashes 0  |lat| median 0.477 m  wall 80s
+[16:27:15]        130/586 m  crashes 0  |lat| median 0.391 m  wall 140s
+[16:28:15]        194/586 m  crashes 0  |lat| median 0.362 m  wall 200s
+[16:29:15]        258/586 m  crashes 0  |lat| median 0.395 m  wall 260s
+[16:30:16]        323/586 m  crashes 0  |lat| median 0.428 m  wall 321s
+[16:31:16]        387/586 m  crashes 0  |lat| median 0.407 m  wall 381s
+[16:32:16]        451/586 m  crashes 0  |lat| median 0.427 m  wall 441s
+[16:33:17]        516/586 m  crashes 0  |lat| median 0.432 m  wall 502s
+[16:34:17]        580/586 m  crashes 0  |lat| median 0.440 m  wall 562s
+[16:34:41]   ok: 4389 rows (dagger), 0 crashes, |lat| median 0.4408 p95 0.5465
+[16:34:48]   launch pid 491322: IMS @ 2.1 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[16:35:05]     driving; shadow and student both live; target 586 m
+[16:36:05]         63/586 m  crashes 0  |lat| median 0.486 m  wall 77s
+[16:37:05]        126/586 m  crashes 0  |lat| median 0.393 m  wall 137s
+[16:38:05]        188/586 m  crashes 0  |lat| median 0.361 m  wall 198s
+[16:39:06]        251/586 m  crashes 0  |lat| median 0.394 m  wall 258s
+[16:40:06]        313/586 m  crashes 0  |lat| median 0.431 m  wall 318s
+[16:41:06]        375/586 m  crashes 0  |lat| median 0.418 m  wall 378s
+[16:42:06]        438/586 m  crashes 0  |lat| median 0.425 m  wall 439s
+[16:43:07]        500/586 m  crashes 0  |lat| median 0.431 m  wall 499s
+[16:44:07]        563/586 m  crashes 0  |lat| median 0.438 m  wall 559s
+[16:44:48]   ok: 4393 rows (dagger), 0 crashes, |lat| median 0.4422 p95 0.5467
+[16:44:55]   launch pid 492305: IMS @ 2.7 m/s it2, 1.0 laps, student=dagger_mlp_it2.pt
+[16:45:11]     driving; shadow and student both live; target 586 m
+[16:46:11]         65/586 m  crashes 0  |lat| median 0.482 m  wall 77s
+[16:47:12]        130/586 m  crashes 0  |lat| median 0.392 m  wall 137s
+[16:48:12]        194/586 m  crashes 0  |lat| median 0.366 m  wall 197s
+[16:49:12]        259/586 m  crashes 0  |lat| median 0.396 m  wall 257s
+[16:50:12]        324/586 m  crashes 0  |lat| median 0.429 m  wall 317s
+[16:51:13]        388/586 m  crashes 0  |lat| median 0.412 m  wall 378s
+[16:52:13]        453/586 m  crashes 0  |lat| median 0.429 m  wall 438s
+[16:53:13]        517/586 m  crashes 0  |lat| median 0.432 m  wall 498s
+[16:54:13]        582/586 m  crashes 0  |lat| median 0.440 m  wall 559s
+[16:54:35]   ok: 4391 rows (dagger), 0 crashes, |lat| median 0.4411 p95 0.5469
+[16:54:35] === iteration 3: train on everything so far, then roll out ===
+[16:54:35]   train: il_train --config src/hunter_il/config/train_default.yaml --arch mlp --data-dir datasets/raw --out checkpoints/dagger_mlp_it3.pt --seed 0
+[16:57:43]   saved checkpoints/dagger_mlp_it3.pt: val_laps {'loss': 0.030295608320427003, 'rmse_steer_rad': 0.07377925099193915, 'rmse_speed_mps': 0.26274667939792584, 'n': 67510} val_tracks {'loss': 0.06143561662
+[16:57:50]   launch pid 493341: Shanghai @ 1.5 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[16:58:08]     driving; shadow and student both live; target 991 m
+[16:59:08]         51/991 m  crashes 0  |lat| median 0.105 m  wall 78s
+[17:00:09]         99/991 m  crashes 0  |lat| median 0.075 m  wall 139s
+[17:01:09]        137/991 m  crashes 0  |lat| median 0.085 m  wall 199s
+[17:02:09]        164/991 m  crashes 0  |lat| median 0.073 m  wall 259s
+[17:03:09]        202/991 m  crashes 0  |lat| median 0.077 m  wall 319s
+[17:04:09]        250/991 m  crashes 0  |lat| median 0.076 m  wall 380s
+[17:05:10]        289/991 m  crashes 0  |lat| median 0.068 m  wall 440s
+[17:06:10]        324/991 m  crashes 0  |lat| median 0.075 m  wall 500s
+[17:07:10]        372/991 m  crashes 0  |lat| median 0.069 m  wall 560s
+[17:08:10]        419/991 m  crashes 0  |lat| median 0.065 m  wall 620s
+[17:09:10]        461/991 m  crashes 0  |lat| median 0.067 m  wall 680s
+[17:10:10]        496/991 m  crashes 0  |lat| median 0.071 m  wall 741s
+[17:11:11]        545/991 m  crashes 0  |lat| median 0.069 m  wall 801s
+[17:12:11]        583/991 m  crashes 0  |lat| median 0.070 m  wall 861s
+[17:13:11]        618/991 m  crashes 0  |lat| median 0.071 m  wall 921s
+[17:14:11]        665/991 m  crashes 0  |lat| median 0.073 m  wall 981s
+[17:15:12]        714/991 m  crashes 0  |lat| median 0.077 m  wall 1042s
+[17:16:12]        763/991 m  crashes 0  |lat| median 0.082 m  wall 1102s
+[17:17:12]        812/991 m  crashes 0  |lat| median 0.085 m  wall 1162s
+[17:18:13]        861/991 m  crashes 0  |lat| median 0.086 m  wall 1223s
+[17:19:13]        868/991 m  crashes 0  |lat| median 0.091 m  wall 1283s
+[17:20:14]        868/991 m  crashes 0  |lat| median 0.095 m  wall 1344s
+[17:20:48]     STUCK at s=868.3186322496626 (no terminal fired: student stopped?)
+[17:21:09]   stuck: 8438 rows (dagger), 0 crashes, |lat| median 0.0984 p95 1.4152
+[17:21:16]   launch pid 494852: Shanghai @ 2.1 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[17:21:32]     driving; shadow and student both live; target 991 m
+[17:22:32]         49/991 m  crashes 0  |lat| median 0.102 m  wall 76s
+[17:23:32]         97/991 m  crashes 0  |lat| median 0.081 m  wall 136s
+[17:24:32]        136/991 m  crashes 0  |lat| median 0.084 m  wall 197s
+[17:25:33]        163/991 m  crashes 0  |lat| median 0.071 m  wall 257s
+[17:26:33]        199/991 m  crashes 0  |lat| median 0.079 m  wall 317s
+[17:27:33]        247/991 m  crashes 0  |lat| median 0.076 m  wall 377s
+[17:28:33]        288/991 m  crashes 0  |lat| median 0.069 m  wall 438s
+[17:29:34]        320/991 m  crashes 0  |lat| median 0.076 m  wall 498s
+[17:30:34]        368/991 m  crashes 0  |lat| median 0.069 m  wall 558s
+[17:31:34]        415/991 m  crashes 0  |lat| median 0.064 m  wall 618s
+[17:32:34]        458/991 m  crashes 0  |lat| median 0.068 m  wall 679s
+[17:33:35]        491/991 m  crashes 0  |lat| median 0.071 m  wall 739s
+[17:34:35]        540/991 m  crashes 0  |lat| median 0.068 m  wall 799s
+[17:35:35]        580/991 m  crashes 0  |lat| median 0.070 m  wall 859s
+[17:36:35]        614/991 m  crashes 0  |lat| median 0.071 m  wall 919s
+[17:37:36]        660/991 m  crashes 0  |lat| median 0.074 m  wall 980s
+[17:38:36]        709/991 m  crashes 0  |lat| median 0.076 m  wall 1040s
+[17:39:36]        758/991 m  crashes 0  |lat| median 0.081 m  wall 1100s
+[17:40:36]        807/991 m  crashes 0  |lat| median 0.085 m  wall 1161s
+[17:41:37]        856/991 m  crashes 0  |lat| median 0.086 m  wall 1221s
+[17:42:37]        868/991 m  crashes 0  |lat| median 0.091 m  wall 1281s
+[17:43:37]        868/991 m  crashes 0  |lat| median 0.095 m  wall 1341s
+[17:44:17]     STUCK at s=868.3186322496626 (no terminal fired: student stopped?)
+[17:44:38]   stuck: 8447 rows (dagger), 0 crashes, |lat| median 0.0985 p95 1.4155
+[17:44:45]   launch pid 496321: Shanghai @ 2.7 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[17:45:03]     driving; shadow and student both live; target 991 m
+[17:46:03]         49/991 m  crashes 0  |lat| median 0.099 m  wall 78s
+[17:47:04]         98/991 m  crashes 0  |lat| median 0.078 m  wall 138s
+[17:48:04]        137/991 m  crashes 0  |lat| median 0.085 m  wall 199s
+[17:49:04]        164/991 m  crashes 0  |lat| median 0.072 m  wall 259s
+[17:50:05]        201/991 m  crashes 0  |lat| median 0.078 m  wall 319s
+[17:51:05]        249/991 m  crashes 0  |lat| median 0.076 m  wall 379s
+[17:52:05]        289/991 m  crashes 0  |lat| median 0.068 m  wall 440s
+[17:53:06]        323/991 m  crashes 0  |lat| median 0.075 m  wall 500s
+[17:54:06]        371/991 m  crashes 0  |lat| median 0.069 m  wall 560s
+[17:55:06]        419/991 m  crashes 0  |lat| median 0.065 m  wall 621s
+[17:56:06]        461/991 m  crashes 0  |lat| median 0.067 m  wall 681s
+[17:57:06]        496/991 m  crashes 0  |lat| median 0.071 m  wall 741s
+[17:58:07]        545/991 m  crashes 0  |lat| median 0.069 m  wall 801s
+[17:59:07]        583/991 m  crashes 0  |lat| median 0.070 m  wall 862s
+[18:00:08]        619/991 m  crashes 0  |lat| median 0.071 m  wall 922s
+[18:01:08]        666/991 m  crashes 0  |lat| median 0.073 m  wall 982s
+[18:02:08]        715/991 m  crashes 0  |lat| median 0.077 m  wall 1042s
+[18:03:08]        764/991 m  crashes 0  |lat| median 0.082 m  wall 1103s
+[18:04:09]        814/991 m  crashes 0  |lat| median 0.085 m  wall 1163s
+[18:05:09]        863/991 m  crashes 0  |lat| median 0.086 m  wall 1224s
+[18:06:09]        868/991 m  crashes 0  |lat| median 0.091 m  wall 1284s
+[18:07:09]        868/991 m  crashes 0  |lat| median 0.096 m  wall 1344s
+[18:07:37]     STUCK at s=868.3186322496626 (no terminal fired: student stopped?)
+[18:07:58]   stuck: 8429 rows (dagger), 0 crashes, |lat| median 0.0984 p95 1.4143
+[18:08:05]   launch pid 497859: Nuerburgring @ 1.5 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[18:08:23]     driving; shadow and student both live; target 889 m
+[18:09:23]         48/889 m  crashes 0  |lat| median 0.120 m  wall 79s
+[18:10:24]         76/889 m  crashes 0  |lat| median 0.138 m  wall 139s
+[18:11:24]        117/889 m  crashes 0  |lat| median 0.117 m  wall 199s
+[18:12:24]        153/889 m  crashes 0  |lat| median 0.116 m  wall 259s
+[18:13:24]        188/889 m  crashes 0  |lat| median 0.114 m  wall 320s
+[18:14:25]        237/889 m  crashes 0  |lat| median 0.123 m  wall 380s
+[18:15:25]        277/889 m  crashes 0  |lat| median 0.118 m  wall 440s
+[18:16:25]        318/889 m  crashes 0  |lat| median 0.112 m  wall 500s
+[18:17:25]        367/889 m  crashes 0  |lat| median 0.107 m  wall 561s
+[18:18:26]        396/889 m  crashes 0  |lat| median 0.104 m  wall 621s
+[18:19:26]        445/889 m  crashes 0  |lat| median 0.111 m  wall 681s
+[18:20:26]        493/889 m  crashes 0  |lat| median 0.103 m  wall 741s
+[18:21:26]        542/889 m  crashes 0  |lat| median 0.106 m  wall 801s
+[18:22:27]        583/889 m  crashes 0  |lat| median 0.100 m  wall 862s
+[18:23:27]        627/889 m  crashes 0  |lat| median 0.102 m  wall 922s
+[18:24:27]        676/889 m  crashes 0  |lat| median 0.102 m  wall 982s
+[18:25:27]        725/889 m  crashes 0  |lat| median 0.099 m  wall 1043s
+[18:26:28]        766/889 m  crashes 0  |lat| median 0.096 m  wall 1103s
+[18:27:28]        804/889 m  crashes 0  |lat| median 0.092 m  wall 1163s
+[18:28:28]        852/889 m  crashes 0  |lat| median 0.096 m  wall 1223s
+[18:29:35]   ok: 7683 rows (dagger), 0 crashes, |lat| median 0.1001 p95 0.2302
+[18:29:42]   launch pid 499300: Nuerburgring @ 2.1 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[18:30:01]     driving; shadow and student both live; target 889 m
+[18:31:01]         48/889 m  crashes 0  |lat| median 0.121 m  wall 79s
+[18:32:01]         75/889 m  crashes 0  |lat| median 0.142 m  wall 139s
+[18:33:02]        114/889 m  crashes 0  |lat| median 0.118 m  wall 199s
+[18:34:02]        150/889 m  crashes 0  |lat| median 0.118 m  wall 260s
+[18:35:02]        182/889 m  crashes 0  |lat| median 0.114 m  wall 320s
+[18:36:02]        230/889 m  crashes 0  |lat| median 0.122 m  wall 380s
+[18:37:03]        273/889 m  crashes 0  |lat| median 0.120 m  wall 440s
+[18:38:03]        307/889 m  crashes 0  |lat| median 0.115 m  wall 500s
+[18:39:03]        354/889 m  crashes 0  |lat| median 0.104 m  wall 560s
+[18:40:03]        388/889 m  crashes 0  |lat| median 0.108 m  wall 621s
+[18:41:04]        429/889 m  crashes 0  |lat| median 0.110 m  wall 681s
+[18:42:04]        475/889 m  crashes 0  |lat| median 0.107 m  wall 742s
+[18:43:04]        523/889 m  crashes 0  |lat| median 0.107 m  wall 802s
+[18:44:04]        564/889 m  crashes 0  |lat| median 0.104 m  wall 862s
+[18:45:04]        605/889 m  crashes 0  |lat| median 0.099 m  wall 922s
+[18:46:05]        653/889 m  crashes 0  |lat| median 0.106 m  wall 982s
+[18:47:05]        700/889 m  crashes 0  |lat| median 0.103 m  wall 1043s
+[18:48:05]        746/889 m  crashes 0  |lat| median 0.097 m  wall 1103s
+[18:49:05]        787/889 m  crashes 0  |lat| median 0.094 m  wall 1163s
+[18:50:06]        822/889 m  crashes 0  |lat| median 0.093 m  wall 1223s
+[18:51:06]        870/889 m  crashes 0  |lat| median 0.098 m  wall 1283s
+[18:51:52]   ok: 7679 rows (dagger), 0 crashes, |lat| median 0.1004 p95 0.2303
+[18:51:59]   launch pid 500761: Nuerburgring @ 2.7 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[18:52:18]     driving; shadow and student both live; target 889 m
+[18:53:18]         49/889 m  crashes 0  |lat| median 0.122 m  wall 79s
+[18:54:18]         76/889 m  crashes 0  |lat| median 0.142 m  wall 140s
+[18:55:19]        115/889 m  crashes 0  |lat| median 0.118 m  wall 200s
+[18:56:19]        151/889 m  crashes 0  |lat| median 0.118 m  wall 260s
+[18:57:19]        183/889 m  crashes 0  |lat| median 0.115 m  wall 321s
+[18:58:19]        231/889 m  crashes 0  |lat| median 0.122 m  wall 381s
+[18:59:20]        273/889 m  crashes 0  |lat| median 0.120 m  wall 441s
+[19:00:20]        309/889 m  crashes 0  |lat| median 0.115 m  wall 501s
+[19:01:20]        356/889 m  crashes 0  |lat| median 0.105 m  wall 562s
+[19:02:21]        389/889 m  crashes 0  |lat| median 0.107 m  wall 622s
+[19:03:21]        431/889 m  crashes 0  |lat| median 0.110 m  wall 683s
+[19:04:21]        476/889 m  crashes 0  |lat| median 0.107 m  wall 743s
+[19:05:22]        524/889 m  crashes 0  |lat| median 0.107 m  wall 803s
+[19:06:22]        565/889 m  crashes 0  |lat| median 0.104 m  wall 863s
+[19:07:22]        606/889 m  crashes 0  |lat| median 0.099 m  wall 923s
+[19:08:23]        654/889 m  crashes 0  |lat| median 0.106 m  wall 984s
+[19:09:23]        701/889 m  crashes 0  |lat| median 0.103 m  wall 1044s
+[19:10:23]        746/889 m  crashes 0  |lat| median 0.097 m  wall 1104s
+[19:11:23]        787/889 m  crashes 0  |lat| median 0.094 m  wall 1165s
+[19:12:24]        822/889 m  crashes 0  |lat| median 0.093 m  wall 1225s
+[19:13:24]        870/889 m  crashes 0  |lat| median 0.098 m  wall 1285s
+[19:14:10]   ok: 7677 rows (dagger), 0 crashes, |lat| median 0.1006 p95 0.2304
+[19:14:17]   launch pid 502202: Melbourne @ 1.5 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[19:14:36]     driving; shadow and student both live; target 946 m
+[19:15:36]         53/946 m  crashes 0  |lat| median 0.148 m  wall 80s
+[19:16:37]         97/946 m  crashes 0  |lat| median 0.104 m  wall 140s
+[19:17:37]        150/946 m  crashes 0  |lat| median 0.076 m  wall 200s
+[19:18:37]        197/946 m  crashes 0  |lat| median 0.056 m  wall 260s
+[19:19:37]        237/946 m  crashes 0  |lat| median 0.066 m  wall 320s
+[19:20:37]        285/946 m  crashes 0  |lat| median 0.078 m  wall 381s
+[19:21:38]        335/946 m  crashes 0  |lat| median 0.080 m  wall 441s
+[19:22:38]        379/946 m  crashes 0  |lat| median 0.075 m  wall 501s
+[19:23:38]        432/946 m  crashes 0  |lat| median 0.078 m  wall 561s
+[19:24:38]        471/946 m  crashes 0  |lat| median 0.077 m  wall 622s
+[19:25:38]        523/946 m  crashes 0  |lat| median 0.079 m  wall 682s
+[19:26:39]        576/946 m  crashes 0  |lat| median 0.078 m  wall 742s
+[19:27:39]        622/946 m  crashes 0  |lat| median 0.080 m  wall 802s
+[19:28:39]        674/946 m  crashes 0  |lat| median 0.079 m  wall 863s
+[19:29:40]        727/946 m  crashes 0  |lat| median 0.082 m  wall 923s
+[19:30:40]        768/946 m  crashes 0  |lat| median 0.084 m  wall 983s
+[19:31:40]        817/946 m  crashes 0  |lat| median 0.081 m  wall 1043s
+[19:32:40]        859/946 m  crashes 0  |lat| median 0.080 m  wall 1104s
+[19:33:41]        909/946 m  crashes 0  |lat| median 0.081 m  wall 1164s
+[19:34:43]   ok: 7940 rows (dagger), 0 crashes, |lat| median 0.0848 p95 0.204
+[19:34:50]   launch pid 503599: Melbourne @ 2.1 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[19:35:08]     driving; shadow and student both live; target 946 m
+[19:36:09]         51/946 m  crashes 0  |lat| median 0.149 m  wall 79s
+[19:37:09]         92/946 m  crashes 0  |lat| median 0.109 m  wall 139s
+[19:38:09]        143/946 m  crashes 0  |lat| median 0.081 m  wall 199s
+[19:39:10]        194/946 m  crashes 0  |lat| median 0.059 m  wall 260s
+[19:40:10]        226/946 m  crashes 0  |lat| median 0.069 m  wall 320s
+[19:41:11]        271/946 m  crashes 0  |lat| median 0.078 m  wall 381s
+[19:42:11]        322/946 m  crashes 0  |lat| median 0.077 m  wall 441s
+[19:43:11]        362/946 m  crashes 0  |lat| median 0.078 m  wall 501s
+[19:44:12]        412/946 m  crashes 0  |lat| median 0.078 m  wall 562s
+[19:45:12]        457/946 m  crashes 0  |lat| median 0.076 m  wall 622s
+[19:46:12]        499/946 m  crashes 0  |lat| median 0.080 m  wall 682s
+[19:47:12]        549/946 m  crashes 0  |lat| median 0.078 m  wall 742s
+[19:48:13]        599/946 m  crashes 0  |lat| median 0.079 m  wall 803s
+[19:49:13]        643/946 m  crashes 0  |lat| median 0.081 m  wall 863s
+[19:50:13]        694/946 m  crashes 0  |lat| median 0.080 m  wall 923s
+[19:51:13]        742/946 m  crashes 0  |lat| median 0.082 m  wall 983s
+[19:52:14]        784/946 m  crashes 0  |lat| median 0.085 m  wall 1044s
+[19:53:14]        830/946 m  crashes 0  |lat| median 0.080 m  wall 1104s
+[19:54:14]        868/946 m  crashes 0  |lat| median 0.079 m  wall 1164s
+[19:55:15]        919/946 m  crashes 0  |lat| median 0.082 m  wall 1225s
+[19:56:08]   ok: 7941 rows (dagger), 0 crashes, |lat| median 0.0852 p95 0.2043
+[19:56:15]   launch pid 505092: Melbourne @ 2.7 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[19:56:33]     driving; shadow and student both live; target 946 m
+[19:57:33]         50/946 m  crashes 0  |lat| median 0.150 m  wall 78s
+[19:58:33]         90/946 m  crashes 0  |lat| median 0.116 m  wall 138s
+[19:59:33]        139/946 m  crashes 0  |lat| median 0.079 m  wall 198s
+[20:00:33]        189/946 m  crashes 0  |lat| median 0.059 m  wall 258s
+[20:01:33]        222/946 m  crashes 0  |lat| median 0.067 m  wall 319s
+[20:02:34]        263/946 m  crashes 0  |lat| median 0.077 m  wall 379s
+[20:03:34]        312/946 m  crashes 0  |lat| median 0.076 m  wall 439s
+[20:04:34]        350/946 m  crashes 0  |lat| median 0.080 m  wall 499s
+[20:05:35]        399/946 m  crashes 0  |lat| median 0.076 m  wall 560s
+[20:06:35]        448/946 m  crashes 0  |lat| median 0.078 m  wall 620s
+[20:07:35]        483/946 m  crashes 0  |lat| median 0.078 m  wall 680s
+[20:08:35]        531/946 m  crashes 0  |lat| median 0.078 m  wall 741s
+[20:09:36]        580/946 m  crashes 0  |lat| median 0.078 m  wall 801s
+[20:10:36]        622/946 m  crashes 0  |lat| median 0.080 m  wall 861s
+[20:11:36]        671/946 m  crashes 0  |lat| median 0.080 m  wall 921s
+[20:12:36]        720/946 m  crashes 0  |lat| median 0.081 m  wall 981s
+[20:13:37]        757/946 m  crashes 0  |lat| median 0.083 m  wall 1042s
+[20:14:37]        802/946 m  crashes 0  |lat| median 0.083 m  wall 1102s
+[20:15:37]        843/946 m  crashes 0  |lat| median 0.082 m  wall 1162s
+[20:16:37]        887/946 m  crashes 0  |lat| median 0.080 m  wall 1222s
+[20:17:37]        936/946 m  crashes 0  |lat| median 0.084 m  wall 1282s
+[20:18:10]   ok: 7923 rows (dagger), 0 crashes, |lat| median 0.0851 p95 0.2042
+[20:18:17]   launch pid 506533: Monza @ 1.5 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[20:18:35]     driving; shadow and student both live; target 890 m
+[20:19:35]         57/890 m  crashes 0  |lat| median 0.116 m  wall 78s
+[20:20:35]        114/890 m  crashes 0  |lat| median 0.090 m  wall 138s
+[20:21:36]        158/890 m  crashes 0  |lat| median 0.071 m  wall 199s
+[20:22:36]        215/890 m  crashes 0  |lat| median 0.061 m  wall 259s
+[20:23:36]        272/890 m  crashes 0  |lat| median 0.059 m  wall 319s
+[20:24:36]        327/890 m  crashes 0  |lat| median 0.072 m  wall 379s
+[20:25:36]        374/890 m  crashes 0  |lat| median 0.074 m  wall 439s
+[20:26:36]        427/890 m  crashes 0  |lat| median 0.082 m  wall 499s
+[20:27:36]        479/890 m  crashes 0  |lat| median 0.087 m  wall 559s
+[20:28:36]        536/890 m  crashes 0  |lat| median 0.084 m  wall 620s
+[20:29:37]        594/890 m  crashes 0  |lat| median 0.091 m  wall 680s
+[20:30:37]        644/890 m  crashes 0  |lat| median 0.093 m  wall 740s
+[20:31:37]        701/890 m  crashes 0  |lat| median 0.100 m  wall 800s
+[20:32:37]        758/890 m  crashes 0  |lat| median 0.109 m  wall 860s
+[20:33:37]        812/890 m  crashes 0  |lat| median 0.108 m  wall 920s
+[20:34:37]        869/890 m  crashes 0  |lat| median 0.103 m  wall 981s
+[20:35:20]   ok: 6960 rows (dagger), 0 crashes, |lat| median 0.0999 p95 0.2266
+[20:35:27]   launch pid 507793: Monza @ 2.1 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[20:35:45]     driving; shadow and student both live; target 890 m
+[20:36:45]         58/890 m  crashes 0  |lat| median 0.115 m  wall 78s
+[20:37:45]        118/890 m  crashes 0  |lat| median 0.077 m  wall 138s
+[20:38:45]        163/890 m  crashes 0  |lat| median 0.064 m  wall 198s
+[20:39:46]        223/890 m  crashes 0  |lat| median 0.061 m  wall 259s
+[20:40:46]        282/890 m  crashes 0  |lat| median 0.061 m  wall 319s
+[20:41:46]        334/890 m  crashes 0  |lat| median 0.073 m  wall 379s
+[20:42:46]        387/890 m  crashes 0  |lat| median 0.073 m  wall 439s
+[20:43:47]        441/890 m  crashes 0  |lat| median 0.080 m  wall 500s
+[20:44:47]        498/890 m  crashes 0  |lat| median 0.090 m  wall 560s
+[20:45:47]        558/890 m  crashes 0  |lat| median 0.086 m  wall 620s
+[20:46:48]        613/890 m  crashes 0  |lat| median 0.092 m  wall 680s
+[20:47:48]        669/890 m  crashes 0  |lat| median 0.096 m  wall 741s
+[20:48:48]        729/890 m  crashes 0  |lat| median 0.105 m  wall 801s
+[20:49:48]        788/890 m  crashes 0  |lat| median 0.110 m  wall 861s
+[20:50:48]        845/890 m  crashes 0  |lat| median 0.106 m  wall 921s
+[20:51:55]   ok: 6975 rows (dagger), 0 crashes, |lat| median 0.0995 p95 0.2266
+[20:52:02]   launch pid 509017: Monza @ 2.7 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[20:52:20]     driving; shadow and student both live; target 890 m
+[20:53:21]         58/890 m  crashes 0  |lat| median 0.116 m  wall 79s
+[20:54:21]        116/890 m  crashes 0  |lat| median 0.087 m  wall 139s
+[20:55:21]        159/890 m  crashes 0  |lat| median 0.069 m  wall 199s
+[20:56:22]        217/890 m  crashes 0  |lat| median 0.061 m  wall 260s
+[20:57:22]        274/890 m  crashes 0  |lat| median 0.059 m  wall 320s
+[20:58:22]        329/890 m  crashes 0  |lat| median 0.073 m  wall 380s
+[20:59:22]        377/890 m  crashes 0  |lat| median 0.073 m  wall 440s
+[21:00:22]        429/890 m  crashes 0  |lat| median 0.082 m  wall 500s
+[21:01:22]        482/890 m  crashes 0  |lat| median 0.088 m  wall 561s
+[21:02:23]        539/890 m  crashes 0  |lat| median 0.084 m  wall 621s
+[21:03:23]        596/890 m  crashes 0  |lat| median 0.092 m  wall 681s
+[21:04:23]        646/890 m  crashes 0  |lat| median 0.093 m  wall 741s
+[21:05:23]        703/890 m  crashes 0  |lat| median 0.101 m  wall 801s
+[21:06:23]        761/890 m  crashes 0  |lat| median 0.109 m  wall 861s
+[21:07:24]        815/890 m  crashes 0  |lat| median 0.108 m  wall 922s
+[21:08:24]        872/890 m  crashes 0  |lat| median 0.102 m  wall 982s
+[21:09:03]   ok: 6959 rows (dagger), 0 crashes, |lat| median 0.0999 p95 0.2267
+[21:09:10]   launch pid 510326: IMS @ 1.5 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[21:09:27]     driving; shadow and student both live; target 586 m
+[21:10:27]         61/586 m  crashes 0  |lat| median 0.326 m  wall 77s
+[21:11:27]        123/586 m  crashes 0  |lat| median 0.230 m  wall 138s
+[21:12:27]        185/586 m  crashes 0  |lat| median 0.168 m  wall 198s
+[21:13:28]        248/586 m  crashes 0  |lat| median 0.229 m  wall 258s
+[21:14:28]        311/586 m  crashes 0  |lat| median 0.269 m  wall 318s
+[21:15:28]        373/586 m  crashes 0  |lat| median 0.259 m  wall 378s
+[21:16:28]        435/586 m  crashes 0  |lat| median 0.269 m  wall 439s
+[21:17:29]        497/586 m  crashes 0  |lat| median 0.263 m  wall 499s
+[21:18:29]        560/586 m  crashes 0  |lat| median 0.279 m  wall 559s
+[21:19:12]   ok: 4384 rows (dagger), 0 crashes, |lat| median 0.2915 p95 0.4055
+[21:19:19]   launch pid 511252: IMS @ 2.1 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[21:19:37]     driving; shadow and student both live; target 586 m
+[21:20:37]         63/586 m  crashes 0  |lat| median 0.320 m  wall 78s
+[21:21:37]        127/586 m  crashes 0  |lat| median 0.232 m  wall 138s
+[21:22:37]        192/586 m  crashes 0  |lat| median 0.167 m  wall 198s
+[21:23:37]        256/586 m  crashes 0  |lat| median 0.233 m  wall 258s
+[21:24:38]        321/586 m  crashes 0  |lat| median 0.272 m  wall 318s
+[21:25:38]        386/586 m  crashes 0  |lat| median 0.251 m  wall 379s
+[21:26:38]        450/586 m  crashes 0  |lat| median 0.266 m  wall 439s
+[21:27:38]        514/586 m  crashes 0  |lat| median 0.270 m  wall 499s
+[21:28:39]        579/586 m  crashes 0  |lat| median 0.288 m  wall 559s
+[21:29:04]   ok: 4385 rows (dagger), 0 crashes, |lat| median 0.2919 p95 0.4056
+[21:29:11]   launch pid 512240: IMS @ 2.7 m/s it3, 1.0 laps, student=dagger_mlp_it3.pt
+[21:29:30]     driving; shadow and student both live; target 586 m
+[21:30:30]         63/586 m  crashes 0  |lat| median 0.313 m  wall 79s
+[21:31:30]        126/586 m  crashes 0  |lat| median 0.230 m  wall 140s
+[21:32:31]        188/586 m  crashes 0  |lat| median 0.164 m  wall 200s
+[21:33:31]        250/586 m  crashes 0  |lat| median 0.230 m  wall 260s
+[21:34:31]        313/586 m  crashes 0  |lat| median 0.269 m  wall 320s
+[21:35:31]        375/586 m  crashes 0  |lat| median 0.255 m  wall 380s
+[21:36:31]        438/586 m  crashes 0  |lat| median 0.265 m  wall 441s
+[21:37:32]        500/586 m  crashes 0  |lat| median 0.263 m  wall 501s
+[21:38:32]        562/586 m  crashes 0  |lat| median 0.279 m  wall 561s
+[21:39:13]   ok: 4381 rows (dagger), 0 crashes, |lat| median 0.2914 p95 0.4056
+[21:39:13] === iteration 4: train on everything so far, then roll out ===
+[21:39:13]   train: il_train --config src/hunter_il/config/train_default.yaml --arch mlp --data-dir datasets/raw --out checkpoints/dagger_mlp_it4.pt --seed 0
+[21:44:23]   saved checkpoints/dagger_mlp_it4.pt: val_laps {'loss': 0.031681074589102416, 'rmse_steer_rad': 0.08675786420077788, 'rmse_speed_mps': 0.2344669841376401, 'n': 67510} val_tracks {'loss': 0.136746513636
+[21:44:30]   launch pid 513332: Shanghai @ 1.5 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[21:44:49]     driving; shadow and student both live; target 991 m
+[21:45:49]         49/991 m  crashes 0  |lat| median 0.041 m  wall 79s
+[21:46:49]         98/991 m  crashes 0  |lat| median 0.045 m  wall 139s
+[21:47:49]        141/991 m  crashes 0  |lat| median 0.042 m  wall 199s
+[21:48:50]        173/991 m  crashes 0  |lat| median 0.048 m  wall 260s
+[21:49:50]        221/991 m  crashes 0  |lat| median 0.054 m  wall 320s
+[21:50:50]        270/991 m  crashes 0  |lat| median 0.053 m  wall 380s
+[21:51:51]        307/991 m  crashes 0  |lat| median 0.054 m  wall 440s
+[21:52:51]        356/991 m  crashes 0  |lat| median 0.051 m  wall 501s
+[21:53:51]        405/991 m  crashes 0  |lat| median 0.048 m  wall 561s
+[21:54:51]        451/991 m  crashes 0  |lat| median 0.050 m  wall 621s
+[21:55:52]        488/991 m  crashes 0  |lat| median 0.052 m  wall 682s
+[21:56:52]        537/991 m  crashes 0  |lat| median 0.053 m  wall 742s
+[21:57:52]        576/991 m  crashes 0  |lat| median 0.053 m  wall 802s
+[21:58:53]        617/991 m  crashes 0  |lat| median 0.052 m  wall 863s
+[21:59:53]        667/991 m  crashes 0  |lat| median 0.053 m  wall 923s
+[22:00:53]        716/991 m  crashes 0  |lat| median 0.055 m  wall 983s
+[22:01:54]        766/991 m  crashes 0  |lat| median 0.061 m  wall 1043s
+[22:02:54]        813/991 m  crashes 0  |lat| median 0.066 m  wall 1104s
+[22:03:54]        863/991 m  crashes 0  |lat| median 0.065 m  wall 1164s
+[22:04:54]        900/991 m  crashes 0  |lat| median 0.067 m  wall 1224s
+[22:05:55]        944/991 m  crashes 0  |lat| median 0.066 m  wall 1285s
+[22:07:13]   ok: 8090 rows (dagger), 0 crashes, |lat| median 0.0655 p95 0.2055
+[22:07:20]   launch pid 514799: Shanghai @ 2.1 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[22:07:39]     driving; shadow and student both live; target 991 m
+[22:08:39]         50/991 m  crashes 0  |lat| median 0.048 m  wall 79s
+[22:09:39]        100/991 m  crashes 0  |lat| median 0.045 m  wall 139s
+[22:10:39]        143/991 m  crashes 0  |lat| median 0.042 m  wall 199s
+[22:11:39]        175/991 m  crashes 0  |lat| median 0.049 m  wall 259s
+[22:12:39]        224/991 m  crashes 0  |lat| median 0.056 m  wall 319s
+[22:13:40]        273/991 m  crashes 0  |lat| median 0.054 m  wall 379s
+[22:14:40]        310/991 m  crashes 0  |lat| median 0.055 m  wall 439s
+[22:15:40]        359/991 m  crashes 0  |lat| median 0.051 m  wall 499s
+[22:16:40]        409/991 m  crashes 0  |lat| median 0.049 m  wall 559s
+[22:17:40]        456/991 m  crashes 0  |lat| median 0.051 m  wall 619s
+[22:18:40]        492/991 m  crashes 0  |lat| median 0.052 m  wall 680s
+[22:19:40]        541/991 m  crashes 0  |lat| median 0.053 m  wall 740s
+[22:20:41]        580/991 m  crashes 0  |lat| median 0.054 m  wall 800s
+[22:21:41]        623/991 m  crashes 0  |lat| median 0.053 m  wall 861s
+[22:22:41]        672/991 m  crashes 0  |lat| median 0.053 m  wall 921s
+[22:23:42]        722/991 m  crashes 0  |lat| median 0.056 m  wall 981s
+[22:24:42]        772/991 m  crashes 0  |lat| median 0.061 m  wall 1041s
+[22:25:42]        819/991 m  crashes 0  |lat| median 0.066 m  wall 1102s
+[22:26:42]        868/991 m  crashes 0  |lat| median 0.065 m  wall 1162s
+[22:27:42]        906/991 m  crashes 0  |lat| median 0.067 m  wall 1222s
+[22:28:42]        949/991 m  crashes 0  |lat| median 0.066 m  wall 1282s
+[22:29:54]   ok: 8086 rows (dagger), 0 crashes, |lat| median 0.0654 p95 0.2057
+[22:30:01]   launch pid 516290: Shanghai @ 2.7 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[22:30:19]     driving; shadow and student both live; target 991 m
+[22:31:19]         50/991 m  crashes 0  |lat| median 0.046 m  wall 78s
+[22:32:19]         99/991 m  crashes 0  |lat| median 0.045 m  wall 138s
+[22:33:19]        143/991 m  crashes 0  |lat| median 0.042 m  wall 198s
+[22:34:20]        175/991 m  crashes 0  |lat| median 0.049 m  wall 258s
+[22:35:20]        223/991 m  crashes 0  |lat| median 0.056 m  wall 318s
+[22:36:20]        272/991 m  crashes 0  |lat| median 0.054 m  wall 378s
+[22:37:20]        310/991 m  crashes 0  |lat| median 0.055 m  wall 439s
+[22:38:20]        359/991 m  crashes 0  |lat| median 0.051 m  wall 499s
+[22:39:20]        408/991 m  crashes 0  |lat| median 0.048 m  wall 559s
+[22:40:21]        455/991 m  crashes 0  |lat| median 0.051 m  wall 619s
+[22:41:21]        491/991 m  crashes 0  |lat| median 0.052 m  wall 680s
+[22:42:21]        541/991 m  crashes 0  |lat| median 0.053 m  wall 740s
+[22:43:21]        579/991 m  crashes 0  |lat| median 0.054 m  wall 800s
+[22:44:22]        621/991 m  crashes 0  |lat| median 0.053 m  wall 860s
+[22:45:22]        671/991 m  crashes 0  |lat| median 0.053 m  wall 921s
+[22:46:23]        721/991 m  crashes 0  |lat| median 0.056 m  wall 981s
+[22:47:23]        771/991 m  crashes 0  |lat| median 0.061 m  wall 1042s
+[22:48:23]        818/991 m  crashes 0  |lat| median 0.067 m  wall 1102s
+[22:49:23]        868/991 m  crashes 0  |lat| median 0.066 m  wall 1162s
+[22:50:23]        905/991 m  crashes 0  |lat| median 0.067 m  wall 1222s
+[22:51:24]        948/991 m  crashes 0  |lat| median 0.066 m  wall 1282s
+[22:52:36]   ok: 8098 rows (dagger), 0 crashes, |lat| median 0.0655 p95 0.2055
+[22:52:43]   launch pid 517753: Nuerburgring @ 1.5 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[22:53:04]     driving; shadow and student both live; target 889 m
+[22:54:04]         49/889 m  crashes 0  |lat| median 0.109 m  wall 81s
+[22:55:04]         88/889 m  crashes 0  |lat| median 0.118 m  wall 141s
+[22:56:05]        131/889 m  crashes 0  |lat| median 0.102 m  wall 201s
+[22:57:05]        164/889 m  crashes 0  |lat| median 0.095 m  wall 262s
+[22:58:06]        209/889 m  crashes 0  |lat| median 0.109 m  wall 322s
+[22:59:06]        255/889 m  crashes 0  |lat| median 0.117 m  wall 383s
+[23:00:06]        294/889 m  crashes 0  |lat| median 0.112 m  wall 443s
+[23:01:07]        342/889 m  crashes 0  |lat| median 0.100 m  wall 503s
+[23:02:07]        384/889 m  crashes 0  |lat| median 0.105 m  wall 564s
+[23:03:07]        424/889 m  crashes 0  |lat| median 0.103 m  wall 624s
+[23:04:08]        472/889 m  crashes 0  |lat| median 0.101 m  wall 684s
+[23:05:08]        519/889 m  crashes 0  |lat| median 0.099 m  wall 744s
+[23:06:08]        561/889 m  crashes 0  |lat| median 0.098 m  wall 805s
+[23:07:09]        601/889 m  crashes 0  |lat| median 0.094 m  wall 865s
+[23:08:09]        649/889 m  crashes 0  |lat| median 0.099 m  wall 926s
+[23:09:10]        696/889 m  crashes 0  |lat| median 0.097 m  wall 986s
+[23:10:10]        743/889 m  crashes 0  |lat| median 0.092 m  wall 1047s
+[23:11:11]        783/889 m  crashes 0  |lat| median 0.088 m  wall 1107s
+[23:12:11]        821/889 m  crashes 0  |lat| median 0.090 m  wall 1168s
+[23:13:12]        870/889 m  crashes 0  |lat| median 0.095 m  wall 1228s
+[23:13:57]   ok: 7556 rows (dagger), 0 crashes, |lat| median 0.0977 p95 0.2164
+[23:14:04]   launch pid 519169: Nuerburgring @ 2.1 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[23:14:22]     driving; shadow and student both live; target 889 m
+[23:15:22]         48/889 m  crashes 0  |lat| median 0.110 m  wall 77s
+[23:16:22]         87/889 m  crashes 0  |lat| median 0.119 m  wall 138s
+[23:17:23]        130/889 m  crashes 0  |lat| median 0.105 m  wall 198s
+[23:18:23]        163/889 m  crashes 0  |lat| median 0.097 m  wall 259s
+[23:19:23]        207/889 m  crashes 0  |lat| median 0.109 m  wall 319s
+[23:20:24]        253/889 m  crashes 0  |lat| median 0.118 m  wall 380s
+[23:21:24]        292/889 m  crashes 0  |lat| median 0.112 m  wall 440s
+[23:22:24]        340/889 m  crashes 0  |lat| median 0.102 m  wall 500s
+[23:23:25]        383/889 m  crashes 0  |lat| median 0.106 m  wall 561s
+[23:24:25]        422/889 m  crashes 0  |lat| median 0.104 m  wall 621s
+[23:25:25]        470/889 m  crashes 0  |lat| median 0.102 m  wall 681s
+[23:26:25]        516/889 m  crashes 0  |lat| median 0.100 m  wall 741s
+[23:27:25]        558/889 m  crashes 0  |lat| median 0.099 m  wall 801s
+[23:28:26]        599/889 m  crashes 0  |lat| median 0.095 m  wall 861s
+[23:29:26]        646/889 m  crashes 0  |lat| median 0.100 m  wall 922s
+[23:30:27]        693/889 m  crashes 0  |lat| median 0.097 m  wall 982s
+[23:31:27]        740/889 m  crashes 0  |lat| median 0.092 m  wall 1043s
+[23:32:27]        780/889 m  crashes 0  |lat| median 0.089 m  wall 1103s
+[23:33:28]        818/889 m  crashes 0  |lat| median 0.091 m  wall 1163s
+[23:34:28]        867/889 m  crashes 0  |lat| median 0.096 m  wall 1224s
+[23:35:18]   ok: 7552 rows (dagger), 0 crashes, |lat| median 0.098 p95 0.2165
+[23:35:25]   launch pid 520593: Nuerburgring @ 2.7 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[23:35:43]     driving; shadow and student both live; target 889 m
+[23:36:44]         48/889 m  crashes 0  |lat| median 0.110 m  wall 79s
+[23:37:44]         87/889 m  crashes 0  |lat| median 0.119 m  wall 139s
+[23:38:45]        130/889 m  crashes 0  |lat| median 0.104 m  wall 200s
+[23:39:45]        163/889 m  crashes 0  |lat| median 0.096 m  wall 260s
+[23:40:45]        207/889 m  crashes 0  |lat| median 0.109 m  wall 320s
+[23:41:46]        253/889 m  crashes 0  |lat| median 0.118 m  wall 381s
+[23:42:46]        292/889 m  crashes 0  |lat| median 0.112 m  wall 441s
+[23:43:46]        340/889 m  crashes 0  |lat| median 0.101 m  wall 502s
+[23:44:46]        382/889 m  crashes 0  |lat| median 0.105 m  wall 562s
+[23:45:47]        422/889 m  crashes 0  |lat| median 0.103 m  wall 622s
+[23:46:47]        470/889 m  crashes 0  |lat| median 0.101 m  wall 682s
+[23:47:48]        517/889 m  crashes 0  |lat| median 0.099 m  wall 743s
+[23:48:48]        558/889 m  crashes 0  |lat| median 0.098 m  wall 803s
+[23:49:48]        599/889 m  crashes 0  |lat| median 0.094 m  wall 863s
+[23:50:48]        646/889 m  crashes 0  |lat| median 0.099 m  wall 924s
+[23:51:49]        693/889 m  crashes 0  |lat| median 0.097 m  wall 984s
+[23:52:49]        740/889 m  crashes 0  |lat| median 0.092 m  wall 1044s
+[23:53:49]        780/889 m  crashes 0  |lat| median 0.089 m  wall 1104s
+[23:54:49]        818/889 m  crashes 0  |lat| median 0.090 m  wall 1165s
+[23:55:50]        867/889 m  crashes 0  |lat| median 0.095 m  wall 1225s
+[23:56:40]   ok: 7554 rows (dagger), 0 crashes, |lat| median 0.0978 p95 0.2161
+[23:56:47]   launch pid 522001: Melbourne @ 1.5 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[23:57:04]     driving; shadow and student both live; target 946 m
+[23:58:05]         50/946 m  crashes 0  |lat| median 0.155 m  wall 78s
+[23:59:05]         95/946 m  crashes 0  |lat| median 0.120 m  wall 138s
+[00:00:05]        146/946 m  crashes 0  |lat| median 0.086 m  wall 198s
+[00:01:06]        195/946 m  crashes 0  |lat| median 0.059 m  wall 259s
+[00:02:06]        235/946 m  crashes 0  |lat| median 0.064 m  wall 319s
+[00:03:06]        279/946 m  crashes 0  |lat| median 0.068 m  wall 379s
+[00:04:07]        330/946 m  crashes 0  |lat| median 0.068 m  wall 440s
+[00:05:07]        374/946 m  crashes 0  |lat| median 0.065 m  wall 500s
+[00:06:07]        425/946 m  crashes 0  |lat| median 0.066 m  wall 560s
+[00:07:07]        469/946 m  crashes 0  |lat| median 0.066 m  wall 621s
+[00:08:08]        518/946 m  crashes 0  |lat| median 0.069 m  wall 681s
+[00:09:08]        569/946 m  crashes 0  |lat| median 0.067 m  wall 741s
+[00:10:09]        618/946 m  crashes 0  |lat| median 0.067 m  wall 802s
+[00:11:09]        663/946 m  crashes 0  |lat| median 0.068 m  wall 862s
+[00:12:09]        714/946 m  crashes 0  |lat| median 0.067 m  wall 922s
+[00:13:09]        758/946 m  crashes 0  |lat| median 0.072 m  wall 982s
+[00:14:09]        805/946 m  crashes 0  |lat| median 0.073 m  wall 1042s
+[00:15:10]        845/946 m  crashes 0  |lat| median 0.069 m  wall 1103s
+[00:16:10]        891/946 m  crashes 0  |lat| median 0.070 m  wall 1163s
+[00:17:10]        942/946 m  crashes 0  |lat| median 0.074 m  wall 1223s
+[00:17:36]   ok: 7758 rows (dagger), 0 crashes, |lat| median 0.0748 p95 0.1726
+[00:17:43]   launch pid 523640: Melbourne @ 2.1 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[00:18:00]     driving; shadow and student both live; target 946 m
+[00:19:00]         49/946 m  crashes 0  |lat| median 0.155 m  wall 77s
+[00:20:00]         92/946 m  crashes 0  |lat| median 0.124 m  wall 138s
+[00:21:00]        142/946 m  crashes 0  |lat| median 0.084 m  wall 198s
+[00:22:01]        193/946 m  crashes 0  |lat| median 0.058 m  wall 258s
+[00:23:01]        228/946 m  crashes 0  |lat| median 0.066 m  wall 318s
+[00:24:01]        272/946 m  crashes 0  |lat| median 0.070 m  wall 379s
+[00:25:02]        323/946 m  crashes 0  |lat| median 0.067 m  wall 439s
+[00:26:02]        365/946 m  crashes 0  |lat| median 0.066 m  wall 499s
+[00:27:02]        414/946 m  crashes 0  |lat| median 0.065 m  wall 560s
+[00:28:03]        458/946 m  crashes 0  |lat| median 0.065 m  wall 620s
+[00:29:03]        505/946 m  crashes 0  |lat| median 0.070 m  wall 681s
+[00:30:03]        555/946 m  crashes 0  |lat| median 0.067 m  wall 741s
+[00:31:03]        602/946 m  crashes 0  |lat| median 0.067 m  wall 801s
+[00:32:04]        646/946 m  crashes 0  |lat| median 0.069 m  wall 861s
+[00:33:04]        695/946 m  crashes 0  |lat| median 0.068 m  wall 921s
+[00:34:04]        742/946 m  crashes 0  |lat| median 0.070 m  wall 981s
+[00:35:04]        787/946 m  crashes 0  |lat| median 0.073 m  wall 1042s
+[00:36:04]        832/946 m  crashes 0  |lat| median 0.070 m  wall 1102s
+[00:37:05]        868/946 m  crashes 0  |lat| median 0.070 m  wall 1162s
+[00:38:05]        917/946 m  crashes 0  |lat| median 0.073 m  wall 1222s
+[00:39:01]   ok: 7761 rows (dagger), 0 crashes, |lat| median 0.0749 p95 0.1725
+[00:39:08]   launch pid 525083: Melbourne @ 2.7 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[00:39:27]     driving; shadow and student both live; target 946 m
+[00:40:27]         50/946 m  crashes 0  |lat| median 0.156 m  wall 79s
+[00:41:27]         92/946 m  crashes 0  |lat| median 0.124 m  wall 139s
+[00:42:27]        142/946 m  crashes 0  |lat| median 0.084 m  wall 199s
+[00:43:27]        191/946 m  crashes 0  |lat| median 0.058 m  wall 259s
+[00:44:27]        227/946 m  crashes 0  |lat| median 0.066 m  wall 319s
+[00:45:27]        270/946 m  crashes 0  |lat| median 0.069 m  wall 379s
+[00:46:27]        320/946 m  crashes 0  |lat| median 0.067 m  wall 439s
+[00:47:28]        362/946 m  crashes 0  |lat| median 0.067 m  wall 500s
+[00:48:28]        412/946 m  crashes 0  |lat| median 0.065 m  wall 560s
+[00:49:28]        457/946 m  crashes 0  |lat| median 0.065 m  wall 620s
+[00:50:29]        502/946 m  crashes 0  |lat| median 0.070 m  wall 681s
+[00:51:29]        552/946 m  crashes 0  |lat| median 0.068 m  wall 741s
+[00:52:29]        599/946 m  crashes 0  |lat| median 0.068 m  wall 801s
+[00:53:29]        642/946 m  crashes 0  |lat| median 0.070 m  wall 861s
+[00:54:30]        691/946 m  crashes 0  |lat| median 0.068 m  wall 922s
+[00:55:30]        740/946 m  crashes 0  |lat| median 0.070 m  wall 982s
+[00:56:30]        784/946 m  crashes 0  |lat| median 0.073 m  wall 1042s
+[00:57:30]        828/946 m  crashes 0  |lat| median 0.071 m  wall 1102s
+[00:58:30]        864/946 m  crashes 0  |lat| median 0.070 m  wall 1162s
+[00:59:31]        912/946 m  crashes 0  |lat| median 0.072 m  wall 1223s
+[01:00:34]   ok: 7758 rows (dagger), 0 crashes, |lat| median 0.0751 p95 0.1725
+[01:00:41]   launch pid 526491: Monza @ 1.5 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[01:00:58]     driving; shadow and student both live; target 890 m
+[01:01:58]         55/890 m  crashes 0  |lat| median 0.156 m  wall 78s
+[01:02:59]        111/890 m  crashes 0  |lat| median 0.122 m  wall 138s
+[01:03:59]        148/890 m  crashes 0  |lat| median 0.094 m  wall 199s
+[01:04:59]        198/890 m  crashes 0  |lat| median 0.068 m  wall 259s
+[01:05:59]        254/890 m  crashes 0  |lat| median 0.052 m  wall 319s
+[01:07:00]        308/890 m  crashes 0  |lat| median 0.060 m  wall 379s
+[01:08:00]        351/890 m  crashes 0  |lat| median 0.070 m  wall 439s
+[01:09:00]        400/890 m  crashes 0  |lat| median 0.073 m  wall 500s
+[01:10:00]        447/890 m  crashes 0  |lat| median 0.083 m  wall 560s
+[01:11:01]        503/890 m  crashes 0  |lat| median 0.090 m  wall 620s
+[01:12:01]        559/890 m  crashes 0  |lat| median 0.076 m  wall 680s
+[01:13:01]        610/890 m  crashes 0  |lat| median 0.082 m  wall 741s
+[01:14:02]        663/890 m  crashes 0  |lat| median 0.086 m  wall 801s
+[01:15:02]        718/890 m  crashes 0  |lat| median 0.093 m  wall 862s
+[01:16:02]        773/890 m  crashes 0  |lat| median 0.097 m  wall 922s
+[01:17:02]        824/890 m  crashes 0  |lat| median 0.097 m  wall 982s
+[01:18:02]        879/890 m  crashes 0  |lat| median 0.095 m  wall 1042s
+[01:18:36]   ok: 7312 rows (dagger), 0 crashes, |lat| median 0.0946 p95 0.2664
+[01:18:43]   launch pid 527758: Monza @ 2.1 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[01:19:00]     driving; shadow and student both live; target 890 m
+[01:20:01]         55/890 m  crashes 0  |lat| median 0.156 m  wall 77s
+[01:21:01]        111/890 m  crashes 0  |lat| median 0.127 m  wall 138s
+[01:22:01]        148/890 m  crashes 0  |lat| median 0.100 m  wall 198s
+[01:23:01]        199/890 m  crashes 0  |lat| median 0.069 m  wall 258s
+[01:24:01]        254/890 m  crashes 0  |lat| median 0.053 m  wall 318s
+[01:25:02]        309/890 m  crashes 0  |lat| median 0.062 m  wall 378s
+[01:26:02]        351/890 m  crashes 0  |lat| median 0.071 m  wall 438s
+[01:27:02]        400/890 m  crashes 0  |lat| median 0.074 m  wall 499s
+[01:28:02]        448/890 m  crashes 0  |lat| median 0.085 m  wall 559s
+[01:29:03]        505/890 m  crashes 0  |lat| median 0.091 m  wall 619s
+[01:30:03]        560/890 m  crashes 0  |lat| median 0.077 m  wall 680s
+[01:31:04]        611/890 m  crashes 0  |lat| median 0.083 m  wall 740s
+[01:32:04]        664/890 m  crashes 0  |lat| median 0.087 m  wall 801s
+[01:33:04]        720/890 m  crashes 0  |lat| median 0.093 m  wall 861s
+[01:34:04]        775/890 m  crashes 0  |lat| median 0.098 m  wall 921s
+[01:35:04]        826/890 m  crashes 0  |lat| median 0.097 m  wall 981s
+[01:36:04]        880/890 m  crashes 0  |lat| median 0.095 m  wall 1041s
+[01:36:36]   ok: 7307 rows (dagger), 0 crashes, |lat| median 0.0948 p95 0.2743
+[01:36:43]   launch pid 529007: Monza @ 2.7 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[01:37:01]     driving; shadow and student both live; target 890 m
+[01:38:02]         57/890 m  crashes 0  |lat| median 0.156 m  wall 79s
+[01:39:02]        113/890 m  crashes 0  |lat| median 0.118 m  wall 139s
+[01:40:02]        149/890 m  crashes 0  |lat| median 0.095 m  wall 199s
+[01:41:03]        201/890 m  crashes 0  |lat| median 0.066 m  wall 260s
+[01:42:03]        257/890 m  crashes 0  |lat| median 0.052 m  wall 320s
+[01:43:03]        312/890 m  crashes 0  |lat| median 0.062 m  wall 380s
+[01:44:04]        355/890 m  crashes 0  |lat| median 0.071 m  wall 440s
+[01:45:04]        403/890 m  crashes 0  |lat| median 0.073 m  wall 501s
+[01:46:04]        453/890 m  crashes 0  |lat| median 0.083 m  wall 561s
+[01:47:04]        509/890 m  crashes 0  |lat| median 0.089 m  wall 621s
+[01:48:04]        565/890 m  crashes 0  |lat| median 0.078 m  wall 681s
+[01:49:05]        616/890 m  crashes 0  |lat| median 0.083 m  wall 742s
+[01:50:05]        670/890 m  crashes 0  |lat| median 0.087 m  wall 802s
+[01:51:06]        726/890 m  crashes 0  |lat| median 0.093 m  wall 862s
+[01:52:06]        782/890 m  crashes 0  |lat| median 0.099 m  wall 923s
+[01:53:06]        833/890 m  crashes 0  |lat| median 0.097 m  wall 983s
+[01:54:07]        887/890 m  crashes 0  |lat| median 0.094 m  wall 1044s
+[01:54:30]   ok: 7305 rows (dagger), 0 crashes, |lat| median 0.0946 p95 0.2765
+[01:54:37]   launch pid 530277: IMS @ 1.5 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[01:54:58]     driving; shadow and student both live; target 586 m
+[01:55:28]     CRASH #1 at s=30.0 m (trigger 2, min_scan 0.39 m) after 30 m
+[01:55:58]         62/586 m  crashes 1  |lat| median 0.066 m  wall 81s
+[01:56:58]        124/586 m  crashes 1  |lat| median 0.062 m  wall 141s
+[01:57:13]     CRASH #2 at s=127.0 m (trigger 2, min_scan 0.39 m) after 139 m
+[01:57:58]        186/586 m  crashes 2  |lat| median 0.073 m  wall 201s
+[01:58:56]     CRASH #3 at s=222.3 m (trigger 2, min_scan 0.39 m) after 246 m
+[01:58:59]        249/586 m  crashes 3  |lat| median 0.093 m  wall 262s
+[01:59:37]     CRASH #4 at s=251.9 m (trigger 2, min_scan 0.39 m) after 287 m
+[02:00:00]        310/586 m  crashes 4  |lat| median 0.128 m  wall 322s
+[02:00:19]     CRASH #5 at s=283.1 m (trigger 2, min_scan 0.39 m) after 330 m
+[02:01:00]        372/586 m  crashes 5  |lat| median 0.213 m  wall 383s
+[02:01:08]     CRASH #6 at s=320.7 m (trigger 2, min_scan 0.39 m) after 380 m
+[02:02:00]        434/586 m  crashes 6  |lat| median 0.163 m  wall 443s
+[02:02:56]     CRASH #7 at s=419.9 m (trigger 2, min_scan 0.39 m) after 491 m
+[02:03:00]        495/586 m  crashes 7  |lat| median 0.153 m  wall 503s
+[02:04:00]        557/586 m  crashes 7  |lat| median 0.116 m  wall 563s
+[02:04:47]   ok: 4348 rows (dagger), 7 crashes, |lat| median 0.124 p95 1.5185
+[02:04:54]   launch pid 531298: IMS @ 2.1 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[02:05:15]     driving; shadow and student both live; target 586 m
+[02:05:44]     CRASH #1 at s=30.2 m (trigger 2, min_scan 0.39 m) after 30 m
+[02:06:15]         64/586 m  crashes 1  |lat| median 0.064 m  wall 81s
+[02:07:15]        127/586 m  crashes 1  |lat| median 0.063 m  wall 141s
+[02:08:16]        192/586 m  crashes 1  |lat| median 0.079 m  wall 201s
+[02:08:56]     CRASH #2 at s=222.1 m (trigger 2, min_scan 0.40 m) after 233 m
+[02:09:16]        254/586 m  crashes 2  |lat| median 0.097 m  wall 261s
+[02:09:35]     CRASH #3 at s=251.5 m (trigger 2, min_scan 0.39 m) after 275 m
+[02:10:16]     CRASH #4 at s=282.7 m (trigger 2, min_scan 0.40 m) after 317 m
+[02:10:19]        320/586 m  crashes 4  |lat| median 0.144 m  wall 325s
+[02:11:04]     CRASH #5 at s=320.5 m (trigger 2, min_scan 0.40 m) after 367 m
+[02:11:20]        384/586 m  crashes 5  |lat| median 0.218 m  wall 386s
+[02:12:20]        448/586 m  crashes 5  |lat| median 0.126 m  wall 446s
+[02:12:49]     CRASH #6 at s=419.7 m (trigger 2, min_scan 0.38 m) after 478 m
+[02:13:20]        510/586 m  crashes 6  |lat| median 0.134 m  wall 506s
+[02:14:21]        574/586 m  crashes 6  |lat| median 0.118 m  wall 566s
+[02:14:51]   ok: 4363 rows (dagger), 6 crashes, |lat| median 0.1261 p95 1.4956
+[02:14:58]   launch pid 532302: IMS @ 2.7 m/s it4, 1.0 laps, student=dagger_mlp_it4.pt
+[02:15:18]     driving; shadow and student both live; target 586 m
+[02:15:48]     CRASH #1 at s=29.4 m (trigger 2, min_scan 0.39 m) after 30 m
+[02:16:19]         62/586 m  crashes 1  |lat| median 0.067 m  wall 81s
+[02:17:19]        124/586 m  crashes 1  |lat| median 0.062 m  wall 141s
+[02:17:34]     CRASH #2 at s=127.2 m (trigger 2, min_scan 0.39 m) after 139 m
+[02:18:20]        186/586 m  crashes 2  |lat| median 0.073 m  wall 202s
+[02:19:18]     CRASH #3 at s=222.3 m (trigger 2, min_scan 0.38 m) after 246 m
+[02:19:21]        249/586 m  crashes 3  |lat| median 0.092 m  wall 263s
+[02:19:59]     CRASH #4 at s=251.7 m (trigger 2, min_scan 0.40 m) after 287 m
+[02:20:21]        310/586 m  crashes 4  |lat| median 0.127 m  wall 323s
+[02:20:41]     CRASH #5 at s=283.1 m (trigger 2, min_scan 0.40 m) after 330 m
+[02:21:21]        371/586 m  crashes 5  |lat| median 0.211 m  wall 383s
+[02:21:29]     CRASH #6 at s=320.9 m (trigger 2, min_scan 0.39 m) after 379 m
+[02:22:22]        433/586 m  crashes 6  |lat| median 0.161 m  wall 444s
+[02:23:17]     CRASH #7 at s=419.5 m (trigger 2, min_scan 0.39 m) after 489 m
+[02:23:22]        494/586 m  crashes 7  |lat| median 0.149 m  wall 504s
+[02:24:22]        556/586 m  crashes 7  |lat| median 0.116 m  wall 564s
+[02:25:09]   ok: 4344 rows (dagger), 7 crashes, |lat| median 0.1203 p95 1.5175
+[02:25:09] === iteration 5: train on everything so far, then roll out ===
+[02:25:09]   train: il_train --config src/hunter_il/config/train_default.yaml --arch mlp --data-dir datasets/raw --out checkpoints/dagger_mlp_it5.pt --seed 0
+[02:55:54]   saved checkpoints/dagger_mlp_it5.pt: val_laps {'loss': 0.022046409670935085, 'rmse_steer_rad': 0.060858502085099186, 'rmse_speed_mps': 0.22692351310209485, 'n': 67510} val_tracks {'loss': 0.4236953023
+[02:56:01]   launch pid 534178: Shanghai @ 1.5 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[02:56:20]     driving; shadow and student both live; target 991 m
+[02:57:20]         47/991 m  crashes 0  |lat| median 0.043 m  wall 78s
+[02:58:20]         94/991 m  crashes 0  |lat| median 0.046 m  wall 138s
+[02:59:20]        138/991 m  crashes 0  |lat| median 0.044 m  wall 199s
+[03:00:21]        166/991 m  crashes 0  |lat| median 0.048 m  wall 259s
+[03:01:21]        203/991 m  crashes 0  |lat| median 0.045 m  wall 319s
+[03:02:21]        249/991 m  crashes 0  |lat| median 0.046 m  wall 379s
+[03:03:21]        290/991 m  crashes 0  |lat| median 0.049 m  wall 440s
+[03:04:21]        330/991 m  crashes 0  |lat| median 0.048 m  wall 500s
+[03:05:22]        376/991 m  crashes 0  |lat| median 0.044 m  wall 561s
+[03:06:22]        423/991 m  crashes 0  |lat| median 0.047 m  wall 621s
+[03:07:23]        462/991 m  crashes 0  |lat| median 0.046 m  wall 681s
+[03:08:23]        495/991 m  crashes 0  |lat| median 0.049 m  wall 742s
+[03:09:23]        542/991 m  crashes 0  |lat| median 0.048 m  wall 802s
+[03:10:23]        577/991 m  crashes 0  |lat| median 0.050 m  wall 862s
+[03:11:24]        617/991 m  crashes 0  |lat| median 0.049 m  wall 922s
+[03:12:24]        662/991 m  crashes 0  |lat| median 0.051 m  wall 982s
+[03:13:24]        709/991 m  crashes 0  |lat| median 0.053 m  wall 1043s
+[03:14:24]        756/991 m  crashes 0  |lat| median 0.053 m  wall 1103s
+[03:15:25]        803/991 m  crashes 0  |lat| median 0.053 m  wall 1163s
+[03:16:25]        848/991 m  crashes 0  |lat| median 0.053 m  wall 1224s
+[03:17:25]        875/991 m  crashes 0  |lat| median 0.055 m  wall 1284s
+[03:18:25]        917/991 m  crashes 0  |lat| median 0.057 m  wall 1344s
+[03:19:26]        957/991 m  crashes 0  |lat| median 0.056 m  wall 1404s
+[03:20:31]   ok: 8488 rows (dagger), 0 crashes, |lat| median 0.0554 p95 0.2094
+[03:20:38]   launch pid 535734: Shanghai @ 2.1 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[03:20:55]     driving; shadow and student both live; target 991 m
+[03:21:56]         48/991 m  crashes 0  |lat| median 0.043 m  wall 78s
+[03:22:56]         97/991 m  crashes 0  |lat| median 0.043 m  wall 138s
+[03:23:56]        141/991 m  crashes 0  |lat| median 0.043 m  wall 198s
+[03:24:56]        170/991 m  crashes 0  |lat| median 0.050 m  wall 258s
+[03:25:57]        211/991 m  crashes 0  |lat| median 0.044 m  wall 319s
+[03:26:57]        259/991 m  crashes 0  |lat| median 0.046 m  wall 379s
+[03:27:57]        296/991 m  crashes 0  |lat| median 0.053 m  wall 440s
+[03:28:58]        342/991 m  crashes 0  |lat| median 0.052 m  wall 500s
+[03:29:58]        391/991 m  crashes 0  |lat| median 0.049 m  wall 560s
+[03:30:58]        437/991 m  crashes 0  |lat| median 0.048 m  wall 620s
+[03:31:59]        472/991 m  crashes 0  |lat| median 0.050 m  wall 681s
+[03:32:59]        514/991 m  crashes 0  |lat| median 0.049 m  wall 741s
+[03:33:59]        562/991 m  crashes 0  |lat| median 0.050 m  wall 801s
+[03:34:59]        594/991 m  crashes 0  |lat| median 0.049 m  wall 861s
+[03:36:00]        639/991 m  crashes 0  |lat| median 0.051 m  wall 922s
+[03:37:00]        687/991 m  crashes 0  |lat| median 0.051 m  wall 982s
+[03:38:00]        736/991 m  crashes 0  |lat| median 0.052 m  wall 1042s
+[03:39:00]        783/991 m  crashes 0  |lat| median 0.054 m  wall 1102s
+[03:40:00]        831/991 m  crashes 0  |lat| median 0.055 m  wall 1163s
+[03:41:01]        873/991 m  crashes 0  |lat| median 0.056 m  wall 1223s
+[03:42:01]        901/991 m  crashes 0  |lat| median 0.059 m  wall 1283s
+[03:43:02]        944/991 m  crashes 0  |lat| median 0.058 m  wall 1344s
+[03:44:02]        991/991 m  crashes 0  |lat| median 0.059 m  wall 1404s
+[03:44:23]   ok: 8493 rows (dagger), 0 crashes, |lat| median 0.0589 p95 0.2137
+[03:44:30]   launch pid 537214: Shanghai @ 2.7 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[03:44:47]     driving; shadow and student both live; target 991 m
+[03:45:47]         48/991 m  crashes 0  |lat| median 0.043 m  wall 77s
+[03:46:47]         97/991 m  crashes 0  |lat| median 0.047 m  wall 137s
+[03:47:47]        142/991 m  crashes 0  |lat| median 0.047 m  wall 197s
+[03:48:47]        170/991 m  crashes 0  |lat| median 0.054 m  wall 257s
+[03:49:48]        211/991 m  crashes 0  |lat| median 0.047 m  wall 318s
+[03:50:48]        259/991 m  crashes 0  |lat| median 0.049 m  wall 378s
+[03:51:48]        296/991 m  crashes 0  |lat| median 0.049 m  wall 438s
+[03:52:48]        343/991 m  crashes 0  |lat| median 0.046 m  wall 498s
+[03:53:49]        392/991 m  crashes 0  |lat| median 0.044 m  wall 559s
+[03:54:49]        438/991 m  crashes 0  |lat| median 0.044 m  wall 619s
+[03:55:49]        473/991 m  crashes 0  |lat| median 0.046 m  wall 679s
+[03:56:50]        516/991 m  crashes 0  |lat| median 0.046 m  wall 740s
+[03:57:50]        564/991 m  crashes 0  |lat| median 0.048 m  wall 800s
+[03:58:50]        596/991 m  crashes 0  |lat| median 0.047 m  wall 860s
+[03:59:50]        642/991 m  crashes 0  |lat| median 0.050 m  wall 920s
+[04:00:50]        690/991 m  crashes 0  |lat| median 0.050 m  wall 980s
+[04:01:50]        739/991 m  crashes 0  |lat| median 0.052 m  wall 1040s
+[04:02:51]        788/991 m  crashes 0  |lat| median 0.054 m  wall 1101s
+[04:03:51]        835/991 m  crashes 0  |lat| median 0.055 m  wall 1161s
+[04:04:51]        874/991 m  crashes 0  |lat| median 0.056 m  wall 1221s
+[04:05:52]        907/991 m  crashes 0  |lat| median 0.058 m  wall 1282s
+[04:06:52]        949/991 m  crashes 0  |lat| median 0.057 m  wall 1342s
+[04:08:06]   ok: 8480 rows (dagger), 0 crashes, |lat| median 0.0583 p95 0.2057
+[04:08:13]   launch pid 538744: Nuerburgring @ 1.5 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[04:08:32]     driving; shadow and student both live; target 889 m
+[04:09:32]         49/889 m  crashes 0  |lat| median 0.084 m  wall 79s
+[04:10:32]         86/889 m  crashes 0  |lat| median 0.056 m  wall 139s
+[04:11:32]        130/889 m  crashes 0  |lat| median 0.063 m  wall 199s
+[04:12:33]        162/889 m  crashes 0  |lat| median 0.053 m  wall 260s
+[04:13:33]        203/889 m  crashes 0  |lat| median 0.060 m  wall 320s
+[04:14:34]        249/889 m  crashes 0  |lat| median 0.069 m  wall 380s
+[04:15:34]        288/889 m  crashes 0  |lat| median 0.062 m  wall 441s
+[04:16:34]        337/889 m  crashes 0  |lat| median 0.061 m  wall 501s
+[04:17:34]        381/889 m  crashes 0  |lat| median 0.062 m  wall 561s
+[04:18:35]        420/889 m  crashes 0  |lat| median 0.063 m  wall 622s
+[04:19:35]        467/889 m  crashes 0  |lat| median 0.065 m  wall 682s
+[04:20:35]        514/889 m  crashes 0  |lat| median 0.066 m  wall 742s
+[04:21:35]        556/889 m  crashes 0  |lat| median 0.066 m  wall 802s
+[04:22:36]        597/889 m  crashes 0  |lat| median 0.062 m  wall 862s
+[04:23:36]        645/889 m  crashes 0  |lat| median 0.068 m  wall 923s
+[04:24:36]        693/889 m  crashes 0  |lat| median 0.067 m  wall 983s
+[04:25:37]        741/889 m  crashes 0  |lat| median 0.064 m  wall 1043s
+[04:26:37]        782/889 m  crashes 0  |lat| median 0.060 m  wall 1104s
+[04:27:37]        820/889 m  crashes 0  |lat| median 0.062 m  wall 1164s
+[04:28:38]        867/889 m  crashes 0  |lat| median 0.067 m  wall 1225s
+[04:29:27]   ok: 7574 rows (dagger), 0 crashes, |lat| median 0.0697 p95 0.1912
+[04:29:34]   launch pid 540123: Nuerburgring @ 2.1 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[04:29:52]     driving; shadow and student both live; target 889 m
+[04:30:52]         47/889 m  crashes 0  |lat| median 0.083 m  wall 78s
+[04:31:53]         83/889 m  crashes 0  |lat| median 0.051 m  wall 139s
+[04:32:53]        125/889 m  crashes 0  |lat| median 0.054 m  wall 199s
+[04:33:54]        158/889 m  crashes 0  |lat| median 0.048 m  wall 260s
+[04:34:54]        194/889 m  crashes 0  |lat| median 0.051 m  wall 320s
+[04:35:54]        240/889 m  crashes 0  |lat| median 0.065 m  wall 380s
+[04:36:54]        280/889 m  crashes 0  |lat| median 0.057 m  wall 440s
+[04:37:55]        324/889 m  crashes 0  |lat| median 0.059 m  wall 500s
+[04:38:55]        370/889 m  crashes 0  |lat| median 0.057 m  wall 561s
+[04:39:55]        404/889 m  crashes 0  |lat| median 0.055 m  wall 621s
+[04:40:55]        449/889 m  crashes 0  |lat| median 0.063 m  wall 681s
+[04:41:55]        494/889 m  crashes 0  |lat| median 0.062 m  wall 741s
+[04:42:56]        540/889 m  crashes 0  |lat| median 0.068 m  wall 802s
+[04:43:56]        580/889 m  crashes 0  |lat| median 0.062 m  wall 862s
+[04:44:56]        620/889 m  crashes 0  |lat| median 0.062 m  wall 922s
+[04:45:56]        667/889 m  crashes 0  |lat| median 0.063 m  wall 982s
+[04:46:57]        713/889 m  crashes 0  |lat| median 0.062 m  wall 1043s
+[04:47:57]        753/889 m  crashes 0  |lat| median 0.060 m  wall 1103s
+[04:48:57]        794/889 m  crashes 0  |lat| median 0.057 m  wall 1163s
+[04:49:57]        834/889 m  crashes 0  |lat| median 0.061 m  wall 1223s
+[04:50:58]        880/889 m  crashes 0  |lat| median 0.065 m  wall 1284s
+[04:51:31]   ok: 7565 rows (dagger), 0 crashes, |lat| median 0.0663 p95 0.2043
+[04:51:38]   launch pid 541572: Nuerburgring @ 2.7 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[04:51:56]     driving; shadow and student both live; target 889 m
+[04:52:56]         49/889 m  crashes 0  |lat| median 0.068 m  wall 78s
+[04:53:56]         87/889 m  crashes 0  |lat| median 0.049 m  wall 138s
+[04:54:56]        133/889 m  crashes 0  |lat| median 0.054 m  wall 198s
+[04:55:57]        163/889 m  crashes 0  |lat| median 0.050 m  wall 258s
+[04:56:57]        207/889 m  crashes 0  |lat| median 0.055 m  wall 318s
+[04:57:57]        255/889 m  crashes 0  |lat| median 0.061 m  wall 379s
+[04:58:57]        297/889 m  crashes 0  |lat| median 0.056 m  wall 439s
+[04:59:58]        348/889 m  crashes 0  |lat| median 0.053 m  wall 499s
+[05:00:58]        389/889 m  crashes 0  |lat| median 0.055 m  wall 560s
+[05:01:59]        434/889 m  crashes 0  |lat| median 0.059 m  wall 620s
+[05:02:59]        483/889 m  crashes 0  |lat| median 0.061 m  wall 681s
+[05:03:59]        532/889 m  crashes 0  |lat| median 0.064 m  wall 741s
+[05:05:00]        577/889 m  crashes 0  |lat| median 0.059 m  wall 801s
+[05:06:00]        619/889 m  crashes 0  |lat| median 0.059 m  wall 862s
+[05:07:00]        669/889 m  crashes 0  |lat| median 0.060 m  wall 922s
+[05:08:00]        719/889 m  crashes 0  |lat| median 0.059 m  wall 982s
+[05:09:01]        762/889 m  crashes 0  |lat| median 0.058 m  wall 1043s
+[05:10:01]        803/889 m  crashes 0  |lat| median 0.057 m  wall 1103s
+[05:11:01]        850/889 m  crashes 0  |lat| median 0.062 m  wall 1163s
+[05:12:10]   ok: 7591 rows (dagger), 0 crashes, |lat| median 0.0648 p95 0.1897
+[05:12:17]   launch pid 542983: Melbourne @ 1.5 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[05:12:35]     driving; shadow and student both live; target 946 m
+[05:13:35]         50/946 m  crashes 0  |lat| median 0.121 m  wall 78s
+[05:14:35]         95/946 m  crashes 0  |lat| median 0.077 m  wall 138s
+[05:15:35]        145/946 m  crashes 0  |lat| median 0.071 m  wall 198s
+[05:16:35]        194/946 m  crashes 0  |lat| median 0.081 m  wall 258s
+[05:17:35]        230/946 m  crashes 0  |lat| median 0.060 m  wall 318s
+[05:18:35]        274/946 m  crashes 0  |lat| median 0.056 m  wall 378s
+[05:19:36]        324/946 m  crashes 0  |lat| median 0.054 m  wall 438s
+[05:20:36]        367/946 m  crashes 0  |lat| median 0.061 m  wall 499s
+[05:21:36]        417/946 m  crashes 0  |lat| median 0.068 m  wall 559s
+[05:22:37]        459/946 m  crashes 0  |lat| median 0.068 m  wall 619s
+[05:23:37]        505/946 m  crashes 0  |lat| median 0.070 m  wall 680s
+[05:24:37]        556/946 m  crashes 0  |lat| median 0.063 m  wall 740s
+[05:25:38]        603/946 m  crashes 0  |lat| median 0.062 m  wall 800s
+[05:26:38]        648/946 m  crashes 0  |lat| median 0.067 m  wall 861s
+[05:27:38]        697/946 m  crashes 0  |lat| median 0.068 m  wall 921s
+[05:28:38]        743/946 m  crashes 0  |lat| median 0.067 m  wall 981s
+[05:29:39]        789/946 m  crashes 0  |lat| median 0.067 m  wall 1042s
+[05:30:39]        834/946 m  crashes 0  |lat| median 0.065 m  wall 1102s
+[05:31:39]        874/946 m  crashes 0  |lat| median 0.064 m  wall 1162s
+[05:32:40]        924/946 m  crashes 0  |lat| median 0.067 m  wall 1222s
+[05:33:27]   ok: 7878 rows (dagger), 0 crashes, |lat| median 0.0694 p95 0.1951
+[05:33:34]   launch pid 544403: Melbourne @ 2.1 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[05:33:53]     driving; shadow and student both live; target 946 m
+[05:34:53]         50/946 m  crashes 0  |lat| median 0.122 m  wall 80s
+[05:35:54]         94/946 m  crashes 0  |lat| median 0.097 m  wall 140s
+[05:36:54]        145/946 m  crashes 0  |lat| median 0.078 m  wall 200s
+[05:37:54]        194/946 m  crashes 0  |lat| median 0.044 m  wall 260s
+[05:38:54]        230/946 m  crashes 0  |lat| median 0.044 m  wall 321s
+[05:39:55]        275/946 m  crashes 0  |lat| median 0.045 m  wall 381s
+[05:40:55]        325/946 m  crashes 0  |lat| median 0.046 m  wall 442s
+[05:41:56]        368/946 m  crashes 0  |lat| median 0.052 m  wall 502s
+[05:42:56]        418/946 m  crashes 0  |lat| median 0.060 m  wall 562s
+[05:43:56]        460/946 m  crashes 0  |lat| median 0.061 m  wall 622s
+[05:44:56]        507/946 m  crashes 0  |lat| median 0.064 m  wall 682s
+[05:45:56]        557/946 m  crashes 0  |lat| median 0.057 m  wall 742s
+[05:46:56]        605/946 m  crashes 0  |lat| median 0.055 m  wall 803s
+[05:47:57]        649/946 m  crashes 0  |lat| median 0.059 m  wall 863s
+[05:48:57]        700/946 m  crashes 0  |lat| median 0.059 m  wall 924s
+[05:49:58]        745/946 m  crashes 0  |lat| median 0.059 m  wall 984s
+[05:50:58]        791/946 m  crashes 0  |lat| median 0.060 m  wall 1044s
+[05:51:58]        835/946 m  crashes 0  |lat| median 0.059 m  wall 1104s
+[05:52:58]        876/946 m  crashes 0  |lat| median 0.059 m  wall 1164s
+[05:53:58]        927/946 m  crashes 0  |lat| median 0.063 m  wall 1225s
+[05:54:42]   ok: 7877 rows (dagger), 0 crashes, |lat| median 0.0618 p95 0.1765
+[05:54:49]   launch pid 545774: Melbourne @ 2.7 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[05:55:06]     driving; shadow and student both live; target 946 m
+[05:56:06]         51/946 m  crashes 0  |lat| median 0.107 m  wall 77s
+[05:57:06]         94/946 m  crashes 0  |lat| median 0.073 m  wall 137s
+[05:58:07]        146/946 m  crashes 0  |lat| median 0.077 m  wall 198s
+[05:59:07]        195/946 m  crashes 0  |lat| median 0.052 m  wall 258s
+[06:00:07]        232/946 m  crashes 0  |lat| median 0.044 m  wall 318s
+[06:01:07]        278/946 m  crashes 0  |lat| median 0.048 m  wall 379s
+[06:02:07]        329/946 m  crashes 0  |lat| median 0.042 m  wall 439s
+[06:03:08]        371/946 m  crashes 0  |lat| median 0.052 m  wall 499s
+[06:04:08]        422/946 m  crashes 0  |lat| median 0.062 m  wall 559s
+[06:05:08]        464/946 m  crashes 0  |lat| median 0.062 m  wall 619s
+[06:06:08]        511/946 m  crashes 0  |lat| median 0.064 m  wall 679s
+[06:07:08]        562/946 m  crashes 0  |lat| median 0.058 m  wall 740s
+[06:08:09]        610/946 m  crashes 0  |lat| median 0.057 m  wall 800s
+[06:09:09]        655/946 m  crashes 0  |lat| median 0.060 m  wall 860s
+[06:10:09]        704/946 m  crashes 0  |lat| median 0.059 m  wall 920s
+[06:11:09]        748/946 m  crashes 0  |lat| median 0.060 m  wall 980s
+[06:12:09]        795/946 m  crashes 0  |lat| median 0.058 m  wall 1040s
+[06:13:10]        838/946 m  crashes 0  |lat| median 0.059 m  wall 1101s
+[06:14:10]        882/946 m  crashes 0  |lat| median 0.059 m  wall 1161s
+[06:15:10]        933/946 m  crashes 0  |lat| median 0.064 m  wall 1221s
+[06:15:47]   ok: 7850 rows (dagger), 0 crashes, |lat| median 0.0653 p95 0.1887
+[06:15:54]   launch pid 547236: Monza @ 1.5 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[06:16:11]     driving; shadow and student both live; target 890 m
+[06:17:11]         59/890 m  crashes 0  |lat| median 0.006 m  wall 77s
+[06:18:11]        117/890 m  crashes 0  |lat| median 0.015 m  wall 138s
+[06:19:12]        161/890 m  crashes 0  |lat| median 0.048 m  wall 198s
+[06:20:12]        219/890 m  crashes 0  |lat| median 0.046 m  wall 258s
+[06:21:12]        273/890 m  crashes 0  |lat| median 0.055 m  wall 319s
+[06:22:12]        329/890 m  crashes 0  |lat| median 0.076 m  wall 379s
+[06:23:13]        376/890 m  crashes 0  |lat| median 0.078 m  wall 439s
+[06:24:13]        428/890 m  crashes 0  |lat| median 0.078 m  wall 500s
+[06:25:13]        481/890 m  crashes 0  |lat| median 0.071 m  wall 560s
+[06:26:14]        539/890 m  crashes 0  |lat| median 0.078 m  wall 620s
+[06:27:14]        596/890 m  crashes 0  |lat| median 0.073 m  wall 680s
+[06:28:14]        643/890 m  crashes 0  |lat| median 0.072 m  wall 740s
+[06:29:14]        701/890 m  crashes 0  |lat| median 0.072 m  wall 800s
+[06:30:14]        759/890 m  crashes 0  |lat| median 0.066 m  wall 860s
+[06:31:14]        810/890 m  crashes 0  |lat| median 0.068 m  wall 921s
+[06:32:15]        866/890 m  crashes 0  |lat| median 0.068 m  wall 981s
+[06:33:01]   ok: 7258 rows (dagger), 0 crashes, |lat| median 0.0686 p95 0.2805
+[06:33:08]   launch pid 548517: Monza @ 2.1 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[06:33:24]     driving; shadow and student both live; target 890 m
+[06:34:24]         59/890 m  crashes 0  |lat| median 0.008 m  wall 76s
+[06:35:24]        116/890 m  crashes 0  |lat| median 0.087 m  wall 137s
+[06:36:24]        160/890 m  crashes 0  |lat| median 0.073 m  wall 197s
+[06:37:25]        218/890 m  crashes 0  |lat| median 0.055 m  wall 257s
+[06:38:25]        272/890 m  crashes 0  |lat| median 0.065 m  wall 317s
+[06:39:25]        328/890 m  crashes 0  |lat| median 0.082 m  wall 377s
+[06:40:25]        374/890 m  crashes 0  |lat| median 0.072 m  wall 437s
+[06:41:26]        426/890 m  crashes 0  |lat| median 0.072 m  wall 498s
+[06:42:26]        478/890 m  crashes 0  |lat| median 0.068 m  wall 558s
+[06:43:26]        536/890 m  crashes 0  |lat| median 0.073 m  wall 618s
+[06:44:27]        593/890 m  crashes 0  |lat| median 0.072 m  wall 679s
+[06:45:27]        641/890 m  crashes 0  |lat| median 0.071 m  wall 739s
+[06:46:27]        698/890 m  crashes 0  |lat| median 0.070 m  wall 800s
+[06:47:27]        756/890 m  crashes 0  |lat| median 0.065 m  wall 860s
+[06:48:28]        806/890 m  crashes 0  |lat| median 0.067 m  wall 920s
+[06:49:28]        863/890 m  crashes 0  |lat| median 0.067 m  wall 981s
+[06:50:18]   ok: 7247 rows (dagger), 0 crashes, |lat| median 0.0679 p95 0.2814
+[06:50:25]   launch pid 549824: Monza @ 2.7 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[06:50:45]     driving; shadow and student both live; target 890 m
+[06:51:46]         59/890 m  crashes 0  |lat| median 0.006 m  wall 81s
+[06:52:46]        117/890 m  crashes 0  |lat| median 0.016 m  wall 141s
+[06:53:46]        160/890 m  crashes 0  |lat| median 0.050 m  wall 201s
+[06:54:46]        218/890 m  crashes 0  |lat| median 0.048 m  wall 261s
+[06:55:46]        272/890 m  crashes 0  |lat| median 0.057 m  wall 321s
+[06:56:47]        327/890 m  crashes 0  |lat| median 0.070 m  wall 382s
+[06:57:47]        374/890 m  crashes 0  |lat| median 0.071 m  wall 442s
+[06:58:47]        425/890 m  crashes 0  |lat| median 0.073 m  wall 502s
+[06:59:47]        478/890 m  crashes 0  |lat| median 0.065 m  wall 562s
+[07:00:47]        535/890 m  crashes 0  |lat| median 0.072 m  wall 622s
+[07:01:47]        593/890 m  crashes 0  |lat| median 0.068 m  wall 682s
+[07:02:48]        641/890 m  crashes 0  |lat| median 0.067 m  wall 743s
+[07:03:48]        698/890 m  crashes 0  |lat| median 0.068 m  wall 803s
+[07:04:48]        755/890 m  crashes 0  |lat| median 0.064 m  wall 863s
+[07:05:48]        806/890 m  crashes 0  |lat| median 0.065 m  wall 923s
+[07:06:49]        861/890 m  crashes 0  |lat| median 0.065 m  wall 984s
+[07:07:40]   ok: 7251 rows (dagger), 0 crashes, |lat| median 0.0651 p95 0.2913
+[07:07:47]   launch pid 551081: IMS @ 1.5 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[07:08:05]     driving; shadow and student both live; target 586 m
+[07:09:05]         65/586 m  crashes 0  |lat| median 0.035 m  wall 78s
+[07:10:05]        128/586 m  crashes 0  |lat| median 0.097 m  wall 139s
+[07:11:06]        191/586 m  crashes 0  |lat| median 0.121 m  wall 199s
+[07:12:06]        254/586 m  crashes 0  |lat| median 0.150 m  wall 259s
+[07:13:06]        317/586 m  crashes 0  |lat| median 0.136 m  wall 319s
+[07:14:06]        379/586 m  crashes 0  |lat| median 0.123 m  wall 380s
+[07:15:07]        442/586 m  crashes 0  |lat| median 0.101 m  wall 440s
+[07:16:07]        506/586 m  crashes 0  |lat| median 0.085 m  wall 500s
+[07:17:07]        568/586 m  crashes 0  |lat| median 0.105 m  wall 560s
+[07:17:43]   ok: 4458 rows (dagger), 0 crashes, |lat| median 0.098 p95 0.2412
+[07:17:50]   launch pid 552038: IMS @ 2.1 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[07:18:08]     driving; shadow and student both live; target 586 m
+[07:19:08]         64/586 m  crashes 0  |lat| median 0.058 m  wall 79s
+[07:20:09]        126/586 m  crashes 0  |lat| median 0.108 m  wall 139s
+[07:21:09]        188/586 m  crashes 0  |lat| median 0.138 m  wall 199s
+[07:22:09]        250/586 m  crashes 0  |lat| median 0.158 m  wall 259s
+[07:23:10]        312/586 m  crashes 0  |lat| median 0.154 m  wall 320s
+[07:24:10]        373/586 m  crashes 0  |lat| median 0.141 m  wall 380s
+[07:25:10]        435/586 m  crashes 0  |lat| median 0.126 m  wall 440s
+[07:26:11]        498/586 m  crashes 0  |lat| median 0.109 m  wall 501s
+[07:27:11]        558/586 m  crashes 0  |lat| median 0.125 m  wall 561s
+[07:27:56]   ok: 4458 rows (dagger), 0 crashes, |lat| median 0.115 p95 0.2769
+[07:28:03]   launch pid 553002: IMS @ 2.7 m/s it5, 1.0 laps, student=dagger_mlp_it5.pt
+[07:28:20]     driving; shadow and student both live; target 586 m
+[07:29:20]         64/586 m  crashes 0  |lat| median 0.053 m  wall 78s
+[07:30:21]        128/586 m  crashes 0  |lat| median 0.098 m  wall 138s
+[07:31:21]        191/586 m  crashes 0  |lat| median 0.126 m  wall 198s
+[07:32:21]        254/586 m  crashes 0  |lat| median 0.147 m  wall 258s
+[07:33:22]        318/586 m  crashes 0  |lat| median 0.139 m  wall 319s
+[07:34:22]        381/586 m  crashes 0  |lat| median 0.137 m  wall 379s
+[07:35:22]        445/586 m  crashes 0  |lat| median 0.116 m  wall 440s
+[07:36:22]        508/586 m  crashes 0  |lat| median 0.102 m  wall 500s
+[07:37:23]        570/586 m  crashes 0  |lat| median 0.125 m  wall 560s
+[07:37:57]   ok: 4474 rows (dagger), 0 crashes, |lat| median 0.13 p95 0.2739
+[13:27:37] DAgger mlp: iterations 1..5, tracks ['Shanghai', 'Nuerburgring', 'Melbourne', 'Monza', 'IMS'], speeds [1.5, 2.1, 2.7]
+[13:27:37] === iteration 1: train on everything so far, then roll out ===
+[13:27:37]   train: il_train --config src/hunter_il/config/train_default.yaml --arch mlp --data-dir datasets/raw --out checkpoints/dagger_mlp_it1.pt --seed 0
+[13:52:20] DAgger mlp: iterations 1..5, tracks ['Shanghai', 'Nuerburgring', 'Melbourne', 'Monza', 'IMS'], speeds [1.5, 2.1, 2.7]
+[13:52:21] === iteration 1: train on everything so far, then roll out ===
+[13:52:21]   train: il_train --config src/hunter_il/config/train_default.yaml --arch mlp --data-dir datasets/raw --out checkpoints/dagger_mlp_it1.pt --seed 0
+[14:03:40]   saved checkpoints/dagger_mlp_it1.pt: val_laps {'loss': 0.0004618713937964941, 'rmse_steer_rad': 0.007586768684219976, 'rmse_speed_mps': 0.03589964098137394, 'n': 67510} val_tracks {'loss': 0.003338192
+[14:03:47]   launch pid 10675: Shanghai @ 1.5 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[14:04:07]     driving; shadow and student both live; target 991 m; student max cmd 1.50 <= cap 1.5
+[14:05:07]         23/991 m  crashes 0  |lat| median 0.007 m  wall 80s
+[14:06:07]         49/991 m  crashes 0  |lat| median 0.090 m  wall 140s
+[14:07:07]         73/991 m  crashes 0  |lat| median 0.118 m  wall 200s
+[14:08:07]        100/991 m  crashes 0  |lat| median 0.083 m  wall 260s
+[14:09:07]        126/991 m  crashes 0  |lat| median 0.069 m  wall 320s
+[14:10:08]        151/991 m  crashes 0  |lat| median 0.084 m  wall 381s
+[14:11:08]        174/991 m  crashes 0  |lat| median 0.089 m  wall 441s
+[14:12:08]        198/991 m  crashes 0  |lat| median 0.079 m  wall 501s
+[14:13:08]        223/991 m  crashes 0  |lat| median 0.074 m  wall 561s
+[14:14:08]        246/991 m  crashes 0  |lat| median 0.080 m  wall 621s
+[14:15:09]        271/991 m  crashes 0  |lat| median 0.074 m  wall 682s
+[14:16:09]        295/991 m  crashes 0  |lat| median 0.070 m  wall 742s
+[14:17:09]        321/991 m  crashes 0  |lat| median 0.065 m  wall 802s
+[14:18:10]        343/991 m  crashes 0  |lat| median 0.072 m  wall 862s
+[14:19:10]        368/991 m  crashes 0  |lat| median 0.079 m  wall 923s
+[14:20:10]        391/991 m  crashes 0  |lat| median 0.072 m  wall 983s
+[14:21:11]        417/991 m  crashes 0  |lat| median 0.066 m  wall 1043s
+[14:22:11]        443/991 m  crashes 0  |lat| median 0.064 m  wall 1103s
+[14:23:11]        468/991 m  crashes 0  |lat| median 0.067 m  wall 1164s
+[14:24:11]        492/991 m  crashes 0  |lat| median 0.067 m  wall 1224s
+[14:25:11]        518/991 m  crashes 0  |lat| median 0.069 m  wall 1284s
+[14:26:12]        543/991 m  crashes 0  |lat| median 0.074 m  wall 1344s
+[14:27:12]        568/991 m  crashes 0  |lat| median 0.078 m  wall 1404s
+[14:28:12]        589/991 m  crashes 0  |lat| median 0.078 m  wall 1465s
+[14:29:12]        613/991 m  crashes 0  |lat| median 0.078 m  wall 1525s
+[14:30:13]        630/991 m  crashes 0  |lat| median 0.077 m  wall 1585s
+[14:31:13]        645/991 m  crashes 0  |lat| median 0.075 m  wall 1645s
+[14:32:13]        653/991 m  crashes 0  |lat| median 0.074 m  wall 1706s
+[14:33:13]        674/991 m  crashes 0  |lat| median 0.077 m  wall 1766s
+[14:34:13]        698/991 m  crashes 0  |lat| median 0.076 m  wall 1826s
+[14:35:14]        726/991 m  crashes 0  |lat| median 0.080 m  wall 1886s
+[14:36:14]        750/991 m  crashes 0  |lat| median 0.083 m  wall 1947s
+[14:37:14]        774/991 m  crashes 0  |lat| median 0.085 m  wall 2007s
+[14:38:15]        800/991 m  crashes 0  |lat| median 0.088 m  wall 2067s
+[14:39:15]        823/991 m  crashes 0  |lat| median 0.091 m  wall 2128s
+[14:40:15]        843/991 m  crashes 0  |lat| median 0.094 m  wall 2188s
+[14:41:15]        865/991 m  crashes 0  |lat| median 0.097 m  wall 2248s
+[14:41:48]     CRASH #1 at s=873.6 m (trigger 2, min_scan 0.38 m) after 874 m
+[14:42:16]        882/991 m  crashes 1  |lat| median 0.099 m  wall 2308s
+[14:42:41]     CRASH #2 at s=873.2 m (trigger 2, min_scan 0.38 m) after 886 m
+[14:43:16]        897/991 m  crashes 2  |lat| median 0.099 m  wall 2369s
+[14:44:16]        917/991 m  crashes 2  |lat| median 0.101 m  wall 2429s
+[14:45:16]        944/991 m  crashes 2  |lat| median 0.106 m  wall 2489s
+[14:46:16]        969/991 m  crashes 2  |lat| median 0.109 m  wall 2549s
+[14:47:34]   ok: 13605 rows (dagger), 2 crashes, |lat| median 0.1087 p95 0.2903
+[14:47:41]   launch pid 19789: Shanghai @ 2.1 m/s it1, 1.0 laps, student=dagger_mlp_it1.pt
+[14:48:02]     driving; shadow and student both live; target 991 m; student max cmd 2.10 <= cap 2.1

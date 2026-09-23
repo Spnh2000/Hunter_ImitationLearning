@@ -1,0 +1,32 @@
+{
+  "track": "Silverstone",
+  "speed_mps": 2.1,
+  "pass": "p1",
+  "spawn_s_frac": 0.0,
+  "laps_target": 2,
+  "status": "ok",
+  "wall_started": "2026-09-21T23:06:04",
+  "laps_wrapped": 2,
+  "distance_m": 1827.9,
+  "sim_duration_s": 903.7,
+  "track_length_m": 913.3,
+  "terminal": null,
+  "teardown": {
+    "recorder_424863": "sigint",
+    "launch": "sigint",
+    "group_sigkill": true,
+    "graph_empty": true
+  },
+  "wall_duration_s": 2911.7,
+  "bag_mb": 104.2,
+  "rows": 18075,
+  "join_dt_ms": {
+    "median": 10.0,
+    "p95": 10.0,
+    "max": 10.0,
+    "slop": 15.0
+  },
+  "rows_rejected_slop": 0,
+  "inspect_exit": 0,
+  "inspect_fails": []
+}

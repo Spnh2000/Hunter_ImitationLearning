@@ -1,0 +1,829 @@
+{
+ "n_rows": 899074,
+ "n_runs": 99,
+ "tracks": [
+  "IMS",
+  "Melbourne",
+  "Montreal",
+  "Monza",
+  "Nuerburgring",
+  "SaoPaulo",
+  "Shanghai",
+  "Silverstone"
+ ],
+ "caps": [
+  1.5,
+  2.1,
+  2.7
+ ],
+ "information_asymmetry": {
+  "IMS": {
+   "median_ratio_steer": 0.01707896590232849,
+   "median_ratio_speed": 0.9846594929695129,
+   "p90_ratio_steer": 0.30140330195426945,
+   "p90_ratio_speed": 1.0325325727462769,
+   "global_std_steer": 0.008523136377334595,
+   "global_std_speed": 0.482694149017334,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 17829,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.04412556439638138,
+     "median_ratio_speed": 0.0,
+     "n": 7843
+    },
+    "2.1": {
+     "median_ratio_steer": 0.054766375571489334,
+     "median_ratio_speed": 0.0,
+     "n": 5613
+    },
+    "2.7": {
+     "median_ratio_steer": 0.06548278033733368,
+     "median_ratio_speed": 0.0041237929835915565,
+     "n": 4373
+    }
+   }
+  },
+  "Melbourne": {
+   "median_ratio_steer": 0.014516166411340237,
+   "median_ratio_speed": 0.9837438464164734,
+   "p90_ratio_steer": 0.18631562292575865,
+   "p90_ratio_speed": 1.0328245162963867,
+   "global_std_steer": 0.04655449464917183,
+   "global_std_speed": 0.4954971969127655,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 59812,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.01904325745999813,
+     "median_ratio_speed": 0.0,
+     "n": 25524
+    },
+    "2.1": {
+     "median_ratio_steer": 0.02111467719078064,
+     "median_ratio_speed": 0.0,
+     "n": 18870
+    },
+    "2.7": {
+     "median_ratio_steer": 0.02701224759221077,
+     "median_ratio_speed": 9.55323343987402e-07,
+     "n": 15418
+    }
+   }
+  },
+  "Montreal": {
+   "median_ratio_steer": 0.01074337586760521,
+   "median_ratio_speed": 0.905484139919281,
+   "p90_ratio_steer": 0.2603543400764469,
+   "p90_ratio_speed": 0.9612853527069092,
+   "global_std_steer": 0.06927789747714996,
+   "global_std_speed": 0.5175297260284424,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 37278,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.012333635240793228,
+     "median_ratio_speed": 0.0,
+     "n": 15539
+    },
+    "2.1": {
+     "median_ratio_steer": 0.015592125244438648,
+     "median_ratio_speed": 0.0,
+     "n": 11835
+    },
+    "2.7": {
+     "median_ratio_steer": 0.023177986964583397,
+     "median_ratio_speed": 7.568487490061671e-07,
+     "n": 9904
+    }
+   }
+  },
+  "Monza": {
+   "median_ratio_steer": 0.003359902184456587,
+   "median_ratio_speed": 0.9654038548469543,
+   "p90_ratio_steer": 0.16759728640317922,
+   "p90_ratio_speed": 1.012340784072876,
+   "global_std_steer": 0.04112319275736809,
+   "global_std_speed": 0.49232181906700134,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 55627,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.004163795150816441,
+     "median_ratio_speed": 0.0,
+     "n": 23950
+    },
+    "2.1": {
+     "median_ratio_steer": 0.005225119646638632,
+     "median_ratio_speed": 0.0,
+     "n": 17521
+    },
+    "2.7": {
+     "median_ratio_steer": 0.0073775677010416985,
+     "median_ratio_speed": 1.101918428503268e-06,
+     "n": 14156
+    }
+   }
+  },
+  "Nuerburgring": {
+   "median_ratio_steer": 0.01324881799519062,
+   "median_ratio_speed": 1.0157876014709473,
+   "p90_ratio_steer": 0.2353276699781418,
+   "p90_ratio_speed": 1.0783863067626953,
+   "global_std_steer": 0.046350494027137756,
+   "global_std_speed": 0.46133166551589966,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 56507,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.01467776671051979,
+     "median_ratio_speed": 0.0,
+     "n": 23883
+    },
+    "2.1": {
+     "median_ratio_steer": 0.02177438884973526,
+     "median_ratio_speed": 0.0,
+     "n": 17767
+    },
+    "2.7": {
+     "median_ratio_steer": 0.03863897919654846,
+     "median_ratio_speed": 1.0023086360888556e-06,
+     "n": 14857
+    }
+   }
+  },
+  "SaoPaulo": {
+   "median_ratio_steer": 0.039737846702337265,
+   "median_ratio_speed": 1.0105725526809692,
+   "p90_ratio_steer": 0.23622433841228488,
+   "p90_ratio_speed": 1.0597054958343506,
+   "global_std_steer": 0.04777652770280838,
+   "global_std_speed": 0.47031694650650024,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 43755,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.06029362604022026,
+     "median_ratio_speed": 0.0,
+     "n": 18457
+    },
+    "2.1": {
+     "median_ratio_steer": 0.07816950976848602,
+     "median_ratio_speed": 0.0,
+     "n": 13800
+    },
+    "2.7": {
+     "median_ratio_steer": 0.09272617101669312,
+     "median_ratio_speed": 9.667618314779247e-07,
+     "n": 11498
+    }
+   }
+  },
+  "Shanghai": {
+   "median_ratio_steer": 0.003340261522680521,
+   "median_ratio_speed": 0.9423695206642151,
+   "p90_ratio_steer": 0.156483756005764,
+   "p90_ratio_speed": 1.000443696975708,
+   "global_std_steer": 0.0618344247341156,
+   "global_std_speed": 0.49727311730384827,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 63262,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.004331569187343121,
+     "median_ratio_speed": 0.0,
+     "n": 26815
+    },
+    "2.1": {
+     "median_ratio_steer": 0.00852443091571331,
+     "median_ratio_speed": 0.0,
+     "n": 19960
+    },
+    "2.7": {
+     "median_ratio_steer": 0.018646109849214554,
+     "median_ratio_speed": 8.986328907667485e-07,
+     "n": 16487
+    }
+   }
+  },
+  "Silverstone": {
+   "median_ratio_steer": 0.0183478482067585,
+   "median_ratio_speed": 1.0030043125152588,
+   "p90_ratio_steer": 0.2347739696502686,
+   "p90_ratio_speed": 1.0666370391845703,
+   "global_std_steer": 0.04399096965789795,
+   "global_std_speed": 0.46721136569976807,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 57574,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.025106651708483696,
+     "median_ratio_speed": 0.0,
+     "n": 24504
+    },
+    "2.1": {
+     "median_ratio_steer": 0.03575824201107025,
+     "median_ratio_speed": 0.0,
+     "n": 18075
+    },
+    "2.7": {
+     "median_ratio_steer": 0.058237239718437195,
+     "median_ratio_speed": 1.066659592652286e-06,
+     "n": 14995
+    }
+   }
+  }
+ },
+ "speed": {
+  "1.5": {
+   "n": 335645,
+   "frac_at_cap": 0.4757615933501169,
+   "min": 0.0,
+   "mean": 0.9959255456924438,
+   "std": 0.5116077065467834,
+   "hist": [
+    275,
+    312,
+    433,
+    50421,
+    75323,
+    11236,
+    6663,
+    6398,
+    6086,
+    5892,
+    3359,
+    2840,
+    2331,
+    2445,
+    161631,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "2.1": {
+   "n": 292622,
+   "frac_at_cap": 0.36464107278331775,
+   "min": 0.0,
+   "mean": 1.6014710664749146,
+   "std": 0.42686301469802856,
+   "hist": [
+    270,
+    321,
+    330,
+    869,
+    1608,
+    1663,
+    1698,
+    1871,
+    2427,
+    3482,
+    4163,
+    4387,
+    66461,
+    62777,
+    12313,
+    6615,
+    4263,
+    3148,
+    2924,
+    2470,
+    108562,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "2.7": {
+   "n": 270807,
+   "frac_at_cap": 0.6691407533778669,
+   "min": 0.0,
+   "mean": 2.4328176975250244,
+   "std": 0.4936372935771942,
+   "hist": [
+    161,
+    147,
+    103,
+    440,
+    621,
+    413,
+    565,
+    711,
+    1106,
+    1543,
+    2663,
+    3181,
+    3429,
+    4030,
+    4291,
+    4022,
+    4173,
+    4100,
+    3991,
+    3745,
+    3994,
+    7906,
+    11004,
+    7789,
+    5813,
+    5861,
+    185005,
+    0
+   ]
+  }
+ },
+ "coverage_lateral_m": {
+  "expert": {
+   "n": 391644,
+   "abs_median": 0.0033314870670437813,
+   "abs_p95": 0.03532065805047748,
+   "hist": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    4,
+    339,
+    5082,
+    165570,
+    216670,
+    3755,
+    49,
+    49,
+    53,
+    73,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "relabelled": {
+   "n": 507430,
+   "abs_median": 0.09146810322999954,
+   "abs_p95": 0.44537515044212334,
+   "hist": [
+    176,
+    200,
+    217,
+    247,
+    359,
+    506,
+    421,
+    544,
+    1108,
+    3672,
+    3118,
+    4476,
+    6078,
+    6837,
+    8648,
+    18797,
+    30434,
+    46546,
+    56923,
+    72504,
+    77582,
+    64944,
+    44299,
+    25614,
+    10216,
+    3573,
+    2185,
+    1670,
+    1086,
+    923,
+    940,
+    656,
+    582,
+    503,
+    442,
+    484,
+    471,
+    361,
+    315,
+    439
+   ]
+  },
+  "IMS_1.5ms_dagger_it1": {
+   "n": 4361,
+   "abs_median": 0.056155748665332794,
+   "abs_p95": 0.18175539374351501
+  },
+  "IMS_1.5ms_dagger_it2": {
+   "n": 4389,
+   "abs_median": 0.44135725498199463,
+   "abs_p95": 0.5465407013893128
+  },
+  "IMS_1.5ms_dagger_it3": {
+   "n": 4384,
+   "abs_median": 0.2931862771511078,
+   "abs_p95": 0.40551862269639966
+  },
+  "IMS_1.5ms_dagger_it4": {
+   "n": 4348,
+   "abs_median": 0.12149010598659515,
+   "abs_p95": 1.4584605753421778
+  },
+  "IMS_1.5ms_dagger_it5": {
+   "n": 4458,
+   "abs_median": 0.09881001710891724,
+   "abs_p95": 0.24158860668539986
+  },
+  "IMS_2.1ms_dagger_it1": {
+   "n": 4355,
+   "abs_median": 0.055930737406015396,
+   "abs_p95": 0.1820183262228966
+  },
+  "IMS_2.1ms_dagger_it2": {
+   "n": 4393,
+   "abs_median": 0.4422784745693207,
+   "abs_p95": 0.5466549754142761
+  },
+  "IMS_2.1ms_dagger_it3": {
+   "n": 4385,
+   "abs_median": 0.2933470904827118,
+   "abs_p95": 0.40560457706451414
+  },
+  "IMS_2.1ms_dagger_it4": {
+   "n": 4363,
+   "abs_median": 0.12565475702285767,
+   "abs_p95": 1.437257957458496
+  },
+  "IMS_2.1ms_dagger_it5": {
+   "n": 4458,
+   "abs_median": 0.11586509644985199,
+   "abs_p95": 0.2780143663287162
+  },
+  "IMS_2.7ms_dagger_it1": {
+   "n": 4363,
+   "abs_median": 0.055610720068216324,
+   "abs_p95": 0.1815296620130539
+  },
+  "IMS_2.7ms_dagger_it2": {
+   "n": 4391,
+   "abs_median": 0.44137102365493774,
+   "abs_p95": 0.5469306111335754
+  },
+  "IMS_2.7ms_dagger_it3": {
+   "n": 4381,
+   "abs_median": 0.2928757071495056,
+   "abs_p95": 0.40565454959869385
+  },
+  "IMS_2.7ms_dagger_it4": {
+   "n": 4344,
+   "abs_median": 0.11905407905578613,
+   "abs_p95": 1.4586417436599721
+  },
+  "IMS_2.7ms_dagger_it5": {
+   "n": 4474,
+   "abs_median": 0.1309482753276825,
+   "abs_p95": 0.2742671325802802
+  },
+  "Melbourne_1.5ms_dagger_it1": {
+   "n": 7747,
+   "abs_median": 0.09261199086904526,
+   "abs_p95": 0.5803449809551238
+  },
+  "Melbourne_1.5ms_dagger_it2": {
+   "n": 7513,
+   "abs_median": 0.08912906050682068,
+   "abs_p95": 0.24170179963111876
+  },
+  "Melbourne_1.5ms_dagger_it3": {
+   "n": 7940,
+   "abs_median": 0.08536768704652786,
+   "abs_p95": 0.204023168236017
+  },
+  "Melbourne_1.5ms_dagger_it4": {
+   "n": 7758,
+   "abs_median": 0.07501570880413055,
+   "abs_p95": 0.17254844605922698
+  },
+  "Melbourne_1.5ms_dagger_it5": {
+   "n": 7878,
+   "abs_median": 0.06988565623760223,
+   "abs_p95": 0.1955097533762455
+  },
+  "Melbourne_2.1ms_dagger_it1": {
+   "n": 7746,
+   "abs_median": 0.09154707938432693,
+   "abs_p95": 0.5818764716386795
+  },
+  "Melbourne_2.1ms_dagger_it2": {
+   "n": 7509,
+   "abs_median": 0.08864995092153549,
+   "abs_p95": 0.24100084900856017
+  },
+  "Melbourne_2.1ms_dagger_it3": {
+   "n": 7941,
+   "abs_median": 0.08554407954216003,
+   "abs_p95": 0.20436540246009827
+  },
+  "Melbourne_2.1ms_dagger_it4": {
+   "n": 7761,
+   "abs_median": 0.0750373974442482,
+   "abs_p95": 0.17267748713493347
+  },
+  "Melbourne_2.1ms_dagger_it5": {
+   "n": 7877,
+   "abs_median": 0.06195279210805893,
+   "abs_p95": 0.17635293900966645
+  },
+  "Melbourne_2.7ms_dagger_it1": {
+   "n": 7749,
+   "abs_median": 0.09240423887968063,
+   "abs_p95": 0.5893022418022155
+  },
+  "Melbourne_2.7ms_dagger_it2": {
+   "n": 7508,
+   "abs_median": 0.08902963250875473,
+   "abs_p95": 0.24099269434809661
+  },
+  "Melbourne_2.7ms_dagger_it3": {
+   "n": 7923,
+   "abs_median": 0.0855942815542221,
+   "abs_p95": 0.20418602526187896
+  },
+  "Melbourne_2.7ms_dagger_it4": {
+   "n": 7758,
+   "abs_median": 0.07524274289608002,
+   "abs_p95": 0.17245087921619415
+  },
+  "Melbourne_2.7ms_dagger_it5": {
+   "n": 7850,
+   "abs_median": 0.06531627476215363,
+   "abs_p95": 0.1889313720166683
+  },
+  "Monza_1.5ms_dagger_it1": {
+   "n": 7237,
+   "abs_median": 0.09564987570047379,
+   "abs_p95": 0.28699166774749746
+  },
+  "Monza_1.5ms_dagger_it2": {
+   "n": 2585,
+   "abs_median": 0.0821612998843193,
+   "abs_p95": 1.2640326738357535
+  },
+  "Monza_1.5ms_dagger_it3": {
+   "n": 6960,
+   "abs_median": 0.10030432045459747,
+   "abs_p95": 0.22685891687870016
+  },
+  "Monza_1.5ms_dagger_it4": {
+   "n": 7312,
+   "abs_median": 0.09491107612848282,
+   "abs_p95": 0.26812286376953115
+  },
+  "Monza_1.5ms_dagger_it5": {
+   "n": 7258,
+   "abs_median": 0.06904780864715576,
+   "abs_p95": 0.28081667423248285
+  },
+  "Monza_2.1ms_dagger_it1": {
+   "n": 7243,
+   "abs_median": 0.0969957783818245,
+   "abs_p95": 0.29106807410716995
+  },
+  "Monza_2.1ms_dagger_it2": {
+   "n": 2594,
+   "abs_median": 0.0828162431716919,
+   "abs_p95": 1.2601975083351133
+  },
+  "Monza_2.1ms_dagger_it3": {
+   "n": 6975,
+   "abs_median": 0.09982717037200928,
+   "abs_p95": 0.22658925503492347
+  },
+  "Monza_2.1ms_dagger_it4": {
+   "n": 7307,
+   "abs_median": 0.09495838731527328,
+   "abs_p95": 0.274392494559288
+  },
+  "Monza_2.1ms_dagger_it5": {
+   "n": 7247,
+   "abs_median": 0.06815309822559357,
+   "abs_p95": 0.2809942573308944
+  },
+  "Monza_2.7ms_dagger_it1": {
+   "n": 7242,
+   "abs_median": 0.09523235261440277,
+   "abs_p95": 0.2892108693718909
+  },
+  "Monza_2.7ms_dagger_it2": {
+   "n": 2600,
+   "abs_median": 0.08747548609972,
+   "abs_p95": 1.2646003544330597
+  },
+  "Monza_2.7ms_dagger_it3": {
+   "n": 6959,
+   "abs_median": 0.10029634088277817,
+   "abs_p95": 0.22674315571784973
+  },
+  "Monza_2.7ms_dagger_it4": {
+   "n": 7305,
+   "abs_median": 0.09487509727478027,
+   "abs_p95": 0.2761437773704525
+  },
+  "Monza_2.7ms_dagger_it5": {
+   "n": 7251,
+   "abs_median": 0.06551048159599304,
+   "abs_p95": 0.29209335148334503
+  },
+  "Nuerburgring_1.5ms_dagger_it1": {
+   "n": 7480,
+   "abs_median": 0.12324396520853043,
+   "abs_p95": 0.6346694618463515
+  },
+  "Nuerburgring_1.5ms_dagger_it2": {
+   "n": 7231,
+   "abs_median": 0.09837962687015533,
+   "abs_p95": 0.28179872035980225
+  },
+  "Nuerburgring_1.5ms_dagger_it3": {
+   "n": 7683,
+   "abs_median": 0.10081420838832855,
+   "abs_p95": 0.23020054399967177
+  },
+  "Nuerburgring_1.5ms_dagger_it4": {
+   "n": 7556,
+   "abs_median": 0.09801594913005829,
+   "abs_p95": 0.21658221259713173
+  },
+  "Nuerburgring_1.5ms_dagger_it5": {
+   "n": 7574,
+   "abs_median": 0.06983925402164459,
+   "abs_p95": 0.19120251536369323
+  },
+  "Nuerburgring_2.1ms_dagger_it1": {
+   "n": 7477,
+   "abs_median": 0.12621065974235535,
+   "abs_p95": 0.6373239398002621
+  },
+  "Nuerburgring_2.1ms_dagger_it2": {
+   "n": 7243,
+   "abs_median": 0.0984954908490181,
+   "abs_p95": 0.28500854074954973
+  },
+  "Nuerburgring_2.1ms_dagger_it3": {
+   "n": 7679,
+   "abs_median": 0.10064150393009186,
+   "abs_p95": 0.2302880704402922
+  },
+  "Nuerburgring_2.1ms_dagger_it4": {
+   "n": 7552,
+   "abs_median": 0.09823063015937805,
+   "abs_p95": 0.2164969190955162
+  },
+  "Nuerburgring_2.1ms_dagger_it5": {
+   "n": 7565,
+   "abs_median": 0.06636293232440948,
+   "abs_p95": 0.2042183458805084
+  },
+  "Nuerburgring_2.7ms_dagger_it1": {
+   "n": 7477,
+   "abs_median": 0.12875278294086456,
+   "abs_p95": 0.6379592299461364
+  },
+  "Nuerburgring_2.7ms_dagger_it2": {
+   "n": 7242,
+   "abs_median": 0.09849844872951508,
+   "abs_p95": 0.28215159475803364
+  },
+  "Nuerburgring_2.7ms_dagger_it3": {
+   "n": 7677,
+   "abs_median": 0.10070915520191193,
+   "abs_p95": 0.23036775588989256
+  },
+  "Nuerburgring_2.7ms_dagger_it4": {
+   "n": 7554,
+   "abs_median": 0.09798668324947357,
+   "abs_p95": 0.21606613621115683
+  },
+  "Nuerburgring_2.7ms_dagger_it5": {
+   "n": 7591,
+   "abs_median": 0.06504254788160324,
+   "abs_p95": 0.1893114075064659
+  },
+  "Shanghai_1.5ms_dagger_it1": {
+   "n": 8263,
+   "abs_median": 0.14333093166351318,
+   "abs_p95": 0.3840233772993082
+  },
+  "Shanghai_1.5ms_dagger_it2": {
+   "n": 6199,
+   "abs_median": 0.09543580561876297,
+   "abs_p95": 0.9301874041557311
+  },
+  "Shanghai_1.5ms_dagger_it3": {
+   "n": 8438,
+   "abs_median": 0.09898413717746735,
+   "abs_p95": 1.4152384996414185
+  },
+  "Shanghai_1.5ms_dagger_it4": {
+   "n": 8090,
+   "abs_median": 0.06560024619102478,
+   "abs_p95": 0.2054525010287761
+  },
+  "Shanghai_1.5ms_dagger_it5": {
+   "n": 8488,
+   "abs_median": 0.055412136018276215,
+   "abs_p95": 0.20937907770276068
+  },
+  "Shanghai_2.1ms_dagger_it1": {
+   "n": 8276,
+   "abs_median": 0.14404810965061188,
+   "abs_p95": 0.38273196667432785
+  },
+  "Shanghai_2.1ms_dagger_it2": {
+   "n": 6209,
+   "abs_median": 0.09577785432338715,
+   "abs_p95": 0.932142961025237
+  },
+  "Shanghai_2.1ms_dagger_it3": {
+   "n": 8447,
+   "abs_median": 0.09864937514066696,
+   "abs_p95": 1.4154714345932007
+  },
+  "Shanghai_2.1ms_dagger_it4": {
+   "n": 8086,
+   "abs_median": 0.06554611027240753,
+   "abs_p95": 0.2056644670665264
+  },
+  "Shanghai_2.1ms_dagger_it5": {
+   "n": 8493,
+   "abs_median": 0.058917541056871414,
+   "abs_p95": 0.21444581449031813
+  },
+  "Shanghai_2.7ms_dagger_it1": {
+   "n": 8270,
+   "abs_median": 0.14394620060920715,
+   "abs_p95": 0.38265908360481243
+  },
+  "Shanghai_2.7ms_dagger_it2": {
+   "n": 6203,
+   "abs_median": 0.09578828513622284,
+   "abs_p95": 0.9279463529586788
+  },
+  "Shanghai_2.7ms_dagger_it3": {
+   "n": 8429,
+   "abs_median": 0.09857392311096191,
+   "abs_p95": 1.4142524003982544
+  },
+  "Shanghai_2.7ms_dagger_it4": {
+   "n": 8098,
+   "abs_median": 0.0655573382973671,
+   "abs_p95": 0.20565220192074768
+  },
+  "Shanghai_2.7ms_dagger_it5": {
+   "n": 8480,
+   "abs_median": 0.05841140076518059,
+   "abs_p95": 0.20610317736864084
+  }
+ }
+}

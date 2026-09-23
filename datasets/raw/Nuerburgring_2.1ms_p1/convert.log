@@ -1,0 +1,19 @@
+{
+  "bag": "/home/thesp/sp_codes/hunter_robot/datasets/raw/Nuerburgring_2.1ms_p1/bag",
+  "mode": "expert",
+  "scans_total": 17773,
+  "scans_pre_post_run_trimmed": 6,
+  "join_dt_ms": {
+    "median": 9.0,
+    "p95": 9.0,
+    "max": 10.0,
+    "slop": 15.0
+  },
+  "rows_rejected_slop": 0,
+  "rows_kept": 17767,
+  "episode_events_matched_exactly": 17767,
+  "rows_dropped_pinned_after_terminal": 0,
+  "respawn_jumps": 0,
+  "rows": 17767,
+  "out": "/home/thesp/sp_codes/hunter_robot/datasets/raw/Nuerburgring_2.1ms_p1/dataset.hdf5"
+}

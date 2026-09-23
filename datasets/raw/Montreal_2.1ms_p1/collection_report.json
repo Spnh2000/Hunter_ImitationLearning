@@ -1,0 +1,32 @@
+{
+  "track": "Montreal",
+  "speed_mps": 2.1,
+  "pass": "p1",
+  "spawn_s_frac": 0.0,
+  "laps_target": 2,
+  "status": "ok",
+  "wall_started": "2026-09-22T03:10:05",
+  "laps_wrapped": 2,
+  "distance_m": 1135.5,
+  "sim_duration_s": 591.8,
+  "track_length_m": 566.6,
+  "terminal": null,
+  "teardown": {
+    "recorder_439257": "sigint",
+    "launch": "sigint",
+    "group_sigkill": true,
+    "graph_empty": true
+  },
+  "wall_duration_s": 1748.2,
+  "bag_mb": 69.2,
+  "rows": 11835,
+  "join_dt_ms": {
+    "median": 9.0,
+    "p95": 10.0,
+    "max": 12.0,
+    "slop": 15.0
+  },
+  "rows_rejected_slop": 0,
+  "inspect_exit": 0,
+  "inspect_fails": []
+}

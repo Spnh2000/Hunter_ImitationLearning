@@ -1,0 +1,32 @@
+{
+  "track": "Monza",
+  "speed_mps": 1.5,
+  "pass": "p1",
+  "spawn_s_frac": 0.0,
+  "laps_target": 2,
+  "status": "ok",
+  "wall_started": "2026-09-21T20:23:25",
+  "laps_wrapped": 2,
+  "distance_m": 1781.4,
+  "sim_duration_s": 1197.6,
+  "track_length_m": 890.1,
+  "terminal": null,
+  "teardown": {
+    "recorder_416175": "sigint",
+    "launch": "sigint",
+    "group_sigkill": true,
+    "graph_empty": true
+  },
+  "wall_duration_s": 3600.9,
+  "bag_mb": 137.0,
+  "rows": 23950,
+  "join_dt_ms": {
+    "median": 9.0,
+    "p95": 10.0,
+    "max": 60.0,
+    "slop": 15.0
+  },
+  "rows_rejected_slop": 2,
+  "inspect_exit": 0,
+  "inspect_fails": []
+}
