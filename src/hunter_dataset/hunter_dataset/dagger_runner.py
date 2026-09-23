@@ -108,6 +108,7 @@ class DaggerNode(Node):
         self.sim_t0 = None
         self.terminal_pending = None
         self.lat_abs = []
+        self.student_speeds = []
 
     def _on_traj(self, m):
         self.track_len = float(m.total_length_m)
@@ -130,6 +131,7 @@ class DaggerNode(Node):
 
     def _on_student(self, m):
         self.n_student += 1
+        self.student_speeds.append(float(m.commanded_speed_mps))
 
     def _on_event(self, m):
         if m.terminal and self.terminal_pending is None:
@@ -209,7 +211,19 @@ def _rollout_once(node, track, tcfg, speed, it, ckpt, arch, laps, out_root, log,
             _write(report_path, report)
             return report
     target_m = laps * node.track_len
-    log(f'    driving; shadow and student both live; target {target_m:.0f} m')
+    # The student must be capped at THIS run's speed. If its commands exceed the
+    # cap the parameter never reached the node, and the whole rollout would be
+    # collected at the wrong speed with correctly-capped labels -- the exact
+    # silent failure that cost the first DAgger run. Checked here, loudly.
+    smax = max(node.student_speeds) if node.student_speeds else 0.0
+    if smax > speed + 0.05:
+        report.update(status='student_ignores_cap', student_max_speed=round(smax, 3))
+        log(f'  ABORT: student commanded {smax:.2f} m/s with cap {speed} -- parameter not reaching the node')
+        _teardown(proc, pgid, node, log, report)
+        _write(report_path, report)
+        return report
+    log(f'    driving; shadow and student both live; target {target_m:.0f} m; '
+        f'student max cmd {smax:.2f} <= cap {speed}')
 
     status = 'ok'
     stall_ref = (node.sim_t, node.dist_m)
@@ -361,7 +375,14 @@ def main():
             if not (a.skip_train and os.path.exists(ckpt)):
                 train(a.train_config, a.arch, a.data_dir, ckpt, a.seed, log)
             for t in tracks:
-                laps = a.laps if plan['tracks'][t]['role'] != 'ims' else min(a.laps, 1.0)
+                # IMS is an oval: geometrically repetitive, and the first DAgger
+                # run showed the student holding a steady ~0.44 m wide line
+                # there for a whole lap, so two thirds of its rows carried the
+                # expert's full-lock recovery label with the SAME sign. 66k such
+                # rows (13 % of the aggregate) is not what "IMS is capped at
+                # 1-2 laps" meant. Half a lap still covers both straights and
+                # both turn types.
+                laps = a.laps if plan['tracks'][t]['role'] != 'ims' else min(a.laps, 0.5)
                 for s in speeds:
                     r = rollout(node, t, plan['tracks'][t], s, it, ckpt, a.arch, laps, out_root, log,
                                 a.respawn_back_m, a.max_crashes, a.settle_s)

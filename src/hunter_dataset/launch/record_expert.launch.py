@@ -117,8 +117,26 @@ def _setup(context, *args, **kwargs):
     # the argument reached the manifest and the directory name and nothing
     # else -- every speed setting would have driven at 2.7 and been labelled
     # otherwise, which no inspection of the dataset alone can detect.
-    for node in ('trajectory_server', 'pid_tracker'):
+    controller = LaunchConfiguration('controller').perform(context)
+    # ...and into the section the TRACKER NODE actually reads. benchmark.launch.py
+    # names the tracker '<controller>_tracker', and rclcpp matches parameters by
+    # node name: with controller:=policy the node is 'policy_tracker', so a file
+    # containing only a 'pid_tracker' section hands it nothing and every
+    # parameter falls back to its compiled default. That is how the Phase 8
+    # DAgger rollouts ran: policy_tracker's max_speed_mps defaulted to 2.7 at
+    # every cap, so the student drove 2.43 m/s whether the run was labelled 1.5,
+    # 2.1 or 2.7 -- silently, because nothing downstream cross-checks the
+    # executed speed against the cap.
+    tracker_node = f'{controller}_tracker'
+    for node in ('trajectory_server', 'pid_tracker', tracker_node):
         effective.setdefault(node, {}).setdefault('ros__parameters', {})['max_speed_mps'] = float(max_speed)
+    if tracker_node != 'pid_tracker':
+        # give the policy tracker the vehicle geometry too, from the same file
+        src = effective.get('pid_tracker', {}).get('ros__parameters', {})
+        dst = effective[tracker_node]['ros__parameters']
+        for k in ('wheelbase_m', 'max_steering_rad', 'control_frequency_hz'):
+            if k in src:
+                dst.setdefault(k, src[k])
     effective_path = os.path.join(run_dir, 'effective_params.yaml')
     with open(effective_path, 'w') as f:
         yaml.safe_dump(effective, f, sort_keys=False)
@@ -133,7 +151,7 @@ def _setup(context, *args, **kwargs):
         'track_sha256': _sha256(track_file) if os.path.exists(track_file) else None,
         'max_speed_mps': float(max_speed),
         'spawn_s_frac': float(LaunchConfiguration('spawn_s_frac').perform(context)),
-        'controller_label': LaunchConfiguration('controller').perform(context),
+        'controller_label': controller,
         # DAgger provenance. action_source in the dataset is derived from the
         # bag (relabel present or not); these are the human-readable record.
         'shadow_expert': LaunchConfiguration('shadow_expert').perform(context).lower() == 'true',
