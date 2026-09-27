@@ -57,8 +57,18 @@ datasets/**/*.hdf5
 # directories under src/ hold the same files plus the 2x derivatives.
 /f1tenth_racetracks/
 
-# Phase 8 checkpoints: binaries, regenerable by il_train
-checkpoints/
+# Phase 8 checkpoints. The WORKING set is ignored: dense float binaries where
+# every retrain rewrites every byte, so git cannot delta-compress them and each
+# retrain would add its full size to history permanently. Two exceptions are
+# tracked, because "regenerable by il_train" is weaker than it sounds -- the
+# dataset is 3.7 GB and also untracked, and CPU reductions depend on thread
+# count, so a rerun reproduces the statistics but not the file:
+#   final/     the checkpoints the reported results were produced from (~25 MB)
+#   *.pt.json  the metrics behind every number in the docs (small, text, diffs)
+checkpoints/*
+!checkpoints/final/
+!checkpoints/*.pt.json
+checkpoints/final/*.train.log
 # collection runner logs (per-run provenance files ARE tracked)
 datasets/**/collect_*.log
 datasets/**/launch.log

@@ -1,0 +1,159 @@
+{
+ "val_laps": {
+  "loss": 6.30990180070512e-05,
+  "rmse_steer_rad": 0.005097688719973392,
+  "rmse_speed_mps": 0.0027820516360138976,
+  "n": 129
+ },
+ "val_tracks": {
+  "loss": NaN,
+  "rmse_steer_rad": NaN,
+  "rmse_speed_mps": NaN,
+  "n": 0
+ },
+ "best_val_laps_loss": 6.30990180070512e-05,
+ "epochs_run": 8,
+ "history": [
+  {
+   "epoch": 0,
+   "train_loss": 0.07481486839534299,
+   "val_laps": {
+    "loss": 0.0006024760659784079,
+    "rmse_steer_rad": 0.01500708012478558,
+    "rmse_speed_mps": 0.016932077586644723,
+    "n": 129
+   },
+   "val_tracks": {
+    "loss": NaN,
+    "rmse_steer_rad": NaN,
+    "rmse_speed_mps": NaN,
+    "n": 0
+   },
+   "wall_s": 0.4
+  },
+  {
+   "epoch": 1,
+   "train_loss": 0.01290056493462378,
+   "val_laps": {
+    "loss": 0.0001459551276639104,
+    "rmse_steer_rad": 0.001165945674940671,
+    "rmse_speed_mps": 0.0237404577543804,
+    "n": 129
+   },
+   "val_tracks": {
+    "loss": NaN,
+    "rmse_steer_rad": NaN,
+    "rmse_speed_mps": NaN,
+    "n": 0
+   },
+   "wall_s": 0.8
+  },
+  {
+   "epoch": 2,
+   "train_loss": 0.008488236921974436,
+   "val_laps": {
+    "loss": 0.0007451587589457631,
+    "rmse_steer_rad": 0.0017567526527399527,
+    "rmse_speed_mps": 0.05397456115519929,
+    "n": 129
+   },
+   "val_tracks": {
+    "loss": NaN,
+    "rmse_steer_rad": NaN,
+    "rmse_speed_mps": NaN,
+    "n": 0
+   },
+   "wall_s": 1.1
+  },
+  {
+   "epoch": 3,
+   "train_loss": 0.007097301674430244,
+   "val_laps": {
+    "loss": 0.0002605390618555248,
+    "rmse_steer_rad": 0.005579219000524058,
+    "rmse_speed_mps": 0.02719347819664926,
+    "n": 129
+   },
+   "val_tracks": {
+    "loss": NaN,
+    "rmse_steer_rad": NaN,
+    "rmse_speed_mps": NaN,
+    "n": 0
+   },
+   "wall_s": 1.5
+  },
+  {
+   "epoch": 4,
+   "train_loss": 0.005944561407934631,
+   "val_laps": {
+    "loss": 7.38939197617583e-05,
+    "rmse_steer_rad": 0.0018499894274184383,
+    "rmse_speed_mps": 0.016122916819518822,
+    "n": 129
+   },
+   "val_tracks": {
+    "loss": NaN,
+    "rmse_steer_rad": NaN,
+    "rmse_speed_mps": NaN,
+    "n": 0
+   },
+   "wall_s": 1.9
+  },
+  {
+   "epoch": 5,
+   "train_loss": 0.005182797250552046,
+   "val_laps": {
+    "loss": 6.30990180070512e-05,
+    "rmse_steer_rad": 0.005097688719973392,
+    "rmse_speed_mps": 0.0027820516360138976,
+    "n": 129
+   },
+   "val_tracks": {
+    "loss": NaN,
+    "rmse_steer_rad": NaN,
+    "rmse_speed_mps": NaN,
+    "n": 0
+   },
+   "wall_s": 2.2
+  },
+  {
+   "epoch": 6,
+   "train_loss": 0.004625463619983968,
+   "val_laps": {
+    "loss": 0.00014133563672658056,
+    "rmse_steer_rad": 0.004263165650035045,
+    "rmse_speed_mps": 0.019727677277105695,
+    "n": 129
+   },
+   "val_tracks": {
+    "loss": NaN,
+    "rmse_steer_rad": NaN,
+    "rmse_speed_mps": NaN,
+    "n": 0
+   },
+   "wall_s": 2.6
+  },
+  {
+   "epoch": 7,
+   "train_loss": 0.004401992916004557,
+   "val_laps": {
+    "loss": 0.00010820850729942322,
+    "rmse_steer_rad": 0.0024498756569353726,
+    "rmse_speed_mps": 0.01927333546204699,
+    "n": 129
+   },
+   "val_tracks": {
+    "loss": NaN,
+    "rmse_steer_rad": NaN,
+    "rmse_speed_mps": NaN,
+    "n": 0
+   },
+   "wall_s": 2.9
+  }
+ ],
+ "n_train": 7415,
+ "seed": 0,
+ "runs": [
+  "datasets/gate_run/Nuerburgring_2.7ms_p1/dataset.hdf5"
+ ]
+}

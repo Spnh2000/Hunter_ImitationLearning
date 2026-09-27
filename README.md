@@ -333,6 +333,8 @@ ros2 run hunter_dataset evaluate_policies --plan src/hunter_dataset/config/colle
 
 ---
 
+> **Just want to see it drive?** [`QUICKSTART.md`](QUICKSTART.md) — clone, build, and watch a trained policy lap a circuit it has never seen, using only its laser scanner. The trained policies are in the repo; no dataset download needed.
+
 ## Results
 
 Each policy drove the three circuits it had never seen — Silverstone, SaoPaulo,
