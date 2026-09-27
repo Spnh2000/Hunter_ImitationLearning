@@ -4,16 +4,16 @@ Edges are computed ONCE from training actions and then live in the
 checkpoint. A model whose outputs cannot be decoded without a separate file is
 a model that will be decoded wrong.
 
-Why quantile edges: steering spends ~80 % of its time within +-0.05 rad of
-zero on these tracks, and the physical limit is +-0.461. Uniform bins would
-put most of the resolution where nothing happens. Quantile edges are fine
-near zero and coarse toward the limits, with the outer two edges pinned to
-the physical bounds so out-of-distribution values still land in a bin.
-Speed is trimodal (three max_speed settings) with corner slowdowns below
-each mode; quantiles put bins where the mass is.
+Why NOT pure quantile edges: steering spends ~80 % of its time within
++-0.05 rad of zero, and the physical limit is +-0.461. Uniform bins would put
+most of the resolution where nothing happens -- but pure quantile bins
+collapse (see make_edges). The edges are a 50/50 blend of the two with a floor
+under the bin width, and the outer edges pinned to the physical bounds so
+out-of-distribution values still land in a bin.
 
 Bin centres are the MEAN training value inside each bin, not the midpoint:
 for a skewed bin (the outermost ones) the midpoint is systematically off.
+
 """
 from __future__ import annotations
 
@@ -22,20 +22,42 @@ import numpy as np
 from hunter_dataset.dataset_spec import ACTION_BOUNDS
 
 
-def make_edges(values: np.ndarray, n_bins: int, lo: float, hi: float) -> np.ndarray:
-    """n_bins + 1 strictly increasing edges in [lo, hi]."""
+def make_edges(values: np.ndarray, n_bins: int, lo: float, hi: float,
+               quantile_weight: float = 0.5, min_width_frac: float = 0.02) -> np.ndarray:
+    """n_bins + 1 strictly increasing edges in [lo, hi].
+
+    Pure quantile edges DEGENERATE on this data and did so in the first run:
+    the expert holds almost exactly straight for most of a lap, so the inner
+    quantiles pile up and the outer two bins absorb the rest of the range.
+    Measured with quantile_weight=1.0 on 186k expert rows: widest bin 9,931x
+    the narrowest, eight of 21 steering bins resolving below 6e-4 rad (finer
+    than the actuator), and the two end bins covering 84 % and 89 % of their
+    side -- so a 0.4 rad corner decoded to 0.106 rad. Speed was worse: 14 of
+    21 bins under 1e-3 m/s.
+
+    So blend the quantile edges with UNIFORM ones and put a floor under the
+    width. quantile_weight=0.5 keeps the useful property (finer near zero,
+    where the driving is) without letting any bin collapse.
+    min_width_frac is a fraction of the full range: 0.02 of +-0.461 rad is
+    0.018 rad, comfortably below the expert's own steering std (~0.05) and
+    comfortably above anything the steering cannot express.
+    """
     v = np.clip(values.astype(np.float64), lo, hi)
-    q = np.linspace(0.0, 1.0, n_bins + 1)[1:-1]
-    inner = np.quantile(v, q)
-    edges = np.concatenate([[lo], inner, [hi]])
-    # Duplicate quantiles happen when a value dominates (speed pinned at the
-    # cap for most of a lap). Nudge to keep edges strictly increasing so every
-    # bin has non-zero width; np.digitize needs monotonic edges.
-    eps = (hi - lo) * 1e-6
+    q = np.linspace(0.0, 1.0, n_bins + 1)
+    quant = np.quantile(v, q)
+    unif = np.linspace(lo, hi, n_bins + 1)
+    edges = quantile_weight * quant + (1.0 - quantile_weight) * unif
+    edges[0], edges[-1] = lo, hi
+
+    # Enforce the floor left-to-right, then rescale so the last edge still
+    # lands on hi -- pushing edges right without rescaling would walk the top
+    # bin past the physical bound.
+    min_w = (hi - lo) * min_width_frac
     for i in range(1, len(edges)):
-        if edges[i] <= edges[i - 1]:
-            edges[i] = edges[i - 1] + eps
-    edges[-1] = max(edges[-1], hi)
+        edges[i] = max(edges[i], edges[i - 1] + min_w)
+    if edges[-1] > hi:
+        edges = lo + (edges - lo) * (hi - lo) / (edges[-1] - lo)
+    edges[-1] = hi
     return edges
 
 

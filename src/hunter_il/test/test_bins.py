@@ -35,3 +35,28 @@ def test_dict_roundtrip():
     b = ActionBins.fit(_fake_actions(), 21, 21)
     b2 = ActionBins.from_dict(b.to_dict())
     assert np.allclose(b.steer_edges, b2.steer_edges) and np.allclose(b.speed_centres, b2.speed_centres)
+
+
+def test_no_bin_collapses_on_a_realistically_peaked_distribution():
+    """The check the original suite was missing.
+
+    Round-trip-within-one-bin-width and monotonic-pinned-edges are BOTH TRUE
+    of a degenerate set of edges, so the old tests passed while the widest
+    steering bin was 9,931x the narrowest and the two end bins covered 84 %
+    and 89 % of their side of the range. Assert the shape of the partition
+    itself, not just that encode/decode agree with it.
+    """
+    a = _fake_actions(50000)
+    b = ActionBins.fit(a, 21, 21)
+    for name, edges, span in (('steer', b.steer_edges, 0.922), ('speed', b.speed_edges, 2.81)):
+        w = np.diff(edges)
+        assert w.min() > 0.01 * span, f'{name}: bin of width {w.min():.5f} is below the actuator resolution'
+        assert w.max() / w.min() < 40, f'{name}: width ratio {w.max()/w.min():.0f} -- the partition has collapsed'
+        assert w.max() < 0.45 * span, f'{name}: one bin covers {w.max()/span:.0%} of the range'
+
+
+def test_still_finer_near_zero_than_at_the_limits():
+    """The blend must not throw away the property that motivated quantiles."""
+    b = ActionBins.fit(_fake_actions(50000), 21, 21)
+    w = np.diff(b.steer_edges)
+    assert b.resolution_near_zero() < w[0] and b.resolution_near_zero() < w[-1]
