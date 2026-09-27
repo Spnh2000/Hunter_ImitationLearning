@@ -235,11 +235,11 @@ the teacher itself as the benchmark to beat.
   "steer 0.037 radians", it picks one of 21 pre-set steering options. The idea:
   choosing from a menu can be an easier problem than producing an exact number.
   The menu is meant to be finer near straight-ahead, where almost all driving
-  happens. **It currently is not** — see defect 5 in Part 8, which has to be
+  happens. **It currently is not** — see defect 5 in Part 9, which has to be
   fixed before this arm of the experiment means anything.
 
 We did not just guess at these. Before training anything, we **measured**
-whether the current scan is enough (Part 7 below), and the measurement
+whether the current scan is enough (Part 8 below), and the measurement
 predicted that stacking would add nothing. That is the difference between a
 bake-off and a hypothesis test — and it is a good thing to say when presenting
 this work.
@@ -483,7 +483,87 @@ point of insisting on closed-loop evaluation.
 
 ---
 
-## Part 7 — Measuring the ceiling before training anything
+## Part 7 — The results
+
+The experiment finished on 2026-09-25. Every policy drove the three tracks it
+had never seen — Silverstone, São Paulo and Montreal — three times each, once
+per training seed. Nine runs per row.
+
+| policy | crashed | laps finished | true error | *offline score* |
+|---|---:|---:|---:|---:|
+| **the teacher** (PID, sees its position) | 0 % | 1.00 | **0.019 m** | — |
+| copying + plain network | **67 %** | 0.33 | 0.332 m | *19.4 mrad* |
+| copying + 3 stacked scans | **56 %** | 0.33 | 0.420 m | *19.7 mrad* |
+| copying + menu | **89 %** | 0.11 | 0.418 m | *25.8 mrad* |
+| **DAgger + plain network** | **0 %** | **1.00** | **0.168 m** | *108.9 mrad* |
+| DAgger + 3 stacked scans | 0 % | 1.00 | 0.195 m | *160.4 mrad* |
+| DAgger + menu | 11 % | 1.00 | 0.247 m | *287.5 mrad* |
+
+### The finding: the test scores were backwards
+
+Read the last column against the first. **Offline, the copying policies score
+5.6× better than the DAgger ones** — 19.4 against 108.9 milliradians of
+disagreement with the teacher.
+
+**In the simulator, the copying policies crash on 67 % of runs and the DAgger
+policies on none.**
+
+The measurement everyone reaches for first — how closely does the network
+reproduce the teacher's answers on held-out examples — ranked the policies in
+exactly the wrong order. Had we picked the winner by test score, we would have
+shipped the one that drives into walls.
+
+This is not a subtle margin or a statistical artefact. It is 67 % versus 0 %,
+consistent across three seeds and three circuits. And the reason is the whole
+of Part 3: a policy is judged on the states it *puts itself into*, and copying
+a perfect driver teaches nothing about those.
+
+> **If you present one slide, present this one.** It is the argument for
+> closed-loop evaluation, and it cost 40 hours of simulation to make
+> concretely rather than rhetorically.
+
+### The two questions, answered
+
+**Does the network architecture matter? No.** Plain and stacked are
+indistinguishable — 0.168 m against 0.195 m, both with zero crashes, and
+within seed noise offline too. **This was predicted before any training ran**,
+by the information-asymmetry measurement in Part 8: the current laser scan
+already determines the teacher's steering, so a history of scans has nothing
+left to contribute. A prediction that survives contact with the result is
+worth more than a horse race.
+
+**Does DAgger beat plain copying? Decisively.** 67 % → 0 % crash rate and 2×
+better tracking. The mechanism was visible while it happened: in round 1 the
+student crashed seven times, every one of them at Shanghai's tightest hairpin.
+After the teacher relabelled those states, **crashes went to zero and stayed
+there for all 43 remaining rollouts across five circuits.**
+
+### How good is "good"?
+
+The best student drives every unseen circuit without crashing, holding 0.168 m
+from the racing line. The teacher holds 0.019 m — but the teacher is reading
+its exact position from the simulator, which no real robot can do.
+
+So: roughly **nine times less accurate than a controller that cheats, using
+nothing but a laser scanner, on tracks it has never seen.** Whether that is
+good enough depends on the corridor: on Montreal, whose margin is 0.66 m, a
+0.17 m RMS error is comfortable but not generous.
+
+### What we would still like to know
+
+- The DAgger policies are *worse* against the teacher on held-out examples
+  (108.9 vs 19.4 mrad) while driving far better. The most likely reason is
+  that DAgger data ended up as 77 % of the training set and is dominated by
+  recovery situations, so the network gets very good at recovering and less
+  precise at ordinary driving. Rebalancing the mix is an obvious next
+  experiment and costs about an hour.
+- Round 2 of DAgger failed outright — all 15 rollouts ended stuck or crashing,
+  contributing no data. Rounds 3–5 recovered without intervention. It happened
+  in both runs of the experiment, so it is reproducible and unexplained.
+
+---
+
+## Part 8 — Measuring the ceiling before training anything
 
 Here is a question worth asking before spending days on training: **is this
 even possible?**
@@ -523,7 +603,7 @@ is what told us to feed the speed limit in.
 
 ---
 
-## Part 8 — What went wrong (the most useful part)
+## Part 9 — What went wrong (the most useful part)
 
 Five things went wrong. All five were **silent**: every program reported that it
 was healthy while producing wrong answers. If you take one professional lesson
@@ -669,7 +749,7 @@ why we recorded one lap before recording forty-five.
 
 ---
 
-## Part 9 — Explaining it to someone else
+## Part 10 — Explaining it to someone else
 
 ### In 30 seconds
 
@@ -724,7 +804,7 @@ different question: memorising a track it *has* seen.
 
 **"What if the laser simply isn't enough?"** We measured that before training
 anything — similar-looking scans get similar teacher actions (score 0.003–0.040
-where under 0.2 is healthy), so the information is there. See Part 7.
+where under 0.2 is healthy), so the information is there. See Part 8.
 
 ---
 

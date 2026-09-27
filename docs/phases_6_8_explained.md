@@ -486,49 +486,72 @@ after iteration 4 and saved about 4 hours.
 
 ---
 
-## 8. Where things stand
+## 8. Results (complete, 2026-09-25)
 
-**Done:**
+Closed-loop on the three held-out tracks (Silverstone, SaoPaulo, Montreal),
+3 seeds x 3 tracks = 9 runs per row, 1.5 laps or first terminal, ground-truth
+referenced via the unchanged `metrics_logger -> summary.csv` path.
 
-- Eight tracks converted, scaled and validated
-- Phase 6 dataset tooling, gate passed, **collection pass p1 complete** (24/24 runs)
-- Part D diagnostics on the full dataset
-- 9 BC checkpoints (3 architectures × 3 seeds), trained and validated offline
-- `policy_tracker`, `pid_shadow`, `dagger_runner`, `evaluate_policies`, the
-  `hunter_il` training harness — all built and smoke-tested closed-loop
+| policy | crash rate | laps | gt RMS lateral | offline steer RMSE (held-out tracks) |
+|---|---:|---:|---:|---:|
+| **pid** (expert, privileged) | 0 % | 1.00 | **0.019 m** | — |
+| bc + mlp | **67 %** | 0.33 | 0.332 m | 19.4 mrad |
+| bc + stacked | **56 %** | 0.33 | 0.420 m | 19.7 mrad |
+| bc + discrete † | **89 %** | 0.11 | 0.418 m | 25.8 mrad |
+| **dagger + mlp** | **0 %** | **1.00** | **0.168 m** | 108.9 mrad |
+| dagger + stacked | 0 % | 1.00 | 0.195 m | 160.4 mrad |
+| dagger + discrete † | 11 % | 1.00 | 0.247 m | 287.5 mrad |
 
-**Running now:** DAgger, 5 iterations, MLP student (~20 h).
+† the discrete rows were produced with the degenerate bins of §5.5 and are
+being regenerated; treat them as a lower bound on that architecture.
 
-**Then, automatically:** diagnostics with DAgger coverage → 9 DAgger
-checkpoints → closed-loop evaluation of PID + 18 policies on the three held-out
-tracks (~20 h) → the offline table beside it.
+### 8.1 Validation loss ranked the policies backwards
 
-**Early offline results (BC only, held-out tracks):**
+Offline, BC beats DAgger by **5.6x** on the held-out tracks (19.4 vs
+108.9 mrad). Closed-loop, BC crashes on **67 %** of runs and DAgger on **0 %**.
+The two rankings are opposite, and the margin is not marginal: nine runs per
+row, three seeds, three circuits, std on the DAgger rows 0.003-0.028 m.
 
-| architecture | held-out laps | held-out tracks |
-|---|---:|---:|
-| MLP | 7.4 mrad | 19.4 mrad |
-| frame-stacked K=3 | 7.4 mrad | 19.7 mrad |
-| discretised | 24.9 mrad | 25.8 mrad |
+This is the outcome §6.4 was built to detect, and the justification for the
+brief's insistence on closed-loop evaluation. Selecting on validation loss
+would have selected the policy that leaves the track.
 
-MLP and frame-stacking are indistinguishable — the stacking hypothesis is
-answered, and it agrees with the asymmetry measurement in §6.3: there is no
-hidden state for history to recover. Discretisation is ~3× worse offline — but that number is **not
-usable** until §5.5 is fixed: its bins are degenerate, so the discrete arm is
-currently measuring bad bins rather than discretisation.
+### 8.2 Axis 1 — architecture: no effect
 
-**Open items:**
+mlp 0.168 m vs stacked 0.195 m, both 0 % crashes, offline 19.4 vs 19.7 mrad.
+Indistinguishable within seed noise. **Predicted in advance** by the
+information-asymmetry measurement (§6.3): steering local/global action std is
+0.003-0.040, i.e. the current scan already determines the expert's steering,
+so frame stacking has no hidden state to recover. Hypothesis stated before the
+experiment, confirmed by it.
 
-- **Fix the discrete bins (§5.5) and retrain that arm** before the closed-loop
-  evaluation, or one third of axis 1 is uninterpretable. ~1 h CPU, no
-  simulation. This is the one open item that changes a result.
-- Per-wheel contact sensors (the chassis sensor misses wheel-first crashes).
-  Adding them later changes what `trigger` means across datasets, so it should
-  happen between collections, not during one.
-- Collection passes p2/p3 exist in the plan but will only run if training on p1
-  proves data-limited.
+### 8.3 Axis 2 — DAgger: decisive
 
----
+67 % -> 0 % crash rate; gt RMS 0.332 -> 0.168 m. The mechanism was observable
+during collection: iteration 1 produced 7 crashes, **all at Shanghai's 1.44 m
+hairpin** (s = 872-874 m, within 1 m across all three speed caps). After the
+shadow expert relabelled those states, crashes were **zero for all 43
+subsequent rollouts** across five tracks.
+
+### 8.4 Open questions
+
+- **DAgger degrades offline generalisation as it accumulates**: held-out-track
+  steer RMSE 19.0 (BC) -> 253.3 (it2) -> 98.4 mrad (it5), recovering but never
+  returning. DAgger rows are 77 % of the final training set (454k of 640k) and
+  are dominated by off-line states with large corrective labels. Rebalancing
+  the BC:DAgger mix is a ~1 h experiment and the obvious next step.
+- **Iteration 2 failed completely** — 15/15 rollouts `stuck` or
+  `too_many_crashes`, contributing no data; iterations 3-5 recovered
+  unaided. Reproduced across both runs of the experiment. Unexplained.
+- 58 of the planned 75 rollouts were banked (iteration 2's 15, plus 2 from
+  iteration 5).
+
+### 8.5 Still open
+
+- **Per-wheel contact sensors** — the chassis sensor misses wheel-first
+  crashes. Adding them changes what `trigger` means across datasets, so it
+  belongs between collections, not during one.
+- Collection passes p2/p3 were never needed; p1 alone was not data-limited.
 
 ## 9. Reproducing any of it
 

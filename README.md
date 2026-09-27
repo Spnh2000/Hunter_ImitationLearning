@@ -2,7 +2,7 @@
 
 Path-tracking, perception, imitation-learning and benchmarking stack for the [AgileX Hunter V2](https://www.agilex.ai/chassis/4) (Ackermann-steered 4-wheel rover), running on ROS 2 Jazzy and Gazebo Harmonic (gz-sim 8). The robot follows a reference line derived from [F1TENTH racetracks](https://github.com/f1tenth/f1tenth_racetracks) rebuilt as Gazebo worlds, while a metrics pipeline records per-run tracking accuracy against **ground truth** for comparing controllers.
 
-**Project status:** Phase 6 in progress (dataset tooling built and gated; full collection next).
+**Project status:** Phases 6–8 complete. A scan-only policy drives every held-out circuit without crashing; behaviour cloning crashes on 67 % of runs. See [Results](#results).
 
 | Phase | Contents | State |
 |---|---|---|
@@ -11,7 +11,7 @@ Path-tracking, perception, imitation-learning and benchmarking stack for the [Ag
 | 4 | Pure Pursuit / Stanley / LQR / MPC | **dropped** — PID is the permanent expert |
 | 5 | 2D LiDAR + IMU, dual EKF, AMCL localization, A/B pose-source switch | done |
 | 6 | Imitation dataset: schema, recorder, episode monitor, converter, inspector, collection runner | gate passed; pass p1 collecting |
-| 7–8 | **Pure imitation learning** — {BC, DAgger} × {MLP, frame-stacked MLP, discretised} = 6 policies, evaluated closed-loop against PID | harness, student, shadow PID, DAgger loop and evaluator built and smoke-tested; training waits on data |
+| 7–8 | **Pure imitation learning** — {BC, DAgger} × {MLP, frame-stacked MLP, discretised} = 6 policies, evaluated closed-loop against PID | **done** — see [Results](#results) |
 | 9 | Sim-to-sim policy transfer to the Hunter | pending |
 
 Phases 7–8 were originally offline RL; that is gone. The methodology is **privileged expert distillation** (Chen et al., *Learning by Cheating*, CoRL 2019): the PID expert drives on ground-truth pose, the student sees only `/scan`. Dropping Phase 4 has one consequence worth naming — the PID is now the ceiling every learned policy is measured against, so its tracking quality is a property of the dataset, not just a benchmark row.
@@ -330,6 +330,44 @@ ros2 run hunter_dataset dagger_runner --plan src/hunter_dataset/config/collectio
 ros2 run hunter_dataset evaluate_policies --plan src/hunter_dataset/config/collection_plan.yaml \
     --out results/eval_v1 --laps 2 pid checkpoints/*.pt
 ```
+
+---
+
+## Results
+
+Each policy drove the three circuits it had never seen — Silverstone, SaoPaulo,
+Montreal — three times each (one per training seed). Nine runs per row.
+
+| policy | crash rate | laps completed | true lateral RMS | *offline steer error* |
+|---|---:|---:|---:|---:|
+| **PID expert** (privileged: drives on ground-truth pose) | 0 % | 1.00 | **0.019 m** | — |
+| BC + MLP | **67 %** | 0.33 | 0.332 m | *19.4 mrad* |
+| BC + stacked K=3 | **56 %** | 0.33 | 0.420 m | *19.7 mrad* |
+| BC + discretised † | **89 %** | 0.11 | 0.418 m | *25.8 mrad* |
+| **DAgger + MLP** | **0 %** | **1.00** | **0.168 m** | *108.9 mrad* |
+| DAgger + stacked K=3 | 0 % | 1.00 | 0.195 m | *160.4 mrad* |
+| DAgger + discretised † | 11 % | 1.00 | 0.247 m | *287.5 mrad* |
+
+† produced with the degenerate bin edges described in the docs; being regenerated.
+
+**Validation loss ranked the policies backwards.** Offline, BC beats DAgger by
+5.6× (19.4 vs 108.9 mrad against the expert). Closed-loop, BC crashes on 67 % of
+runs and DAgger on none. Selecting by test score would have selected the policy
+that drives into walls — which is why the evaluation is closed-loop and why the
+offline table is reported beside it rather than instead of it.
+
+**Architecture made no difference**, as the information-asymmetry measurement
+predicted before any training: the current scan already determines the expert's
+steering (local/global action std 0.003–0.040), so frame stacking has no hidden
+state to recover.
+
+**DAgger's mechanism was observable.** Iteration 1 produced 7 crashes, all at
+Shanghai's 1.44 m hairpin. After the shadow expert relabelled those states,
+crashes were zero for all 43 subsequent rollouts across five tracks.
+
+Full analysis: [`docs/phases_6_8_simple.md`](docs/phases_6_8_simple.md) (plain
+language) · [`docs/phases_6_8_explained.md`](docs/phases_6_8_explained.md)
+(technical). Raw table: `results/eval_v1/eval.csv`.
 
 ---
 
