@@ -30,6 +30,32 @@ def _batches(n: int, batch: int, rng: np.random.Generator | None):
         yield order[i:i + batch]
 
 
+def _balanced_batches(is_dagger: np.ndarray, batch: int, rng: np.random.Generator):
+    """Epoch of BC rows plus an equal-sized fresh sample of DAgger rows.
+
+    Unbalanced, DAgger reached 77 % of the training set (454k of 640k) and the
+    model's agreement with the expert on ordinary states degraded as that share
+    grew -- held-out-track steering RMSE 19 mrad (BC only) to 98 mrad. DAgger
+    rows are dominated by off-line states carrying large corrective labels, so
+    the network fits the recovery regime at the expense of precision on the
+    line.
+
+    Every BC row is used each epoch; the DAgger half is resampled WITHOUT
+    replacement each epoch, so across 60 epochs the model still sees most of
+    the DAgger data -- just never more than half of any one batch.
+    """
+    bc = np.flatnonzero(~is_dagger)
+    dg = np.flatnonzero(is_dagger)
+    if len(bc) == 0 or len(dg) == 0:          # single-source data: nothing to balance
+        yield from _batches(len(is_dagger), batch, rng)
+        return
+    take = min(len(bc), len(dg))
+    sel = np.concatenate([rng.permutation(bc)[:take], rng.permutation(dg)[:take]])
+    order = rng.permutation(sel)
+    for i in range(0, len(order), batch):
+        yield order[i:i + batch]
+
+
 def _evaluate(model, arrays: StackedArrays, bins, batch=2048) -> dict:
     """Loss on the model's own objective, plus physical-unit RMSE per dim so
     the three architectures are comparable on one scale."""
@@ -81,6 +107,11 @@ def train(cfg: dict, arch: str, data_dir: str, out: str, seed: int, log=print) -
         bins = ActionBins.fit(tr.all_actions(), cfg.get('n_steer_bins', 21), cfg.get('n_speed_bins', 21))
         log(f'bins: {bins.n_steer} steer (width at 0: {bins.resolution_near_zero():.4f} rad), '
             f'{bins.n_speed} speed')
+    balance = bool(cfg.get('balance_bc_dagger', False))
+    if balance:
+        nd = int(tr.is_dagger.sum())
+        log(f'balance_bc_dagger=True: {len(tr)-nd} BC rows, {nd} DAgger rows '
+            f'({nd/max(len(tr),1):.0%}) -> 50/50 per epoch')
     model = models.build(arch, bins, bool(cfg.get('cap_input', True)))
     log(f'cap_input={model.cap_input} (speed cap as a policy input; see models.py)')
     opt = torch.optim.Adam(model.parameters(), lr=float(cfg.get('lr', 1e-3)),
@@ -93,7 +124,9 @@ def train(cfg: dict, arch: str, data_dir: str, out: str, seed: int, log=print) -
     for epoch in range(int(cfg['epochs'])):
         model.train()
         tot = 0.0
-        for flat in _batches(len(tr), batch, rng):
+        batches = (_balanced_batches(tr.is_dagger, batch, rng) if balance
+                   else _batches(len(tr), batch, rng))
+        for flat in batches:
             obs, act, cap = tr.batch(flat)
             obs_t, cap_t = torch.from_numpy(obs), torch.from_numpy(cap)
             if bins is not None:
@@ -132,7 +165,8 @@ def train(cfg: dict, arch: str, data_dir: str, out: str, seed: int, log=print) -
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     checkpoint.save(out, model, arch, bins, {'config': cfg, 'arch': arch, 'seed': seed,
                                               'data_dir': data_dir,
-                                              'dataset_tag': cfg.get('dataset_tag', 'all')}, final)
+                                              'dataset_tag': cfg.get('dataset_tag', 'all'),
+                                              'balance_bc_dagger': balance}, final)
     with open(out + '.json', 'w') as f:
         json.dump(final, f, indent=1)
     log(f'saved {out}: val_laps {final["val_laps"]} val_tracks {final["val_tracks"]}')
@@ -151,6 +185,8 @@ def main():
                     help="comma-separated substrings; only runs whose path contains one are used "
                          "(e.g. '_p1,_p2,_p3' = BC data only; empty = everything incl. DAgger)")
     ap.add_argument('--tag', default='', help='dataset tag stored in the checkpoint (bc | dagger)')
+    ap.add_argument('--balance', action='store_true',
+                    help='equal BC and DAgger rows per epoch instead of their natural 23/77 split')
     a = ap.parse_args()
     with open(a.config) as f:
         cfg = yaml.safe_load(f)
@@ -160,6 +196,8 @@ def main():
         cfg['include_runs'] = a.include.split(',')
     if a.tag:
         cfg['dataset_tag'] = a.tag
+    if a.balance:
+        cfg['balance_bc_dagger'] = True
     train(cfg, a.arch, a.data_dir, a.out, a.seed)
 
 

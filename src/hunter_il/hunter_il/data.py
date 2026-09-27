@@ -182,6 +182,13 @@ class StackedArrays:
         self.run_of = np.concatenate(self.run_of) if self.run_of else np.zeros(0, np.int32)
         self.idx = np.concatenate(self.idx) if self.idx else np.zeros((0, K), np.int64)
         self.n = len(self.run_of)
+        # Provenance per flat row: expert demonstration, or expert relabel of a
+        # state the student drove into. Needed to rebalance the mix -- DAgger
+        # rows reached 77 % of the training set in the first experiment, and
+        # the model's accuracy on ordinary expert states degraded as that share
+        # grew (held-out-track steer RMSE 19 -> 98 mrad).
+        dag = np.array([bool((r.action_source != spec.ACTION_SOURCE_EXPERT).any()) for r in runs])
+        self.is_dagger = dag[self.run_of] if self.n else np.zeros(0, bool)
 
     def __len__(self):
         return self.n
