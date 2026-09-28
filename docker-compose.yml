@@ -34,6 +34,19 @@ services:
       # :rw so `ros2 bag record` and waypoint_recorder can write back.
       - ./src:/ros_ws/src:rw
 
+      # Helper scripts (watch_policy.sh, show_results.sh, ...). Without this
+      # the container cannot see them at all -- they live outside src/.
+      - ./scripts:/ros_ws/scripts:ro
+
+      # Trained policies. Read-only: a container run should never rewrite the
+      # checkpoints the reported results came from.
+      - ./checkpoints:/ros_ws/checkpoints:ro
+
+      # Datasets and evaluation output, for il_diagnostics / il_train /
+      # evaluate_policies / show_results.sh inside the container.
+      - ./datasets:/ros_ws/datasets:rw
+      - ./results:/ros_ws/results:rw
+
       # Persist container colcon artifacts without sharing CMake caches or
       # symlink-install paths with native host builds.
       - hunter_build:/ros_ws/build:rw
@@ -62,6 +75,10 @@ services:
   # Usage:
   #   docker compose run --rm sim
   #   docker compose run --rm sim controller_type:=stanley
+  #
+  # To watch a trained policy drive, use the dev service with the script:
+  #   docker compose run --rm dev scripts/watch_policy.sh \
+  #       checkpoints/final/dagger_mlp_s0.pt SaoPaulo 2.1
   # ───────────────────────────────────────────────────────────────────────────
   sim:
     extends:

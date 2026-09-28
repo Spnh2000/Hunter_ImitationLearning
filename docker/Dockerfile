@@ -63,6 +63,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-jazzy-rosbag2-storage-mcap \
     ros-jazzy-rosbag2-py \
     \
+    # Phase 6 recorder: `topic_tools drop` throttles the contact sensor and
+    # wheel odometry for the bag (record_expert.launch.py). Missing from the
+    # image until the first in-container end-to-end run -- the host had it,
+    # so every earlier run succeeded and hid the gap.
+    ros-jazzy-topic-tools \
+    \
     # Robot description / URDF pipeline
     liburdfdom-tools \
     ros-jazzy-robot-state-publisher \

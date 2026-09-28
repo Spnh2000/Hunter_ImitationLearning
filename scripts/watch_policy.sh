@@ -14,12 +14,20 @@
 #
 # Runs on an isolated ROS domain and Gazebo partition, so it cannot disturb a
 # collection or DAgger run happening at the same time. Ctrl-C to stop.
+#
+# Works unchanged inside the container:
+#   docker compose run --rm dev scripts/watch_policy.sh \
+#       checkpoints/final/dagger_mlp_s0.pt SaoPaulo 2.1
+# docker-compose.yml mounts scripts/ and checkpoints/ for exactly this, and
+# `cd $(dirname $0)/..` lands on /ros_ws either way.
 set -e
 cd "$(dirname "$0")/.."
 CKPT="${1:?usage: watch_policy.sh <checkpoint|pid> [track] [speed_cap]}"
 TRACK="${2:-SaoPaulo}"
 CAP="${3:-2.1}"
-OUT="${WATCH_OUT:-/tmp/claude-1000/watch_runs}"
+# Default under the repo so it works identically on the host and in the
+# container (where /tmp is ephemeral and host scratch paths do not exist).
+OUT="${WATCH_OUT:-$PWD/results/watch_runs}"
 
 source /opt/ros/jazzy/setup.bash; source install/setup.bash
 unset CONDA_PREFIX CONDA_DEFAULT_ENV CONDA_PYTHON_EXE
