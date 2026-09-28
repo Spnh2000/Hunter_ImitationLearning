@@ -187,7 +187,7 @@ def _setup(context, *args, **kwargs):
 def generate_launch_description():
     args = [
         DeclareLaunchArgument('track_name', default_value='Monza'),
-        DeclareLaunchArgument('track_file', default_value='src/Monza/Monza_centerline_2x.csv'),
+        DeclareLaunchArgument('track_file', default_value='src/race_tracks/Monza/Monza_centerline_2x.csv'),
         DeclareLaunchArgument('params_file', default_value='monza_defaults.yaml'),
         DeclareLaunchArgument('world', default_value='Monza.sdf'),
         DeclareLaunchArgument('controller', default_value='pid'),

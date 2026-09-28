@@ -30,7 +30,7 @@ export ROS_DOMAIN_ID=9 GZ_PARTITION=watch          # isolated from any running j
 mkdir -p "$OUT"
 
 ARGS=(world:="$TRACK".sdf
-      track_file:=src/"$TRACK"/"$TRACK"_centerline_2x.csv
+      track_file:=src/race_tracks/"$TRACK"/"$TRACK"_centerline_2x.csv
       params_file:="$(echo "$TRACK" | tr 'A-Z' 'a-z')"_defaults.yaml
       track_name:="$TRACK"
       max_speed_mps:="$CAP"

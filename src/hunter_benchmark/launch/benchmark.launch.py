@@ -4,10 +4,10 @@ metrics_logger (+ optional rosbag2 recording), as one `ros2 launch` command.
 Usage (run from the workspace root, matching this repo's documented
 convention of `cd ~/sp_codes/hunter_robot` before `ros2 launch`):
   ros2 launch hunter_benchmark benchmark.launch.py \\
-      track_file:=src/IMS/IMS_centerline_2x.csv
+      track_file:=src/race_tracks/IMS/IMS_centerline_2x.csv
 
   ros2 launch hunter_benchmark benchmark.launch.py \\
-      track_file:=src/IMS/IMS_centerline_2x.csv controller:=stanley
+      track_file:=src/race_tracks/IMS/IMS_centerline_2x.csv controller:=stanley
 
 Use the *_2x* track files. IMS.sdf is generated at 2x scale (see
 src/scale_track.py): F1TENTH circuits are drawn for ~0.3 m-long 1/10-scale
@@ -25,8 +25,8 @@ input, so nothing else changes.
   # Optional: spawn the robot from a different file than the one tracked
   # (e.g. spawn centered while evaluating a merge-on transient).
   ros2 launch hunter_benchmark benchmark.launch.py \\
-      track_file:=src/IMS/IMS_raceline.csv \\
-      spawn_reference_file:=src/IMS/IMS_centerline.csv
+      track_file:=src/race_tracks/IMS/IMS_raceline.csv \\
+      spawn_reference_file:=src/race_tracks/IMS/IMS_centerline.csv
 
 Phase 4+ trackers plug in via the `controller` argument alone -- this
 launch file selects the tracker executable via the fixed
@@ -292,7 +292,7 @@ def _configure_run(context, *args, **kwargs):
 def generate_launch_description():
     declared_arguments = [
         DeclareLaunchArgument(
-            'track_file', default_value='src/IMS/IMS_centerline_2x.csv',
+            'track_file', default_value='src/race_tracks/IMS/IMS_centerline_2x.csv',
             description='Path to a centerline/raceline CSV. MUST match the scale the world SDF '
                         'was generated at -- the launch aborts if it does not. The 1x originals '
                         '(IMS_centerline.csv) are upstream F1TENTH reference data and do not '

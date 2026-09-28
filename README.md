@@ -52,7 +52,7 @@ ros2 launch hunter_benchmark benchmark.launch.py
 # Any of the eight tracks instead of the default IMS -- all four must agree
 ros2 launch hunter_benchmark benchmark.launch.py \
     world:=Nuerburgring.sdf \
-    track_file:=src/Nuerburgring/Nuerburgring_centerline_2x.csv \
+    track_file:=src/race_tracks/Nuerburgring/Nuerburgring_centerline_2x.csv \
     params_file:=nuerburgring_defaults.yaml track_name:=Nuerburgring
 
 # No display (CI, batch collection): Gazebo server-only, no RViz
@@ -168,9 +168,9 @@ Split for Phase 8: five tracks train, **three are fully held out** (never seen i
 
 | File | Role |
 |---|---|
-| `src/<Track>/<Track>_centerline.csv`, `_raceline.csv` | Upstream F1TENTH data, unmodified (Montreal and Shanghai ship no raceline) |
-| `src/<Track>/<Track>_centerline_2x.csv` | **The reference line actually driven** |
-| `src/<Track>/<Track>_map_2x.yaml` | Scaled map metadata used to build the world |
+| `src/race_tracks/<Track>/<Track>_centerline.csv`, `_raceline.csv` | Upstream F1TENTH data, unmodified (Montreal and Shanghai ship no raceline) |
+| `src/race_tracks/<Track>/<Track>_centerline_2x.csv` | **The reference line actually driven** |
+| `src/race_tracks/<Track>/<Track>_map_2x.yaml` | Scaled map metadata used to build the world |
 
 The **centerline** is the reference, not the raceline: the F1TENTH raceline hugs the walls by design, which a 0.745 m-wide robot cannot follow at any scale.
 
@@ -195,11 +195,11 @@ map --(AMCL)--> odom --(local EKF)--> base_link --(URDF)--> laser
 
 The **local EKF** fuses wheel odometry + IMU into a continuous `odom→base_link` at 50 Hz — no jumps, which is what a controller needs. The **global EKF** consumes the localizer's absolute pose (`/amcl_pose`) and publishes the smoothed `/odometry/filtered_map`; it deliberately does **not** publish TF — exactly one publisher per transform edge.
 
-**AMCL localizes against the track's own occupancy grid** (`src/<Track>/<Track>_map_2x.yaml`) — the same file `my_convert_track.py` consumed to build the Gazebo world, so the `map` frame coincides with the world frame by construction and no mapping run is needed. Measured true tracking error with AMCL on Monza: ~3 mm.
+**AMCL localizes against the track's own occupancy grid** (`src/race_tracks/<Track>/<Track>_map_2x.yaml`) — the same file `my_convert_track.py` consumed to build the Gazebo world, so the `map` frame coincides with the world frame by construction and no mapping run is needed. Measured true tracking error with AMCL on Monza: ~3 mm.
 
 ```bash
 ros2 launch hunter_benchmark benchmark.launch.py slam_mode:=localization pose_source:=slam_ekf \
-    world:=Monza.sdf track_file:=src/Monza/Monza_centerline_2x.csv \
+    world:=Monza.sdf track_file:=src/race_tracks/Monza/Monza_centerline_2x.csv \
     params_file:=monza_defaults.yaml track_name:=Monza
 ```
 
@@ -235,7 +235,7 @@ Three schema decisions are fixed and expensive to reverse once data exists, so t
 # Record: wraps benchmark.launch.py with the sensor bridges, episode_monitor, the
 # contact throttle and a 12-topic bag. Writes run_manifest.yaml BEFORE driving.
 ros2 launch hunter_dataset record_expert.launch.py \
-    track_name:=Nuerburgring track_file:=src/Nuerburgring/Nuerburgring_centerline_2x.csv \
+    track_name:=Nuerburgring track_file:=src/race_tracks/Nuerburgring/Nuerburgring_centerline_2x.csv \
     params_file:=nuerburgring_defaults.yaml world:=Nuerburgring.sdf \
     max_speed_mps:=2.7 run_id:=001 output_dir:=datasets/raw
 

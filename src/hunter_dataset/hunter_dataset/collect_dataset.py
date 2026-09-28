@@ -153,7 +153,7 @@ def _spin_for(node, seconds):
 def _resolve(track, cfg):
     return {
         'world': cfg.get('world', f'{track}.sdf'),
-        'track_file': cfg.get('track_file', f'src/{track}/{track}_centerline_2x.csv'),
+        'track_file': cfg.get('track_file', f'src/race_tracks/{track}/{track}_centerline_2x.csv'),
         'params': cfg.get('params', f'{track.lower()}_defaults.yaml'),
     }
 

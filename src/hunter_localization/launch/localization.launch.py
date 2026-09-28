@@ -118,7 +118,7 @@ def _setup(context, *args, **kwargs):
         if not map_yaml:
             raise RuntimeError(
                 'localization_backend:=amcl requires map_yaml (the track occupancy '
-                'grid, e.g. src/Monza/Monza_map_2x.yaml)')
+                'grid, e.g. src/race_tracks/Monza/Monza_map_2x.yaml)')
         amcl_cfg = os.path.join(pkg, 'config', 'amcl.yaml')
         actions.append(Node(
             package='nav2_map_server', executable='map_server', name='map_server',
@@ -258,7 +258,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'map_yaml', default_value='',
             description='Occupancy grid YAML for localization_backend:=amcl, e.g. '
-                        'src/Monza/Monza_map_2x.yaml. Must be the same map the world '
+                        'src/race_tracks/Monza/Monza_map_2x.yaml. Must be the same map the world '
                         'SDF was generated from.',
         ),
         DeclareLaunchArgument('initial_pose_x', default_value='0.0'),

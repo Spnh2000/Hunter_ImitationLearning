@@ -27,7 +27,7 @@ Scaling rules, per quantity:
 
 Usage:
   python3 scale_track.py IMS 2.0
-  python3 scale_track.py IMS 2.0 --track-dir src/IMS --suffix _2x
+  python3 scale_track.py IMS 2.0 --track-dir src/race_tracks/IMS --suffix _2x
 """
 import argparse
 import os
@@ -107,7 +107,9 @@ def main():
                         help='Output filename suffix (default: _<factor>x, e.g. _2x)')
     args = parser.parse_args()
 
-    track_dir = args.track_dir or os.path.join(os.path.dirname(os.path.abspath(__file__)), args.track)
+    # Tracks live in src/race_tracks/<Track>/; this script sits in src/.
+    track_dir = args.track_dir or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), 'race_tracks', args.track)
     suffix = args.suffix or f'_{args.factor:g}x'.replace('.', 'p')
 
     print(f'Scaling {args.track} by {args.factor}x in {track_dir}')
