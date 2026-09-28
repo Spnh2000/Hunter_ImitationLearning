@@ -494,10 +494,11 @@ per training seed. Nine runs per row.
 | **the teacher** (PID, sees its position) | 0 % | 1.00 | **0.019 m** | — |
 | copying + plain network | **67 %** | 0.33 | 0.332 m | *19.4 mrad* |
 | copying + 3 stacked scans | **56 %** | 0.33 | 0.420 m | *19.7 mrad* |
-| copying + menu | **89 %** | 0.11 | 0.418 m | *25.8 mrad* |
+| copying + menu | **67 %** | 0.33 | 0.407 m | *23.7 mrad* |
 | **DAgger + plain network** | **0 %** | **1.00** | **0.168 m** | *108.9 mrad* |
 | DAgger + 3 stacked scans | 0 % | 1.00 | 0.195 m | *160.4 mrad* |
-| DAgger + menu | 11 % | 1.00 | 0.247 m | *287.5 mrad* |
+| DAgger + menu | 0 % | 1.00 | 0.249 m | *284.7 mrad* |
+| **DAgger, rebalanced 50/50** | **0 %** | **1.00** | 0.175 m | *68.1 mrad* |
 
 ### The finding: the test scores were backwards
 
@@ -551,12 +552,15 @@ good enough depends on the corridor: on Montreal, whose margin is 0.66 m, a
 
 ### What we would still like to know
 
-- The DAgger policies are *worse* against the teacher on held-out examples
-  (108.9 vs 19.4 mrad) while driving far better. The most likely reason is
-  that DAgger data ended up as 77 % of the training set and is dominated by
-  recovery situations, so the network gets very good at recovering and less
-  precise at ordinary driving. Rebalancing the mix is an obvious next
-  experiment and costs about an hour.
+- **Why are the DAgger policies worse against the teacher (108.9 vs 19.4 mrad)
+  while driving so much better?** We tested this. DAgger data had grown to
+  75 % of the training set, so we retrained forcing an equal mix of the two
+  kinds of data in every batch. That **halved the offline error to 68.1 mrad
+  and kept the perfect crash record** — same zero crashes, same 0.17 m
+  accuracy. So most of the apparent collapse was the mix, not the data. But
+  68.1 is still 3.5× the copying policies' 19.4, so part of the trade is
+  genuine: a policy that can recover from mistakes is measurably less precise
+  at imitating a driver who never makes any.
 - Round 2 of DAgger failed outright — all 15 rollouts ended stuck or crashing,
   contributing no data. Rounds 3–5 recovered without intervention. It happened
   in both runs of the experiment, so it is reproducible and unexplained.
