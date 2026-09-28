@@ -333,6 +333,8 @@ ros2 run hunter_dataset evaluate_policies --plan src/hunter_dataset/config/colle
 
 ---
 
+> **The full story:** [`docs/PROJECT_REPORT.md`](docs/PROJECT_REPORT.md) — the whole project as a standalone report: problem, method, results, the eight silent defects, limitations and next steps. Start here if you want to understand or explain the work.
+>
 > **Just want to see it drive?** [`QUICKSTART.md`](QUICKSTART.md) — clone, build, and watch a trained policy lap a circuit it has never seen, using only its laser scanner. The trained policies are in the repo; no dataset download needed.
 
 ## Results

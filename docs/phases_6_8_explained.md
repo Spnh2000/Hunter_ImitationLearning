@@ -4,6 +4,8 @@
 Status as of 2026-09-23. This is the technical reference. For the same material
 in plain language, with no machine-learning background assumed, see
 [`phases_6_8_simple.md`](phases_6_8_simple.md).
+For the whole project as a standalone report — problem, method, results,
+limitations — see [`PROJECT_REPORT.md`](PROJECT_REPORT.md).
 
 Written to be readable without the surrounding conversation: what these phases are, why each decision was made, what has
 actually been measured, and what is still running.

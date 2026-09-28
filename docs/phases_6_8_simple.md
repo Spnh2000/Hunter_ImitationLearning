@@ -7,6 +7,8 @@ explain this to someone else.
 
 The dense reference version, with exact numbers and commands, is
 [`phases_6_8_explained.md`](phases_6_8_explained.md).
+For the whole project as a standalone report — problem, method, results,
+limitations — see [`PROJECT_REPORT.md`](PROJECT_REPORT.md).
 
 ---
 
