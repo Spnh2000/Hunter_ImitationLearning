@@ -1,0 +1,39 @@
+{
+  "track": "IMS",
+  "speed_mps": 2.1,
+  "pass": "dagger_it3",
+  "dagger_iteration": 3,
+  "checkpoint": "checkpoints/dagger_mlp_it3.pt",
+  "laps_target": 0.5,
+  "status": "ok",
+  "crashes": [],
+  "wall_started": "2026-09-24T07:09:26",
+  "distance_m": 294.7,
+  "laps_wrapped": 0,
+  "sim_duration_s": 143.1,
+  "lateral_abs_median_m": 0.0419,
+  "lateral_abs_p95_m": 0.1682,
+  "n_crashes": 0,
+  "teardown": {
+    "recorder_57698": "sigint",
+    "launch": "sigint",
+    "group_sigkill": true,
+    "graph_empty": true
+  },
+  "wall_duration_s": 392.8,
+  "rows": 2818,
+  "mode": "dagger",
+  "join_dt_ms": {
+    "median": 0.0,
+    "p95": 0.0,
+    "max": 0.0,
+    "slop": 15.0
+  },
+  "relabel_dt_ms": {
+    "median": 5.0,
+    "p95": 10.0,
+    "max": 10.0
+  },
+  "inspect_exit": 0,
+  "inspect_fails": []
+}

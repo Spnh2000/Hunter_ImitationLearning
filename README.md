@@ -18,49 +18,6 @@ Phases 7–8 were originally offline RL; that is gone. The methodology is **priv
 
 ---
 
-## Architecture
-
-```
-        <Track>_centerline_2x.csv          /scan   /imu   wheel odom    /bumper_contacts
-                    │                         │      │        │               │
-          ┌─────────▼──────────┐         ┌────▼──────▼────────▼────┐   ┌──────▼─────────┐
-          │ trajectory_server  │         │   hunter_localization   │   │ episode_monitor│
-          │ (hunter_trajectory)│         │   AMCL + 2x EKF         │   │ (hunter_control)│
-          └─────────┬──────────┘         └────────────┬────────────┘   └──────┬─────────┘
-                    │ /trajectory/reference            │ pose                  │ /episode/event
-                    │              ┌───────────────────┘                       │
-          ┌─────────▼──────────────▼─┐   pose_source: ground_truth             │
-          │   <controller>_tracker   │                | slam_ekf               │
-          │     (hunter_control)     │                | wheel_odom             │
-          └─────────┬────────────────┘                                         │
-                    ├──▶ /ackermann_like_controller/reference  (TwistStamped)  │
-                    └──▶ /tracking/diagnostics                                 │
-                              │                                                │
-                    ┌─────────▼──────────┐          ┌───────────────────────────▼──┐
-                    │   metrics_logger   │          │  record_expert.launch.py     │
-                    │ (hunter_benchmark) │          │  (hunter_dataset) → mcap bag │
-                    └────────────────────┘          │  convert_dataset → HDF5      │
-                       summary.csv                  │  inspect_dataset → PASS/FAIL │
-                                                    └──────────────────────────────┘
-```
-
-Adding a controller means adding one executable to `hunter_control` named `<controller>_tracker`; `trajectory_server`, the message contracts and the benchmark pipeline stay untouched. The Phase 8 `policy_tracker` (PyTorch inference on `/scan`) slots in the same way.
-
-### Packages
-
-| Package | Build type | Role |
-|---|---|---|
-| `hunter_description` | ament_cmake | URDF/xacro, ros2_control config, RViz layout |
-| `hunter_gazebo` | ament_cmake | Eight world SDFs, full simulation launch |
-| `hunter_msgs` | ament_cmake | `Waypoint`, `Trajectory`, `TrackingDiagnostics`, `EpisodeEvent` messages |
-| `hunter_trajectory` | ament_cmake (C++) | `trajectory_server` — CSV → reference trajectory |
-| `hunter_control` | ament_cmake (C++ + one Python script) | `pid_tracker`, `pid_shadow` (both over `PidCore`), `episode_monitor`, `policy_tracker` (Phase 8 student), shared geometry |
-| `hunter_benchmark` | ament_cmake | `metrics_logger`, `summarize_run.py`, benchmark launch, per-track params (8 files) |
-| `hunter_localization` | ament_cmake | Dual-EKF + AMCL configs and launch (Phase 5); slam_toolbox mapping |
-| `hunter_dataset` | ament_python | Phase 6: `dataset_spec.py` (schema, **zero ROS imports**), `record_expert.launch.py`, `convert_dataset`, `inspect_dataset`, `collect_dataset`; Phase 8: `dagger_runner`, `evaluate_policies` |
-| `hunter_il` | ament_python | Phase 8 training harness (PyTorch, **no ROS**): `data`, `models`, `bins`, `train`, `train_all`, `eval_offline`, `diagnostics` |
-
----
 
 ## Requirements
 

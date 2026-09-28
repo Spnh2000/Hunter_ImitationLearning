@@ -1,0 +1,23 @@
+{
+  "policy": "bc_mlp_s1",
+  "arch": "mlp",
+  "dataset": "bc",
+  "seed": 1,
+  "track": "Silverstone",
+  "max_speed_mps": 2.7,
+  "status": "crashed",
+  "crashed": 1,
+  "crash_s_m": 161.8,
+  "crash_trigger": 2,
+  "laps_completed": 0,
+  "distance_m": 161.8,
+  "sim_duration_s": 74.3,
+  "mean_speed_mps": 2.189,
+  "rms_gt_lateral_error_m": "0.3225",
+  "max_gt_lateral_error_m": "1.5756",
+  "mean_gt_lateral_error_m": "0.0411",
+  "steering_cmd_variance": "0.003372",
+  "steering_reversal_rate_hz": "0.0138",
+  "wall_s": 271.4,
+  "run_dir": "/home/thesp/sp_codes/hunter_robot/results/eval_v1/Silverstone_2.7ms_eval_bc_mlp_s1"
+}

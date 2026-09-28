@@ -1,0 +1,39 @@
+{
+  "track": "Melbourne",
+  "speed_mps": 1.5,
+  "pass": "dagger_it1",
+  "dagger_iteration": 1,
+  "checkpoint": "checkpoints/dagger_mlp_it1.pt",
+  "laps_target": 1.0,
+  "status": "ok",
+  "crashes": [],
+  "wall_started": "2026-09-23T18:17:40",
+  "distance_m": 946.7,
+  "laps_wrapped": 1,
+  "sim_duration_s": 639.1,
+  "lateral_abs_median_m": 0.0905,
+  "lateral_abs_p95_m": 0.2948,
+  "n_crashes": 0,
+  "teardown": {
+    "recorder_12001": "sigint",
+    "launch": "sigint",
+    "group_sigkill": true,
+    "graph_empty": true
+  },
+  "wall_duration_s": 1984.3,
+  "rows": 12767,
+  "mode": "dagger",
+  "join_dt_ms": {
+    "median": 0.0,
+    "p95": 0.0,
+    "max": 0.0,
+    "slop": 15.0
+  },
+  "relabel_dt_ms": {
+    "median": 1.0,
+    "p95": 10.0,
+    "max": 10.0
+  },
+  "inspect_exit": 0,
+  "inspect_fails": []
+}

@@ -77,3 +77,8 @@ datasets/**/launch.log
 results/*.log
 results/eval_*/**/bag/
 results/eval_*/**/launch.log
+
+# Documentation kept out of the repository.
+# NOTE: README.md and QUICKSTART.md link into docs/, so those links are dead
+# for anyone who clones. Either keep a copy elsewhere or strip the links.
+docs/

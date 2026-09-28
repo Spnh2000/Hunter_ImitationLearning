@@ -1,0 +1,1066 @@
+{
+ "val_laps": {
+  "loss": 0.5188506578705149,
+  "rmse_steer_rad": 0.011524555058614723,
+  "rmse_speed_mps": 0.051583586656620196,
+  "n": 67510
+ },
+ "val_tracks": {
+  "loss": 1.727249516303944,
+  "rmse_steer_rad": 0.022401048651863476,
+  "rmse_speed_mps": 0.13557629135981933,
+  "n": 138607
+ },
+ "best_val_laps_loss": 0.5188506578705149,
+ "epochs_run": 60,
+ "history": [
+  {
+   "epoch": 0,
+   "train_loss": 1.730388561486292,
+   "val_laps": {
+    "loss": 1.5078426766829955,
+    "rmse_steer_rad": 0.034436225783593455,
+    "rmse_speed_mps": 0.20212751105488516,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.861722898100381,
+    "rmse_steer_rad": 0.030456245192662646,
+    "rmse_speed_mps": 0.3188826446929666,
+    "n": 138607
+   },
+   "wall_s": 9.3
+  },
+  {
+   "epoch": 1,
+   "train_loss": 0.8420112147496217,
+   "val_laps": {
+    "loss": 1.0890299278548021,
+    "rmse_steer_rad": 0.025673806041683536,
+    "rmse_speed_mps": 0.11784632538290868,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.74915468355897,
+    "rmse_steer_rad": 0.028843945163650523,
+    "rmse_speed_mps": 0.2814231388942082,
+    "n": 138607
+   },
+   "wall_s": 19.0
+  },
+  {
+   "epoch": 2,
+   "train_loss": 0.7723851807415204,
+   "val_laps": {
+    "loss": 1.0033600790185269,
+    "rmse_steer_rad": 0.019646602072917938,
+    "rmse_speed_mps": 0.11000108139232126,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.7514565666568511,
+    "rmse_steer_rad": 0.025558981823162123,
+    "rmse_speed_mps": 0.27482903758512195,
+    "n": 138607
+   },
+   "wall_s": 29.4
+  },
+  {
+   "epoch": 3,
+   "train_loss": 0.6835214182604936,
+   "val_laps": {
+    "loss": 0.9478074409435139,
+    "rmse_steer_rad": 0.016266385633616133,
+    "rmse_speed_mps": 0.10238069856988917,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.6056905995827007,
+    "rmse_steer_rad": 0.023272431336891834,
+    "rmse_speed_mps": 0.22764476592518268,
+    "n": 138607
+   },
+   "wall_s": 39.5
+  },
+  {
+   "epoch": 4,
+   "train_loss": 0.648915155486376,
+   "val_laps": {
+    "loss": 0.9029784353657698,
+    "rmse_steer_rad": 0.016181211293674145,
+    "rmse_speed_mps": 0.09708196801861747,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.5659910432351853,
+    "rmse_steer_rad": 0.022497584412014247,
+    "rmse_speed_mps": 0.2171971515357982,
+    "n": 138607
+   },
+   "wall_s": 50.2
+  },
+  {
+   "epoch": 5,
+   "train_loss": 0.61969985691056,
+   "val_laps": {
+    "loss": 0.8630590881264452,
+    "rmse_steer_rad": 0.014256443649252952,
+    "rmse_speed_mps": 0.0965632988502791,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.5801106933387832,
+    "rmse_steer_rad": 0.021794097272407893,
+    "rmse_speed_mps": 0.21656601100721476,
+    "n": 138607
+   },
+   "wall_s": 60.4
+  },
+  {
+   "epoch": 6,
+   "train_loss": 0.5960875353051526,
+   "val_laps": {
+    "loss": 0.8310034743310293,
+    "rmse_steer_rad": 0.013986015298802489,
+    "rmse_speed_mps": 0.08927814960599427,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.4886186299463056,
+    "rmse_steer_rad": 0.021268380898909457,
+    "rmse_speed_mps": 0.20377402315643448,
+    "n": 138607
+   },
+   "wall_s": 70.5
+  },
+  {
+   "epoch": 7,
+   "train_loss": 0.6202831440798313,
+   "val_laps": {
+    "loss": 0.8199570316223723,
+    "rmse_steer_rad": 0.013945830207487936,
+    "rmse_speed_mps": 0.09450948412749617,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.531716036096659,
+    "rmse_steer_rad": 0.021124541616580044,
+    "rmse_speed_mps": 0.2049448317386247,
+    "n": 138607
+   },
+   "wall_s": 80.9
+  },
+  {
+   "epoch": 8,
+   "train_loss": 0.5534388905413857,
+   "val_laps": {
+    "loss": 0.8094936471606269,
+    "rmse_steer_rad": 0.014777679798546939,
+    "rmse_speed_mps": 0.08453635373749842,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.450855675056161,
+    "rmse_steer_rad": 0.020676201962333298,
+    "rmse_speed_mps": 0.18297411114744178,
+    "n": 138607
+   },
+   "wall_s": 91.0
+  },
+  {
+   "epoch": 9,
+   "train_loss": 0.5394362000170938,
+   "val_laps": {
+    "loss": 0.7811180789935784,
+    "rmse_steer_rad": 0.013590680017770208,
+    "rmse_speed_mps": 0.08398454883883329,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.4427514512451511,
+    "rmse_steer_rad": 0.020300182928527023,
+    "rmse_speed_mps": 0.18792341592644454,
+    "n": 138607
+   },
+   "wall_s": 104.6
+  },
+  {
+   "epoch": 10,
+   "train_loss": 0.5315886766703641,
+   "val_laps": {
+    "loss": 0.7501221148248355,
+    "rmse_steer_rad": 0.01296898088717835,
+    "rmse_speed_mps": 0.07804985602245697,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.4156525672727873,
+    "rmse_steer_rad": 0.02123993575003744,
+    "rmse_speed_mps": 0.18179119824775875,
+    "n": 138607
+   },
+   "wall_s": 115.9
+  },
+  {
+   "epoch": 11,
+   "train_loss": 0.5211871853126736,
+   "val_laps": {
+    "loss": 0.7422080269249752,
+    "rmse_steer_rad": 0.012509799958393237,
+    "rmse_speed_mps": 0.08113120864247697,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.3763503093856126,
+    "rmse_steer_rad": 0.020918841729680147,
+    "rmse_speed_mps": 0.1674559617903776,
+    "n": 138607
+   },
+   "wall_s": 125.9
+  },
+  {
+   "epoch": 12,
+   "train_loss": 0.512197933535411,
+   "val_laps": {
+    "loss": 0.7367861769955488,
+    "rmse_steer_rad": 0.012164042875344078,
+    "rmse_speed_mps": 0.07408458050632916,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.4455523159080326,
+    "rmse_steer_rad": 0.02149627979710032,
+    "rmse_speed_mps": 0.16647566906563135,
+    "n": 138607
+   },
+   "wall_s": 135.8
+  },
+  {
+   "epoch": 13,
+   "train_loss": 0.5007669884510648,
+   "val_laps": {
+    "loss": 0.7142571141941956,
+    "rmse_steer_rad": 0.0127789988232113,
+    "rmse_speed_mps": 0.07556549918012176,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.5941400016584117,
+    "rmse_steer_rad": 0.023433235924464384,
+    "rmse_speed_mps": 0.1950656410555319,
+    "n": 138607
+   },
+   "wall_s": 147.0
+  },
+  {
+   "epoch": 14,
+   "train_loss": 0.4928626943656999,
+   "val_laps": {
+    "loss": 0.6887371812082541,
+    "rmse_steer_rad": 0.013263858537963264,
+    "rmse_speed_mps": 0.07036407239645635,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.3558036166193392,
+    "rmse_steer_rad": 0.020881449672841314,
+    "rmse_speed_mps": 0.1506688061697564,
+    "n": 138607
+   },
+   "wall_s": 158.1
+  },
+  {
+   "epoch": 15,
+   "train_loss": 0.644779231112703,
+   "val_laps": {
+    "loss": 0.7051232825948687,
+    "rmse_steer_rad": 0.012453790951650653,
+    "rmse_speed_mps": 0.07530686699628014,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.4405906679939777,
+    "rmse_steer_rad": 0.02138141755402123,
+    "rmse_speed_mps": 0.16724487009934644,
+    "n": 138607
+   },
+   "wall_s": 168.6
+  },
+  {
+   "epoch": 16,
+   "train_loss": 0.47701150750404137,
+   "val_laps": {
+    "loss": 0.6862738131399667,
+    "rmse_steer_rad": 0.012037462953584474,
+    "rmse_speed_mps": 0.06597639711567461,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.3718064168315096,
+    "rmse_steer_rad": 0.02101386596343874,
+    "rmse_speed_mps": 0.15586980789673124,
+    "n": 138607
+   },
+   "wall_s": 177.9
+  },
+  {
+   "epoch": 17,
+   "train_loss": 0.47374116604812905,
+   "val_laps": {
+    "loss": 0.6560351500598047,
+    "rmse_steer_rad": 0.012470519622675154,
+    "rmse_speed_mps": 0.0669301182280975,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.4489483415774727,
+    "rmse_steer_rad": 0.022209254991338967,
+    "rmse_speed_mps": 0.16167556756818618,
+    "n": 138607
+   },
+   "wall_s": 187.8
+  },
+  {
+   "epoch": 18,
+   "train_loss": 0.46725706129433614,
+   "val_laps": {
+    "loss": 0.6904713775789874,
+    "rmse_steer_rad": 0.013036582648838441,
+    "rmse_speed_mps": 0.07299894386796454,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.5899543825782108,
+    "rmse_steer_rad": 0.02390289442322583,
+    "rmse_speed_mps": 0.17641865820818545,
+    "n": 138607
+   },
+   "wall_s": 197.6
+  },
+  {
+   "epoch": 19,
+   "train_loss": 0.4634208248599859,
+   "val_laps": {
+    "loss": 0.6646127950375282,
+    "rmse_steer_rad": 0.011796591115074109,
+    "rmse_speed_mps": 0.06444876445950051,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.449076977963821,
+    "rmse_steer_rad": 0.021661295574373567,
+    "rmse_speed_mps": 0.15655291376484284,
+    "n": 138607
+   },
+   "wall_s": 207.6
+  },
+  {
+   "epoch": 20,
+   "train_loss": 0.4587862480718149,
+   "val_laps": {
+    "loss": 0.6470500098601251,
+    "rmse_steer_rad": 0.011653655576110273,
+    "rmse_speed_mps": 0.0651456910370668,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.519743268410902,
+    "rmse_steer_rad": 0.02211226235028486,
+    "rmse_speed_mps": 0.15804632627746223,
+    "n": 138607
+   },
+   "wall_s": 217.2
+  },
+  {
+   "epoch": 21,
+   "train_loss": 0.4503132729273972,
+   "val_laps": {
+    "loss": 0.6589763457961232,
+    "rmse_steer_rad": 0.011979522851928357,
+    "rmse_speed_mps": 0.06454524532572738,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.465550671696643,
+    "rmse_steer_rad": 0.020754027615135343,
+    "rmse_speed_mps": 0.1554831364425503,
+    "n": 138607
+   },
+   "wall_s": 226.8
+  },
+  {
+   "epoch": 22,
+   "train_loss": 0.4500055439383129,
+   "val_laps": {
+    "loss": 0.6429209144199147,
+    "rmse_steer_rad": 0.012025992537156508,
+    "rmse_speed_mps": 0.060483503091162155,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.5415655081326498,
+    "rmse_steer_rad": 0.022130515247013097,
+    "rmse_speed_mps": 0.15933774319039318,
+    "n": 138607
+   },
+   "wall_s": 239.5
+  },
+  {
+   "epoch": 23,
+   "train_loss": 0.4446443533824407,
+   "val_laps": {
+    "loss": 0.6287640987043291,
+    "rmse_steer_rad": 0.01189135712624125,
+    "rmse_speed_mps": 0.0608137651954595,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.443930088549598,
+    "rmse_steer_rad": 0.022371067702733536,
+    "rmse_speed_mps": 0.14474694008432842,
+    "n": 138607
+   },
+   "wall_s": 249.6
+  },
+  {
+   "epoch": 24,
+   "train_loss": 0.4417180418309593,
+   "val_laps": {
+    "loss": 0.6404366144991296,
+    "rmse_steer_rad": 0.01158678680558234,
+    "rmse_speed_mps": 0.064573584621686,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.496551835228284,
+    "rmse_steer_rad": 0.022074910825271136,
+    "rmse_speed_mps": 0.1493618811731911,
+    "n": 138607
+   },
+   "wall_s": 259.3
+  },
+  {
+   "epoch": 25,
+   "train_loss": 0.4343661390309978,
+   "val_laps": {
+    "loss": 0.60690216773299,
+    "rmse_steer_rad": 0.011719040427265251,
+    "rmse_speed_mps": 0.05949984273317156,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.518384095483018,
+    "rmse_steer_rad": 0.02200533990875606,
+    "rmse_speed_mps": 0.1445781003754071,
+    "n": 138607
+   },
+   "wall_s": 269.2
+  },
+  {
+   "epoch": 26,
+   "train_loss": 0.43088945356429637,
+   "val_laps": {
+    "loss": 0.662796553727027,
+    "rmse_steer_rad": 0.012495786345928274,
+    "rmse_speed_mps": 0.06145941263376421,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.4848967813386427,
+    "rmse_steer_rad": 0.021606619462136975,
+    "rmse_speed_mps": 0.1469469047362783,
+    "n": 138607
+   },
+   "wall_s": 279.1
+  },
+  {
+   "epoch": 27,
+   "train_loss": 0.4248843336959995,
+   "val_laps": {
+    "loss": 0.6011044373743235,
+    "rmse_steer_rad": 0.012646655729114642,
+    "rmse_speed_mps": 0.05732478880054543,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.5334943600810464,
+    "rmse_steer_rad": 0.023127356966806564,
+    "rmse_speed_mps": 0.13401859175916722,
+    "n": 138607
+   },
+   "wall_s": 289.2
+  },
+  {
+   "epoch": 28,
+   "train_loss": 0.5385042429751028,
+   "val_laps": {
+    "loss": 0.6536806748665945,
+    "rmse_steer_rad": 0.012653194188342909,
+    "rmse_speed_mps": 0.07228879011299086,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.4115104160121552,
+    "rmse_steer_rad": 0.02151585511999255,
+    "rmse_speed_mps": 0.14138163247000793,
+    "n": 138607
+   },
+   "wall_s": 298.9
+  },
+  {
+   "epoch": 29,
+   "train_loss": 0.4145815104122932,
+   "val_laps": {
+    "loss": 0.593529329558087,
+    "rmse_steer_rad": 0.013414941456392361,
+    "rmse_speed_mps": 0.05817431144923383,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.5845964970286255,
+    "rmse_steer_rad": 0.024265853537460313,
+    "rmse_speed_mps": 0.14318583474532146,
+    "n": 138607
+   },
+   "wall_s": 308.7
+  },
+  {
+   "epoch": 30,
+   "train_loss": 0.4077228099983048,
+   "val_laps": {
+    "loss": 0.5804479125658153,
+    "rmse_steer_rad": 0.011408386476281,
+    "rmse_speed_mps": 0.05699697726640627,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.5271176524015293,
+    "rmse_steer_rad": 0.022219510946734876,
+    "rmse_speed_mps": 0.14166710937228502,
+    "n": 138607
+   },
+   "wall_s": 318.6
+  },
+  {
+   "epoch": 31,
+   "train_loss": 0.40462111921461086,
+   "val_laps": {
+    "loss": 0.5957255182593262,
+    "rmse_steer_rad": 0.01200858800548402,
+    "rmse_speed_mps": 0.05852844624447603,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.5349909982395944,
+    "rmse_steer_rad": 0.021714750834104648,
+    "rmse_speed_mps": 0.13869547056446993,
+    "n": 138607
+   },
+   "wall_s": 329.5
+  },
+  {
+   "epoch": 32,
+   "train_loss": 0.40194653983391854,
+   "val_laps": {
+    "loss": 0.5877139431629299,
+    "rmse_steer_rad": 0.012736993547239133,
+    "rmse_speed_mps": 0.05788822668763115,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.6423681621952917,
+    "rmse_steer_rad": 0.023844497931053,
+    "rmse_speed_mps": 0.14388591807311024,
+    "n": 138607
+   },
+   "wall_s": 338.8
+  },
+  {
+   "epoch": 33,
+   "train_loss": 0.4004708432167574,
+   "val_laps": {
+    "loss": 0.5740871349646769,
+    "rmse_steer_rad": 0.011993055001014233,
+    "rmse_speed_mps": 0.05507809119798181,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.5490732842917598,
+    "rmse_steer_rad": 0.02212374820704334,
+    "rmse_speed_mps": 0.13894974770882554,
+    "n": 138607
+   },
+   "wall_s": 348.4
+  },
+  {
+   "epoch": 34,
+   "train_loss": 0.3975279822515813,
+   "val_laps": {
+    "loss": 0.5693064986502854,
+    "rmse_steer_rad": 0.01151272752314191,
+    "rmse_speed_mps": 0.05560071063131072,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.6597804839795776,
+    "rmse_steer_rad": 0.023114261743943383,
+    "rmse_speed_mps": 0.13924056246581004,
+    "n": 138607
+   },
+   "wall_s": 359.2
+  },
+  {
+   "epoch": 35,
+   "train_loss": 0.3938727334381159,
+   "val_laps": {
+    "loss": 0.6020461282912334,
+    "rmse_steer_rad": 0.011306215646567383,
+    "rmse_speed_mps": 0.05728767986447673,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.6021378271323807,
+    "rmse_steer_rad": 0.02097219752136776,
+    "rmse_speed_mps": 0.1460618008418068,
+    "n": 138607
+   },
+   "wall_s": 371.3
+  },
+  {
+   "epoch": 36,
+   "train_loss": 0.39064804780120016,
+   "val_laps": {
+    "loss": 0.5600311282616582,
+    "rmse_steer_rad": 0.01233736471587955,
+    "rmse_speed_mps": 0.053929770226271344,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.6160254480553118,
+    "rmse_steer_rad": 0.023127034668929757,
+    "rmse_speed_mps": 0.13446489009050114,
+    "n": 138607
+   },
+   "wall_s": 389.5
+  },
+  {
+   "epoch": 37,
+   "train_loss": 0.3886792474499584,
+   "val_laps": {
+    "loss": 0.5632810769028495,
+    "rmse_steer_rad": 0.01133382465841411,
+    "rmse_speed_mps": 0.05533643917312664,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.5739325957957526,
+    "rmse_steer_rad": 0.021531438652964054,
+    "rmse_speed_mps": 0.12676306719336441,
+    "n": 138607
+   },
+   "wall_s": 406.6
+  },
+  {
+   "epoch": 38,
+   "train_loss": 0.38631750244803664,
+   "val_laps": {
+    "loss": 0.5594074939184057,
+    "rmse_steer_rad": 0.011703845655349949,
+    "rmse_speed_mps": 0.05621570623955212,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.631387269782369,
+    "rmse_steer_rad": 0.022561163339023037,
+    "rmse_speed_mps": 0.132567325084197,
+    "n": 138607
+   },
+   "wall_s": 418.0
+  },
+  {
+   "epoch": 39,
+   "train_loss": 0.38235398399469844,
+   "val_laps": {
+    "loss": 0.5553940171330898,
+    "rmse_steer_rad": 0.011672315480325924,
+    "rmse_speed_mps": 0.05539940558607778,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.6277596595071329,
+    "rmse_steer_rad": 0.02131888510829951,
+    "rmse_speed_mps": 0.1391386971542197,
+    "n": 138607
+   },
+   "wall_s": 429.2
+  },
+  {
+   "epoch": 40,
+   "train_loss": 0.37996490840073294,
+   "val_laps": {
+    "loss": 0.5478144514668414,
+    "rmse_steer_rad": 0.010880323962866659,
+    "rmse_speed_mps": 0.05367273941447394,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.6558997671306253,
+    "rmse_steer_rad": 0.021684110070051568,
+    "rmse_speed_mps": 0.13880263915553234,
+    "n": 138607
+   },
+   "wall_s": 440.8
+  },
+  {
+   "epoch": 41,
+   "train_loss": 0.37674891070775807,
+   "val_laps": {
+    "loss": 0.5659266089707935,
+    "rmse_steer_rad": 0.011715456309437669,
+    "rmse_speed_mps": 0.055455778132482286,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.671792147638746,
+    "rmse_steer_rad": 0.021709180141722576,
+    "rmse_speed_mps": 0.13948655259799053,
+    "n": 138607
+   },
+   "wall_s": 451.1
+  },
+  {
+   "epoch": 42,
+   "train_loss": 0.37464541336480095,
+   "val_laps": {
+    "loss": 0.5476216580210536,
+    "rmse_steer_rad": 0.011311696661675072,
+    "rmse_speed_mps": 0.05417877924950737,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.664171528845293,
+    "rmse_steer_rad": 0.02167369967520693,
+    "rmse_speed_mps": 0.1282199526099893,
+    "n": 138607
+   },
+   "wall_s": 461.9
+  },
+  {
+   "epoch": 43,
+   "train_loss": 0.37134477512564157,
+   "val_laps": {
+    "loss": 0.5424157812098824,
+    "rmse_steer_rad": 0.012111372334138906,
+    "rmse_speed_mps": 0.05326203093214867,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.6796748370315544,
+    "rmse_steer_rad": 0.023011721421631593,
+    "rmse_speed_mps": 0.13550309317619957,
+    "n": 138607
+   },
+   "wall_s": 472.2
+  },
+  {
+   "epoch": 44,
+   "train_loss": 0.3705249463054517,
+   "val_laps": {
+    "loss": 0.5355071083419748,
+    "rmse_steer_rad": 0.01145519870151409,
+    "rmse_speed_mps": 0.052075658336647596,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.7042233517473602,
+    "rmse_steer_rad": 0.022215466144458667,
+    "rmse_speed_mps": 0.13545715037811862,
+    "n": 138607
+   },
+   "wall_s": 484.4
+  },
+  {
+   "epoch": 45,
+   "train_loss": 0.3681674377852524,
+   "val_laps": {
+    "loss": 0.528818664448718,
+    "rmse_steer_rad": 0.01152168808622179,
+    "rmse_speed_mps": 0.05174477986236988,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.6656206302400218,
+    "rmse_steer_rad": 0.02202506558874306,
+    "rmse_speed_mps": 0.13409764179062492,
+    "n": 138607
+   },
+   "wall_s": 494.8
+  },
+  {
+   "epoch": 46,
+   "train_loss": 0.36555042404742105,
+   "val_laps": {
+    "loss": 0.5287997931537761,
+    "rmse_steer_rad": 0.011340746589355688,
+    "rmse_speed_mps": 0.05069338887466123,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.6948597189095298,
+    "rmse_steer_rad": 0.021899622678847045,
+    "rmse_speed_mps": 0.13625207777256476,
+    "n": 138607
+   },
+   "wall_s": 504.5
+  },
+  {
+   "epoch": 47,
+   "train_loss": 0.3638563044381469,
+   "val_laps": {
+    "loss": 0.5305865097339022,
+    "rmse_steer_rad": 0.011700933909019951,
+    "rmse_speed_mps": 0.05262866991382365,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.657750985317724,
+    "rmse_steer_rad": 0.02177589352297171,
+    "rmse_speed_mps": 0.13166642473166446,
+    "n": 138607
+   },
+   "wall_s": 514.5
+  },
+  {
+   "epoch": 48,
+   "train_loss": 0.36203444484408787,
+   "val_laps": {
+    "loss": 0.5381206292220353,
+    "rmse_steer_rad": 0.011719157096213817,
+    "rmse_speed_mps": 0.05306372837184869,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.7548849439163767,
+    "rmse_steer_rad": 0.022009998221921255,
+    "rmse_speed_mps": 0.13330764318187277,
+    "n": 138607
+   },
+   "wall_s": 524.2
+  },
+  {
+   "epoch": 49,
+   "train_loss": 0.36026759655080437,
+   "val_laps": {
+    "loss": 0.5254018499734331,
+    "rmse_steer_rad": 0.011679087022144471,
+    "rmse_speed_mps": 0.05263185001918517,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.7070783841870292,
+    "rmse_steer_rad": 0.02241296390689265,
+    "rmse_speed_mps": 0.13671145151807598,
+    "n": 138607
+   },
+   "wall_s": 534.1
+  },
+  {
+   "epoch": 50,
+   "train_loss": 0.3587151456955601,
+   "val_laps": {
+    "loss": 0.52606687561492,
+    "rmse_steer_rad": 0.011546662605671259,
+    "rmse_speed_mps": 0.05219910052327013,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.7114016779499068,
+    "rmse_steer_rad": 0.022452491425866004,
+    "rmse_speed_mps": 0.13689533557499872,
+    "n": 138607
+   },
+   "wall_s": 544.2
+  },
+  {
+   "epoch": 51,
+   "train_loss": 0.3574160592621681,
+   "val_laps": {
+    "loss": 0.5223628306199914,
+    "rmse_steer_rad": 0.011464314502198572,
+    "rmse_speed_mps": 0.05123059603078731,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.714420111989676,
+    "rmse_steer_rad": 0.02203588199916295,
+    "rmse_speed_mps": 0.13539330513270711,
+    "n": 138607
+   },
+   "wall_s": 554.3
+  },
+  {
+   "epoch": 52,
+   "train_loss": 0.3563460927719799,
+   "val_laps": {
+    "loss": 0.5231689712203462,
+    "rmse_steer_rad": 0.011470402741995468,
+    "rmse_speed_mps": 0.050899822846871834,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.7190145273150892,
+    "rmse_steer_rad": 0.02204452767444733,
+    "rmse_speed_mps": 0.1346190729103233,
+    "n": 138607
+   },
+   "wall_s": 563.7
+  },
+  {
+   "epoch": 53,
+   "train_loss": 0.35560569053358637,
+   "val_laps": {
+    "loss": 0.5204917789114756,
+    "rmse_steer_rad": 0.011570584543842043,
+    "rmse_speed_mps": 0.05160211758497833,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.7196066138250805,
+    "rmse_steer_rad": 0.022327581442363856,
+    "rmse_speed_mps": 0.13543244014085457,
+    "n": 138607
+   },
+   "wall_s": 573.1
+  },
+  {
+   "epoch": 54,
+   "train_loss": 0.3545393288227734,
+   "val_laps": {
+    "loss": 0.5207698723383788,
+    "rmse_steer_rad": 0.01156235379631533,
+    "rmse_speed_mps": 0.05131349055036001,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.742541153077784,
+    "rmse_steer_rad": 0.022869817720446044,
+    "rmse_speed_mps": 0.13524146288997688,
+    "n": 138607
+   },
+   "wall_s": 583.3
+  },
+  {
+   "epoch": 55,
+   "train_loss": 0.3538949864060208,
+   "val_laps": {
+    "loss": 0.519248775638769,
+    "rmse_steer_rad": 0.011636684945937824,
+    "rmse_speed_mps": 0.05137593546148804,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.7200844873499226,
+    "rmse_steer_rad": 0.022505250033539405,
+    "rmse_speed_mps": 0.13450571296378372,
+    "n": 138607
+   },
+   "wall_s": 592.9
+  },
+  {
+   "epoch": 56,
+   "train_loss": 0.3532313152916301,
+   "val_laps": {
+    "loss": 0.5193477638473053,
+    "rmse_steer_rad": 0.011506142950218673,
+    "rmse_speed_mps": 0.05163949771380284,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.7252450858900676,
+    "rmse_steer_rad": 0.02228412263858239,
+    "rmse_speed_mps": 0.13645476352819247,
+    "n": 138607
+   },
+   "wall_s": 603.6
+  },
+  {
+   "epoch": 57,
+   "train_loss": 0.3528590588645153,
+   "val_laps": {
+    "loss": 0.5192511369900922,
+    "rmse_steer_rad": 0.011525282535360693,
+    "rmse_speed_mps": 0.05155440500420421,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.723505096565862,
+    "rmse_steer_rad": 0.022314953161481285,
+    "rmse_speed_mps": 0.13507679829291813,
+    "n": 138607
+   },
+   "wall_s": 618.7
+  },
+  {
+   "epoch": 58,
+   "train_loss": 0.35246625736351683,
+   "val_laps": {
+    "loss": 0.5188506578705149,
+    "rmse_steer_rad": 0.011524555058614723,
+    "rmse_speed_mps": 0.051583586656620196,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.727249516303944,
+    "rmse_steer_rad": 0.022401048651863476,
+    "rmse_speed_mps": 0.13557629135981933,
+    "n": 138607
+   },
+   "wall_s": 632.3
+  },
+  {
+   "epoch": 59,
+   "train_loss": 0.352226624798916,
+   "val_laps": {
+    "loss": 0.5190016397360148,
+    "rmse_steer_rad": 0.01152969743898857,
+    "rmse_speed_mps": 0.051494982699602274,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 1.7257180362373274,
+    "rmse_steer_rad": 0.022390792958910354,
+    "rmse_speed_mps": 0.13547653711475774,
+    "n": 138607
+   },
+   "wall_s": 645.8
+  }
+ ],
+ "n_train": 185527,
+ "seed": 0,
+ "runs": [
+  "datasets/raw/IMS_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/IMS_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/IMS_2.7ms_p1/dataset.hdf5",
+  "datasets/raw/Melbourne_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/Melbourne_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/Melbourne_2.7ms_p1/dataset.hdf5",
+  "datasets/raw/Montreal_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/Montreal_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/Montreal_2.7ms_p1/dataset.hdf5",
+  "datasets/raw/Monza_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/Monza_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/Monza_2.7ms_p1/dataset.hdf5",
+  "datasets/raw/Nuerburgring_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/Nuerburgring_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/Nuerburgring_2.7ms_p1/dataset.hdf5",
+  "datasets/raw/SaoPaulo_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/SaoPaulo_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/SaoPaulo_2.7ms_p1/dataset.hdf5",
+  "datasets/raw/Shanghai_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/Shanghai_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/Shanghai_2.7ms_p1/dataset.hdf5",
+  "datasets/raw/Silverstone_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/Silverstone_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/Silverstone_2.7ms_p1/dataset.hdf5"
+ ]
+}

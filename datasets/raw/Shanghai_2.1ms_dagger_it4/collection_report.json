@@ -1,0 +1,39 @@
+{
+  "track": "Shanghai",
+  "speed_mps": 2.1,
+  "pass": "dagger_it4",
+  "dagger_iteration": 4,
+  "checkpoint": "checkpoints/dagger_mlp_it4.pt",
+  "laps_target": 1.0,
+  "status": "ok",
+  "crashes": [],
+  "wall_started": "2026-09-24T08:04:42",
+  "distance_m": 992.4,
+  "laps_wrapped": 1,
+  "sim_duration_s": 520.0,
+  "lateral_abs_median_m": 0.0629,
+  "lateral_abs_p95_m": 0.184,
+  "n_crashes": 0,
+  "teardown": {
+    "recorder_60841": "sigint",
+    "launch": "sigint",
+    "group_sigkill": true,
+    "graph_empty": true
+  },
+  "wall_duration_s": 1762.6,
+  "rows": 10377,
+  "mode": "dagger",
+  "join_dt_ms": {
+    "median": 0.0,
+    "p95": 0.0,
+    "max": 0.0,
+    "slop": 15.0
+  },
+  "relabel_dt_ms": {
+    "median": 10.0,
+    "p95": 10.0,
+    "max": 10.0
+  },
+  "inspect_exit": 0,
+  "inspect_fails": []
+}

@@ -1,0 +1,104 @@
+[
+ {
+  "checkpoint": "checkpoints/bc_discrete_s0.pt",
+  "arch": "discrete",
+  "seed": 0,
+  "val_laps": {
+   "loss": 0.5188506578705149,
+   "rmse_steer_rad": 0.011524555058614723,
+   "rmse_speed_mps": 0.051583586656620196,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 1.7272495127811693,
+   "rmse_steer_rad": 0.022401048651863476,
+   "rmse_speed_mps": 0.13557629135981933,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/bc_discrete_s1.pt",
+  "arch": "discrete",
+  "seed": 1,
+  "val_laps": {
+   "loss": 0.5214606723773393,
+   "rmse_steer_rad": 0.011110554284435881,
+   "rmse_speed_mps": 0.05350236073357152,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 1.6769226377879187,
+   "rmse_steer_rad": 0.020369989635361546,
+   "rmse_speed_mps": 0.11798500883625161,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/bc_discrete_s2.pt",
+  "arch": "discrete",
+  "seed": 2,
+  "val_laps": {
+   "loss": 0.520172936638061,
+   "rmse_steer_rad": 0.011266381879389116,
+   "rmse_speed_mps": 0.05350651034592269,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 1.7347309954443848,
+   "rmse_steer_rad": 0.021873590211323773,
+   "rmse_speed_mps": 0.11746316404350013,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/dagger_discrete_s0.pt",
+  "arch": "discrete",
+  "seed": 0,
+  "val_laps": {
+   "loss": 1.8116769870887455,
+   "rmse_steer_rad": 0.10550671035284309,
+   "rmse_speed_mps": 0.1250336572753223,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 4.438716937529849,
+   "rmse_steer_rad": 0.27005986843299573,
+   "rmse_speed_mps": 0.18509460352054377,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/dagger_discrete_s1.pt",
+  "arch": "discrete",
+  "seed": 1,
+  "val_laps": {
+   "loss": 1.88700760731678,
+   "rmse_steer_rad": 0.1070824076455391,
+   "rmse_speed_mps": 0.1322041134074619,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 5.568837783302014,
+   "rmse_steer_rad": 0.2856593789836266,
+   "rmse_speed_mps": 0.21496648666667653,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/dagger_discrete_s2.pt",
+  "arch": "discrete",
+  "seed": 2,
+  "val_laps": {
+   "loss": 1.7707030927529248,
+   "rmse_steer_rad": 0.11127847989622511,
+   "rmse_speed_mps": 0.12330270041093816,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 7.425052695829018,
+   "rmse_steer_rad": 0.2901127310071007,
+   "rmse_speed_mps": 0.22232950883234293,
+   "n": 138607
+  }
+ }
+]

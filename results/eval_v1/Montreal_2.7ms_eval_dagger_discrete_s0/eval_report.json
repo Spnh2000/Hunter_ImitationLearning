@@ -1,0 +1,23 @@
+{
+  "policy": "dagger_discrete_s0",
+  "arch": "discrete",
+  "dataset": "dagger",
+  "seed": 0,
+  "track": "Montreal",
+  "max_speed_mps": 2.7,
+  "status": "ok",
+  "crashed": 0,
+  "crash_s_m": "",
+  "crash_trigger": "",
+  "laps_completed": 1,
+  "distance_m": 851.1,
+  "sim_duration_s": 402.2,
+  "mean_speed_mps": 2.115,
+  "rms_gt_lateral_error_m": "0.2656",
+  "max_gt_lateral_error_m": "0.6277",
+  "mean_gt_lateral_error_m": "0.1863",
+  "steering_cmd_variance": "0.035874",
+  "steering_reversal_rate_hz": "4.7369",
+  "wall_s": 1232.1,
+  "run_dir": "/home/thesp/sp_codes/hunter_robot/results/eval_v1/Montreal_2.7ms_eval_dagger_discrete_s0"
+}

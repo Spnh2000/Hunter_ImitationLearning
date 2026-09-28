@@ -1,0 +1,39 @@
+{
+  "track": "Monza",
+  "speed_mps": 2.1,
+  "pass": "dagger_it3",
+  "dagger_iteration": 3,
+  "checkpoint": "checkpoints/dagger_mlp_it3.pt",
+  "laps_target": 1.0,
+  "status": "ok",
+  "crashes": [],
+  "wall_started": "2026-09-24T06:21:56",
+  "distance_m": 891.9,
+  "laps_wrapped": 1,
+  "sim_duration_s": 439.1,
+  "lateral_abs_median_m": 0.0968,
+  "lateral_abs_p95_m": 0.3027,
+  "n_crashes": 0,
+  "teardown": {
+    "recorder_54751": "sigint",
+    "launch": "sigint",
+    "group_sigkill": true,
+    "graph_empty": true
+  },
+  "wall_duration_s": 1252.7,
+  "rows": 8747,
+  "mode": "dagger",
+  "join_dt_ms": {
+    "median": 0.0,
+    "p95": 0.0,
+    "max": 0.0,
+    "slop": 15.0
+  },
+  "relabel_dt_ms": {
+    "median": 0.0,
+    "p95": 10.0,
+    "max": 10.0
+  },
+  "inspect_exit": 0,
+  "inspect_fails": []
+}

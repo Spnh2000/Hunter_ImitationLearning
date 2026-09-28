@@ -1,2 +1,2 @@
 track_name,controller_name,pose_source,run_timestamp,duration_s,distance_traveled_m,laps_completed,mean_lateral_error_m,rms_lateral_error_m,max_lateral_error_m,mean_heading_error_rad,rms_heading_error_rad,max_heading_error_rad,mean_gt_lateral_error_m,rms_gt_lateral_error_m,max_gt_lateral_error_m,mean_estimator_error_m,rms_estimator_error_m,max_estimator_error_m,steering_cmd_variance,steering_reversal_rate_hz,mean_speed_error_mps,rms_speed_error_mps
-Shanghai,policy,ground_truth,20260923_144844,11.4,24.919,0,nan,nan,0.0,nan,nan,0.0,-0.0291,0.0449,0.1072,0.0,0.0,0.0,0.0,0.0,nan,nan
+Shanghai,policy,ground_truth,20260923_152011,512.6,1023.846,0,nan,nan,0.0,nan,nan,0.0,-0.0272,0.2557,2.4689,0.0,0.0,0.0,0.005516,0.002,nan,nan

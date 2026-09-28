@@ -1,0 +1,25 @@
+{
+  "bag": "/home/thesp/sp_codes/hunter_robot/datasets/raw/Nuerburgring_2.7ms_dagger_it1/bag",
+  "mode": "dagger",
+  "scans_total": 7441,
+  "scans_pre_post_run_trimmed": 49,
+  "join_dt_ms": {
+    "median": 0.0,
+    "p95": 0.0,
+    "max": 0.0,
+    "slop": 15.0
+  },
+  "rows_rejected_slop": 0,
+  "rows_kept": 7392,
+  "relabel_dt_ms": {
+    "median": 5.0,
+    "p95": 10.0,
+    "max": 10.0
+  },
+  "rows_rejected_relabel_slop": 0,
+  "episode_events_matched_exactly": 7392,
+  "rows_dropped_pinned_after_terminal": 0,
+  "respawn_jumps": 0,
+  "rows": 7392,
+  "out": "/home/thesp/sp_codes/hunter_robot/datasets/raw/Nuerburgring_2.7ms_dagger_it1/dataset.hdf5"
+}

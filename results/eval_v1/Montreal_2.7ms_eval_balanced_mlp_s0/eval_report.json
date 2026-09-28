@@ -1,0 +1,23 @@
+{
+  "policy": "balanced_mlp_s0",
+  "arch": "mlp",
+  "dataset": "balanced",
+  "seed": 0,
+  "track": "Montreal",
+  "max_speed_mps": 2.7,
+  "status": "ok",
+  "crashed": 0,
+  "crash_s_m": "",
+  "crash_trigger": "",
+  "laps_completed": 1,
+  "distance_m": 851.1,
+  "sim_duration_s": 364.1,
+  "mean_speed_mps": 2.338,
+  "rms_gt_lateral_error_m": "0.1966",
+  "max_gt_lateral_error_m": "0.6867",
+  "mean_gt_lateral_error_m": "0.0943",
+  "steering_cmd_variance": "0.005789",
+  "steering_reversal_rate_hz": "0.0",
+  "wall_s": 1106.6,
+  "run_dir": "/home/thesp/sp_codes/hunter_robot/results/eval_v1/Montreal_2.7ms_eval_balanced_mlp_s0"
+}

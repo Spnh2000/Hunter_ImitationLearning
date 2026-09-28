@@ -1,0 +1,103 @@
+{
+  "track": "IMS",
+  "speed_mps": 2.7,
+  "pass": "dagger_it2",
+  "dagger_iteration": 2,
+  "checkpoint": "checkpoints/dagger_mlp_it2.pt",
+  "laps_target": 0.5,
+  "status": "too_many_crashes",
+  "crashes": [
+    {
+      "sim_t": 12.6,
+      "trigger": 2,
+      "min_scan_m": 0.374,
+      "s_m": 24.6,
+      "dist_m": 24.8
+    },
+    {
+      "sim_t": 23.4,
+      "trigger": 2,
+      "min_scan_m": 0.394,
+      "s_m": 37.0,
+      "dist_m": 48.2
+    },
+    {
+      "sim_t": 29.5,
+      "trigger": 2,
+      "min_scan_m": 0.398,
+      "s_m": 36.8,
+      "dist_m": 58.8
+    },
+    {
+      "sim_t": 35.2,
+      "trigger": 2,
+      "min_scan_m": 0.397,
+      "s_m": 35.0,
+      "dist_m": 68.0
+    },
+    {
+      "sim_t": 41.5,
+      "trigger": 2,
+      "min_scan_m": 0.398,
+      "s_m": 34.8,
+      "dist_m": 78.8
+    },
+    {
+      "sim_t": 47.6,
+      "trigger": 2,
+      "min_scan_m": 0.399,
+      "s_m": 34.2,
+      "dist_m": 89.0
+    },
+    {
+      "sim_t": 54.2,
+      "trigger": 2,
+      "min_scan_m": 0.397,
+      "s_m": 35.4,
+      "dist_m": 101.0
+    },
+    {
+      "sim_t": 60.5,
+      "trigger": 2,
+      "min_scan_m": 0.398,
+      "s_m": 35.8,
+      "dist_m": 112.0
+    },
+    {
+      "sim_t": 99.3,
+      "trigger": 2,
+      "min_scan_m": 0.389,
+      "s_m": 114.6,
+      "dist_m": 201.4
+    }
+  ],
+  "wall_started": "2026-09-24T01:20:32",
+  "distance_m": 202.8,
+  "laps_wrapped": 0,
+  "sim_duration_s": 100.2,
+  "lateral_abs_median_m": 0.2083,
+  "lateral_abs_p95_m": 1.504,
+  "n_crashes": 9,
+  "teardown": {
+    "recorder_40211": "sigint",
+    "launch": "sigint",
+    "group_sigkill": true,
+    "graph_empty": true
+  },
+  "wall_duration_s": 294.4,
+  "rows": 1851,
+  "mode": "dagger",
+  "join_dt_ms": {
+    "median": 0.0,
+    "p95": 0.0,
+    "max": 0.0,
+    "slop": 15.0
+  },
+  "relabel_dt_ms": {
+    "median": 5.0,
+    "p95": 10.0,
+    "max": 10.0
+  },
+  "inspect_exit": 0,
+  "inspect_fails": []
+}

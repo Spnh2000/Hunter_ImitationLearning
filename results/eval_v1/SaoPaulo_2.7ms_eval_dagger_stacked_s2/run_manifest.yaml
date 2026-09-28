@@ -1,0 +1,115 @@
+run_id: eval_dagger_stacked_s2
+track_id: SaoPaulo
+track_file: src/SaoPaulo/SaoPaulo_centerline_2x.csv
+track_sha256: f1e1ee342a5f9ebbb149d4aa5b3a9028ffb099302f692fa853ef3ef10b65b5f6
+max_speed_mps: 2.7
+spawn_s_frac: 0.0
+controller_label: policy
+shadow_expert: false
+policy_checkpoint: /home/thesp/sp_codes/hunter_robot/checkpoints/dagger_stacked_s2.pt
+dagger_iteration: 0
+pose_source: ground_truth
+world: SaoPaulo.sdf
+params_file: saopaulo_defaults.yaml
+effective_params:
+  trajectory_server:
+    ros__parameters:
+      path_format: auto
+      frame_id: odom
+      speed_source: curvature_limited
+      max_speed_mps: 2.7
+      min_speed_mps: 0.2
+      lateral_accel_limit_mps2: 0.4
+      close_loop_gap_threshold_m: 0.05
+      centerline_smoothing_m: 2.8
+      visualize: true
+  pid_tracker:
+    ros__parameters:
+      wheelbase_m: 0.65
+      max_steering_rad: 0.461
+      max_speed_mps: 2.7
+      control_frequency_hz: 50.0
+      heading_feedforward_gain: 1.0
+      enable_curvature_feedforward: true
+      curvature_preview_m: 0.3
+      speed_preview_m: 2.5
+      steering_pid.p: 1.3
+      steering_pid.i: 0.04
+      steering_pid.d: 0.25
+      speed_pid.p: 0.5
+      speed_pid.i: 0.3
+      speed_pid.d: 0.0
+  policy_tracker:
+    ros__parameters:
+      max_speed_mps: 2.7
+      wheelbase_m: 0.65
+      max_steering_rad: 0.461
+      control_frequency_hz: 50.0
+git_rev: ee722d5c8456494243c7d157e4238214787d93b4
+git_dirty: true
+git_dirty_files:
+- M datasets/raw/dagger_mlp.log
+- ' M diagnostics/p1_dagger/asymmetry_by_row.csv'
+- ' M diagnostics/p1_dagger/coverage_lateral.png'
+- ' M diagnostics/p1_dagger/speed_hist.png'
+- ' M diagnostics/p1_dagger/summary.json'
+- ' M src/hunter_benchmark/results/Shanghai_policy_ground_truth_20260923_144742/summary.csv'
+- ?? datasets/raw/IMS_1.5ms_dagger_it1/
+- ?? datasets/raw/IMS_1.5ms_dagger_it2/
+- ?? datasets/raw/IMS_1.5ms_dagger_it3/
+- ?? datasets/raw/IMS_1.5ms_dagger_it4/
+- ?? datasets/raw/IMS_1.5ms_dagger_it5/
+- ?? datasets/raw/IMS_2.1ms_dagger_it1/
+- ?? datasets/raw/IMS_2.1ms_dagger_it2/
+- ?? datasets/raw/IMS_2.1ms_dagger_it3/
+- ?? datasets/raw/IMS_2.1ms_dagger_it4/
+- ?? datasets/raw/IMS_2.1ms_dagger_it5/
+- ?? datasets/raw/IMS_2.7ms_dagger_it1/
+- ?? datasets/raw/IMS_2.7ms_dagger_it2/
+- ?? datasets/raw/IMS_2.7ms_dagger_it3/
+- ?? datasets/raw/IMS_2.7ms_dagger_it4/
+- ?? datasets/raw/IMS_2.7ms_dagger_it5/
+- ?? datasets/raw/Melbourne_1.5ms_dagger_it1/
+- ?? datasets/raw/Melbourne_1.5ms_dagger_it2/
+- ?? datasets/raw/Melbourne_1.5ms_dagger_it3/
+- ?? datasets/raw/Melbourne_1.5ms_dagger_it4/
+- ?? datasets/raw/Melbourne_1.5ms_dagger_it5/
+- ?? datasets/raw/Melbourne_2.1ms_dagger_it1/
+- ?? datasets/raw/Melbourne_2.1ms_dagger_it2/
+- ?? datasets/raw/Melbourne_2.1ms_dagger_it3/
+- ?? datasets/raw/Melbourne_2.1ms_dagger_it4/
+- ?? datasets/raw/Melbourne_2.1ms_dagger_it5/
+- ?? datasets/raw/Melbourne_2.7ms_dagger_it1/
+- ?? datasets/raw/Melbourne_2.7ms_dagger_it2/
+- ?? datasets/raw/Melbourne_2.7ms_dagger_it3/
+- ?? datasets/raw/Melbourne_2.7ms_dagger_it4/
+- ?? datasets/raw/Melbourne_2.7ms_dagger_it5/
+- ?? datasets/raw/Monza_1.5ms_dagger_it1/
+- ?? datasets/raw/Monza_1.5ms_dagger_it2/
+- ?? datasets/raw/Monza_1.5ms_dagger_it3/
+- ?? datasets/raw/Monza_1.5ms_dagger_it4/
+- ?? datasets/raw/Monza_1.5ms_dagger_it5/
+- ?? datasets/raw/Monza_2.1ms_dagger_it1/
+- ?? datasets/raw/Monza_2.1ms_dagger_it2/
+- ?? datasets/raw/Monza_2.1ms_dagger_it3/
+- ?? datasets/raw/Monza_2.1ms_dagger_it4/
+- ?? datasets/raw/Monza_2.1ms_dagger_it5/
+- ?? datasets/raw/Monza_2.7ms_dagger_it1/
+- ?? datasets/raw/Monza_2.7ms_dagger_it2/
+- ?? datasets/raw/Monza_2.7ms_dagger_it3/
+- ?? datasets/raw/Monza_2.7ms_dagger_it4/
+bag_topics:
+- /scan
+- /tracking/diagnostics
+- /ground_truth/odometry
+- /ackermann_like_controller/reference
+- /ackermann_like_controller/odometry_bagged
+- /odometry/filtered
+- /expert/relabel
+- /episode/event
+- /bumper_contacts_bagged
+- /imu
+- /trajectory/reference
+- /tf_static
+- /robot_description
+started_utc: '2026-09-25T11:22:14Z'
