@@ -34,7 +34,7 @@ ARGS=(world:="$TRACK".sdf
       params_file:="$(echo "$TRACK" | tr 'A-Z' 'a-z')"_defaults.yaml
       track_name:="$TRACK"
       max_speed_mps:="$CAP"
-      headless:=false use_rviz:=true
+      headless:=false use_rviz:=true 
       output_dir:="$OUT" run_id:="watch_$(date +%H%M%S)")
 
 if [ "$CKPT" = "pid" ]; then
@@ -44,6 +44,12 @@ else
   echo ">>> POLICY $(basename "$CKPT") [$ARCH] -- $TRACK @ $CAP m/s -- sees /scan only, no pose"
   ARGS+=(controller:=policy policy_checkpoint:="$PWD/$CKPT" policy_arch:="$ARCH")
 fi
-echo ">>> a Gazebo window and RViz will open. Ctrl-C to stop."
+echo ">>> startup order: Gazebo loads the world (~20 s), then the robot is"
+echo ">>>   spawned, then RViz opens once the robot actually exists."
+echo ">>> RViz will warn about the /map topic having no publisher -- that is"
+echo ">>>   expected: this run has no localization stack (slam_mode:=disabled),"
+echo ">>>   because the policy drives on /scan and needs no map. Ignore it, or"
+echo ">>>   untick the Map display."
+echo ">>> Ctrl-C to stop."
 echo ">>> the run is written to $OUT ; summary.csv lands in src/hunter_benchmark/results/"
 exec ros2 launch hunter_dataset record_expert.launch.py "${ARGS[@]}"

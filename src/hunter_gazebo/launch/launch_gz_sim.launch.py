@@ -39,6 +39,11 @@ def generate_launch_description():
         ),
         # IMS track start: first centerline point of IMS_centerline_2x.csv (0, 0, yaw=-1.5506 rad)
         DeclareLaunchArgument(
+            'spawn_delay', default_value='',
+            description='Seconds to wait before spawning the robot. Empty = 5 s headless, '
+                        '20 s with the GUI, because Gazebo takes much longer to be ready '
+                        'when it has a window to draw.'),
+        DeclareLaunchArgument(
             'spawn_x', default_value='0.0',
             description='Robot spawn X [m]',
         ),
@@ -121,7 +126,14 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}],
     )
 
-    spawn_after_gazebo = TimerAction(period=5.0, actions=[spawn_entity])
+    # 5 s is enough for a server-only start; the full GUI needs far longer to
+    # load the world, render it and bring up the entity-factory service. Spawning
+    # too early fails with no robot in the world and no obvious error -- which is
+    # exactly what a GUI run looked like. Overridable with spawn_delay.
+    spawn_delay = PythonExpression([
+        "'", LaunchConfiguration('spawn_delay'), "' if '", LaunchConfiguration('spawn_delay'),
+        "' != '' else ('5.0' if '", LaunchConfiguration('headless'), "' == 'true' else '20.0')"])
+    spawn_after_gazebo = TimerAction(period=spawn_delay, actions=[spawn_entity])
 
     # ── Clock bridge (gz → ROS) ──────────────────────────────────────────────
     bridge = Node(
@@ -174,9 +186,15 @@ def generate_launch_description():
                 on_exit=[load_ackermann_controller],
             )
         ),
+        # RViz starts only once the robot is actually in the world. Started
+        # concurrently it comes up before robot_description and TF exist, so the
+        # robot model is missing and the displays complain about topics that do
+        # not have publishers yet.
+        RegisterEventHandler(
+            OnProcessExit(target_action=spawn_entity, on_exit=[TimerAction(period=3.0, actions=[rviz])])
+        ),
         gazebo,
         bridge,
         node_robot_state_publisher,
         spawn_after_gazebo,
-        rviz,
     ])
