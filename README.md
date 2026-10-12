@@ -302,25 +302,25 @@ Montreal — three times each (one per training seed). Nine runs per row.
 | policy | crash rate | laps completed | true lateral RMS | *offline steer error* |
 |---|---:|---:|---:|---:|
 | **PID expert** (privileged: drives on ground-truth pose) | 0 % | 1.00 | **0.019 m** | — |
-| BC + MLP | **67 %** | 0.33 | 0.332 m | *19.4 mrad* |
+| BC + MLP | **67 %** | 0.33 | 0.332 m | *19.3 mrad* |
 | BC + stacked K=3 | **56 %** | 0.33 | 0.420 m | *19.7 mrad* |
-| BC + discretised | **67 %** | 0.33 | 0.407 m | *23.7 mrad* |
+| BC + discretised | **67 %** | 0.33 | 0.407 m | *21.6 mrad* |
 | **DAgger + MLP** | **0 %** | **1.00** | **0.168 m** | *108.9 mrad* |
 | DAgger + stacked K=3 | 0 % | 1.00 | 0.195 m | *160.4 mrad* |
-| DAgger + discretised | 0 % | 1.00 | 0.249 m | *284.7 mrad* |
+| DAgger + discretised | 0 % | 1.00 | 0.249 m | *282.0 mrad* |
 | **DAgger, rebalanced 50/50** | **0 %** | **1.00** | 0.175 m | *68.1 mrad* |
 
 **Validation loss ranked the policies backwards.** Offline, BC beats DAgger by
-5.6× (19.4 vs 108.9 mrad against the expert). Closed-loop, BC crashes on 67 % of
+5.6× (19.3 vs 108.9 mrad against the expert). Closed-loop, BC crashes on 67 % of
 runs and DAgger on none. Selecting by test score would have selected the policy
 that drives into walls — which is why the evaluation is closed-loop and why the
 offline table is reported beside it rather than instead of it.
 
 **Rebalancing recovers half the offline gap without costing anything.** DAgger
-rows were 75 % of the training set; forcing a 50/50 mix per batch halves the
+rows were about 77 % of the training set; forcing a 50/50 mix per batch halves the
 offline error (108.9 → 68.1 mrad) while keeping the perfect crash record. So the
 collapse was substantially an artefact of the mix — though 68.1 is still 3.5×
-BC's 19.4, so some of the trade is real.
+BC's 19.3, so some of the trade is real.
 
 **Architecture made no difference**, as the information-asymmetry measurement
 predicted before any training: the current scan already determines the expert's
@@ -329,7 +329,10 @@ state to recover.
 
 **DAgger's mechanism was observable.** Iteration 1 produced 7 crashes, all at
 Shanghai's 1.44 m hairpin. After the shadow expert relabelled those states,
-crashes were zero for all 43 subsequent rollouts across five tracks.
+iterations 3 and 4 ran all 30 rollouts without a crash. The record is not
+spotless: iteration 2 failed outright (15/15 rollouts, reproduced in both runs,
+unexplained), and in iteration 5 two Monza rollouts failed at the same point
+(s ≈ 147 m). 58 of 75 rollouts were banked.
 
 Full analysis: [`docs/phases_6_8_simple.md`](docs/phases_6_8_simple.md) (plain
 language) · [`docs/phases_6_8_explained.md`](docs/phases_6_8_explained.md)
