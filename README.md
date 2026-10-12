@@ -317,7 +317,7 @@ that drives into walls — which is why the evaluation is closed-loop and why th
 offline table is reported beside it rather than instead of it.
 
 **Rebalancing recovers half the offline gap without costing anything.** DAgger
-rows were about 77 % of the training set; forcing a 50/50 mix per batch halves the
+rows were 75 % of the training set; forcing a 50/50 mix per batch halves the
 offline error (108.9 → 68.1 mrad) while keeping the perfect crash record. So the
 collapse was substantially an artefact of the mix — though 68.1 is still 3.5×
 BC's 19.3, so some of the trade is real.
@@ -332,7 +332,7 @@ Shanghai's 1.44 m hairpin. After the shadow expert relabelled those states,
 iterations 3 and 4 ran all 30 rollouts without a crash. The record is not
 spotless: iteration 2 failed outright (15/15 rollouts, reproduced in both runs,
 unexplained), and in iteration 5 two Monza rollouts failed at the same point
-(s ≈ 147 m). 58 of 75 rollouts were banked.
+(s ≈ 147 m). All 75 rollouts, failed ones included, are in the training set.
 
 Full analysis: [`docs/phases_6_8_simple.md`](docs/phases_6_8_simple.md) (plain
 language) · [`docs/phases_6_8_explained.md`](docs/phases_6_8_explained.md)
