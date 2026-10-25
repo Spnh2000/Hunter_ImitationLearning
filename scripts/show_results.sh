@@ -21,10 +21,12 @@ if '--raw' in sys.argv:
               f"{float(r['laps_completed'] or 0):5.1f} {float(rms):7.3f}m")
     sys.exit()
 
+# Offline score: the metrics each training run saved beside its checkpoint.
+# Not results/eval_v1/offline*.json -- one of those predates the discrete-bin
+# fix, and averaging across files mixed broken and repaired checkpoints.
 off={}
-for f in glob.glob('results/eval_v1/offline*.json'):
-    for r in json.load(open(f)):
-        off.setdefault(r['checkpoint'].split('/')[-1].rsplit('_s',1)[0],[]).append(r['val_tracks']['rmse_steer_rad'])
+for f in glob.glob('checkpoints/*_s[0-9].pt.json'):
+    off.setdefault(f.split('/')[-1].rsplit('_s',1)[0],[]).append(json.load(open(f))['val_tracks']['rmse_steer_rad'])
 g={}
 for r in runs: g.setdefault((r['dataset'],r['arch']),[]).append(r)
 

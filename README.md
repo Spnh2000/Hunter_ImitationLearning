@@ -1,23 +1,111 @@
-# Hunter V2 — Autonomous Path Tracking on ROS 2 Jazzy + Gazebo Harmonic
+# Learning to Race from Laser Data Alone
 
-Path-tracking, perception, imitation-learning and benchmarking stack for the [AgileX Hunter V2](https://www.agilex.ai/chassis/4) (Ackermann-steered 4-wheel rover), running on ROS 2 Jazzy and Gazebo Harmonic (gz-sim 8). The robot follows a reference line derived from [F1TENTH racetracks](https://github.com/f1tenth/f1tenth_racetracks) rebuilt as Gazebo worlds, while a metrics pipeline records per-run tracking accuracy against **ground truth** for comparing controllers.
+**Imitation learning for the AgileX Hunter V2 — behaviour cloning vs. DAgger, on ROS 2 Jazzy and Gazebo Harmonic.**
 
-**Project status:** Phases 6–8 complete. A scan-only policy drives every held-out circuit without crashing; behaviour cloning crashes on 67 % of runs. See [Results](#results).
+![ROS 2 Jazzy](https://img.shields.io/badge/ROS%202-Jazzy-22314E?logo=ros)
+![Gazebo Harmonic](https://img.shields.io/badge/Gazebo-Harmonic-F58113)
+![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-CPU-EE4C2C?logo=pytorch&logoColor=white)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
-| Phase | Contents | State |
-|---|---|---|
-| 1–2 | Robot bring-up, track conversion pipeline — **eight** circuits at 2× | done |
-| 3 | Trajectory server + PID tracker + metrics logger | done |
-| 4 | Pure Pursuit / Stanley / LQR / MPC | **dropped** — PID is the permanent expert |
-| 5 | 2D LiDAR + IMU, dual EKF, AMCL localization, A/B pose-source switch | done |
-| 6 | Imitation dataset: schema, recorder, episode monitor, converter, inspector, collection runner | gate passed; pass p1 collecting |
-| 7–8 | **Pure imitation learning** — {BC, DAgger} × {MLP, frame-stacked MLP, discretised} = 6 policies, evaluated closed-loop against PID | **done** — see [Results](#results) |
-| 9 | Sim-to-sim policy transfer to the Hunter | pending |
+A robot cannot follow a racing line without knowing where it is, and a real robot never knows exactly — in this project wheel odometry drifted **2.29 m** while the controller reported **1 mm** of error. This repository asks whether a neural network can drive from a **2D laser scan alone** by imitating a controller that is allowed to see the robot's exact position in simulation (*privileged expert distillation*, Chen et al., [Learning by Cheating](https://arxiv.org/abs/1912.12294), CoRL 2019).
 
-Phases 7–8 were originally offline RL; that is gone. The methodology is **privileged expert distillation** (Chen et al., *Learning by Cheating*, CoRL 2019): the PID expert drives on ground-truth pose, the student sees only `/scan`. Dropping Phase 4 has one consequence worth naming — the PID is now the ceiling every learned policy is measured against, so its tracking quality is a property of the dataset, not just a benchmark row.
+It can — and the way you measure it decides whether you notice:
+
+- **A laser-only policy drives three circuits it has never seen without a single crash**, 0.17 m from the racing line, against the privileged expert's 0.02 m.
+- **The same network trained by plain behaviour cloning crashes in 67 % of runs.** DAgger — letting the student drive while the expert labels its mistakes — is what makes the difference.
+- **Offline validation error ranked the policies backwards.** Judged by agreement with the expert on recorded data, the crashing policy looks **5.6× better**. Only closed-loop evaluation revealed which one works.
+
+<p align="center">
+  <img src="media/fig_headline.png" width="640" alt="Offline error favours behaviour cloning; in the simulator behaviour cloning crashes in most runs and DAgger in none">
+</p>
+
+**See it drive in three commands** — trained policies ship with the repo, no dataset needed: [QUICKSTART.md](QUICKSTART.md).
 
 ---
 
+## Contents
+
+- [Results](#results)
+- [How it works](#how-it-works)
+- [Documentation](#documentation)
+- [Requirements](#requirements) · [Quick start](#quick-start-docker--recommended) · [macOS](#quick-start-with-docker-on-macos-apple-silicon-or-intel)
+- [Tracks](#tracks-and-the-2-scale) · [Sensing](#sensing-and-localization-phase-5) · [Dataset](#imitation-dataset-phase-6) · [Learning](#imitation-learning-phases-78)
+- [Controller](#how-the-controller-works) · [ROS interface](#ros-interface) · [Benchmarking](#benchmarking)
+- [Known limitations](#known-limitations) · [Troubleshooting](#troubleshooting) · [Layout](#repository-layout)
+- [Citation](#citation) · [License](#license) · [Acknowledgements](#acknowledgements)
+
+---
+
+## Results
+
+Each policy drove the three circuits it never saw in training — Silverstone, São Paulo, Montreal — once per training seed, at a 2.7 m/s speed cap. Nine runs per row, graded against Gazebo ground truth that the policy never sees.
+
+| policy | crash rate | laps completed | true lateral RMS | *offline steer error* |
+|---|---:|---:|---:|---:|
+| **PID expert** (privileged: drives on ground-truth pose) | 0 % | 1.00 | **0.019 m** | — |
+| BC + MLP | **67 %** | 0.33 | 0.332 m | *19.4 mrad* |
+| BC + stacked K=3 | **56 %** | 0.33 | 0.420 m | *19.7 mrad* |
+| BC + discretised | **67 %** | 0.33 | 0.407 m | *21.5 mrad* |
+| **DAgger + MLP** | **0 %** | **1.00** | **0.168 m** | *108.9 mrad* |
+| DAgger + stacked K=3 | 0 % | 1.00 | 0.195 m | *160.4 mrad* |
+| DAgger + discretised | 0 % | 1.00 | 0.249 m | *281.9 mrad* |
+| **DAgger, rebalanced 50/50** | **0 %** | **1.00** | 0.175 m | *68.1 mrad* |
+
+Print this table from the raw runs with `scripts/show_results.sh`; every run is in [`results/eval_v1/eval_all.csv`](results/eval_v1/eval_all.csv).
+
+**Validation loss ranked the policies backwards.** Offline, BC beats DAgger by 5.6× (19.4 vs 108.9 mrad against the expert); closed-loop, BC crashes in 67 % of runs and DAgger in none. Offline error averages over the expert's own states, almost all on the racing line; driving is decided by the states a policy reaches after its own mistakes — which only DAgger trains on.
+
+**Architecture made no difference**, as predicted *before* training: an information-asymmetry measurement showed the current scan already determines the expert's steering (local/global action spread 0.003–0.040), so a history of scans has nothing to add.
+
+**DAgger's mechanism was visible.** All 7 crashes of round 1 happened at one corner, Shanghai's 1.44 m hairpin. After the expert labelled those states, rounds 3 and 4 ran 30 rollouts without a crash. The record is not spotless: round 2 failed outright (15/15 rollouts, reproduced in both runs of the experiment, unexplained), and round 5 had two failed rollouts on Monza.
+
+<p align="center">
+  <img src="media/fig_dagger.png" width="820" alt="DAgger rollouts per round, and the Shanghai hairpin where every round-1 crash happened">
+</p>
+
+**Rebalancing halves the offline gap at no cost.** DAgger rows were 75 % of the training set; forcing a 50/50 mix per batch cut the offline error from 108.9 to 68.1 mrad with an unchanged crash record. Still 3.5× BC's 19.4, so part of the trade is real: a policy trained to recover is less precise at copying a demonstrator that never needs to.
+
+**Limits.** Simulation only — transfer to the real robot is untested. One expert, five training circuits, three test circuits. The speed cap is given to the policy as one extra input (the laser cannot tell 1.5 from 2.7 m/s on the same straight); a strictly laser-only variant is implemented but was not run.
+
+---
+
+## How it works
+
+| Phase | Contents | State |
+|---|---|---|
+| 1–2 | Robot bring-up; track conversion — eight F1 circuits rebuilt at 2× for the Hunter's 1.31 m turning radius | done |
+| 3 | Trajectory server, PID tracker, ground-truth metrics logger | done |
+| 4 | Further classical controllers (Pure Pursuit, Stanley, LQR, MPC) | dropped — the PID is the expert |
+| 5 | 2D LiDAR + IMU, dual EKF, AMCL localization, pose-source A/B switch | done |
+| 6 | Imitation dataset: schema, recorder, episode monitor, converter, inspector, collection runner | done |
+| 7–8 | Imitation learning: {BC, DAgger} × {MLP, frame-stacked, discretised}, 3 seeds, closed-loop evaluation | done |
+| 9 | Transfer to the real robot | future work |
+
+1. **The expert** — a PID cross-track controller with curvature and heading feedforward — drives on Gazebo's ground-truth pose and tracks the line to 3–5 mm.
+2. **The dataset** records, 20 times a second, what the laser saw (720 ranges) and what the expert commanded (steering, speed): 8 circuits × 3 speed caps, 958 k rows ≈ 13 h of driving. Five circuits train; **Silverstone, São Paulo and Montreal are held out entirely**.
+3. **The student** (`policy_tracker`) subscribes to `/scan` and nothing else, so it cannot read the pose even by mistake.
+4. **DAgger** lets the student drive while a shadow expert — the same control law, built with **no command publisher at all** — records what it would have done. Five rounds, 75 rollouts.
+5. **Evaluation** drives every policy on the held-out circuits and grades it against ground truth; offline error is reported beside the result, never used to choose.
+
+<p align="center">
+  <img src="media/fig_tracks.png" width="820" alt="The eight circuits at twice F1TENTH scale; three are held out for testing">
+</p>
+
+---
+
+## Documentation
+
+| Document | For |
+|---|---|
+| [QUICKSTART.md](QUICKSTART.md) | Clone to a policy driving an unseen circuit, in three commands |
+| [docs/PROJECT_REPORT.md](docs/PROJECT_REPORT.md) | The whole project as a standalone report: problem, method, results, the silent defects found, limitations |
+| [docs/phases_6_8_simple.md](docs/phases_6_8_simple.md) | The learning phases in plain language, no machine-learning background assumed |
+| [docs/phases_6_8_explained.md](docs/phases_6_8_explained.md) | Technical reference: exact numbers, bug postmortems, commands |
+
+Figures are regenerated from the tracked results with `python3 scripts/make_figures.py`.
+
+---
 
 ## Requirements
 
@@ -263,10 +351,7 @@ ros2 run hunter_dataset collect_dataset --plan src/hunter_dataset/config/collect
 
 ## Imitation learning (Phases 7–8)
 
-> **New here?** [`docs/phases_6_8_simple.md`](docs/phases_6_8_simple.md) explains this phase in plain language, assuming no machine-learning background — written to learn from and to teach from. [`docs/phases_6_8_explained.md`](docs/phases_6_8_explained.md) is the same material as a technical reference, with exact numbers, the bug postmortems and the commands.
-
-
-**Six policies:** {BC data, DAgger data} × {MLP, frame-stacked MLP (K=3), discretised}. Compared closed-loop in Gazebo on the three held-out tracks, PID as the reference row, N seeds each. Validation loss is reported next to that table; where the two rankings disagree is a finding, not a nuisance.
+**Six policies:** {BC data, DAgger data} × {MLP, frame-stacked MLP (K=3), discretised}. Compared closed-loop in Gazebo on the three held-out tracks, PID as the reference row, 3 seeds each. Validation loss is reported next to that table; where the two rankings disagree is a finding, not a nuisance.
 
 | piece | where | what |
 |---|---|---|
@@ -277,7 +362,7 @@ ros2 run hunter_dataset collect_dataset --plan src/hunter_dataset/config/collect
 | `il_diagnostics` | `hunter_il` | Before training: information asymmetry (PCA→32, k-NN 20, median local/global action std; < 0.2 healthy, > 0.4 problem, coloured onto the track), speed histogram per cap, lateral-offset coverage BC vs DAgger |
 | `evaluate_policies` | `hunter_dataset` | Part E: `pid` plus any checkpoints × held-out tracks, ground-truth referenced, crash / laps / RMS with mean ± std over seeds |
 
-Frame stacking never crosses an episode boundary: stacks are gathered through an explicit `[N, K]` index table clamped to each row's episode start (first scan repeated), and a test asserts it. Discretisation uses 21 quantile bins per action with the outer edges pinned to the physical bounds; the edges and bin centres live **in the checkpoint**.
+Frame stacking never crosses an episode boundary: stacks are gathered through an explicit `[N, K]` index table clamped to each row's episode start (first scan repeated), and a test asserts it. Discretisation uses 21 bins per action whose edges blend quantile and uniform spacing with a minimum width (pure quantile spacing collapsed on this peaked distribution); the edges and bin centres live **in the checkpoint**.
 
 ```bash
 ros2 run hunter_il il_diagnostics --data-dir datasets/raw --out diagnostics/
@@ -287,56 +372,6 @@ ros2 run hunter_dataset dagger_runner --plan src/hunter_dataset/config/collectio
 ros2 run hunter_dataset evaluate_policies --plan src/hunter_dataset/config/collection_plan.yaml \
     --out results/eval_v1 --laps 2 pid checkpoints/*.pt
 ```
-
----
-
-> **The full story:** [`docs/PROJECT_REPORT.md`](docs/PROJECT_REPORT.md) — the whole project as a standalone report: problem, method, results, the eight silent defects, limitations and next steps. Start here if you want to understand or explain the work.
->
-> **Just want to see it drive?** [`QUICKSTART.md`](QUICKSTART.md) — clone, build, and watch a trained policy lap a circuit it has never seen, using only its laser scanner. The trained policies are in the repo; no dataset download needed.
-
-## Results
-
-Each policy drove the three circuits it had never seen — Silverstone, SaoPaulo,
-Montreal — three times each (one per training seed). Nine runs per row.
-
-| policy | crash rate | laps completed | true lateral RMS | *offline steer error* |
-|---|---:|---:|---:|---:|
-| **PID expert** (privileged: drives on ground-truth pose) | 0 % | 1.00 | **0.019 m** | — |
-| BC + MLP | **67 %** | 0.33 | 0.332 m | *19.3 mrad* |
-| BC + stacked K=3 | **56 %** | 0.33 | 0.420 m | *19.7 mrad* |
-| BC + discretised | **67 %** | 0.33 | 0.407 m | *21.6 mrad* |
-| **DAgger + MLP** | **0 %** | **1.00** | **0.168 m** | *108.9 mrad* |
-| DAgger + stacked K=3 | 0 % | 1.00 | 0.195 m | *160.4 mrad* |
-| DAgger + discretised | 0 % | 1.00 | 0.249 m | *282.0 mrad* |
-| **DAgger, rebalanced 50/50** | **0 %** | **1.00** | 0.175 m | *68.1 mrad* |
-
-**Validation loss ranked the policies backwards.** Offline, BC beats DAgger by
-5.6× (19.3 vs 108.9 mrad against the expert). Closed-loop, BC crashes on 67 % of
-runs and DAgger on none. Selecting by test score would have selected the policy
-that drives into walls — which is why the evaluation is closed-loop and why the
-offline table is reported beside it rather than instead of it.
-
-**Rebalancing recovers half the offline gap without costing anything.** DAgger
-rows were 75 % of the training set; forcing a 50/50 mix per batch halves the
-offline error (108.9 → 68.1 mrad) while keeping the perfect crash record. So the
-collapse was substantially an artefact of the mix — though 68.1 is still 3.5×
-BC's 19.3, so some of the trade is real.
-
-**Architecture made no difference**, as the information-asymmetry measurement
-predicted before any training: the current scan already determines the expert's
-steering (local/global action std 0.003–0.040), so frame stacking has no hidden
-state to recover.
-
-**DAgger's mechanism was observable.** Iteration 1 produced 7 crashes, all at
-Shanghai's 1.44 m hairpin. After the shadow expert relabelled those states,
-iterations 3 and 4 ran all 30 rollouts without a crash. The record is not
-spotless: iteration 2 failed outright (15/15 rollouts, reproduced in both runs,
-unexplained), and in iteration 5 two Monza rollouts failed at the same point
-(s ≈ 147 m). All 75 rollouts, failed ones included, are in the training set.
-
-Full analysis: [`docs/phases_6_8_simple.md`](docs/phases_6_8_simple.md) (plain
-language) · [`docs/phases_6_8_explained.md`](docs/phases_6_8_explained.md)
-(technical). Raw table: `results/eval_v1/eval.csv`.
 
 ---
 
@@ -457,8 +492,8 @@ This is why `metrics_logger` reports true error separately, and why the expert i
 | Gazebo crashes at startup | Set `LIBGL_ALWAYS_SOFTWARE=1`, or strip Snap/GTK env vars if launching from VS Code |
 | `CMakeCache.txt` path mismatch | Mixed Docker and host builds — delete `build/`, `install/`, `log/` and rebuild |
 | Controller stops after 0.5 s | Nothing is publishing to `/ackermann_like_controller/reference` (`reference_timeout`) |
-| `PermissionError` writing `summary.csv` | `results/` is root-owned from a container run: `sudo chown -R $USER:$USER src/hunter_benchmark/results` |
-| Branch switch blocked by untracked `summary.csv` | Same root-ownership problem. Rename them (`mv` inside `results/` needs no sudo) or chown as above |
+| `PermissionError` writing `summary.csv` or a run directory | Files are root-owned from a container run (the container runs as root). Without sudo: `docker run --rm --entrypoint chown -v "$PWD:/w" hunter_robot:jazzy -R "$(id -u):$(id -g)" /w/results /w/src /w/datasets` |
+| Branch switch blocked by untracked `summary.csv` | Same root-ownership problem; fix as above |
 | `slam_toolbox` runs but publishes nothing | It is a **lifecycle** node — it must be CONFIGUREd then ACTIVATEd. A `/slam_toolbox/transition_event` topic with 0 publishers elsewhere is the tell |
 | Push rejected, `GH001: Large files detected` | A pose graph or a bag got committed. Both are gitignored and regenerable |
 | `convert_dataset`: "0 of N scans found an expert command within 15 ms" | The streams are on different clocks. Check `ros2 topic echo /tracking/diagnostics --field header.stamp.sec` against `/clock` — a 10-digit stamp is wall time; the node is missing `use_sim_time` |
@@ -479,17 +514,37 @@ src/
 ├── hunter_msgs/          # Trajectory / Waypoint / TrackingDiagnostics / EpisodeEvent
 ├── hunter_trajectory/    # trajectory_server node
 ├── hunter_control/       # PidCore -> pid_tracker + pid_shadow; episode_monitor; policy_tracker (py)
-├── hunter_benchmark/     # metrics, summarise script, benchmark launch, 8 per-track params
-├── hunter_localization/  # dual-EKF + AMCL + slam_toolbox configs, launch, maps (gitignored)
-├── hunter_dataset/       # Phase 6: schema (ROS-free), recorder, converter, inspector, collection runner
-│                         # Phase 8: dagger_runner, evaluate_policies
-├── hunter_il/            # Phase 8 training harness (PyTorch, no ROS)
-├── IMS/ Monza/ Melbourne/ Montreal/ Nuerburgring/ SaoPaulo/ Shanghai/ Silverstone/
-│                         # per track: upstream CSVs + map, 2x derivatives
+├── hunter_benchmark/     # metrics, summarise script, benchmark launch, 8 per-track params, run summaries
+├── hunter_localization/  # dual-EKF + AMCL + slam_toolbox configs and launch (pose graphs not in git)
+├── hunter_dataset/       # schema (ROS-free), recorder, converter, inspector, collection + DAgger runners, evaluator
+├── hunter_il/            # training harness: models, data loading, discretisation, diagnostics (PyTorch, no ROS)
+├── race_tracks/          # the eight circuits: upstream F1TENTH CSVs + maps, and their 2x derivatives
 ├── scale_track.py        # uniform track scaling tool
-└── my_convert_track.py   # occupancy map → Gazebo world SDF (declares ALL world plugins)
-datasets/                 # raw/<track>_<speed>ms_<pass>/{bag,dataset.hdf5,manifests,reports}; bags+hdf5 gitignored
-checkpoints/              # hunter_il checkpoints (gitignored)
-docs/                     # phase_6_handoff.md, phase_8_design.md, validation/
+└── my_convert_track.py   # occupancy map -> Gazebo world SDF (declares ALL world plugins)
+checkpoints/final/        # the trained policies the results come from; *.pt.json = metrics per checkpoint
+results/eval_v1/          # every closed-loop evaluation run (eval_all.csv + per-run reports)
+datasets/raw/             # per-run manifests and collection reports (the HDF5 data itself is not in git)
+diagnostics/              # information-asymmetry and coverage analyses
+scripts/                  # watch_policy.sh, show_results.sh, make_figures.py, pipeline helpers
+docs/                     # project report and the two Phase 6-8 explainers
+media/                    # figures used in this README
 docker/                   # Dockerfile + entrypoint
 ```
+
+---
+
+## Citation
+
+If you use this code or its results, please cite it — GitHub's **"Cite this repository"** button reads [`CITATION.cff`](CITATION.cff).
+
+## License
+
+[Apache License 2.0](LICENSE). Copyright 2026 Spnh2000 and simaes.
+
+`src/hunter_description` derives from the University of Lincoln's Hunter description package (Ibrahim Hroob, Hariharan Arunachalam), also Apache-2.0.
+
+## Acknowledgements
+
+- Track layouts: [f1tenth_racetracks](https://github.com/f1tenth/f1tenth_racetracks).
+- Robot model: University of Lincoln Hunter description package.
+- Method: D. Chen *et al.*, "Learning by Cheating", CoRL 2019; S. Ross *et al.*, "A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning" (DAgger), AISTATS 2011.

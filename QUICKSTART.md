@@ -56,8 +56,14 @@ half of every other track.
 
 ## Reproducing the numbers
 
-The dataset (3.7 GB of HDF5) is not in the repo. Without it you can still watch
-any policy drive and re-run the closed-loop evaluation:
+The training data (2.3 GB of HDF5) is not in the repo. Without it you can still
+print the results table from the stored runs, watch any policy drive, and re-run
+the closed-loop evaluation:
+
+```bash
+scripts/show_results.sh          # the results table, from results/eval_v1/
+```
+
 
 ```bash
 ros2 run hunter_dataset evaluate_policies \
@@ -80,4 +86,5 @@ ros2 run hunter_dataset collect_dataset \
   in plain language, no machine-learning background assumed
 - [`docs/phases_6_8_explained.md`](docs/phases_6_8_explained.md) — the
   technical reference
+- [`docs/PROJECT_REPORT.md`](docs/PROJECT_REPORT.md) — the full project report
 - [README](README.md#results) — the results table

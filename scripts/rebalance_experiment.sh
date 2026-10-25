@@ -3,7 +3,7 @@
 #
 # Unbalanced, DAgger rows are 75 % of the training set and the model's
 # agreement with the expert on ordinary states falls apart: held-out-track
-# steering RMSE 19.3 mrad (BC only) -> 108.9 mrad (DAgger), even though the
+# steering RMSE 19.4 mrad (BC only) -> 108.9 mrad (DAgger), even though the
 # DAgger policy is the one that actually completes laps. This trains the same
 # architecture on the same rows with a 50/50 BC:DAgger batch mix and evaluates
 # it the same way, so the three-way comparison is like-for-like:
