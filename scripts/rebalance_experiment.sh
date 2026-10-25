@@ -23,10 +23,6 @@ CFG=src/hunter_il/config/train_default.yaml
 PLAN=src/hunter_dataset/config/collection_plan.yaml
 say() { echo "[$(date '+%F %T')] $*"; }
 
-say "waiting for the discrete redo to finish (they would fight for cores)"
-while pgrep -f 'bash scripts/redo_discrete.sh' > /dev/null; do sleep 120; done
-say "discrete redo done"
-
 for seed in 0 1 2; do
   out=checkpoints/balanced_mlp_s${seed}.pt
   if [ -f "$out.json" ]; then say "skip $out (exists)"; continue; fi

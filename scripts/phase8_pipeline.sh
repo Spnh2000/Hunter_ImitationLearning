@@ -16,13 +16,13 @@ say() { echo "[$(date '+%F %T')] $*"; }
 
 # KNOWN GAP: the rollout stuck-watchdog in dagger_runner counts SIMULATED
 # seconds. If the host suspends, Gazebo stops publishing /clock, sim time
-# freezes, and the watchdog can never fire -- the run just sits there. Resume
-# therefore wraps this script in systemd-inhibit (see scripts/resume_dagger.sh)
-# rather than trying to detect the freeze from inside. A wall-clock watchdog
-# would be the proper fix.
+# freezes, and the watchdog can never fire -- the run just sits there. For long
+# runs, wrap this script in systemd-inhibit so the host cannot suspend:
+#   systemd-inhibit --what=sleep:idle scripts/phase8_pipeline.sh
+# A wall-clock watchdog would be the proper fix.
 
 say "=== DAgger: 5 iterations, MLP student, 1 lap per training track x speed (IMS 0.5) ==="
-# "$@" carries --skip-train through from resume_dagger.sh, so a resumed
+# "$@" is passed through, e.g. --skip-train when resuming, so a resumed
 # iteration keeps the student it started with rather than retraining on its own
 # half-finished rollouts.
 ros2 run hunter_dataset dagger_runner --plan $PLAN --train-config $CFG --arch mlp \
