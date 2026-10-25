@@ -32,7 +32,7 @@ policies.
 
 The PID drives on `/ground_truth/odometry` — Gazebo's exact world pose. It is
 a *teacher*, not a deployable controller. Letting it cheat makes it an almost
-perfect demonstrator (3–5 mm median tracking error), and a good teacher is
+perfect demonstrator (15–25 mm RMS tracking error on the held-out tracks), and a good teacher is
 what imitation learning needs. The student never sees pose: `policy_tracker`
 subscribes to `/scan` and nothing else, which is enforced by the node's
 *subscription list*, not by masking a tensor.

@@ -73,7 +73,7 @@ Ours also looks a little way ahead on the track and slows down for corners
 before it reaches them.
 
 Because it can see its exact position, it drives extremely well — typically
-within **3–5 millimetres** of the intended line. That is what makes it a good
+within about **2 centimetres** of the intended line. That is what makes it a good
 teacher. A sloppy teacher would produce a sloppy student.
 
 ### The student: a small neural network
