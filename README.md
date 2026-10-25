@@ -82,7 +82,7 @@ Print this table from the raw runs with `scripts/show_results.sh`; every run is 
 | 7–8 | Imitation learning: {BC, DAgger} × {MLP, frame-stacked, discretised}, 3 seeds, closed-loop evaluation | done |
 | 9 | Transfer to the real robot | future work |
 
-1. **The expert** — a PID cross-track controller with curvature and heading feedforward — drives on Gazebo's ground-truth pose and tracks the line to 3–5 mm.
+1. **The expert** — a PID cross-track controller with curvature and heading feedforward — drives on Gazebo's ground-truth pose and stays within 15–25 mm RMS of the line.
 2. **The dataset** records, 20 times a second, what the laser saw (720 ranges) and what the expert commanded (steering, speed): 8 circuits × 3 speed caps, 958 k rows ≈ 13 h of driving. Five circuits train; **Silverstone, São Paulo and Montreal are held out entirely**.
 3. **The student** (`policy_tracker`) subscribes to `/scan` and nothing else, so it cannot read the pose even by mistake.
 4. **DAgger** lets the student drive while a shadow expert — the same control law, built with **no command publisher at all** — records what it would have done. Five rounds, 75 rollouts.

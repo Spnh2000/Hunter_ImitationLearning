@@ -39,7 +39,7 @@ and roughly 70 wall-clock hours of simulation.
 ### 1.1 Why not just use the position?
 
 In simulation you can ask Gazebo for the robot's exact pose, and a PID
-controller given that pose tracks a racing line to within 3–5 mm. On hardware
+controller given that pose tracks a racing line to within about 2 cm. On hardware
 that pose does not exist. Wheel odometry integrates slip and drifts without
 bound; the failure is silent, because the controller is tracking its own
 belief perfectly while the robot is somewhere else. We measured exactly that:
@@ -136,7 +136,7 @@ braking needs a **long** one (2.5 m — the vehicle needs metres to shed speed).
 Sharing a single lookahead produced a slow drift to >1.5 m of deviation on
 long sweepers.
 
-Driving on ground truth, it holds **3–5 mm** median error. That is the ceiling
+Driving on ground truth, it holds **15–25 mm** RMS error on the held-out circuits (0.019 m on average). That is the ceiling
 the students are measured against.
 
 ---
