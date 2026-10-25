@@ -43,7 +43,8 @@ ARGS=(world:="$TRACK".sdf
       track_name:="$TRACK"
       max_speed_mps:="$CAP"
       headless:=false use_rviz:=true 
-      output_dir:="$OUT" run_id:="watch_$(date +%H%M%S)")
+      output_dir:="$OUT" run_id:="watch_$(date +%H%M%S)"
+      results_dir:="$OUT")   # benchmark summary too: demo runs stay out of src/
 
 if [ "$CKPT" = "pid" ]; then
   echo ">>> the EXPERT (PID driving on ground truth) -- $TRACK @ $CAP m/s"
@@ -59,5 +60,5 @@ echo ">>>   expected: this run has no localization stack (slam_mode:=disabled),"
 echo ">>>   because the policy drives on /scan and needs no map. Ignore it, or"
 echo ">>>   untick the Map display."
 echo ">>> Ctrl-C to stop."
-echo ">>> the run is written to $OUT ; summary.csv lands in src/hunter_benchmark/results/"
+echo ">>> everything from this run (bag, summary.csv) is written to $OUT -- gitignored"
 exec ros2 launch hunter_dataset record_expert.launch.py "${ARGS[@]}"

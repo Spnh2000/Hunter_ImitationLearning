@@ -82,3 +82,6 @@ results/eval_*/**/launch.log
 # NOTE: README.md and QUICKSTART.md link into docs/, so those links are dead
 # for anyone who clones. Either keep a copy elsewhere or strip the links.
 docs/
+
+# Demo sessions from scripts/watch_policy.sh: viewing runs, not results.
+results/watch_runs/
