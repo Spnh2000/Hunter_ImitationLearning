@@ -1,0 +1,342 @@
+{
+ "val_laps": {
+  "loss": 0.019987456623087936,
+  "rmse_steer_rad": 0.08431893021402902,
+  "rmse_speed_mps": 0.11292169668908428,
+  "n": 67510
+ },
+ "val_tracks": {
+  "loss": 0.16972749633133685,
+  "rmse_steer_rad": 0.1750748049483929,
+  "rmse_speed_mps": 0.20775605720282775,
+  "n": 138607
+ },
+ "best_val_laps_loss": 0.019987456623087936,
+ "epochs_run": 13,
+ "history": [
+  {
+   "epoch": 0,
+   "train_loss": 0.11406683498036062,
+   "val_laps": {
+    "loss": 0.02077241207024218,
+    "rmse_steer_rad": 0.0839034843577816,
+    "rmse_speed_mps": 0.12863621029917424,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 0.04141350633153784,
+    "rmse_steer_rad": 0.11166711498893879,
+    "rmse_speed_mps": 0.21804208057115512,
+    "n": 138607
+   },
+   "wall_s": 55.8
+  },
+  {
+   "epoch": 1,
+   "train_loss": 0.10050046727512807,
+   "val_laps": {
+    "loss": 0.02685498953049906,
+    "rmse_steer_rad": 0.09876146243504895,
+    "rmse_speed_mps": 0.12249476700631298,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 0.1039643337715894,
+    "rmse_steer_rad": 0.17521516954462257,
+    "rmse_speed_mps": 0.1712578333957713,
+    "n": 138607
+   },
+   "wall_s": 111.8
+  },
+  {
+   "epoch": 2,
+   "train_loss": 0.09332585671968105,
+   "val_laps": {
+    "loss": 0.019987456623087936,
+    "rmse_steer_rad": 0.08431893021402902,
+    "rmse_speed_mps": 0.11292169668908428,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 0.16972749633133685,
+    "rmse_steer_rad": 0.1750748049483929,
+    "rmse_speed_mps": 0.20775605720282775,
+    "n": 138607
+   },
+   "wall_s": 168.0
+  },
+  {
+   "epoch": 3,
+   "train_loss": 0.0886009970542629,
+   "val_laps": {
+    "loss": 0.023296448547095658,
+    "rmse_steer_rad": 0.09112959187908652,
+    "rmse_speed_mps": 0.12178200355404054,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 0.1575936710558824,
+    "rmse_steer_rad": 0.18990977171038212,
+    "rmse_speed_mps": 0.17290763897438824,
+    "n": 138607
+   },
+   "wall_s": 223.8
+  },
+  {
+   "epoch": 4,
+   "train_loss": 0.08406516052833735,
+   "val_laps": {
+    "loss": 0.026760568308743737,
+    "rmse_steer_rad": 0.09997163093868498,
+    "rmse_speed_mps": 0.11310757355674085,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 0.10860129060399056,
+    "rmse_steer_rad": 0.18571197865176597,
+    "rmse_speed_mps": 0.1472389066397028,
+    "n": 138607
+   },
+   "wall_s": 280.2
+  },
+  {
+   "epoch": 5,
+   "train_loss": 0.08017676115135278,
+   "val_laps": {
+    "loss": 0.026021578965686264,
+    "rmse_steer_rad": 0.09782008628558152,
+    "rmse_speed_mps": 0.11766916270053998,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 0.09957604057823427,
+    "rmse_steer_rad": 0.19112413912667742,
+    "rmse_speed_mps": 0.1533224878961873,
+    "n": 138607
+   },
+   "wall_s": 336.5
+  },
+  {
+   "epoch": 6,
+   "train_loss": 0.07673754956610196,
+   "val_laps": {
+    "loss": 0.023774329805394893,
+    "rmse_steer_rad": 0.09415095082896369,
+    "rmse_speed_mps": 0.10712776642057478,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 0.14551726100011664,
+    "rmse_steer_rad": 0.20630574364651405,
+    "rmse_speed_mps": 0.16946872912597707,
+    "n": 138607
+   },
+   "wall_s": 393.7
+  },
+  {
+   "epoch": 7,
+   "train_loss": 0.07427609496172963,
+   "val_laps": {
+    "loss": 0.028762815700941326,
+    "rmse_steer_rad": 0.10286889972986898,
+    "rmse_speed_mps": 0.12353063491381237,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 0.2584193358781636,
+    "rmse_steer_rad": 0.2267649789141357,
+    "rmse_speed_mps": 0.17950794232998374,
+    "n": 138607
+   },
+   "wall_s": 450.9
+  },
+  {
+   "epoch": 8,
+   "train_loss": 0.071407839025037,
+   "val_laps": {
+    "loss": 0.028676964546985723,
+    "rmse_steer_rad": 0.10518869457130375,
+    "rmse_speed_mps": 0.10194874587906039,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 0.24290864296304854,
+    "rmse_steer_rad": 0.23402105760290678,
+    "rmse_speed_mps": 0.1775007767650963,
+    "n": 138607
+   },
+   "wall_s": 508.3
+  },
+  {
+   "epoch": 9,
+   "train_loss": 0.0694477653706009,
+   "val_laps": {
+    "loss": 0.032663321254024186,
+    "rmse_steer_rad": 0.11082123926999547,
+    "rmse_speed_mps": 0.12177463397690182,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 0.23805550884693327,
+    "rmse_steer_rad": 0.2260906766500275,
+    "rmse_speed_mps": 0.22746584241800546,
+    "n": 138607
+   },
+   "wall_s": 564.9
+  },
+  {
+   "epoch": 10,
+   "train_loss": 0.06749294065274039,
+   "val_laps": {
+    "loss": 0.03176878273670293,
+    "rmse_steer_rad": 0.11207390841139206,
+    "rmse_speed_mps": 0.09299893954761342,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 0.20223053448380124,
+    "rmse_steer_rad": 0.23655205172749708,
+    "rmse_speed_mps": 0.19761012055874416,
+    "n": 138607
+   },
+   "wall_s": 621.9
+  },
+  {
+   "epoch": 11,
+   "train_loss": 0.06501430639618519,
+   "val_laps": {
+    "loss": 0.03196464118492143,
+    "rmse_steer_rad": 0.10932854050856076,
+    "rmse_speed_mps": 0.12289555285270554,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 0.16774213899520973,
+    "rmse_steer_rad": 0.23853603257225747,
+    "rmse_speed_mps": 0.17859488867870643,
+    "n": 138607
+   },
+   "wall_s": 679.4
+  },
+  {
+   "epoch": 12,
+   "train_loss": 0.06281879214271267,
+   "val_laps": {
+    "loss": 0.02839124070447633,
+    "rmse_steer_rad": 0.09648703936578758,
+    "rmse_speed_mps": 0.15999601261694968,
+    "n": 67510
+   },
+   "val_tracks": {
+    "loss": 0.1560492178266446,
+    "rmse_steer_rad": 0.2286976937773832,
+    "rmse_speed_mps": 0.18568879799887217,
+    "n": 138607
+   },
+   "wall_s": 737.4
+  }
+ ],
+ "n_train": 752358,
+ "seed": 1,
+ "runs": [
+  "datasets/raw/IMS_1.5ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/IMS_1.5ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/IMS_1.5ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/IMS_1.5ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/IMS_1.5ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/IMS_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/IMS_2.1ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/IMS_2.1ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/IMS_2.1ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/IMS_2.1ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/IMS_2.1ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/IMS_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/IMS_2.7ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/IMS_2.7ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/IMS_2.7ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/IMS_2.7ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/IMS_2.7ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/IMS_2.7ms_p1/dataset.hdf5",
+  "datasets/raw/Melbourne_1.5ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/Melbourne_1.5ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/Melbourne_1.5ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/Melbourne_1.5ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/Melbourne_1.5ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/Melbourne_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/Melbourne_2.1ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/Melbourne_2.1ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/Melbourne_2.1ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/Melbourne_2.1ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/Melbourne_2.1ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/Melbourne_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/Melbourne_2.7ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/Melbourne_2.7ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/Melbourne_2.7ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/Melbourne_2.7ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/Melbourne_2.7ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/Melbourne_2.7ms_p1/dataset.hdf5",
+  "datasets/raw/Montreal_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/Montreal_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/Montreal_2.7ms_p1/dataset.hdf5",
+  "datasets/raw/Monza_1.5ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/Monza_1.5ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/Monza_1.5ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/Monza_1.5ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/Monza_1.5ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/Monza_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/Monza_2.1ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/Monza_2.1ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/Monza_2.1ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/Monza_2.1ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/Monza_2.1ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/Monza_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/Monza_2.7ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/Monza_2.7ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/Monza_2.7ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/Monza_2.7ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/Monza_2.7ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/Monza_2.7ms_p1/dataset.hdf5",
+  "datasets/raw/Nuerburgring_1.5ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/Nuerburgring_1.5ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/Nuerburgring_1.5ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/Nuerburgring_1.5ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/Nuerburgring_1.5ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/Nuerburgring_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/Nuerburgring_2.1ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/Nuerburgring_2.1ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/Nuerburgring_2.1ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/Nuerburgring_2.1ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/Nuerburgring_2.1ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/Nuerburgring_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/Nuerburgring_2.7ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/Nuerburgring_2.7ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/Nuerburgring_2.7ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/Nuerburgring_2.7ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/Nuerburgring_2.7ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/Nuerburgring_2.7ms_p1/dataset.hdf5",
+  "datasets/raw/SaoPaulo_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/SaoPaulo_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/SaoPaulo_2.7ms_p1/dataset.hdf5",
+  "datasets/raw/Shanghai_1.5ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/Shanghai_1.5ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/Shanghai_1.5ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/Shanghai_1.5ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/Shanghai_1.5ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/Shanghai_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/Shanghai_2.1ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/Shanghai_2.1ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/Shanghai_2.1ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/Shanghai_2.1ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/Shanghai_2.1ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/Shanghai_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/Shanghai_2.7ms_dagger_it1/dataset.hdf5",
+  "datasets/raw/Shanghai_2.7ms_dagger_it2/dataset.hdf5",
+  "datasets/raw/Shanghai_2.7ms_dagger_it3/dataset.hdf5",
+  "datasets/raw/Shanghai_2.7ms_dagger_it4/dataset.hdf5",
+  "datasets/raw/Shanghai_2.7ms_dagger_it5/dataset.hdf5",
+  "datasets/raw/Shanghai_2.7ms_p1/dataset.hdf5",
+  "datasets/raw/Silverstone_1.5ms_p1/dataset.hdf5",
+  "datasets/raw/Silverstone_2.1ms_p1/dataset.hdf5",
+  "datasets/raw/Silverstone_2.7ms_p1/dataset.hdf5"
+ ]
+}

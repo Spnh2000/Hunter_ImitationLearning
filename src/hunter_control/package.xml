@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>hunter_control</name>
+  <version>0.1.0</version>
+  <description>Path-tracking controller nodes for Hunter V2 (pid_tracker now; Phase 4-9 add sibling trackers here)</description>
+
+  <maintainer email="sagharpanahi2@gmail.com">Sagha Panahi</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>hunter_msgs</depend>
+  <depend>ros_gz_interfaces</depend>
+  <depend>std_srvs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>control_toolbox</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+  <exec_depend>hunter_dataset</exec_depend>
+  <exec_depend>hunter_il</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+</package>

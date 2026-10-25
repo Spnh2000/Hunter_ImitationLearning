@@ -1,0 +1,25 @@
+{
+  "bag": "/home/thesp/sp_codes/hunter_robot/datasets/raw/Shanghai_2.1ms_dagger_it1/bag",
+  "mode": "dagger",
+  "scans_total": 10293,
+  "scans_pre_post_run_trimmed": 28,
+  "join_dt_ms": {
+    "median": 0.0,
+    "p95": 0.0,
+    "max": 0.0,
+    "slop": 15.0
+  },
+  "rows_rejected_slop": 0,
+  "rows_kept": 10245,
+  "relabel_dt_ms": {
+    "median": 1.0,
+    "p95": 10.0,
+    "max": 10.0
+  },
+  "rows_rejected_relabel_slop": 0,
+  "episode_events_matched_exactly": 10245,
+  "rows_dropped_pinned_after_terminal": 20,
+  "respawn_jumps": 2,
+  "rows": 10245,
+  "out": "/home/thesp/sp_codes/hunter_robot/datasets/raw/Shanghai_2.1ms_dagger_it1/dataset.hdf5"
+}

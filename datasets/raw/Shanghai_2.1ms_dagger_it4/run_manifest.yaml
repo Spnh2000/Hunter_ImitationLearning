@@ -1,0 +1,115 @@
+run_id: dagger_it4
+track_id: Shanghai
+track_file: src/Shanghai/Shanghai_centerline_2x.csv
+track_sha256: 6319355ea84e6134d06039d47b08c5a72cd72442182f61b908dc727530174f88
+max_speed_mps: 2.1
+spawn_s_frac: 0.0
+controller_label: policy
+shadow_expert: true
+policy_checkpoint: /home/thesp/sp_codes/hunter_robot/checkpoints/dagger_mlp_it4.pt
+dagger_iteration: 4
+pose_source: ground_truth
+world: Shanghai.sdf
+params_file: shanghai_defaults.yaml
+effective_params:
+  trajectory_server:
+    ros__parameters:
+      path_format: auto
+      frame_id: odom
+      speed_source: curvature_limited
+      max_speed_mps: 2.1
+      min_speed_mps: 0.2
+      lateral_accel_limit_mps2: 0.4
+      close_loop_gap_threshold_m: 0.05
+      centerline_smoothing_m: 2.8
+      visualize: true
+  pid_tracker:
+    ros__parameters:
+      wheelbase_m: 0.65
+      max_steering_rad: 0.461
+      max_speed_mps: 2.1
+      control_frequency_hz: 50.0
+      heading_feedforward_gain: 1.0
+      enable_curvature_feedforward: true
+      curvature_preview_m: 0.3
+      speed_preview_m: 2.5
+      steering_pid.p: 1.3
+      steering_pid.i: 0.04
+      steering_pid.d: 0.25
+      speed_pid.p: 0.5
+      speed_pid.i: 0.3
+      speed_pid.d: 0.0
+  policy_tracker:
+    ros__parameters:
+      max_speed_mps: 2.1
+      wheelbase_m: 0.65
+      max_steering_rad: 0.461
+      control_frequency_hz: 50.0
+git_rev: ee722d5c8456494243c7d157e4238214787d93b4
+git_dirty: true
+git_dirty_files:
+- M datasets/raw/dagger_mlp.log
+- ' M src/hunter_benchmark/results/Shanghai_policy_ground_truth_20260923_144742/summary.csv'
+- ?? datasets/raw/IMS_1.5ms_dagger_it1/
+- ?? datasets/raw/IMS_1.5ms_dagger_it2/
+- ?? datasets/raw/IMS_1.5ms_dagger_it3/
+- ?? datasets/raw/IMS_2.1ms_dagger_it1/
+- ?? datasets/raw/IMS_2.1ms_dagger_it2/
+- ?? datasets/raw/IMS_2.1ms_dagger_it3/
+- ?? datasets/raw/IMS_2.7ms_dagger_it1/
+- ?? datasets/raw/IMS_2.7ms_dagger_it2/
+- ?? datasets/raw/IMS_2.7ms_dagger_it3/
+- ?? datasets/raw/Melbourne_1.5ms_dagger_it1/
+- ?? datasets/raw/Melbourne_1.5ms_dagger_it2/
+- ?? datasets/raw/Melbourne_1.5ms_dagger_it3/
+- ?? datasets/raw/Melbourne_2.1ms_dagger_it1/
+- ?? datasets/raw/Melbourne_2.1ms_dagger_it2/
+- ?? datasets/raw/Melbourne_2.1ms_dagger_it3/
+- ?? datasets/raw/Melbourne_2.7ms_dagger_it1/
+- ?? datasets/raw/Melbourne_2.7ms_dagger_it2/
+- ?? datasets/raw/Melbourne_2.7ms_dagger_it3/
+- ?? datasets/raw/Monza_1.5ms_dagger_it1/
+- ?? datasets/raw/Monza_1.5ms_dagger_it2/
+- ?? datasets/raw/Monza_1.5ms_dagger_it3/
+- ?? datasets/raw/Monza_2.1ms_dagger_it1/
+- ?? datasets/raw/Monza_2.1ms_dagger_it2/
+- ?? datasets/raw/Monza_2.1ms_dagger_it3/
+- ?? datasets/raw/Monza_2.7ms_dagger_it1/
+- ?? datasets/raw/Monza_2.7ms_dagger_it2/
+- ?? datasets/raw/Monza_2.7ms_dagger_it3/
+- ?? datasets/raw/Nuerburgring_1.5ms_dagger_it1/
+- ?? datasets/raw/Nuerburgring_1.5ms_dagger_it2/
+- ?? datasets/raw/Nuerburgring_1.5ms_dagger_it3/
+- ?? datasets/raw/Nuerburgring_2.1ms_dagger_it1/
+- ?? datasets/raw/Nuerburgring_2.1ms_dagger_it2/
+- ?? datasets/raw/Nuerburgring_2.1ms_dagger_it3/
+- ?? datasets/raw/Nuerburgring_2.7ms_dagger_it1/
+- ?? datasets/raw/Nuerburgring_2.7ms_dagger_it2/
+- ?? datasets/raw/Nuerburgring_2.7ms_dagger_it3/
+- ?? datasets/raw/Shanghai_1.5ms_dagger_it2/
+- ?? datasets/raw/Shanghai_1.5ms_dagger_it3/
+- ?? datasets/raw/Shanghai_1.5ms_dagger_it4/
+- ?? datasets/raw/Shanghai_2.1ms_dagger_it1/collection_report.json
+- ?? datasets/raw/Shanghai_2.1ms_dagger_it1/convert.log
+- ?? datasets/raw/Shanghai_2.1ms_dagger_it1/inspect.txt
+- ?? datasets/raw/Shanghai_2.1ms_dagger_it2/
+- ?? datasets/raw/Shanghai_2.1ms_dagger_it3/
+- ?? datasets/raw/Shanghai_2.1ms_dagger_it4/
+- ?? datasets/raw/Shanghai_2.7ms_dagger_it1/
+- ?? datasets/raw/Shanghai_2.7ms_dagger_it2/
+- ?? datasets/raw/Shanghai_2.7ms_dagger_it3/
+bag_topics:
+- /scan
+- /tracking/diagnostics
+- /ground_truth/odometry
+- /ackermann_like_controller/reference
+- /ackermann_like_controller/odometry_bagged
+- /odometry/filtered
+- /expert/relabel
+- /episode/event
+- /bumper_contacts_bagged
+- /imu
+- /trajectory/reference
+- /tf_static
+- /robot_description
+started_utc: '2026-09-24T06:04:50Z'

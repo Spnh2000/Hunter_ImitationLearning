@@ -1,0 +1,17 @@
+FROM hunter_robot:jazzy
+
+# Install VNC, noVNC, and window manager dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    xvfb \
+    fluxbox \
+    x11vnc \
+    novnc \
+    websockify \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy and configure the macOS entrypoint script
+COPY docker/entrypoint_mac.sh /entrypoint_mac.sh
+RUN chmod +x /entrypoint_mac.sh
+
+ENTRYPOINT ["/entrypoint_mac.sh"]
+CMD ["bash"]

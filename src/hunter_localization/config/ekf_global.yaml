@@ -1,0 +1,107 @@
+# GLOBAL EKF -- absolute accuracy, publishes map -> odom.
+#
+# Role: take slam_toolbox's discrete, low-rate pose corrections and turn them
+# into a smooth high-rate estimate. SLAM pose enters as a MEASUREMENT, not as
+# an output: between SLAM updates the filter propagates on wheel velocity and
+# gyro at 50 Hz, and when a correction arrives the Kalman gain applies only a
+# fraction of the innovation. A 20 cm SLAM correction becomes a convergence
+# over several control cycles rather than a step.
+#
+# This file is where controller-visible smoothness is tuned. Do NOT detune the
+# PID to hide correction jumps -- raise pose0 covariance here instead.
+
+ekf_filter_node_map:
+  ros__parameters:
+    frequency: 50.0
+    sensor_timeout: 0.1
+    two_d_mode: true
+    # FALSE deliberately. slam_toolbox cannot publish /slam_toolbox/pose
+    # without also publishing the map->odom TF (one timer drives both -- see
+    # slam_*.yaml), and this filter needs that pose as its only absolute
+    # measurement. So slam_toolbox owns the map->odom TF and this filter owns
+    # the SMOOTHED ESTIMATE instead, published on /odometry/filtered_map.
+    #
+    # That split is exactly right for this stack, because the tracker consumes
+    # nav_msgs/Odometry and never looks up TF (Phase 3 reuse callout #6):
+    #   * TF map->odom       -- raw SLAM, carries discrete correction steps,
+    #                           used by RViz and any TF consumer
+    #   * /odometry/filtered_map -- 50 Hz, corrections absorbed by the filter,
+    #                           what the CONTROLLER actually consumes
+    # Two publishers of map->odom would fight; this way there is exactly one.
+    publish_tf: false
+    print_diagnostics: true
+
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: map          # <- global filter: fuses the absolute SLAM pose
+
+    # Same velocity inputs as the local filter. Both filters must see the same
+    # motion evidence, otherwise map -> odom accumulates the DIFFERENCE between
+    # two dissimilar dead-reckoning estimates and creeps even with SLAM healthy.
+    odom0: /ackermann_like_controller/odometry
+    odom0_config: [false, false, false,
+                   false, false, false,
+                   true,  false, false,
+                   false, false, true,
+                   false, false, false]
+    odom0_queue_size: 10
+    odom0_differential: false
+    odom0_relative: false
+
+    imu0: /imu
+    imu0_config: [false, false, false,
+                  false, false, false,
+                  false, false, false,
+                  false, false, true,
+                  false, false, false]
+    imu0_queue_size: 20
+    imu0_differential: false
+    imu0_relative: false
+    imu0_remove_gravitational_acceleration: true
+
+    # ---- SLAM absolute pose -------------------------------------------------
+    # The only absolute reference in the whole stack. slam_toolbox publishes
+    # this as PoseWithCovarianceStamped in the map frame; its own TF
+    # publishing is disabled (transform_publish_period: 0.0) so that this
+    # filter is the sole publisher of map -> odom.
+    #
+    # differential/relative both false: this is an absolute measurement, not
+    # an increment. Setting differential here is a common mistake that turns
+    # SLAM into a second (bad) odometry source.
+    pose0: /slam_toolbox/pose
+    pose0_config: [true,  true,  false,
+                   false, false, true,
+                   false, false, false,
+                   false, false, false,
+                   false, false, false]
+    pose0_queue_size: 10
+    pose0_differential: false
+    pose0_relative: false
+    # Reject physically impossible corrections. On a repetitive oval a false
+    # loop closure can emit a pose metres away from truth; without this gate
+    # the filter would happily follow it. 5 sigma lets genuine corrections
+    # through while discarding matches against the wrong corner.
+    pose0_rejection_threshold: 5.0
+
+    # ---- Smoothness tuning --------------------------------------------------
+    # Lower process noise on x/y/yaw than the local filter: this filter should
+    # trust its own propagation and pull toward SLAM gradually. If steering
+    # reversals cluster at SLAM update instants, LOWER these further (or raise
+    # the covariance slam_toolbox publishes) -- that is the EKF-side fix for
+    # correction-induced oscillation.
+    process_noise_covariance: [0.008, 0.0,   0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,
+                               0.0,   0.008, 0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,
+                               0.0,   0.0,   0.01, 0.0,  0.0,  0.0,   0.0,  0.0,  0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,
+                               0.0,   0.0,   0.0,  0.01, 0.0,  0.0,   0.0,  0.0,  0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,
+                               0.0,   0.0,   0.0,  0.0,  0.01, 0.0,   0.0,  0.0,  0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,
+                               0.0,   0.0,   0.0,  0.0,  0.0,  0.015, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,
+                               0.0,   0.0,   0.0,  0.0,  0.0,  0.0,   0.05, 0.0,  0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,
+                               0.0,   0.0,   0.0,  0.0,  0.0,  0.0,   0.0,  0.05, 0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,
+                               0.0,   0.0,   0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.04, 0.0,  0.0,  0.0,   0.0,  0.0,  0.0,
+                               0.0,   0.0,   0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,  0.01, 0.0,  0.0,   0.0,  0.0,  0.0,
+                               0.0,   0.0,   0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,  0.0,  0.01, 0.0,   0.0,  0.0,  0.0,
+                               0.0,   0.0,   0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,  0.0,  0.0,  0.02,  0.0,  0.0,  0.0,
+                               0.0,   0.0,   0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,  0.0,  0.0,  0.0,   0.01, 0.0,  0.0,
+                               0.0,   0.0,   0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,  0.0,  0.0,  0.0,   0.0,  0.01, 0.0,
+                               0.0,   0.0,   0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.0,  0.0,  0.0,  0.0,   0.0,  0.0,  0.015]

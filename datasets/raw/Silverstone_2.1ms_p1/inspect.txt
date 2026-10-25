@@ -1,0 +1,62 @@
+
+=== /home/thesp/sp_codes/hunter_robot/datasets/raw/Silverstone_2.1ms_p1/dataset.hdf5 ===
+
+SCHEMA
+  [PASS] schema_version major matches  -- file=1.0.0 spec=1.0.0
+  [PASS] observations shape [N,720] float32  -- (18075, 720) float32
+  [PASS] actions shape [N,2] float32  -- (18075, 2) float32
+  [PASS] rewards/terminals/timeouts length N
+  [PASS] terminals is bool  -- bool
+  [PASS] timeouts is bool  -- bool
+  [PASS] terminals and timeouts never both true on one row  -- 0 rows conflict
+  [PASS] terminals and timeouts are not the same array  -- identical arrays would mean they were conflated
+
+OBSERVATIONS
+  [PASS] zero inf  -- 0 inf values
+  [PASS] zero NaN  -- 0 NaN values
+  [PASS] all within [0.15, 30.0]  -- min=1.808 max=30.000
+         beams at range_max (no-return / clipped): 1.6%
+
+DOWNSAMPLE INDEX
+  [PASS] stored index array present and length 720  -- (720,)
+  [PASS] stored == dataset_spec.DOWNSAMPLE_IDX
+  [PASS] stored == independent re-derivation (i % 3 != 1)  -- the file must prove its own mapping, not just cite the code
+
+RATE
+  [PASS] N ~= 20 x duration  -- N=18075  duration=903.7s  expected~18074  ratio=1.000
+         inter-row gap ms: median=50.0  p95=50.0  max=50.0
+  [PASS] timestamps strictly increasing
+
+JOIN (from converter report)
+         |dt| ms: median=10.00  p95=10.00  max=10.00  slop=15
+         rows kept=18075  rejected(slop)=0  pre/post-run trimmed=9
+  [PASS] survival: >90% of in-window scans paired  -- 18075 of 18075
+  [PASS] episode events matched EXACTLY for every row  -- 18075 == N=18075
+
+ACTIONS  (physical units)
+  steering_rad  min= -0.2046  max=  0.3012  std=  0.0447  unique=  2506
+  [PASS] steering_rad within action_bounds  -- bounds=[-0.460999995470047, 0.460999995470047]
+  [PASS] steering_rad carries signal  -- std=0.0447, 2506 unique
+  speed_mps     min=  0.9602  max=  2.1000  std=  0.2109  unique=  2454
+  [PASS] speed_mps within action_bounds  -- bounds=[0.0, 2.809999942779541]
+  [PASS] speed_mps carries signal  -- std=0.2109, 2454 unique
+
+EPISODES
+         episodes=1  terminals=0  timeouts=1
+  [PASS] every episode ends in exactly one of terminal/timeout  -- 0+1 vs 1 episodes
+  [PASS] prev_action == previous row's action within episodes
+  [PASS] prev_action at episode start == own action (documented padding)
+
+ATTRS
+  track_id         Silverstone
+  track_sha256     ff34e0f7948479519a8b961545f67c4f6cf88e1ffbb12db2271c0e1eeb93
+  max_speed_mps    2.1
+  controller_label pid
+  git_rev          55da14cfe65fdc3197e713c2129e79ae05899526
+  git_dirty        True
+  [PASS] track_sha256 present
+  [WARN] git_dirty=True  -- git_rev does not fully describe the code that produced this data
+
+==============================================================================
+GATE: PASS  (1 warning(s))
+==============================================================================

@@ -1,0 +1,19 @@
+{
+  "bag": "/home/thesp/sp_codes/hunter_robot/datasets/raw/IMS_2.1ms_p1/bag",
+  "mode": "expert",
+  "scans_total": 5624,
+  "scans_pre_post_run_trimmed": 9,
+  "join_dt_ms": {
+    "median": 9.0,
+    "p95": 10.0,
+    "max": 25.0,
+    "slop": 15.0
+  },
+  "rows_rejected_slop": 2,
+  "rows_kept": 5613,
+  "episode_events_matched_exactly": 5613,
+  "rows_dropped_pinned_after_terminal": 0,
+  "respawn_jumps": 0,
+  "rows": 5613,
+  "out": "/home/thesp/sp_codes/hunter_robot/datasets/raw/IMS_2.1ms_p1/dataset.hdf5"
+}

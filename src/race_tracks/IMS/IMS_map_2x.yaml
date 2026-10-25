@@ -1,0 +1,6 @@
+image: IMS_map.png
+resolution: 0.12734
+origin: [-78.07643063439446,-98.47439837058528, 0.000000]
+negate: 0
+occupied_thresh: 0.45
+free_thresh: 0.196

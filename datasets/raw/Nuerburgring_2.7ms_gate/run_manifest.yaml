@@ -1,0 +1,104 @@
+run_id: gate
+track_id: Nuerburgring
+track_file: src/Nuerburgring/Nuerburgring_centerline_2x.csv
+track_sha256: 4af0be5395c0545ae8ba4ec3b804ece5abc323242613189e535b4359ed51546a
+max_speed_mps: 2.7
+controller_label: pid
+pose_source: ground_truth
+world: Nuerburgring.sdf
+params_file: nuerburgring_defaults.yaml
+effective_params:
+  trajectory_server:
+    ros__parameters:
+      path_format: auto
+      frame_id: odom
+      speed_source: curvature_limited
+      max_speed_mps: 2.7
+      min_speed_mps: 0.2
+      lateral_accel_limit_mps2: 0.4
+      close_loop_gap_threshold_m: 0.05
+      centerline_smoothing_m: 2.8
+      visualize: true
+  pid_tracker:
+    ros__parameters:
+      wheelbase_m: 0.65
+      max_steering_rad: 0.461
+      max_speed_mps: 2.7
+      control_frequency_hz: 50.0
+      heading_feedforward_gain: 1.0
+      enable_curvature_feedforward: true
+      curvature_preview_m: 0.3
+      speed_preview_m: 2.5
+      steering_pid.p: 1.3
+      steering_pid.i: 0.04
+      steering_pid.d: 0.25
+      speed_pid.p: 0.5
+      speed_pid.i: 0.3
+      speed_pid.d: 0.0
+git_rev: 15012b1a056389621f2540b9b0a8f82390c7f1b5
+git_dirty: true
+git_dirty_files:
+- M docker/Dockerfile
+- ' M docs/phase_6_handoff.md'
+- ' D src/f1tenth_racetracks/Melbourne/Melbourne_DonkeySim_waypoints.txt'
+- ' D src/f1tenth_racetracks/Melbourne/Melbourne_centerline.csv'
+- ' D src/f1tenth_racetracks/Melbourne/Melbourne_map.png'
+- ' D src/f1tenth_racetracks/Melbourne/Melbourne_map.yaml'
+- ' D src/f1tenth_racetracks/Melbourne/Melbourne_raceline.csv'
+- ' D src/f1tenth_racetracks/Montreal/Montreal_DonkeySim_waypoints.txt'
+- ' D src/f1tenth_racetracks/Montreal/Montreal_centerline.csv'
+- ' D src/f1tenth_racetracks/Montreal/Montreal_map.png'
+- ' D src/f1tenth_racetracks/Montreal/Montreal_map.yaml'
+- ' D src/f1tenth_racetracks/Monza/Monza_DonkeySim_waypoints.txt'
+- ' D src/f1tenth_racetracks/Monza/Monza_centerline.csv'
+- ' D src/f1tenth_racetracks/Monza/Monza_map.png'
+- ' D src/f1tenth_racetracks/Monza/Monza_map.yaml'
+- ' D src/f1tenth_racetracks/Monza/Monza_raceline.csv'
+- ' D src/f1tenth_racetracks/Nuerburgring/Nuerburgring_DonkeySim_waypoints.txt'
+- ' D src/f1tenth_racetracks/Nuerburgring/Nuerburgring_centerline.csv'
+- ' D src/f1tenth_racetracks/Nuerburgring/Nuerburgring_map.png'
+- ' D src/f1tenth_racetracks/Nuerburgring/Nuerburgring_map.yaml'
+- ' D src/f1tenth_racetracks/Nuerburgring/Nuerburgring_raceline.csv'
+- ' D src/f1tenth_racetracks/SaoPaulo/SaoPaulo_DonkeySim_waypoints.txt'
+- ' D src/f1tenth_racetracks/SaoPaulo/SaoPaulo_centerline.csv'
+- ' D src/f1tenth_racetracks/SaoPaulo/SaoPaulo_map.png'
+- ' D src/f1tenth_racetracks/SaoPaulo/SaoPaulo_map.yaml'
+- ' D src/f1tenth_racetracks/SaoPaulo/SaoPaulo_raceline.csv'
+- ' D src/f1tenth_racetracks/Shanghai/Shanghai_DonkeySim_waypoints.txt'
+- ' D src/f1tenth_racetracks/Shanghai/Shanghai_centerline.csv'
+- ' D src/f1tenth_racetracks/Shanghai/Shanghai_map.png'
+- ' D src/f1tenth_racetracks/Shanghai/Shanghai_map.yaml'
+- ' D src/f1tenth_racetracks/Silverstone/Silverstone_DonkeySim_waypoints.txt'
+- ' D src/f1tenth_racetracks/Silverstone/Silverstone_centerline.csv'
+- ' D src/f1tenth_racetracks/Silverstone/Silverstone_map.png'
+- ' D src/f1tenth_racetracks/Silverstone/Silverstone_map.yaml'
+- ' D src/f1tenth_racetracks/Silverstone/Silverstone_raceline.csv'
+- ' M src/hunter_benchmark/launch/benchmark.launch.py'
+- ' M src/hunter_control/CMakeLists.txt'
+- ' M src/hunter_control/package.xml'
+- ' M src/hunter_control/src/pid_tracker.cpp'
+- ' M src/hunter_description/description/sensors.xacro'
+- ' M src/hunter_gazebo/worlds/IMS.sdf'
+- ' M src/hunter_gazebo/worlds/Monza.sdf'
+- ' M src/hunter_msgs/CMakeLists.txt'
+- ' M src/my_convert_track.py'
+- ?? datasets/
+- ?? docs/phase_8_design.md
+- ?? f1tenth_racetracks/
+- ?? src/Melbourne/
+- ?? src/Montreal/
+- ?? src/Nuerburgring/
+bag_topics:
+- /scan
+- /tracking/diagnostics
+- /ground_truth/odometry
+- /ackermann_like_controller/reference
+- /ackermann_like_controller/odometry
+- /odometry/filtered
+- /episode/event
+- /bumper_contacts_bagged
+- /imu
+- /trajectory/reference
+- /tf_static
+- /robot_description
+started_utc: '2026-09-19T16:04:43Z'

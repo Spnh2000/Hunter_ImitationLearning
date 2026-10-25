@@ -1,0 +1,23 @@
+{
+  "policy": "bc_discrete_s0",
+  "arch": "discrete",
+  "dataset": "bc",
+  "seed": 0,
+  "track": "SaoPaulo",
+  "max_speed_mps": 2.7,
+  "status": "ok",
+  "crashed": 0,
+  "crash_s_m": "",
+  "crash_trigger": "",
+  "laps_completed": 1,
+  "distance_m": 1031.4,
+  "sim_duration_s": 433.0,
+  "mean_speed_mps": 2.39,
+  "rms_gt_lateral_error_m": "0.6542",
+  "max_gt_lateral_error_m": "1.3363",
+  "mean_gt_lateral_error_m": "-0.5065",
+  "steering_cmd_variance": "0.002543",
+  "steering_reversal_rate_hz": "0.0",
+  "wall_s": 1460.2,
+  "run_dir": "/home/thesp/sp_codes/hunter_robot/results/eval_v1/SaoPaulo_2.7ms_eval_bc_discrete_s0"
+}

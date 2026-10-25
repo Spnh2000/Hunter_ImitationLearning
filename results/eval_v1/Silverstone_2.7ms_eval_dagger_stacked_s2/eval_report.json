@@ -1,0 +1,23 @@
+{
+  "policy": "dagger_stacked_s2",
+  "arch": "stacked",
+  "dataset": "dagger",
+  "seed": 2,
+  "track": "Silverstone",
+  "max_speed_mps": 2.7,
+  "status": "ok",
+  "crashed": 0,
+  "crash_s_m": "",
+  "crash_trigger": "",
+  "laps_completed": 1,
+  "distance_m": 1371.0,
+  "sim_duration_s": 569.9,
+  "mean_speed_mps": 2.401,
+  "rms_gt_lateral_error_m": "0.1208",
+  "max_gt_lateral_error_m": "0.6075",
+  "mean_gt_lateral_error_m": "-0.0069",
+  "steering_cmd_variance": "0.003499",
+  "steering_reversal_rate_hz": "0.174",
+  "wall_s": 1903.1,
+  "run_dir": "/home/thesp/sp_codes/hunter_robot/results/eval_v1/Silverstone_2.7ms_eval_dagger_stacked_s2"
+}

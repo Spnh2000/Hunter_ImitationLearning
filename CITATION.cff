@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite it as below."
+title: "Hunter V2: learning to race from laser data alone by imitating a privileged expert"
+type: software
+authors:
+  - alias: Spnh2000
+  - alias: simaes
+repository-code: "https://github.com/Spnh2000/Hunter_RL"
+license: Apache-2.0
+date-released: "2026-10-25"
+keywords:
+  - imitation learning
+  - DAgger
+  - behaviour cloning
+  - LiDAR
+  - ROS 2
+  - Gazebo
+  - Ackermann

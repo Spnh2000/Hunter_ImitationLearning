@@ -1,0 +1,6 @@
+image: Montreal_map.png
+resolution: 0.14268
+origin: [-178.76976235482337,-63.875068159953095, 0.000000]
+negate: 0
+occupied_thresh: 0.45
+free_thresh: 0.196

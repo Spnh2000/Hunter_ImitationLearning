@@ -1,0 +1,42 @@
+# Phase 6 collection plan. One run = one (track, max_speed, pass) = one
+# continuous multi-lap drive = one bag = one HDF5.
+#
+# Passes exist so that a COMPLETE small dataset (every track, every speed)
+# lands first and Parts C/D can start on it while the top-up passes run.
+# Each pass spawns at a different point on the lap: a deterministic expert
+# produces near-identical laps, so the standstill start is the only place
+# repeated passes add genuinely different states -- put it somewhere new.
+#
+# Split (decided 2026-09-21): 5 train / 3 held out.
+#   train    Shanghai, Nuerburgring, Melbourne, Monza, IMS (capped)
+#   heldout  Silverstone, SaoPaulo, Montreal -- never trained on; their
+#            expert data exists only so validation loss can be reported on
+#            unseen geometry next to the closed-loop result.
+#
+# Held-out-lap validation on training tracks: pass p1 of each training
+# track (2 laps from s=0) is the natural candidate; that is a data.py
+# decision, not a collection one.
+
+speeds_mps: [1.5, 2.1, 2.7]
+
+# laps per (track, speed) in each pass, by role. ims: IMS teaches only
+# "open geometry = the cap", so it gets one lap per speed and no top-up.
+passes:
+  p1: {spawn_s_frac: 0.00, laps: {train: 2, heldout: 2, ims: 1}}
+  p2: {spawn_s_frac: 0.37, laps: {train: 4, heldout: 1, ims: 0}}
+  p3: {spawn_s_frac: 0.71, laps: {train: 6, heldout: 0, ims: 0}}
+
+tracks:
+  Shanghai:     {role: train,   binding_pct: 22.6}
+  Nuerburgring: {role: train,   binding_pct: 21.9}
+  Melbourne:    {role: train,   binding_pct: 12.4}
+  Monza:        {role: train,   binding_pct: 10.8}
+  IMS:          {role: ims,     binding_pct:  0.0}
+  Silverstone:  {role: heldout, binding_pct: 21.0}
+  SaoPaulo:     {role: heldout, binding_pct: 21.3}
+  Montreal:     {role: heldout, binding_pct: 18.6}
+
+# Derived per track unless overridden here:
+#   world       <Track>.sdf
+#   track_file  src/race_tracks/<Track>/<Track>_centerline_2x.csv
+#   params      <track>_defaults.yaml

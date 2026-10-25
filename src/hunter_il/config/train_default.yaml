@@ -1,0 +1,20 @@
+# Phase 8 training defaults. One file for all six policies; arch and seed are
+# CLI arguments so the six runs differ only in what the brief says they differ in.
+heldout_tracks: [Silverstone, SaoPaulo, Montreal]   # decided 2026-09-21: 5 train / 3 held out
+heldout_lap_rule: p1_lap1        # second lap of the pass-p1 run on training tracks...
+heldout_lap_caps: [2.1, 2.7]     # ...at these caps only: 2 held-out laps per training track
+drop_terminal_episodes: true     # a crashed expert is not a teacher (expert rows only)
+epochs: 60
+batch: 256
+lr: 0.001
+weight_decay: 0.0
+patience: 10                     # on held-out-LAP loss; held-out tracks never steer training
+n_steer_bins: 21                 # discrete arch only; edges stored in the checkpoint
+n_speed_bins: 21
+threads: 3                       # no simulator runs while a model trains (pipeline order)
+# Part D (2026-09-21): the expert's speed is a function of the scan WITHIN a
+# max_speed setting (asymmetry 0.000) and not across them (0.94) -- the same
+# straight is driven at 1.5 / 2.1 / 2.7 and the scan cannot tell which. The
+# cap enters the policy as one scalar: the operator's setpoint, not state.
+# false = pure scan-only ablation.
+cap_input: true

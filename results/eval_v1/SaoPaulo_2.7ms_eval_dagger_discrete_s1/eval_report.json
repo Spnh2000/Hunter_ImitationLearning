@@ -1,0 +1,23 @@
+{
+  "policy": "dagger_discrete_s1",
+  "arch": "discrete",
+  "dataset": "dagger",
+  "seed": 1,
+  "track": "SaoPaulo",
+  "max_speed_mps": 2.7,
+  "status": "ok",
+  "crashed": 0,
+  "crash_s_m": "",
+  "crash_trigger": "",
+  "laps_completed": 1,
+  "distance_m": 1031.2,
+  "sim_duration_s": 427.0,
+  "mean_speed_mps": 2.42,
+  "rms_gt_lateral_error_m": "0.2533",
+  "max_gt_lateral_error_m": "0.6264",
+  "mean_gt_lateral_error_m": "-0.2147",
+  "steering_cmd_variance": "0.032969",
+  "steering_reversal_rate_hz": "1.4837",
+  "wall_s": 1448.2,
+  "run_dir": "/home/thesp/sp_codes/hunter_robot/results/eval_v1/SaoPaulo_2.7ms_eval_dagger_discrete_s1"
+}

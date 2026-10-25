@@ -1,0 +1,308 @@
+[
+ {
+  "checkpoint": "checkpoints/bc_discrete_s0.pt",
+  "arch": "discrete",
+  "seed": 0,
+  "val_laps": {
+   "loss": 1.593491703484645,
+   "rmse_steer_rad": 0.024987599683745573,
+   "rmse_speed_mps": 0.08789395349719056,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 3.522513068254607,
+   "rmse_steer_rad": 0.026788569280776588,
+   "rmse_speed_mps": 0.15788446663059208,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/bc_discrete_s1.pt",
+  "arch": "discrete",
+  "seed": 1,
+  "val_laps": {
+   "loss": 1.4554409729712205,
+   "rmse_steer_rad": 0.02477401872946764,
+   "rmse_speed_mps": 0.08552984565858664,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 4.056592984070069,
+   "rmse_steer_rad": 0.02538879433962798,
+   "rmse_speed_mps": 0.1719983026872349,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/bc_discrete_s2.pt",
+  "arch": "discrete",
+  "seed": 2,
+  "val_laps": {
+   "loss": 1.5280456434936986,
+   "rmse_steer_rad": 0.024852249901568473,
+   "rmse_speed_mps": 0.086814034380155,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 3.934241605138521,
+   "rmse_steer_rad": 0.025188551985648493,
+   "rmse_speed_mps": 0.17821088884917244,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/bc_mlp_s0.pt",
+  "arch": "mlp",
+  "seed": 0,
+  "val_laps": {
+   "loss": 0.00046187139114779117,
+   "rmse_steer_rad": 0.007586768684219976,
+   "rmse_speed_mps": 0.03589964098137394,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.0033381928384418917,
+   "rmse_steer_rad": 0.01902853472088444,
+   "rmse_speed_mps": 0.09907615544207651,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/bc_mlp_s1.pt",
+  "arch": "mlp",
+  "seed": 1,
+  "val_laps": {
+   "loss": 0.00041216994735466514,
+   "rmse_steer_rad": 0.007421797755614098,
+   "rmse_speed_mps": 0.033397771900118244,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.003963139389088468,
+   "rmse_steer_rad": 0.019639709872046066,
+   "rmse_speed_mps": 0.10983570881948392,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/bc_mlp_s2.pt",
+  "arch": "mlp",
+  "seed": 2,
+  "val_laps": {
+   "loss": 0.0004052619844099247,
+   "rmse_steer_rad": 0.0073039807955609685,
+   "rmse_speed_mps": 0.03323235835986493,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.0031949203737367867,
+   "rmse_steer_rad": 0.01944816619268909,
+   "rmse_speed_mps": 0.09539633340180333,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/bc_stacked_s0.pt",
+  "arch": "stacked",
+  "seed": 0,
+  "val_laps": {
+   "loss": 0.00039531154759094966,
+   "rmse_steer_rad": 0.007183569466334999,
+   "rmse_speed_mps": 0.03288131853745748,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.003487166440039944,
+   "rmse_steer_rad": 0.019896197747597127,
+   "rmse_speed_mps": 0.10045162411936932,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/bc_stacked_s1.pt",
+  "arch": "stacked",
+  "seed": 1,
+  "val_laps": {
+   "loss": 0.00047957326068161183,
+   "rmse_steer_rad": 0.0075836973984578036,
+   "rmse_speed_mps": 0.036856434876769595,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.0036159515045939496,
+   "rmse_steer_rad": 0.01921820423880987,
+   "rmse_speed_mps": 0.10414080124920548,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/bc_stacked_s2.pt",
+  "arch": "stacked",
+  "seed": 2,
+  "val_laps": {
+   "loss": 0.00041815386313404004,
+   "rmse_steer_rad": 0.007272842177550527,
+   "rmse_speed_mps": 0.03404868526675659,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.003419885276178566,
+   "rmse_steer_rad": 0.019875103532558353,
+   "rmse_speed_mps": 0.09915948046758129,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/dagger_discrete_s0.pt",
+  "arch": "discrete",
+  "seed": 0,
+  "val_laps": {
+   "loss": 2.205284777586062,
+   "rmse_steer_rad": 0.12989487373213685,
+   "rmse_speed_mps": 0.12590742958913168,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 10.24291257306742,
+   "rmse_steer_rad": 0.2832641718981209,
+   "rmse_speed_mps": 0.23479679232450823,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/dagger_discrete_s1.pt",
+  "arch": "discrete",
+  "seed": 1,
+  "val_laps": {
+   "loss": 2.1587070630967324,
+   "rmse_steer_rad": 0.13220489595780674,
+   "rmse_speed_mps": 0.1318413555031668,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 8.402169434167494,
+   "rmse_steer_rad": 0.2868708207046926,
+   "rmse_speed_mps": 0.23703313300112241,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/dagger_discrete_s2.pt",
+  "arch": "discrete",
+  "seed": 2,
+  "val_laps": {
+   "loss": 2.273963877063842,
+   "rmse_steer_rad": 0.14990627387160096,
+   "rmse_speed_mps": 0.1275079649897576,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 6.149652762319692,
+   "rmse_steer_rad": 0.2922781553258524,
+   "rmse_speed_mps": 0.18076868085812076,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/dagger_mlp_s0.pt",
+  "arch": "mlp",
+  "seed": 0,
+  "val_laps": {
+   "loss": 0.018929336348929557,
+   "rmse_steer_rad": 0.07839645876585966,
+   "rmse_speed_mps": 0.13283032268437286,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.03485275075653202,
+   "rmse_steer_rad": 0.11051446764001312,
+   "rmse_speed_mps": 0.15541567819192395,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/dagger_mlp_s1.pt",
+  "arch": "mlp",
+  "seed": 1,
+  "val_laps": {
+   "loss": 0.014218962315700086,
+   "rmse_steer_rad": 0.0677135080342637,
+   "rmse_speed_mps": 0.11639479003295915,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.03434444622649788,
+   "rmse_steer_rad": 0.10778433602458831,
+   "rmse_speed_mps": 0.1663590156919814,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/dagger_mlp_s2.pt",
+  "arch": "mlp",
+  "seed": 2,
+  "val_laps": {
+   "loss": 0.022788223137447498,
+   "rmse_steer_rad": 0.0866105098494383,
+   "rmse_speed_mps": 0.14244833402644996,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.034315975508653,
+   "rmse_steer_rad": 0.10843764608112497,
+   "rmse_speed_mps": 0.16064161527612034,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/dagger_stacked_s0.pt",
+  "arch": "stacked",
+  "seed": 0,
+  "val_laps": {
+   "loss": 0.019291432017887845,
+   "rmse_steer_rad": 0.07999517913914328,
+   "rmse_speed_mps": 0.1293037757257253,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.04494816154860585,
+   "rmse_steer_rad": 0.12063520843449306,
+   "rmse_speed_mps": 0.20531695368204445,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/dagger_stacked_s1.pt",
+  "arch": "stacked",
+  "seed": 1,
+  "val_laps": {
+   "loss": 0.019987456623087936,
+   "rmse_steer_rad": 0.08431893013026126,
+   "rmse_speed_mps": 0.11292169662653467,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.16972749633133685,
+   "rmse_steer_rad": 0.1750748049483929,
+   "rmse_speed_mps": 0.20775605720282775,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/dagger_stacked_s2.pt",
+  "arch": "stacked",
+  "seed": 2,
+  "val_laps": {
+   "loss": 0.021670027288818356,
+   "rmse_steer_rad": 0.08636569021027435,
+   "rmse_speed_mps": 0.12755500741296993,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.19428140940160582,
+   "rmse_steer_rad": 0.18547880591613966,
+   "rmse_speed_mps": 0.1575050154777048,
+   "n": 138607
+  }
+ }
+]

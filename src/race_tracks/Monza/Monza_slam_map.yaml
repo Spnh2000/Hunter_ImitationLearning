@@ -1,0 +1,7 @@
+image: Monza_slam_map.pgm
+mode: trinary
+resolution: 0.050
+origin: [-73.544, -172.245, 0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196

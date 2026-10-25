@@ -1,0 +1,90 @@
+# slam_toolbox -- MAPPING mode. Run this once to build the track map, then
+# serialize it and switch to slam_localization.yaml for all dataset runs.
+#
+# Tuned for a racetrack, which is a harder case than the indoor rooms most
+# slam_toolbox tutorials assume, in two specific ways:
+#
+#  1. CORRIDOR DEGENERACY. A long straight with parallel walls looks almost
+#     identical when translated along it, so scan matching is weakly
+#     constrained LONGITUDINALLY. Lateral position and heading are well
+#     constrained (both walls are visible), which is fortunate because
+#     cross-track error is a lateral quantity. Longitudinal weakness is
+#     covered by wheel odometry inside the EKF -- encoders are good along the
+#     direction of travel and their slip is mostly lateral.
+#
+#  2. REPETITIVE GEOMETRY. An oval has four similar corners. A permissive
+#     loop-closure matcher will close against the WRONG corner and warp the
+#     map irrecoverably. The loop_* thresholds below are deliberately
+#     stricter than stock for this reason.
+
+slam_toolbox:
+  ros__parameters:
+    solver_plugin: solver_plugins::CeresSolver
+    ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
+    ceres_preconditioner: SCHUR_JACOBI
+    ceres_trust_strategy: LEVENBERG_MARQUARDT
+    ceres_dogleg_type: TRADITIONAL_DOGLEG
+    ceres_loss_function: None
+
+    odom_frame: odom
+    map_frame: map
+    base_frame: base_link
+    scan_topic: /scan
+    use_map_saver: true
+    mode: mapping
+
+    debug_logging: false
+    throttle_scans: 1
+    # 0.02, NOT 0.0. slam_toolbox's own config documents "if 0 never
+    # publishes odometry": the same timer drives BOTH the map->odom TF and
+    # /slam_toolbox/pose. Setting it to 0 to stop the TF also silences the
+    # pose, leaving the global EKF with no absolute measurement -- it would
+    # then propagate on wheel odometry alone and 'SLAM' would silently be
+    # dead reckoning. So slam_toolbox owns the map->odom TF, and the global
+    # EKF runs with publish_tf:false (see ekf_global.yaml).
+    transform_publish_period: 0.02
+    map_update_interval: 2.0
+    resolution: 0.05
+    max_laser_range: 30.0
+    minimum_time_interval: 0.2
+    transform_timeout: 0.2
+    tf_buffer_duration: 30.0
+    stack_size_to_use: 40000000
+    enable_interactive_mode: false
+
+    # Denser pose graph than stock (0.5 / 0.5). At 2.7 m/s a 0.3 m threshold
+    # adds a node every ~0.11 s, and the tighter heading threshold puts more
+    # nodes through the corners -- which is where the only strong
+    # longitudinal constraints on this track exist.
+    minimum_travel_distance: 0.3
+    minimum_travel_heading: 0.2
+
+    scan_buffer_size: 20
+    scan_buffer_maximum_scan_distance: 30.0
+    link_match_minimum_response_fine: 0.15
+    link_scan_maximum_distance: 3.0
+
+    # ---- Loop closure: strict, because the track is repetitive -------------
+    do_loop_closing: true
+    loop_search_maximum_distance: 3.0     # keep candidates local
+    loop_match_minimum_chain_size: 15     # stock 10 -- demand more evidence
+    loop_match_maximum_variance_coarse: 3.0
+    loop_match_minimum_response_coarse: 0.40
+    loop_match_minimum_response_fine: 0.60   # stock 0.45 -- the key guard
+
+    correlation_search_space_dimension: 0.5
+    correlation_search_space_resolution: 0.01
+    correlation_search_space_smear_deviation: 0.1
+
+    loop_search_space_dimension: 8.0
+    loop_search_space_resolution: 0.05
+    loop_search_space_smear_deviation: 0.03
+
+    distance_variance_penalty: 0.5
+    angle_variance_penalty: 1.0
+    fine_search_angle_offset: 0.00349
+    coarse_search_angle_offset: 0.349
+    coarse_angle_resolution: 0.0349
+    minimum_angle_penalty: 0.9
+    minimum_distance_penalty: 0.5
+    use_response_expansion: true

@@ -1,0 +1,103 @@
+{
+  "track": "Melbourne",
+  "speed_mps": 1.5,
+  "pass": "dagger_it2",
+  "dagger_iteration": 2,
+  "checkpoint": "checkpoints/dagger_mlp_it2.pt",
+  "laps_target": 1.0,
+  "status": "too_many_crashes",
+  "crashes": [
+    {
+      "sim_t": 105.6,
+      "trigger": 2,
+      "min_scan_m": 0.396,
+      "s_m": 154.7,
+      "dist_m": 154.7
+    },
+    {
+      "sim_t": 201.6,
+      "trigger": 2,
+      "min_scan_m": 0.396,
+      "s_m": 283.9,
+      "dist_m": 294.1
+    },
+    {
+      "sim_t": 213.8,
+      "trigger": 2,
+      "min_scan_m": 0.398,
+      "s_m": 288.5,
+      "dist_m": 309.7
+    },
+    {
+      "sim_t": 274.6,
+      "trigger": 2,
+      "min_scan_m": 0.397,
+      "s_m": 364.6,
+      "dist_m": 396.8
+    },
+    {
+      "sim_t": 283.9,
+      "trigger": 2,
+      "min_scan_m": 0.395,
+      "s_m": 364.6,
+      "dist_m": 407.9
+    },
+    {
+      "sim_t": 292.9,
+      "trigger": 2,
+      "min_scan_m": 0.395,
+      "s_m": 364.6,
+      "dist_m": 419.7
+    },
+    {
+      "sim_t": 302.2,
+      "trigger": 2,
+      "min_scan_m": 0.397,
+      "s_m": 364.6,
+      "dist_m": 431.1
+    },
+    {
+      "sim_t": 311.5,
+      "trigger": 2,
+      "min_scan_m": 0.394,
+      "s_m": 364.6,
+      "dist_m": 442.5
+    },
+    {
+      "sim_t": 320.8,
+      "trigger": 2,
+      "min_scan_m": 0.396,
+      "s_m": 364.6,
+      "dist_m": 453.8
+    }
+  ],
+  "wall_started": "2026-09-24T00:11:23",
+  "distance_m": 453.8,
+  "laps_wrapped": 0,
+  "sim_duration_s": 321.6,
+  "lateral_abs_median_m": 0.1099,
+  "lateral_abs_p95_m": 1.2179,
+  "n_crashes": 9,
+  "teardown": {
+    "recorder_33850": "sigint",
+    "launch": "sigint",
+    "group_sigkill": true,
+    "graph_empty": true
+  },
+  "wall_duration_s": 1067.8,
+  "rows": 6313,
+  "mode": "dagger",
+  "join_dt_ms": {
+    "median": 0.0,
+    "p95": 0.0,
+    "max": 0.0,
+    "slop": 15.0
+  },
+  "relabel_dt_ms": {
+    "median": 5.0,
+    "p95": 10.0,
+    "max": 10.0
+  },
+  "inspect_exit": 0,
+  "inspect_fails": []
+}

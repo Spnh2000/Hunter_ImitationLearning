@@ -1,0 +1,397 @@
+{
+ "n_rows": 357236,
+ "n_runs": 22,
+ "tracks": [
+  "IMS",
+  "Melbourne",
+  "Montreal",
+  "Monza",
+  "Nuerburgring",
+  "SaoPaulo",
+  "Shanghai",
+  "Silverstone"
+ ],
+ "caps": [
+  1.5,
+  2.1,
+  2.7
+ ],
+ "information_asymmetry": {
+  "IMS": {
+   "median_ratio_steer": 0.01707896590232849,
+   "median_ratio_speed": 0.9846594929695129,
+   "p90_ratio_steer": 0.30140330195426945,
+   "p90_ratio_speed": 1.0325325727462769,
+   "global_std_steer": 0.008523136377334595,
+   "global_std_speed": 0.482694149017334,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 17829,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.04412556439638138,
+     "median_ratio_speed": 0.0,
+     "n": 7843
+    },
+    "2.1": {
+     "median_ratio_steer": 0.054766375571489334,
+     "median_ratio_speed": 0.0,
+     "n": 5613
+    },
+    "2.7": {
+     "median_ratio_steer": 0.06548278033733368,
+     "median_ratio_speed": 0.0041237929835915565,
+     "n": 4373
+    }
+   }
+  },
+  "Melbourne": {
+   "median_ratio_steer": 0.014516166411340237,
+   "median_ratio_speed": 0.9837438464164734,
+   "p90_ratio_steer": 0.18631562292575865,
+   "p90_ratio_speed": 1.0328245162963867,
+   "global_std_steer": 0.04655449464917183,
+   "global_std_speed": 0.4954971969127655,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 59812,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.01904325745999813,
+     "median_ratio_speed": 0.0,
+     "n": 25524
+    },
+    "2.1": {
+     "median_ratio_steer": 0.02111467719078064,
+     "median_ratio_speed": 0.0,
+     "n": 18870
+    },
+    "2.7": {
+     "median_ratio_steer": 0.02701224759221077,
+     "median_ratio_speed": 9.55323343987402e-07,
+     "n": 15418
+    }
+   }
+  },
+  "Montreal": {
+   "median_ratio_steer": 0.01112387515604496,
+   "median_ratio_speed": 0.8697706460952759,
+   "p90_ratio_steer": 0.2821921914815903,
+   "p90_ratio_speed": 0.8832563757896423,
+   "global_std_steer": 0.06627039611339569,
+   "global_std_speed": 0.33794966340065,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 27374,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.012333635240793228,
+     "median_ratio_speed": 0.0,
+     "n": 15539
+    },
+    "2.1": {
+     "median_ratio_steer": 0.015592125244438648,
+     "median_ratio_speed": 0.0,
+     "n": 11835
+    }
+   }
+  },
+  "Monza": {
+   "median_ratio_steer": 0.003359902184456587,
+   "median_ratio_speed": 0.9654038548469543,
+   "p90_ratio_steer": 0.16759728640317922,
+   "p90_ratio_speed": 1.012340784072876,
+   "global_std_steer": 0.04112319275736809,
+   "global_std_speed": 0.49232181906700134,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 55627,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.004163795150816441,
+     "median_ratio_speed": 0.0,
+     "n": 23950
+    },
+    "2.1": {
+     "median_ratio_steer": 0.005225119646638632,
+     "median_ratio_speed": 0.0,
+     "n": 17521
+    },
+    "2.7": {
+     "median_ratio_steer": 0.0073775677010416985,
+     "median_ratio_speed": 1.101918428503268e-06,
+     "n": 14156
+    }
+   }
+  },
+  "Nuerburgring": {
+   "median_ratio_steer": 0.01324881799519062,
+   "median_ratio_speed": 1.0157876014709473,
+   "p90_ratio_steer": 0.2353276699781418,
+   "p90_ratio_speed": 1.0783863067626953,
+   "global_std_steer": 0.046350494027137756,
+   "global_std_speed": 0.46133166551589966,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 56507,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.01467776671051979,
+     "median_ratio_speed": 0.0,
+     "n": 23883
+    },
+    "2.1": {
+     "median_ratio_steer": 0.02177438884973526,
+     "median_ratio_speed": 0.0,
+     "n": 17767
+    },
+    "2.7": {
+     "median_ratio_steer": 0.03863897919654846,
+     "median_ratio_speed": 1.0023086360888556e-06,
+     "n": 14857
+    }
+   }
+  },
+  "SaoPaulo": {
+   "median_ratio_steer": 0.039737846702337265,
+   "median_ratio_speed": 1.0105725526809692,
+   "p90_ratio_steer": 0.23622433841228488,
+   "p90_ratio_speed": 1.0597054958343506,
+   "global_std_steer": 0.04777652770280838,
+   "global_std_speed": 0.47031694650650024,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 43755,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.06029362604022026,
+     "median_ratio_speed": 0.0,
+     "n": 18457
+    },
+    "2.1": {
+     "median_ratio_steer": 0.07816950976848602,
+     "median_ratio_speed": 0.0,
+     "n": 13800
+    },
+    "2.7": {
+     "median_ratio_steer": 0.09272617101669312,
+     "median_ratio_speed": 9.667618314779247e-07,
+     "n": 11498
+    }
+   }
+  },
+  "Shanghai": {
+   "median_ratio_steer": 0.003340261522680521,
+   "median_ratio_speed": 0.9423695206642151,
+   "p90_ratio_steer": 0.156483756005764,
+   "p90_ratio_speed": 1.000443696975708,
+   "global_std_steer": 0.0618344247341156,
+   "global_std_speed": 0.49727311730384827,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 63262,
+   "per_cap": {
+    "1.5": {
+     "median_ratio_steer": 0.004331569187343121,
+     "median_ratio_speed": 0.0,
+     "n": 26815
+    },
+    "2.1": {
+     "median_ratio_steer": 0.00852443091571331,
+     "median_ratio_speed": 0.0,
+     "n": 19960
+    },
+    "2.7": {
+     "median_ratio_steer": 0.018646109849214554,
+     "median_ratio_speed": 8.986328907667485e-07,
+     "n": 16487
+    }
+   }
+  },
+  "Silverstone": {
+   "median_ratio_steer": 0.025087766349315643,
+   "median_ratio_speed": 0.7398551106452942,
+   "p90_ratio_steer": 0.26803897917270664,
+   "p90_ratio_speed": 0.752007007598877,
+   "global_std_steer": 0.04660572111606598,
+   "global_std_speed": 0.39729243516921997,
+   "verdict_steer": "healthy",
+   "verdict_speed": "PROBLEM",
+   "n": 33070,
+   "per_cap": {
+    "2.1": {
+     "median_ratio_steer": 0.03575824201107025,
+     "median_ratio_speed": 0.0,
+     "n": 18075
+    },
+    "2.7": {
+     "median_ratio_steer": 0.058237239718437195,
+     "median_ratio_speed": 1.066659592652286e-06,
+     "n": 14995
+    }
+   }
+  }
+ },
+ "speed": {
+  "1.5": {
+   "n": 142011,
+   "frac_at_cap": 0.9435325432536916,
+   "min": 0.6299091577529907,
+   "mean": 1.484248399734497,
+   "std": 0.07747180014848709,
+   "hist": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    122,
+    67,
+    226,
+    504,
+    1152,
+    1507,
+    1331,
+    1681,
+    135421,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "2.1": {
+   "n": 123441,
+   "frac_at_cap": 0.8368208293840782,
+   "min": 0.601649820804596,
+   "mean": 2.003844976425171,
+   "std": 0.2533496618270874,
+   "hist": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    128,
+    64,
+    229,
+    648,
+    1283,
+    1671,
+    1657,
+    2012,
+    2259,
+    2184,
+    2030,
+    1572,
+    1595,
+    1523,
+    104585,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "2.7": {
+   "n": 91784,
+   "frac_at_cap": 0.7203216246840408,
+   "min": 0.5986539721488953,
+   "mean": 2.4486610889434814,
+   "std": 0.4754358232021332,
+   "hist": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    125,
+    67,
+    84,
+    487,
+    1079,
+    1206,
+    1263,
+    1653,
+    1989,
+    1916,
+    1851,
+    1522,
+    1577,
+    1469,
+    1793,
+    1562,
+    1175,
+    1370,
+    1215,
+    1512,
+    66867,
+    0
+   ]
+  }
+ },
+ "coverage_lateral_m": {
+  "expert": {
+   "n": 357236,
+   "abs_median": 0.0032586432062089443,
+   "abs_p95": 0.0348855871707201,
+   "hist": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    4,
+    326,
+    4507,
+    153004,
+    195970,
+    3201,
+    49,
+    49,
+    53,
+    73,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ }
+}

@@ -1,0 +1,53 @@
+[
+ {
+  "checkpoint": "checkpoints/balanced_mlp_s0.pt",
+  "arch": "mlp",
+  "seed": 0,
+  "val_laps": {
+   "loss": 0.008970463922468844,
+   "rmse_steer_rad": 0.05150849320655978,
+   "rmse_speed_mps": 0.10377932252479659,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.018849481662177963,
+   "rmse_steer_rad": 0.07876258766181844,
+   "rmse_speed_mps": 0.12795178100903898,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/balanced_mlp_s1.pt",
+  "arch": "mlp",
+  "seed": 1,
+  "val_laps": {
+   "loss": 0.007668119039866037,
+   "rmse_steer_rad": 0.042082579126403216,
+   "rmse_speed_mps": 0.11737791322558075,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.016000748621749578,
+   "rmse_steer_rad": 0.058720344099758494,
+   "rmse_speed_mps": 0.17611260285924513,
+   "n": 138607
+  }
+ },
+ {
+  "checkpoint": "checkpoints/balanced_mlp_s2.pt",
+  "arch": "mlp",
+  "seed": 2,
+  "val_laps": {
+   "loss": 0.009269802804984987,
+   "rmse_steer_rad": 0.049346916798079274,
+   "rmse_speed_mps": 0.11819544937321116,
+   "n": 67510
+  },
+  "val_tracks": {
+   "loss": 0.018990574457947412,
+   "rmse_steer_rad": 0.06666745984801241,
+   "rmse_speed_mps": 0.1833990852002121,
+   "n": 138607
+  }
+ }
+]

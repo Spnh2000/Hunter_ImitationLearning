@@ -1,0 +1,94 @@
+# colcon build artifacts
+build/
+install/
+log/
+
+# Benchmark run output: rosbag recordings are large binaries (100s of MB per
+# run; GitHub rejects any single file over 100 MB) and are regenerable by
+# re-running the benchmark. They are also created root-owned by the Docker
+# container, which blocks branch switches if left tracked. The per-run
+# summary.csv metrics ARE kept -- small, and the actual comparable result.
+src/hunter_benchmark/results/**/bag/
+.vscode/ 
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Compiled objects / libraries
+*.o
+*.so
+*.a
+*.dll
+*.dylib
+*.exe
+
+# Editor / IDE
+.vscode/browse.vc.db*
+.vscode/*.db
+*.swp
+*~
+
+# macOS
+.DS_Store
+hunter_rviz
+hunter_navigation
+hunter_rviz
+hunter_navigation
+
+# SLAM pose graphs: 100+ MB binaries, over GitHub's per-file limit, and
+# regenerable by re-running mapping mode:
+#   ros2 launch hunter_localization localization.launch.py slam_mode:=mapping
+# then call /slam_toolbox/serialize_map. Keep them out of history.
+src/hunter_localization/maps/*.posegraph
+src/hunter_localization/maps/*.data
+
+# Benchmark rosbag recordings: large, regenerable, and created root-owned by
+# the container (which blocks branch switches if tracked).
+src/hunter_benchmark/results/**/bag/
+
+# Phase 6 raw bags and converted datasets: hundreds of MB per lap, regenerable
+# from record_expert.launch.py + convert_dataset. run_manifest.yaml is kept.
+datasets/**/bag/
+datasets/**/*.hdf5
+
+# Scratch copy of upstream f1tenth_racetracks at the repo root; the per-track
+# directories under src/ hold the same files plus the 2x derivatives.
+/f1tenth_racetracks/
+
+# Phase 8 checkpoints. The WORKING set is ignored: dense float binaries where
+# every retrain rewrites every byte, so git cannot delta-compress them and each
+# retrain would add its full size to history permanently. Two exceptions are
+# tracked, because "regenerable by il_train" is weaker than it sounds -- the
+# dataset is 3.7 GB and also untracked, and CPU reductions depend on thread
+# count, so a rerun reproduces the statistics but not the file:
+#   final/     the checkpoints the reported results were produced from (~25 MB)
+#   *.pt.json  the metrics behind every number in the docs (small, text, diffs)
+checkpoints/*
+!checkpoints/final/
+!checkpoints/*.pt.json
+checkpoints/final/*.train.log
+# collection runner logs (per-run provenance files ARE tracked)
+datasets/**/collect_*.log
+datasets/**/launch.log
+
+# Phase 8 pipeline log and eval outputs (bags inside results are gitignored above)
+results/*.log
+results/eval_*/**/bag/
+results/eval_*/**/launch.log
+
+# Internal working notes and the unpublished paper stay local; the three
+# public documents (PROJECT_REPORT, phases_6_8_simple, phases_6_8_explained)
+# are tracked.
+docs/report/
+docs/phase_6_handoff.md
+docs/phase_8_design.md
+docs/validation/
+
+# Dataset archives are far over GitHub's 100 MB file limit; host them elsewhere.
+*.tar.gz
+*.zip
+
+# Demo sessions from scripts/watch_policy.sh: viewing runs, not results.
+results/watch_runs/

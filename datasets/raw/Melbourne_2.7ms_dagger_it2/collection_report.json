@@ -1,0 +1,41 @@
+{
+  "track": "Melbourne",
+  "speed_mps": 2.7,
+  "pass": "dagger_it2",
+  "dagger_iteration": 2,
+  "checkpoint": "checkpoints/dagger_mlp_it2.pt",
+  "laps_target": 1.0,
+  "status": "stuck",
+  "crashes": [],
+  "wall_started": "2026-09-24T00:43:23",
+  "distance_m": 19.4,
+  "laps_wrapped": 0,
+  "sim_duration_s": 62.2,
+  "lateral_abs_median_m": 0.9295,
+  "lateral_abs_p95_m": 1.756,
+  "n_crashes": 0,
+  "teardown": {
+    "recorder_35976": "sigint",
+    "launch": "sigint",
+    "group_sigkill": true,
+    "graph_empty": true
+  },
+  "wall_duration_s": 205.3,
+  "rows": 1230,
+  "mode": "dagger",
+  "join_dt_ms": {
+    "median": 0.0,
+    "p95": 0.0,
+    "max": 0.0,
+    "slop": 15.0
+  },
+  "relabel_dt_ms": {
+    "median": 5.5,
+    "p95": 10.0,
+    "max": 10.0
+  },
+  "inspect_exit": 1,
+  "inspect_fails": [
+    "[FAIL] speed_mps carries signal  -- constant column"
+  ]
+}
