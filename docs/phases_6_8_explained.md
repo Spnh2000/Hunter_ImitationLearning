@@ -1,14 +1,14 @@
 # Phases 6–8 explained
 
-**Hunter V2 · ROS 2 Jazzy · Gazebo Harmonic · branch `dev-saqar`**
-Status as of 2026-09-23. This is the technical reference. For the same material
+**Hunter V2 · ROS 2 Jazzy · Gazebo Harmonic**
+The experiment is complete. This is the technical reference. For the same material
 in plain language, with no machine-learning background assumed, see
 [`phases_6_8_simple.md`](phases_6_8_simple.md).
 For the whole project as a standalone report — problem, method, results,
 limitations — see [`PROJECT_REPORT.md`](PROJECT_REPORT.md).
 
-Written to be readable without the surrounding conversation: what these phases are, why each decision was made, what has
-actually been measured, and what is still running.
+Written to be readable without the surrounding conversation: what these phases are, why each decision was made, and what was
+actually measured.
 
 ---
 
@@ -158,7 +158,8 @@ Phase 6. See §5.1.
 
 ### 4.5 What was actually collected (pass p1, complete)
 
-**24 runs, 391,644 rows, 45 laps, 5.4 hours of driving, 2.3 GB of bags.**
+**24 runs, 391,644 rows, 45 laps, 5.4 hours of driving** (2.3 GB of raw bags,
+since deleted; the converted HDF5 holds everything training uses).
 8 tracks × 3 speed caps (1.5 / 2.1 / 2.7 m/s) × 2 laps (IMS: 1). Zero crashes;
 every run passed inspection.
 
@@ -258,20 +259,21 @@ That nudge made the failure silent: `test_bins.py` asserts round-trip error is
 within one bin width and that edges are monotonic and pinned to
 `ACTION_BOUNDS`, and **a collapsed set of edges passes all of those.**
 
-**Consequence for the experiment.** `bc_discrete_*` scores 24.9 mrad on
-held-out laps against the MLP's 7.4. That is not a measurement of
-discretisation; it is a measurement of discretisation with unusable bins, and
-one third of axis 1 currently answers no question. It also explains the
+**Consequence for the experiment.** With these edges `bc_discrete_*` scored
+24.9 mrad on held-out laps against the MLP's 7.4. That was not a measurement
+of discretisation; it was a measurement of discretisation with unusable bins,
+and one third of axis 1 answered no question until the fix below. It also explains the
 anomaly noted in §8: the discrete arm degrades only 24.9 → 25.8 mrad from seen
 to unseen tracks where the MLP degrades 2.6×. Quantisation error dominates, so
 track difficulty barely registers.
 
-**Fix (not applied).** Floor the bin width, or blend quantile with uniform
-spacing — e.g. `edges = α·quantile + (1−α)·uniform` — then retrain the three
-discrete BC checkpoints (~1 h CPU, no simulation). The DAgger discrete models
-are not trained yet and would pick the fix up automatically. Add an assertion
-that no bin is narrower than the actuator's resolution, and print the edges at
-fit time; the round-trip test alone is provably insufficient.
+**Fix (applied).** Edges now blend quantile and uniform spacing
+(`quantile_weight = 0.5`) with a minimum width of 2 % of the range, and the
+tests assert the shape of the partition (no bin below actuator resolution,
+width ratio bounded, no bin covering half the range); they were verified to
+fail on the old edges. All six discrete checkpoints were retrained and
+re-evaluated: BC discrete went from 89 % to 67 % crashes, DAgger discrete from
+11 % to 0 %, in line with the other architectures (§8.2).
 
 **Why it survived.** The inspector prints a loud banner when a *data* column is
 near-constant (§4.3). Nothing equivalent existed for a *model* artefact. The
@@ -281,7 +283,7 @@ check was built where the worry already was.
 
 ### 6.1 Six policies: two axes
 
-|  | **MLP** (720→256→128→64→2) | **Frame-stacked** (K=3) | **Discretised** (21+21 bins) |
+|  | **MLP** (721→256→128→64→2) | **Frame-stacked** (K=3) | **Discretised** (21+21 bins) |
 |---|---|---|---|
 | **BC data** | policy 1 | policy 2 | policy 3 |
 | **DAgger data** | policy 4 | policy 5 | policy 6 |
@@ -297,9 +299,9 @@ information asymmetry (§6.3), not a bake-off:
   test asserting no stack ever crosses an episode boundary — that failure is
   silent and would train on scans from a different track.
 - *Discretisation* asks whether predicting a bin is easier than regressing a
-  number. Bin edges come from training-set quantiles, so they are fine near
-  zero (where almost all driving happens) and coarse at the limits, with the
-  outer edges pinned to the physical bounds. **The edges live in the
+  number. Bin edges blend training-set quantiles with uniform spacing and
+  have a minimum width (§5.5), so they are finer near zero, where almost all
+  driving happens, without collapsing. **The edges live in the
   checkpoint** — a model whose outputs cannot be decoded without a separate
   file is a model that will be decoded wrong.
 
@@ -331,7 +333,8 @@ same to the scan but the expert acts differently in them, **no** scan-only
 policy can fit both — the ceiling is set by the data, not the network. The
 measurement: project observations to 32 dimensions (PCA), find each row's 20
 nearest neighbours in that space, and take the std of the expert's action among
-those neighbours divided by its global std.
+those neighbours divided by its global std; the score is the median of that
+ratio over all rows of a track.
 
 Result on all 391k rows: **steering 0.003–0.040** (healthy is < 0.2). The scan
 determines the expert's steering almost perfectly. Speed is discussed in §6.2.
@@ -407,8 +410,9 @@ signal, so it makes a bigger error. Errors compound. This is **covariate
 shift**, and it is why a policy with excellent validation loss can drive into a
 wall.
 
-Measured here exactly as predicted: a BC student with 7.4 mrad steering error
-offline sat **0.09–0.44 m** off the line when it actually drove.
+Measured here exactly as predicted: BC students with 7.4 mrad steering error
+on held-out laps sat **0.33 m** RMS off the line on unseen tracks and crashed
+in two runs out of three (§8).
 
 ### 7.2 The mechanism
 
@@ -440,7 +444,7 @@ cannot converge for the same reason one Newton step rarely finds a root.
 More concretely, the iterations are not interchangeable:
 
 - **Iteration 1's data comes from the BC student** — a poor driver that wanders
-  0.1–0.4 m off the line. Its states teach *large* recoveries.
+  0.05–0.4 m off the line. Its states teach *large* recoveries.
 - **Iteration 5's data comes from a good driver** — small deviations, which is
   where the deployed policy will actually spend its time.
 
@@ -451,40 +455,42 @@ DAgger's convergence guarantee (Ross, Gordon & Bagnell, AISTATS 2011) is
 exactly the statement that this loop reaches a fixed point where the state
 distribution the student induces matches the one it was trained on.
 
-**The empirical evidence from the first (later invalidated) run** — the
-per-iteration coverage of the student's lateral offset:
+**The evidence from the run the results come from** — the student's lateral
+offset per iteration (median over the 15 rollouts of each rollout's median and
+95th percentile; `datasets/raw/*_dagger_it*/collection_report.json`):
 
-| iteration | \|lat\| median | \|lat\| p95 | crashes |
-|---|---:|---:|---:|
-| 1 | 0.103 m | 0.417 m | 6 |
-| 2 | 0.163 m | 0.721 m | 54 |
-| 3 | 0.135 m | 0.496 m | 0 |
-| 4 | 0.091 m | 0.475 m | 20 |
-| 5 | **0.074 m** | **0.228 m** | **0** |
+| iteration | \|lat\| median | \|lat\| p95 | crashes | rollouts failed |
+|---|---:|---:|---:|---:|
+| 1 | 0.086 m | 0.276 m | 7 | 0 |
+| 2 | 0.161 m | 1.29 m | 71 | 15 |
+| 3 | 0.075 m | 0.219 m | 0 | 0 |
+| 4 | **0.068 m** | **0.187 m** | **0** | **0** |
+| 5 | 0.112 m | 0.267 m | 10 | 2 |
 
-Read it as: the distribution first *widened* (iteration 2 explored badly and
-crashed 54 times — those crashes are training data, not failures), then
-tightened as the student learned to recover, and by iteration 5 it was driving
-within 7 cm of the line with no crashes at all. **It was still improving at
-iteration 5**, which is the honest argument that 5 is not too many. The plan
-allowed 5–8; 5 is the low end.
+Read it as: the distribution *widened* in iteration 2 (every rollout failed;
+its crash-approach rows are still training data), then tightened through
+iterations 3 and 4 as the student learned to recover. Iteration 5 was worse
+than 4: two Monza rollouts failed at the same point. So the curve is not
+monotone, and this run does not show that a fifth iteration was needed; the
+plan allowed 5–8 and 5 were run. The first, invalidated run (§5.3) showed the
+same widen-then-tighten shape.
 
 ### 7.4 The counter-argument, and a possible stopping rule
 
-Five iterations cost **~20 hours of simulation**, and the table above suggests
-the curve is flattening. There is a defensible case for stopping at 3 or 4.
+Five iterations cost **~25 hours of simulation**, and the table above shows no
+gain after iteration 4. There is a defensible case for stopping at 3 or 4.
 
 The principled criterion is not "how many hours" but **has the state
 distribution stopped moving** — if iteration *n*'s coverage statistics match
 iteration *n−1*'s, further iterations are adding rows from a distribution the
 model already covers, and the loop has converged.
 
-That early stop was **not** added, because with one invalidated run there is
-only one noisy curve to calibrate a threshold against, and stopping early on a
-bad threshold is worse than 4 wasted hours. A rule that caps the cost would
-be: stop when the median and p95 both move less than 10 % between consecutive
-iterations. Under the numbers above that would have stopped
-after iteration 4 and saved about 4 hours.
+That early stop was **not** added: with only noisy per-iteration statistics to
+calibrate against, stopping early on a bad threshold is worse than a few extra
+hours. A rule that caps the cost would be: stop when the median and p95 both
+move less than 10 % between consecutive iterations. With the numbers above it
+would not have fired (from 3 to 4 the p95 still fell 15 %), so a rule like this
+needs a looser threshold or a crash criterion to save anything.
 
 ---
 
@@ -517,7 +523,7 @@ row, three seeds, three circuits; the seed-to-seed spread in DAgger tracking
 error (0.003-0.086 m per circuit) is far smaller than its gap to BC.
 
 This is the outcome §6.4 was built to detect, and the justification for the
-brief's insistence on closed-loop evaluation. Selecting on validation loss
+project's insistence on closed-loop evaluation. Selecting on validation loss
 would have selected the policy that leaves the track.
 
 ### 8.2 Axis 1 — architecture: no effect
@@ -576,7 +582,7 @@ s ~ 147 m).
 ```bash
 # one expert run
 ros2 launch hunter_dataset record_expert.launch.py \
-    track_name:=Nuerburgring track_file:=src/Nuerburgring/Nuerburgring_centerline_2x.csv \
+    track_name:=Nuerburgring track_file:=src/race_tracks/Nuerburgring/Nuerburgring_centerline_2x.csv \
     params_file:=nuerburgring_defaults.yaml world:=Nuerburgring.sdf \
     max_speed_mps:=2.7 run_id:=001 output_dir:=datasets/raw
 
@@ -595,6 +601,6 @@ ros2 run hunter_dataset dagger_runner --plan src/hunter_dataset/config/collectio
 ros2 run hunter_dataset evaluate_policies --plan src/hunter_dataset/config/collection_plan.yaml \
     --out results/eval_v1 --laps 1.5 pid checkpoints/*_s?.pt
 
-# or the whole thing
+# or DAgger onward (assumes collection, diagnostics and BC training are done)
 scripts/phase8_pipeline.sh
 ```
