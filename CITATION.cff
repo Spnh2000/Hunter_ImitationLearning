@@ -5,7 +5,7 @@ type: software
 authors:
   - alias: Spnh2000
   - alias: simaes
-repository-code: "https://github.com/Spnh2000/Hunter_RL"
+repository-code: "https://github.com/Spnh2000/Hunter_ImitaionLearning"
 license: Apache-2.0
 date-released: "2026-10-25"
 keywords:

@@ -6,7 +6,7 @@ alone. No dataset download, no training.
 ## 1. Build
 
 ```bash
-git clone https://github.com/Spnh2000/Hunter_RL.git && cd Hunter_RL
+git clone https://github.com/Spnh2000/Hunter_ImitaionLearning.git && cd Hunter_ImitaionLearning
 docker compose build && xhost +local:docker && docker compose run --rm dev
 # inside the container:
 colcon build --symlink-install && source install/setup.bash

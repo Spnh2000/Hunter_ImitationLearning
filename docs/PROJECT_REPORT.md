@@ -3,7 +3,7 @@
 **A ROS 2 / Gazebo study of privileged expert distillation on an Ackermann rover**
 
 AgileX Hunter V2 · ROS 2 Jazzy · Gazebo Harmonic · July–September 2026
-Repository: `Hunter_RL`, branch `main`
+Repository: `Hunter_ImitaionLearning`, branch `main`
 
 ---
 
@@ -424,7 +424,7 @@ The trained policies ship with the repository. Seeing the result takes three
 commands and no dataset download:
 
 ```bash
-git clone https://github.com/Spnh2000/Hunter_RL.git && cd Hunter_RL
+git clone https://github.com/Spnh2000/Hunter_ImitaionLearning.git && cd Hunter_ImitaionLearning
 docker compose build && xhost +local:docker && docker compose run --rm dev
 colcon build --symlink-install && source install/setup.bash
 
