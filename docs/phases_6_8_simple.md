@@ -83,6 +83,7 @@ Do not overthink this. The student is a function:
 ```
    720 numbers in                           2 numbers out
    (distances, in metres)   →   network  →  (steering angle, speed)
+   + the speed limit
 ```
 
 The 720 numbers are the laser scan. (The scanner produces 1080 beams; we keep
@@ -97,7 +98,7 @@ matches the teacher's on the recorded examples.
 
 It is small by modern standards. It has to be: it must produce an answer in
 under 50 milliseconds on the robot's own CPU. Measured: **1.5 ms typical,
-7 ms worst case**. Plenty of room.
+7 ms in the slowest 1 % of cases**. Plenty of room.
 
 ### The lessons: a dataset of (scan, action) pairs
 
@@ -108,7 +109,8 @@ Every row of the dataset is one moment in time:
 | 720 distances | steer −0.03 rad, go 2.4 m/s |
 
 We have **391,644 such rows** — about five and a half hours of driving across
-eight tracks. That is the dataset the students learn from.
+eight tracks. That is the dataset the students learn from. (DAgger, in Part 3,
+later adds 566,831 more.)
 
 ---
 
@@ -136,9 +138,10 @@ student actually visits drift away from the states it was trained on.
 > upright and balanced. Then you get on, and you wobble — and nothing you
 > watched has ever shown you a wobble, let alone how to recover from one.
 
-We measured this exactly. A student whose *test score* was excellent — steering
-within 7 milliradians of the teacher on held-out examples — sat **9 to 44
-centimetres** off the line when it actually drove. Good marks, bad driving.
+We measured this exactly. Students whose *test score* was excellent — steering
+within 7 milliradians of the teacher on held-out examples — sat **33
+centimetres** off the line on tracks they had never seen, and crashed in two
+runs out of three. Good marks, bad driving.
 
 ### The fix: DAgger
 
@@ -180,7 +183,7 @@ cover. So you go round again.
 
 The rounds are not interchangeable, and this is the key point:
 
-- **Round 1's lessons come from a bad driver** that wanders 10–40 cm off the
+- **Round 1's lessons come from a bad driver** that wanders 5–40 cm off the
   line. They teach big recoveries.
 - **Round 5's lessons come from a good driver** making small deviations — which
   is exactly where the finished policy will spend its life.
@@ -189,27 +192,28 @@ If you trained only on round-1 data, you would get a policy expert at
 recovering from mistakes it no longer makes. You need the later rounds because
 the final policy lives in the situations the *later* students create.
 
-Here is what we actually measured on the first run (how far off the line the
-student sat, and how often it hit a wall):
+Here is what we actually measured (how far off the line the student sat, and
+how often it hit a wall):
 
 | round | typical distance off the line | worst 5 % | crashes |
 |---|---:|---:|---:|
-| 1 | 10.3 cm | 41.7 cm | 6 |
-| 2 | 16.3 cm | 72.1 cm | 54 |
-| 3 | 13.5 cm | 49.6 cm | 0 |
-| 4 | 9.1 cm | 47.5 cm | 20 |
-| 5 | **7.4 cm** | **22.8 cm** | **0** |
+| 1 | 8.6 cm | 27.6 cm | 7 |
+| 2 | 16.1 cm | 129 cm | 71 |
+| 3 | 7.5 cm | 21.9 cm | 0 |
+| 4 | **6.8 cm** | **18.7 cm** | **0** |
+| 5 | 11.2 cm | 26.7 cm | 10 |
 
 Read it as a story: in round 2 the student got adventurous, explored badly and
-crashed 54 times — **and those crashes are the most valuable lessons in the
-dataset**, because each one is a "here is how you get into trouble, and here is
-what the teacher would have done about it". By round 5 it was driving within
-7 cm of the line with no crashes at all.
+crashed 71 times — **and those crash approaches are valuable lessons**, because
+each one is a "here is how you get into trouble, and here is what the teacher
+would have done about it". Rounds 3 and 4 then drove without a single crash,
+within 7 cm of the line.
 
-Notice it was **still improving at round 5**. That is the honest argument that
-five is not too many. (The theory behind this — Ross, Gordon & Bagnell 2011 —
-says the loop converges when the situations the student creates stop changing.
-We are not there yet at round 5.)
+Be honest about round 5 when you present this: it was *worse* than round 4 (two
+rollouts on Monza failed). The table shows why more than one round is needed,
+but it does not show that a fifth round was. (The theory — Ross, Gordon &
+Bagnell 2011 — says the loop converges when the situations the student creates
+stop changing.)
 
 ---
 
@@ -236,9 +240,9 @@ the teacher itself as the benchmark to beat.
 - **Menu instead of numbers** (**discretisation**) — instead of outputting
   "steer 0.037 radians", it picks one of 21 pre-set steering options. The idea:
   choosing from a menu can be an easier problem than producing an exact number.
-  The menu is meant to be finer near straight-ahead, where almost all driving
-  happens. **It currently is not** — see defect 5 in Part 9, which has to be
-  fixed before this arm of the experiment means anything.
+  The menu is finer near straight-ahead, where almost all driving happens.
+  (The first version of the menu was broken — see defect 5 in Part 9 — and was
+  fixed before the final results.)
 
 We did not just guess at these. Before training anything, we **measured**
 whether the current scan is enough (Part 8 below), and the measurement
@@ -346,12 +350,12 @@ you use your test set to pick something, it stops being a test set and starts
 being part of the training. That is one of the easiest ways to fool yourself in
 machine learning, and it is easy to do by accident.
 
-About 20 minutes per model on the CPU. Nine models, three architectures × three
-random starting points.
+About 20 minutes per model on the CPU. For behaviour cloning that is nine
+models: three architectures × three random starting points.
 
 ### What comes out: the checkpoint
 
-One file: `checkpoints/bc_mlp_s0.pt`, 919 KB. Read the name as
+One file: `checkpoints/final/bc_mlp_s0.pt`, 919 KB. Read the name as
 *BC data, MLP architecture, seed 0*.
 
 It is a dictionary containing:
@@ -420,7 +424,7 @@ impossible rather than unlikely.
 
 ```bash
 # a policy on a track it has NEVER seen, with the GUI
-scripts/watch_policy.sh checkpoints/bc_mlp_s0.pt SaoPaulo 2.1
+scripts/watch_policy.sh checkpoints/final/bc_mlp_s0.pt SaoPaulo 2.1
 
 # the expert on the same track, for comparison
 scripts/watch_policy.sh pid SaoPaulo 2.1
@@ -431,9 +435,9 @@ A good order to learn from:
 1. `... bc_mlp_s0.pt Nuerburgring 1.5` — a track it trained on, slowest speed.
    Does it drive at all?
 2. `... bc_mlp_s0.pt SaoPaulo 2.1` — never seen. Does it generalise?
-3. `... bc_mlp_s0.pt Montreal 2.7` — never seen, narrowest corridor (0.66 m of
-   margin, half of every other track), fastest. This is where it should
-   struggle.
+3. `... bc_mlp_s0.pt Silverstone 2.7` — never seen, fastest. In the evaluation
+   this policy crashed here in all three seeds, at the same corner. Montreal
+   (0.66 m of margin, the narrowest corridor) is the other hard one.
 
 Watch the gap between the robot and the reference line in RViz. Expect visible
 wobble where the expert has none — and if it leaves the track, **that is a
@@ -445,7 +449,7 @@ To score them all instead of watching one:
 ```bash
 ros2 run hunter_dataset evaluate_policies \
     --plan src/hunter_dataset/config/collection_plan.yaml \
-    --out results/eval_bc --laps 1.5 pid checkpoints/bc_*_s?.pt
+    --out results/eval_bc --laps 1.5 pid checkpoints/final/bc_*_s?.pt
 ```
 
 That drives every policy on all three unseen tracks and writes `eval.csv`:
@@ -522,8 +526,8 @@ of Part 3: a policy is judged on the states it *puts itself into*, and copying
 a perfect driver teaches nothing about those.
 
 > **If you present one slide, present this one.** It is the argument for
-> closed-loop evaluation, and it cost 40 hours of simulation to make
-> concretely rather than rhetorically.
+> closed-loop evaluation, and it cost about 50 hours of simulation (DAgger plus
+> evaluation) to make concretely rather than rhetorically.
 
 ### The two questions, answered
 
@@ -685,21 +689,21 @@ confirmed the system is empty.
 ### 5. The menu of steering options collapsed (a design flaw, not a typo)
 
 This one is different from the other four: nothing was miswired. The code did
-exactly what I told it to. What I told it to do was wrong, and I never looked
-at the result.
+exactly what it was told to. What it was told to do was wrong, and nobody
+looked at the result.
 
 **Background.** One of the three architectures does not output a steering
 *number*. It picks from a menu of 21 preset steering options — see Part 4. The
 question is where to put those 21 options along the range of ±0.461 radians.
 
-**What I chose.** Not evenly. The expert steers near zero almost all the time,
+**What we chose.** Not evenly. The expert steers near zero almost all the time,
 so spreading the options evenly would waste most of them on hard-lock angles
-the robot rarely uses. Instead I spaced them by **quantiles**: put the options
+the robot rarely uses. Instead we spaced them by **quantiles**: put the options
 where the data actually is, so they bunch up near zero and spread out toward
 the limits. That reasoning is standard and it is correct.
 
-**What actually came out.** I dumped the menu to explain the file format to
-someone, and it looked like this:
+**What actually came out.** The menu was dumped while documenting the file
+format, and it looked like this:
 
 ```
 option  0:  covers  -0.461 .. -0.072   ← 84 % of the entire left steering range
@@ -718,29 +722,31 @@ corner needing 0.4 rad and the best it can say is 0.106 rad. Speed is worse:
 **Why.** The steering distribution is not merely peaked, it is *extremely*
 peaked — the expert holds almost exactly straight for most of every lap. Push
 quantiles through a distribution that concentrated and they pile up on top of
-each other. My idea was right; I just never put a floor under how narrow an
-option was allowed to get, and — the actual mistake — **I never printed the
+each other. The idea was right; there was just no floor under how narrow an
+option was allowed to get, and — the actual mistake — **nobody printed the
 menu and looked at it.**
 
-**What it costs.** The discrete policy scored 25 mrad against the plain
-network's 19. I had been reading that as "discretisation is worse". It is not a
-fair reading. That arm of the experiment is currently measuring *"discretisation
-with a broken menu"*, which answers no question anyone asked.
+**What it cost.** The discrete policy scored 25 mrad against the plain
+network's 19. That was being read as "discretisation is worse", which was not a
+fair reading: that arm of the experiment was measuring *"discretisation with a
+broken menu"*, which answers no question anyone asked.
 
-It also explains something that had puzzled me: the discrete policy barely gets
+It also explained something puzzling: the discrete policy barely gets
 worse on unseen tracks (24.9 → 25.8) where the plain network degrades by 2.6×.
 That is not robustness. It is the menu error being so large that it drowns out
 whether the track is hard or easy.
 
-**The fix** is small — put a floor under the option width, or mix even spacing
-with quantile spacing — and retraining the three discrete models is about an
-hour of CPU with no new simulation. It has not been done yet; it is waiting on
-a decision, because it changes one third of the experiment.
+**The fix** was small: mix even spacing with quantile spacing and put a floor
+under the option width, then retrain the discrete models and re-run their
+evaluation. After the fix, the copying + menu policy crashed in 67 % of runs
+instead of 89 %, and DAgger + menu in 0 % instead of 11 %, in line with the
+other designs. That is how we know the broken menu, not the idea of a menu, had
+been driving the old numbers.
 
 **The lesson**, and it is the same one as the other four: *the code was
-correct, the output was never inspected.* I had a tool that prints a loud
-warning when a column of data never varies (Part 4), and I built nothing
-equivalent for the menu. Every check you write protects the thing you were
+correct, the output was never inspected.* There was a tool that prints a loud
+warning when a column of data never varies (Part 4), and nothing equivalent for
+the menu. Every check you write protects the thing you were
 already worried about. This one existed for the data and not for the model.
 
 ### The pattern

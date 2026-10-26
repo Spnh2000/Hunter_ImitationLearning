@@ -71,7 +71,8 @@ ros2 run hunter_dataset evaluate_policies \
     --out results/my_eval --laps 1.5 pid checkpoints/final/*.pt
 ```
 
-~30 h for all policies; a single `<policy> <track>` pair is about 30 minutes.
+About 12 h for the 12 policies in `checkpoints/final/` plus the expert, at roughly
+20 minutes per run on average (a crashing policy finishes in about 5).
 
 To rebuild the dataset from scratch (~20 h of simulation):
 
