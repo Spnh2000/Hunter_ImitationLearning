@@ -91,7 +91,7 @@ We *select* beams rather than averaging them, so every number stays a real
 measurement.)
 
 The network itself is four layers of multiplication and addition —
-720 → 256 → 128 → 64 → 2 — with about 226,000 adjustable numbers inside, called
+721 → 256 → 128 → 64 → 2 (the 720 laser distances plus the speed limit) — with about 226,000 adjustable numbers inside, called
 **weights**. Training means nudging those weights until the network's output
 matches the teacher's on the recorded examples.
 
@@ -119,7 +119,7 @@ usually miss. Take your time with it.
 
 ### The problem
 
-The teacher is *good*. It stays within 3 mm of the line. So every single
+The teacher is *good*. It stays within about 2 cm of the line. So every single
 example in the dataset shows the robot almost exactly on the line.
 
 Now the student drives. It is a copy, not a clone, so it is a tiny bit off —
