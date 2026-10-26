@@ -401,7 +401,7 @@ the data the model was fitted on.
 ### 7.1 The problem DAgger solves
 
 Behaviour cloning trains on the *expert's* states: a narrow ribbon along the
-racing line, |lateral error| median 3 mm. The moment the student makes a small
+racing line, about 2 cm RMS lateral error. The moment the student makes a small
 error it is somewhere the expert never was — and there it has no training
 signal, so it makes a bigger error. Errors compound. This is **covariate
 shift**, and it is why a policy with excellent validation loss can drive into a
@@ -513,7 +513,8 @@ superseded broken-bin discrete runs tagged `*_BROKENBINS`).
 Offline, BC beats DAgger by **5.6x** on the held-out tracks (19.4 vs
 108.9 mrad). Closed-loop, BC crashes on **67 %** of runs and DAgger on **0 %**.
 The two rankings are opposite, and the margin is not marginal: nine runs per
-row, three seeds, three circuits, std on the DAgger rows 0.003-0.028 m.
+row, three seeds, three circuits; the seed-to-seed spread in DAgger tracking
+error (0.003-0.086 m per circuit) is far smaller than its gap to BC.
 
 This is the outcome §6.4 was built to detect, and the justification for the
 brief's insistence on closed-loop evaluation. Selecting on validation loss

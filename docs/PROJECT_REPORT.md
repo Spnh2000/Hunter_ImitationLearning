@@ -3,7 +3,7 @@
 **A ROS 2 / Gazebo study of privileged expert distillation on an Ackermann rover**
 
 AgileX Hunter V2 · ROS 2 Jazzy · Gazebo Harmonic · July–September 2026
-Repository: `Hunter_RL`, branch `dev-saqar`
+Repository: `Hunter_RL`, branch `main`
 
 ---
 
@@ -29,7 +29,7 @@ data, the crashing policy scores **5.6× better**. Selecting on that number
 would have shipped the policy that drives into walls.
 
 Everything here is reproducible from the repository: 9 ROS 2 packages,
-~7,400 lines, 33 commits, 13.3 hours of recorded driving across 8 circuits,
+~7,400 lines of code, 13.3 hours of recorded driving across 8 circuits,
 and roughly 70 wall-clock hours of simulation.
 
 ---
@@ -195,7 +195,7 @@ reference row.
 
 ### 4.1 Axis 1 — architecture, framed as a hypothesis test
 
-- **MLP**: 720 → 256 → 128 → 64 → 2, ~226k parameters.
+- **MLP**: 721 → 256 → 128 → 64 → 2 (the 720 ranges plus the speed cap, §4.3), ~226k parameters.
 - **Frame stacking (K=3)**: the current scan plus the two before it. Tests
   whether the policy needs to perceive *motion*, not just position.
 - **Discretisation**: 21 preset steering and 21 speed options instead of
@@ -206,7 +206,7 @@ These were not a bake-off. **Before any training**, the dataset was measured
 for *information asymmetry*: project the observations to 32 dimensions by PCA,
 take each row's 20 nearest neighbours, and compute the standard deviation of
 the expert's action among those neighbours divided by its global standard
-deviation. If scans that look alike get actions that differ wildly, no
+deviation; the score is the median of that ratio over all rows. If scans that look alike get actions that differ wildly, no
 scan-only policy can fit them and the ceiling is set by the data.
 
 **Steering scored 0.003–0.040** (healthy is < 0.2) on all eight circuits. The
@@ -216,8 +216,8 @@ frame stacking will add nothing.
 ### 4.2 Axis 2 — behaviour cloning versus DAgger
 
 **Behaviour cloning** trains on the expert's demonstrations. The problem is
-that the expert is *good*: every example shows the robot within 3 mm of the
-line. When the student is 2 cm off, it is somewhere the dataset barely covers,
+that the expert is *good*: almost every example shows the robot within a
+couple of centimetres of the line. When the student is 2 cm off, it is somewhere the dataset barely covers,
 so its next command is a worse guess, and errors compound. This is **covariate
 shift**, and it is why a policy with excellent validation loss can leave the
 track.
@@ -252,7 +252,7 @@ ablation.
 
 **Closed-loop, in the simulator, on the three held-out circuits.** Each policy
 drives Silverstone, São Paulo and Montreal, three times each (one per seed),
-measured against ground truth through the same metrics pipeline the expert
+at a 2.7 m/s cap, for 1.5 laps or until its first crash, measured against ground truth through the same metrics pipeline the expert
 uses. Validation loss is reported *beside* the result, never used to select.
 
 ---
@@ -284,8 +284,8 @@ none.**
 
 The measurement everyone reaches for first ranked the policies in exactly the
 wrong order. This is not a narrow margin: 67 % versus 0 %, consistent across
-three seeds and three circuits, with per-row standard deviation on the DAgger
-results of 0.003–0.028 m.
+three seeds and three circuits; the seed-to-seed spread in DAgger tracking
+error (0.003–0.086 m per circuit) is far smaller than its gap to BC.
 
 The reason is the whole of §4.2. Validation loss averages over states; driving
 is decided by the rare hard ones, and a policy is judged on the states it
@@ -377,7 +377,8 @@ to verify the new tests fail against the old behaviour.
 **Prefer making failures unrepresentable over fixing instances.** Defect 3 was
 fixed *and* the runner now aborts if the student ever commands above its cap.
 The shadow expert has no command publisher, rather than a disabled one. Defect
-2's value is now checked by the dataset inspector. The bug class becomes hard
+2's value is now written into the parameter file the controller actually
+loads, saved with every run as `effective_params.yaml`. The bug class becomes hard
 to have silently, not merely absent today.
 
 ---
@@ -424,24 +425,26 @@ commands and no dataset download:
 
 ```bash
 git clone https://github.com/Spnh2000/Hunter_RL.git && cd Hunter_RL
-docker compose build && docker compose run --rm dev
+docker compose build && xhost +local:docker && docker compose run --rm dev
 colcon build --symlink-install && source install/setup.bash
 
 # a policy driving a circuit it has never seen, on laser data alone
 scripts/watch_policy.sh checkpoints/final/dagger_mlp_s0.pt SaoPaulo 2.1
 
-# the same network trained without DAgger — this one usually crashes
-scripts/watch_policy.sh checkpoints/final/bc_mlp_s0.pt Montreal 2.7
+# the same network trained without DAgger — it crashed here in all three seeds, at s ≈ 162 m
+scripts/watch_policy.sh checkpoints/final/bc_mlp_s0.pt Silverstone 2.7
 ```
 
 Rebuilding the whole pipeline:
 
 ```bash
-ros2 run hunter_dataset collect_dataset --plan <plan> --pass p1        # ~20 h
+PLAN=src/hunter_dataset/config/collection_plan.yaml
+ros2 run hunter_dataset collect_dataset --plan $PLAN --pass p1        # ~20 h
 ros2 run hunter_il il_diagnostics --data-dir datasets/raw --out diagnostics/
-ros2 run hunter_il il_train_all --data-dir datasets/raw --seeds 0,1,2
-ros2 run hunter_dataset dagger_runner --plan <plan> --arch mlp --iterations 5
-ros2 run hunter_dataset evaluate_policies --plan <plan> --out results/eval --laps 1.5 pid checkpoints/final/*.pt
+ros2 run hunter_il il_train_all --data-dir datasets/raw --seeds 0,1,2 --out checkpoints/
+ros2 run hunter_dataset dagger_runner --plan $PLAN \
+    --train-config src/hunter_il/config/train_default.yaml --arch mlp --iterations 5
+ros2 run hunter_dataset evaluate_policies --plan $PLAN --out results/eval --laps 1.5 pid checkpoints/final/*.pt
 ```
 
 ## Appendix B — Where things live
@@ -464,7 +467,7 @@ ros2 run hunter_dataset evaluate_policies --plan <plan> --out results/eval --lap
 | [`../QUICKSTART.md`](../QUICKSTART.md) | Clone to driving in three commands |
 | [`phases_6_8_simple.md`](phases_6_8_simple.md) | The learning phase in plain language — to learn from and teach from |
 | [`phases_6_8_explained.md`](phases_6_8_explained.md) | Technical reference with exact figures |
-| `results/eval_v1/eval_all.csv` | Every evaluation run, 84 rows |
+| `results/eval_v1/eval_all.csv` | Every evaluation run: 84 rows, including 18 superseded runs with the broken discrete bins (`*_BROKENBINS`) |
 
 ## Appendix C — Glossary
 
