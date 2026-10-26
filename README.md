@@ -72,16 +72,6 @@ Print this table from the raw runs with `scripts/show_results.sh`; every run is 
 
 ## How it works
 
-| Phase | Contents | State |
-|---|---|---|
-| 1–2 | Robot bring-up; track conversion — eight F1 circuits rebuilt at 2× for the Hunter's 1.31 m turning radius | done |
-| 3 | Trajectory server, PID tracker, ground-truth metrics logger | done |
-| 4 | Further classical controllers (Pure Pursuit, Stanley, LQR, MPC) | dropped — the PID is the expert |
-| 5 | 2D LiDAR + IMU, dual EKF, AMCL localization, pose-source A/B switch | done |
-| 6 | Imitation dataset: schema, recorder, episode monitor, converter, inspector, collection runner | done |
-| 7–8 | Imitation learning: {BC, DAgger} × {MLP, frame-stacked, discretised}, 3 seeds, closed-loop evaluation | done |
-| 9 | Transfer to the real robot | future work |
-
 1. **The expert** — a PID cross-track controller with curvature and heading feedforward — drives on Gazebo's ground-truth pose and stays within 15–25 mm RMS of the line.
 2. **The dataset** records, 20 times a second, what the laser saw (720 ranges) and what the expert commanded (steering, speed): 8 circuits × 3 speed caps, 958 k rows ≈ 13 h of driving. Five circuits train; **Silverstone, São Paulo and Montreal are held out entirely**.
 3. **The student** (`policy_tracker`) subscribes to `/scan` and nothing else, so it cannot read the pose even by mistake.
