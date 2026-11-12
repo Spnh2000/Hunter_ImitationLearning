@@ -13,7 +13,7 @@ colcon build --symlink-install && source install/setup.bash
 ```
 
 Host build works too if you have ROS 2 Jazzy and Gazebo Harmonic — see the
-[README](README.md#requirements).
+[README](README.md#setup).
 
 ## 2. Watch the trained policy
 
